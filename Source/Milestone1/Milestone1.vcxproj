@@ -19,10 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Helper\Time.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ScreenManager\ScreenManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Helper\RNG.h" />
+    <ClInclude Include="Helper\Time.h" />
     <ClInclude Include="ScreenManager\ScreenManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,42 +1,29 @@
-#include "ScreenManager/ScreenManager.h"
+#include <memory>
 
+#include "ScreenManager/ScreenManager.h"
+#include "Helper/RNG.h"
+#include "Helper/Time.h"
 
 
 
 void HAPI_Main()
 {
-    int screenWidth = 1024, screenHeight = 768, 
-        screenTotal = screenWidth * screenHeight;
+    int screenWidth = 1024, screenHeight = 768;
+    const unsigned int screenSize = (unsigned int) screenWidth * (unsigned int) screenHeight;
 
-    ScreenManager screenManager = ScreenManager ((unsigned) screenWidth, (unsigned) screenHeight);
-
-
-	if (HAPI->Initialise (&screenWidth, &screenHeight))
-	{
+    if (HAPI->Initialise (&screenWidth, &screenHeight))
+    {
         HAPI->SetShowFPS (true);
-        HAPI->SetShowCursor (true);
         
-        HAPI_TColour colour (HAPI_TColour (255, 0, 0, 255));
+        auto screenManager = std::make_unique<ScreenManager> (ScreenManager (screenWidth, screenHeight));
+        screenManager->clearToBlack();
 
-        unsigned int i = 0;
+        auto pixelRNG = RNG<unsigned int> (0, screenSize, helper::getCurrentTimeUInt());
+        auto colourRNG = RNG<unsigned int> (0, 255, helper::getCurrentTimeUInt());
 
         while (HAPI->Update())
         {
-            switch (i++ % 3)
-            {
-                case 0:
-                    colour = HAPI_TColour (255, 0, 0, 255);
-                    break;
-
-                case 1:
-                    colour = HAPI_TColour (0, 255, 0, 255);
-                    break;
-
-                case 2:
-                    colour = HAPI_TColour (0, 0, 255, 255);
-            }
-
-            screenManager.clearScreen (colour);
+            screenManager->setPixel (pixelRNG.getRandom(), HAPI_TColour (colourRNG.getRandom(), colourRNG.getRandom(), colourRNG.getRandom(), 255));
         }
-	}
+    }
 }
