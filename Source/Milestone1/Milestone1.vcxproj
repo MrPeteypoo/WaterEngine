@@ -22,11 +22,13 @@
     <ClCompile Include="Helper\Time.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ScreenManager\ScreenManager.cpp" />
+    <ClCompile Include="Vectors\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper\RNG.h" />
     <ClInclude Include="Helper\Time.h" />
     <ClInclude Include="ScreenManager\ScreenManager.h" />
+    <ClInclude Include="Vectors\Vector3D.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>
