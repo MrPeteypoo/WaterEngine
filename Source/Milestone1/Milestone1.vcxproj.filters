@@ -27,6 +27,9 @@
     <ClCompile Include="Vectors\Vector3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Star\Star.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ScreenManager\ScreenManager.h">
@@ -39,6 +42,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vectors\Vector3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Star\Star.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
