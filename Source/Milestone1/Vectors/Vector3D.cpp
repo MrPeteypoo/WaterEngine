@@ -195,7 +195,7 @@ const float Vector3D::squareMagnitude() const
 
 const float Vector3D::magnitude() const
 {
-    return std::sqrtf (squareMagnitude());
+    return std::sqrt (squareMagnitude());
 }
 
 
