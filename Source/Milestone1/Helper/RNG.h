@@ -1,5 +1,5 @@
-#if !defined FACTORY_RNG_INCLUDED
-#define FACTOR_RNG_INCLUDED
+#if !defined RNG_INCLUDED
+#define RNG_INCLUDED
 
 #include <random>           // Required for everything!
 #include <type_traits>      // Required for integral/floating point difference
@@ -22,9 +22,18 @@ class RNG<T, true> final
 {
     public:
         /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
-        RNG (const T min, const T max, const unsigned int seed = 0)
+        RNG (const unsigned int seed = 0)
         {
-            m_distribution = std::uniform_int_distribution<T> (min, max);        
+            m_distribution = std::uniform_int_distribution<T>();
+            m_generator = std::default_random_engine (seed);
+        }
+        
+        /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
+        RNG (const T min, const T max, const unsigned int seed = 0)
+        {            
+            m_distribution = min > max ?
+                                        std::uniform_int_distribution<T> (max, min) :
+                                        std::uniform_int_distribution<T> (min, max);      
             m_generator.seed (seed);
         }
 
@@ -67,9 +76,18 @@ class RNG<T, false> final
 {
     public:
         /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
+        RNG (const unsigned int seed = 0)
+        {
+            m_distribution = std::uniform_real_distribution<T>();
+            m_generator = std::default_random_engine (seed);
+        }
+
+        /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
         RNG (const T min, const T max, const unsigned int seed = 0)
         {
-            m_distribution = std::uniform_real_distribution<T> (min, max);        
+            m_distribution = min > max ?
+                                        std::uniform_real_distribution<T> (max, min) :
+                                        std::uniform_real_distribution<T> (min, max);
             m_generator.seed (seed);
         }
 
@@ -104,4 +122,4 @@ class RNG<T, false> final
 };
 
 
-#endif // FACTORY_RNG_INCLUDED
+#endif // RNG_INCLUDED
