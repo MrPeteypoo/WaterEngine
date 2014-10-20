@@ -21,18 +21,53 @@ ScreenManager::ScreenManager (const int screenWidth, const int screenHeight)
     }
 }
 
+
+ScreenManager::ScreenManager (ScreenManager&& move)
+{
+    *this = std::move (move);
+}
+
+
+ScreenManager& ScreenManager::operator= (const ScreenManager& copy)
+{
+    m_screen = copy.m_screen;
+    m_screenWidth = copy.m_screenWidth;
+    m_screenHeight = copy.m_screenHeight;
+    m_screenSize = copy.m_screenSize;
+
+    return *this;
+}
+
+
+ScreenManager& ScreenManager::operator= (ScreenManager&& move)
+{
+    if (this != &move)
+    {
+        m_screen = move.m_screen;
+        m_screenWidth = move.m_screenWidth;
+        m_screenHeight = move.m_screenHeight;
+        m_screenSize = move.m_screenSize;
+
+        move.m_screen = nullptr;
+        move.m_screenWidth = 0;
+        move.m_screenHeight = 0;
+        move.m_screenSize = 0;
+    }
+
+    return *this;
+}
+
+
 #pragma endregion Constructors and destructor
-
-
 
 
 #pragma region Colouring functionality
 
 
-void ScreenManager::clearToBlack (const unsigned int blackLevel)
+void ScreenManager::clearToBlack (const unsigned char blackLevel)
 {
     // Pre-condition: Black level is from 0 to 255.
-    if (m_screen && blackLevel < 256)
+    if (m_screen)
     {
         std::memset (m_screen, blackLevel, m_screenSize * m_kColourSize);
     }
@@ -57,15 +92,20 @@ void ScreenManager::clearToColour (const HAPI_TColour& colour)
 }
 
 
-void ScreenManager::setPixel (const unsigned int pixelNumber, const HAPI_TColour& colour)
+void ScreenManager::setPixel (const Pixel& pixel)
 {
     // Pre-condition: The screen pointer must be valid and a valid pixel number has been given
-    if (m_screen && pixelNumber < m_screenSize)
+    if (m_screen)
     {
-        // Find and set the correct pixel
-        auto pixel = m_screen + pixelNumber * m_kColourSize;
+        const int pixelNumber = pixel.x + pixel.y * m_screenWidth;
 
-        std::memcpy (pixel, &colour, m_kColourSize);
+        if (pixelNumber >= 0 && (unsigned int) pixelNumber < m_screenSize)
+        {
+            // Find and set the correct pixel
+            auto pixelAddress = m_screen + pixelNumber * m_kColourSize;
+
+            std::memcpy (pixelAddress, &pixel.colour, m_kColourSize);
+        }
     }
 }
 

@@ -27,7 +27,10 @@
     <ClCompile Include="Vectors\Vector3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Star\Star.cpp">
+    <ClCompile Include="Misc\Star.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Misc\Pixel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +47,10 @@
     <ClInclude Include="Vectors\Vector3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Star\Star.h">
+    <ClInclude Include="Misc\Star.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Misc\Pixel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
