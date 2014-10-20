@@ -10,7 +10,7 @@
 
 
 int screenWidth = 1920, screenHeight = 1080;
-const float zMax = 500;
+const float zMax = 500.f;
 
 
 void resetStar (Star& star, RNG<float>& floatRNG, RNG<unsigned int>& uintRNG)
@@ -21,7 +21,7 @@ void resetStar (Star& star, RNG<float>& floatRNG, RNG<unsigned int>& uintRNG)
                         floatRNG.getRandom() * zMax
                      });
 
-    star.setSpeed (floatRNG.getRandom() * 2.f);
+    star.setSpeed   (floatRNG.getRandom() * 2.f);
     
     star.setColour  ({ 
                         (BYTE) (uintRNG.getRandom() % 256), 
@@ -38,7 +38,7 @@ void HAPI_Main()
 
     if (HAPI->Initialise (&screenWidth, &screenHeight))
     {
-        // Setup the screen
+        // Set up the screen
         auto screenManager = std::make_unique<ScreenManager> (ScreenManager (screenWidth, screenHeight));
         HAPI->SetShowFPS (true);
 
@@ -50,12 +50,13 @@ void HAPI_Main()
         auto uintRNG    = RNG<unsigned int> (seed);
 
 
-        // Setup the stars
-        const int starsSize = 500000;
+        // Set up the stars
+        const int starsSize = 1000;
         std::vector<Star> stars (starsSize);
 
         for (unsigned int i = 0; i < starsSize; ++i)
         {
+            // Ensure the correct direction and randomise each attribute of the star
             Star star { };
             star.setDirection ( {0.f, 0.f, -1.f } );
 
@@ -68,30 +69,25 @@ void HAPI_Main()
         // Move and draw the stars
         while (HAPI->Update())
         {
+            // Clear the screen
             screenManager->clearToBlack();
-            
-            Pixel data;
-            Vector3D position;
 
-            for (unsigned int i = 0; i < starsSize; ++i)
+            for (auto& star : stars)
             {
-                stars[i].update();
+                // Move the star
+                star.update();
 
-                position = stars[i].getPosition();
+                // Ensure position is valid so that it doesn't need resetting.
+                const auto& position = star.getPosition();
 
-                if (position.x < screenWidth && position.x >= 0.f &&
-                    position.y < screenHeight && position.y >= 0.f &&
-                    position.z >= 0.f)
+                if (position.x >= screenWidth || position.x < 0.f ||
+                    position.y >= screenHeight || position.y < 0.f ||
+                    position.z < 0.f)
                 {
-                    data = stars[i].getDisplayData (screenWidth, screenHeight);
-                }
-
-                else
-                {
-                    resetStar (stars[i], floatRNG, uintRNG);
+                    resetStar (star, floatRNG, uintRNG);
                 }
                 
-                screenManager->setPixel (data);
+                screenManager->setPixel (star.getDisplayData (screenWidth, screenHeight));
             }
         }
     }
