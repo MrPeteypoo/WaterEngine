@@ -15,7 +15,7 @@ Pixel struct            Contains the X and Y co-ordinates of a pixel and the col
 Star class              Contains a position and velocity, it uses them to produce the 3D moving star effect in 2D.
 ScreenManager class     Provides an easy way of managing what is displayed on the screen.
 RNG template            Encapsulates a C++11 uniform distribution and a default random engine for all integer and floating-point data types.
-HAPI_Main()		The entry point of the application.
+HAPI_Main()             The entry point of the application.
 
 Tests
 -----
