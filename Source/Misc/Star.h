@@ -2,8 +2,8 @@
 #define STAR_INCLUDED
 
 
-#include "../Misc/Pixel.h"
-#include "../Vectors/Vector3D.h"
+#include <Misc/Pixel.h>
+#include <Vectors/Vector3D.h>
 
 
 /// <summary>

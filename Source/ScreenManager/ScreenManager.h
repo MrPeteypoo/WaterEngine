@@ -3,7 +3,7 @@
 
 
 #include <HAPI_lib.h>       // Required for m_screen.
-#include "../Misc/Pixel.h"  // Required for setPixel.
+#include <Misc/Pixel.h>     // Required for setPixel.
 
 
 

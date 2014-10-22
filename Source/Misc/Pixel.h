@@ -2,7 +2,7 @@
 #define PIXEL_INCLUDED
 
 
-#include "HAPI_lib.h"
+#include <HAPI_lib.h>
 
 
 /// <summary>

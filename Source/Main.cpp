@@ -1,10 +1,10 @@
 #include <memory>
 #include <vector>
 
-#include "ScreenManager/ScreenManager.h"
-#include "Helper/RNG.h"
-#include "Helper/Time.h"
-#include "Misc/Star.h"
+#include <ScreenManager/ScreenManager.h>
+#include <Helper/RNG.h>
+#include <Helper/Time.h>
+#include <Misc/Star.h>
 
 
 

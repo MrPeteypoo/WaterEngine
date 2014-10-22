@@ -24,8 +24,7 @@ class RNG<T, true> final
         /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
         RNG (const unsigned int seed = 0)
         {
-            m_distribution = std::uniform_int_distribution<T>();
-            m_generator = std::default_random_engine (seed);
+            m_generator.seed (seed);
         }
         
         /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
@@ -63,8 +62,8 @@ class RNG<T, true> final
         void resetDistribution()                    { m_distribution.reset(); }
 
     private:
-        std::default_random_engine          m_generator;    //!< The random engine used for generating numbers.
-        std::uniform_int_distribution<T>    m_distribution; //!< The distribution used for producing random integral numbers.
+        std::default_random_engine          m_generator     { };    //!< The random engine used for generating numbers.
+        std::uniform_int_distribution<T>    m_distribution  { };    //!< The distribution used for producing random integral numbers.
 };
 
 
@@ -78,8 +77,7 @@ class RNG<T, false> final
         /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
         RNG (const unsigned int seed = 0)
         {
-            m_distribution = std::uniform_real_distribution<T>();
-            m_generator = std::default_random_engine (seed);
+            m_generator.seed (seed);
         }
 
         /// <summary> Sets up the required values of the RNG with an optional seed parameter. </summary>
@@ -117,8 +115,8 @@ class RNG<T, false> final
         void resetDistribution()                    { m_distribution.reset(); }
 
     private:
-        std::default_random_engine          m_generator;    //!< The random engine used for generating numbers.
-        std::uniform_real_distribution<T>   m_distribution; //!< The distribution used for producing random integral numbers.
+        std::default_random_engine          m_generator     { };    //!< The random engine used for generating numbers.
+        std::uniform_real_distribution<T>   m_distribution  { };    //!< The distribution used for producing random integral numbers.
 };
 
 
