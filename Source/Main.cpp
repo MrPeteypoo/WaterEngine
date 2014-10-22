@@ -1,40 +1,20 @@
 #include <memory>
 #include <vector>
 
-#include <ScreenManager/ScreenManager.h>
+#include <Interfaces/IEntity.h>
 #include <Helper/RNG.h>
 #include <Helper/Time.h>
-#include <Misc/Star.h>
+#include <ScreenManager/ScreenManager.h>
 
 
 
 
 int screenWidth = 1920, screenHeight = 1080;
-const float zMax = 500.f;
-
-
-void resetStar (Star& star, RNG<float>& floatRNG, RNG<unsigned int>& uintRNG)
-{
-    star.setPosition ({  
-                        floatRNG.getRandom() * screenWidth, 
-                        floatRNG.getRandom() * screenHeight, 
-                        floatRNG.getRandom() * zMax
-                     });
-
-    star.setSpeed   (floatRNG.getRandom() * 2.f);
-    
-    star.setColour  ({ 
-                        (BYTE) (uintRNG.getRandom() % 256), 
-                        (BYTE) (uintRNG.getRandom() % 256), 
-                        (BYTE) (uintRNG.getRandom() % 256), 
-                        255
-                    });
-}
 
 
 void HAPI_Main()
 {
-    const unsigned int screenSize = (unsigned int) screenWidth * (unsigned int) screenHeight;
+    /*const unsigned int screenSize = (unsigned int) screenWidth * (unsigned int) screenHeight;
 
     if (HAPI->Initialise (&screenWidth, &screenHeight))
     {
@@ -87,8 +67,8 @@ void HAPI_Main()
                     resetStar (star, floatRNG, uintRNG);
                 }
                 
-                screenManager->setPixel (star.getDisplayData (screenWidth, screenHeight));
+                //screenManager->setPixel (star.getDisplayData (screenWidth, screenHeight));
             }
         }
-    }
+    }*/
 }
