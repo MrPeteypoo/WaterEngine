@@ -183,4 +183,6 @@ UpgradeLog*.htm
 FakesAssemblies/
 Temp/
 *.exe
+Game/Win32Release/*.html
+Game/x64Release/*.html
 Game/*.html
