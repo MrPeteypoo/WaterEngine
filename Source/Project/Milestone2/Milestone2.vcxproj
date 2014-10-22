@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\Helper\Time.cpp" />
     <ClCompile Include="..\..\Main.cpp" />
     <ClCompile Include="..\..\Misc\Pixel.cpp" />
+    <ClCompile Include="..\..\Misc\Texture.cpp" />
     <ClCompile Include="..\..\ScreenManager\ScreenManager.cpp" />
     <ClCompile Include="..\..\Vectors\Vector3D.cpp" />
   </ItemGroup>
@@ -30,6 +31,7 @@
     <ClInclude Include="..\..\Helper\Time.h" />
     <ClInclude Include="..\..\Interfaces\IEntity.h" />
     <ClInclude Include="..\..\Misc\Pixel.h" />
+    <ClInclude Include="..\..\Misc\Texture.h" />
     <ClInclude Include="..\..\ScreenManager\ScreenManager.h" />
     <ClInclude Include="..\..\Vectors\Vector3D.h" />
   </ItemGroup>
