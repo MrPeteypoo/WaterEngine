@@ -1,8 +1,11 @@
-#if !defined HELPER_MAIN_INCLUDED
-#define HELPER_MAIN_INCLUDED
+#if !defined HELPER_TIME_INCLUDED
+#define HELPER_TIME_INCLUDED
+
 
 #include <chrono>   // Required for time_t.
 
+
+/// <summary> This namespace contains dedicated helper functions with various different purposes. </summary>
 namespace helper
 {
     /// <summary> Obtains the current system time using the std::chrono library. </summary>
@@ -12,4 +15,4 @@ namespace helper
     unsigned int getCurrentTimeUInt();
 }
 
-#endif // HELPER_MAIN_INCLUDED
+#endif // HELPER_TIME_INCLUDED
