@@ -1,0 +1,36 @@
+Milestone 1 v1 and 21/10/2014
+--------------------------------
+
+New Functionality
+-----------------
+
+The screen can be cleared to an abritrary colour.
+Render randomly coloured and randomly positioned stars onto the screen which move forward at a random speed, creating a 3D movement effect.
+
+Code Additions
+--------------
+
+Vector3D struct         Contains the 3D position of each Star and is used in simulating velocity.
+Pixel struct            Contains the X and Y co-ordinates of a pixel and the colour it should be on the screen.
+Star class              Contains a position and velocity, it uses them to produce the 3D moving star effect in 2D.
+ScreenManager class     Provides an easy way of managing what is displayed on the screen.
+RNG template            Encapsulates a C++11 uniform distribution and a default random engine for all integer and floating-point data types.
+HAPI_Main()             The entry point of the application.
+
+Tests
+-----
+
+Providing an invalid Z position to create a divide by zero error:     This case is handled by dividing by 0.001f instead.
+Creating over one million stars:                                      The frame rate is effected but no crashing occurs.
+Creating an RNG with a min value which is larger than max:            This case is handled by swapping the values.
+
+
+(e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time)
+
+Notes
+-----
+
+I created a lot of extra classes and functionality which weren't needed for the milestone but I done it for the sake of future usage and
+because it allowed me to get used to C++ again after four months of using C# instead. My code could also be faster because I have a lot of
+error checking in case I do something stupid with the code, as a result I should insert more logging when I avoid errors.
+
