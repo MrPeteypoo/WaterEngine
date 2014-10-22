@@ -1,6 +1,4 @@
-#include <memory>
-#include <vector>
-
+// Engine headers
 #include <Interfaces/IEntity.h>
 #include <Helper/RNG.h>
 #include <Helper/Time.h>
@@ -8,8 +6,20 @@
 
 
 
+int screenWidth = 256, screenHeight = 256;
+DWORD oldTime = 0, currentTime = 0;
 
-int screenWidth = 1920, screenHeight = 1080;
+
+/// <summary> Should only be called once a frame, returns the delta time as a float </summary>
+const float calcDeltaTime()
+{
+    // Update the time figures.
+    oldTime = currentTime;
+    currentTime = HAPI->GetTime();
+
+    // Convert from milliseconds to seconds.
+    return (currentTime - oldTime) / 1000.f;
+}
 
 
 void HAPI_Main()
