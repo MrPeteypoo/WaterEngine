@@ -2,9 +2,7 @@
 #define SCREEN_MANAGER_INCLUDED
 
 
-#include <HAPI_lib.h>       // Required for m_screen.
 #include <Misc/Pixel.h>     // Required for setPixel.
-
 
 
 
@@ -28,7 +26,7 @@ class ScreenManager final
 
         ~ScreenManager() = default;
 
-        #pragma endregion Constructors and destructor
+        #pragma endregion
 
         
         #pragma region Colouring functionality
@@ -39,24 +37,31 @@ class ScreenManager final
         /// <summary> Clears the entire screen to a single colour. </summary>
         void clearToColour (const HAPI_TColour& colour);
 
-        /// <summary> Sets the colour of an individual pixel. </summary>
-        void setPixel (const Pixel& pixel);
+        /// <summary> Blits
+        //void blit ()
+        
 
-        #pragma endregion Colouring functionality
+        #pragma endregion 
 
     private:
         
-        #pragma region Member variables
+        #pragma region Private helper functions
 
-        const size_t m_kColourSize = sizeof (HAPI_TColour); //!< The correct size of the HAPI_TColour.
+        /// <summary> Sets the colour of an individual pixel. </summary>
+        void setPixel (const Pixel& pixel);
+
+        #pragma endregion
+
+
+        #pragma region Member variables
 
         BYTE*               m_screen        { nullptr };    //!< A cached copy of the HAPI screen pointer. Never to be deleted.
 
         int                 m_screenWidth   { 0 };          //!< The pixel width of the screen.
         int                 m_screenHeight  { 0 };          //!< The pixel height of the screen.
-        unsigned int        m_screenSize    { 0 };          //!< How many pixels in total exist on the screen.
+        int                 m_screenSize    { 0 };          //!< How many pixels in total exist on the screen.
 
-        #pragma endregion Member variables
+        #pragma endregion
 };
 
 #endif // SCREEN_MANAGER_INCLUDED
