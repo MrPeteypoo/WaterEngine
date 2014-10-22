@@ -20,7 +20,7 @@ struct Vector3D final
 
     ~Vector3D()                                 = default;
 
-    #pragma endregion Constructors and destructor
+    #pragma endregion
 
 
     #pragma region Operators
@@ -67,7 +67,7 @@ struct Vector3D final
     /// <summary> Divides each component of the current vector by a value. </summary>
     Vector3D& operator/= (const float rhs);
 
-    #pragma endregion Operators
+    #pragma endregion
 
 
     #pragma region Movement functionality
@@ -81,7 +81,7 @@ struct Vector3D final
     /// <summary> Translates the each component by the values given. </summary>
     void translate (const float x = 0.f, const float y = 0.f, const float z = 0.f);
 
-    #pragma endregion Movement functionality
+    #pragma endregion
 
 
     #pragma region Maths functions
@@ -99,7 +99,7 @@ struct Vector3D final
     void normalise();
 
 
-    #pragma endregion Maths functions
+    #pragma endregion
 
 
     #pragma region Member variables
@@ -108,7 +108,7 @@ struct Vector3D final
     float y { 0.f };              //!< The y component of the vector.
     float z { 0.f };              //!< The z component of the vector.
 
-    #pragma endregion Member variables
+    #pragma endregion
 };
 
 
