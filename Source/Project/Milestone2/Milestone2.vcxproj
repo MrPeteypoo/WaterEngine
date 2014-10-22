@@ -22,15 +22,14 @@
     <ClCompile Include="..\..\Helper\Time.cpp" />
     <ClCompile Include="..\..\Main.cpp" />
     <ClCompile Include="..\..\Misc\Pixel.cpp" />
-    <ClCompile Include="..\..\Misc\Star.cpp" />
     <ClCompile Include="..\..\ScreenManager\ScreenManager.cpp" />
     <ClCompile Include="..\..\Vectors\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Helper\RNG.h" />
     <ClInclude Include="..\..\Helper\Time.h" />
+    <ClInclude Include="..\..\Interfaces\IEntity.h" />
     <ClInclude Include="..\..\Misc\Pixel.h" />
-    <ClInclude Include="..\..\Misc\Star.h" />
     <ClInclude Include="..\..\ScreenManager\ScreenManager.h" />
     <ClInclude Include="..\..\Vectors\Vector3D.h" />
   </ItemGroup>

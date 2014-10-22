@@ -27,9 +27,6 @@
     <ClCompile Include="..\..\Misc\Pixel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Misc\Star.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Helper\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -44,13 +41,13 @@
     <ClInclude Include="..\..\Misc\Pixel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Misc\Star.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Helper\RNG.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Helper\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Interfaces\IEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
