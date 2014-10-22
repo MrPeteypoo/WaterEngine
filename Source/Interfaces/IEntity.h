@@ -2,12 +2,9 @@
 #define IENTITY_INCLUDED
 
 
-// Required headers.
-#include <memory>       // Used for render().
-
-
 // Forward declarations.
-class ScreenManager;    // Declaration required for render().
+namespace std { template <typename T> class shared_ptr; }   // Declaration required for render().
+class ScreenManager;                                        // Declaration required for render().
 
 
 /// <summary> An interface for every entity in the game, allows for easy initialisation, updating and rendering of all entities. </summary>
