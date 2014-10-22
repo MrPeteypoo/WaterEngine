@@ -1,8 +1,9 @@
 #if !defined RNG_INCLUDED
 #define RNG_INCLUDED
 
-#include <random>           // Required for everything!
-#include <type_traits>      // Required for integral/floating point difference
+// STL headers.
+#include <random>
+#include <type_traits>
 
 
 template <typename T, bool = std::is_integral<T>::value>
@@ -43,14 +44,14 @@ class RNG<T, true> final
         
 
         /// <summary> Retrieves the next random number from the sequence. </summary>
-        const T getRandom()                         { return m_distribution (m_generator); }
+        T getRandom()                           { return m_distribution (m_generator); }
 
-        const T getMin() const                      { return m_distribution.min(); }
-        const T getMax() const                      { return m_distribution.max(); }
+        T getMin() const                        { return m_distribution.min(); }
+        T getMax() const                        { return m_distribution.max(); }
 
 
         /// <summary> Allows for the generator to be reseeded at will for different numbers. </summary>
-        void reseed (const unsigned int seed)       { m_generator.seed (seed); }
+        void reseed (const unsigned int seed)   { m_generator.seed (seed); }
 
         /// <summary> Changes the distribution used by the generator. </summary>
         void setDistribution (const std::uniform_int_distribution<T>& distribution)
@@ -59,7 +60,7 @@ class RNG<T, true> final
         }
 
         /// <summary> Resets the distribution so that it doesn't rely on previous values. </summary>
-        void resetDistribution()                    { m_distribution.reset(); }
+        void resetDistribution()                { m_distribution.reset(); }
 
     private:
         std::default_random_engine          m_generator     { };    //!< The random engine used for generating numbers.
@@ -96,14 +97,14 @@ class RNG<T, false> final
         
 
         /// <summary> Retrieves the next random number from the sequence. </summary>
-        const T getRandom()                         { return m_distribution (m_generator); }
+        T getRandom()                           { return m_distribution (m_generator); }
 
-        const T getMin() const                      { return m_distribution.min(); }
-        const T getMax() const                      { return m_distribution.max(); }
+        T getMin() const                        { return m_distribution.min(); }
+        T getMax() const                        { return m_distribution.max(); }
 
 
         /// <summary> Allows for the generator to be reseeded at will for different numbers. </summary>
-        void reseed (const unsigned int seed)       { m_generator.seed (seed); }
+        void reseed (const unsigned int seed)   { m_generator.seed (seed); }
 
         /// <summary> Changes the distribution used by the generator. </summary>
         void setDistribution (const std::uniform_real_distribution<T>& distribution)
@@ -112,7 +113,7 @@ class RNG<T, false> final
         }
 
         /// <summary> Resets the distribution so that it doesn't rely on previous values. </summary>
-        void resetDistribution()                    { m_distribution.reset(); }
+        void resetDistribution()                { m_distribution.reset(); }
 
     private:
         std::default_random_engine          m_generator     { };    //!< The random engine used for generating numbers.

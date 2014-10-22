@@ -1,7 +1,8 @@
-// Engine headers
-#include <Interfaces/IEntity.h>
+// Engine headers.
+#include <HAPI_lib.h>
 #include <Helper/RNG.h>
 #include <Helper/Time.h>
+#include <Interfaces/IEntity.h>
 #include <ScreenManager/ScreenManager.h>
 
 

@@ -2,7 +2,8 @@
 #define HELPER_TIME_INCLUDED
 
 
-#include <chrono>   // Required for time_t.
+// STL headers.
+#include <chrono>
 
 
 /// <summary> This namespace contains dedicated helper functions with various different purposes. </summary>

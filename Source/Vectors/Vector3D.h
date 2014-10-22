@@ -26,28 +26,28 @@ struct Vector3D final
     #pragma region Operators
 
     /// <summary> Checks whether the vector is equal to another. </summary>
-    const bool operator== (const Vector3D& rhs) const;
+    bool operator== (const Vector3D& rhs) const;
 
     /// <summary> Checks whether the vector is not equal to another. </summary>
-    const bool operator!= (const Vector3D& rhs) const;
+    bool operator!= (const Vector3D& rhs) const;
 
     /// <summary> Adds two vectors together. </summary>
-    const Vector3D operator+ (const Vector3D& rhs) const;
+    Vector3D operator+ (const Vector3D& rhs) const;
 
     /// <summary> Finds the difference between two vectors. </summary>
-    const Vector3D operator- (const Vector3D& rhs) const;
+    Vector3D operator- (const Vector3D& rhs) const;
 
     /// <summary> Translates a vector positively by the specified amount. </summary>
-    const Vector3D operator+ (const float rhs) const;
+    Vector3D operator+ (const float rhs) const;
 
     /// <summary> Translates a vector negatively by the specified amount. </summary>
-    const Vector3D operator- (const float rhs) const;
+    Vector3D operator- (const float rhs) const;
 
     /// <summary> Multiples each component of the vector by a value. </summary>
-    const Vector3D operator* (const float rhs) const;
+    Vector3D operator* (const float rhs) const;
 
     /// <summary> Divides each component of the vector by a value. </summary>
-    const Vector3D operator/ (const float rhs) const;
+    Vector3D operator/ (const float rhs) const;
 
     /// <summary> Adds a vector onto the current vector. </summary>
     Vector3D& operator+= (const Vector3D& rhs);
@@ -87,13 +87,13 @@ struct Vector3D final
     #pragma region Maths functions
 
     /// <summary> Returns the squared magnitude of the vector, use for efficiency when comparing magnitudes. </summary>
-    const float squareMagnitude() const;
+    float squareMagnitude() const;
 
     /// <summary> Returns the magnitude of the vector. </summary>
-    const float magnitude() const;
+    float magnitude() const;
 
     /// <summary> Returns a unit vector based on current values. </summary>
-    const Vector3D normalised() const;
+    Vector3D normalised() const;
 
     /// <summary> Converts the vector into a unit vector. </summary>
     void normalise();

@@ -24,9 +24,6 @@
     <ClCompile Include="..\..\ScreenManager\ScreenManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Misc\Pixel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Helper\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,9 +36,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ScreenManager\ScreenManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Misc\Pixel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Helper\RNG.h">

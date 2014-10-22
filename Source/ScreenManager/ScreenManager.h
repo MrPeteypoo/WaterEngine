@@ -2,8 +2,10 @@
 #define SCREEN_MANAGER_INCLUDED
 
 
-#include <Misc/Pixel.h>     // Required for setPixel.
-
+// Forward declarations.
+typedef unsigned char BYTE;
+class Texture;
+struct HAPI_TColour;
 
 
 /// <summary>
@@ -15,7 +17,8 @@ class ScreenManager final
 
         #pragma region Constructors and destructor
 
-        /// <summary> Create a ScreenManager with valid resolution values. </summary>
+        /// <summary> Create a ScreenManager with valid resolution values. Throws exceptions if the resolution is invalid or the
+        /// HAPI screen pointer cannot be obtained. </summary>
         ScreenManager (const int screenWidth = 1, const int screenHeight = 1);
 
         ScreenManager (const ScreenManager& copy)               = default;
@@ -29,7 +32,7 @@ class ScreenManager final
         #pragma endregion
 
         
-        #pragma region Colouring functionality
+        #pragma region Rendering functionality
 
         /// <summary> Clears the screen to a black level between 0 and 255, quicker than clearing to a colour. </summary>
         void clearToBlack (const unsigned char blackLevel = 0);
@@ -37,18 +40,18 @@ class ScreenManager final
         /// <summary> Clears the entire screen to a single colour. </summary>
         void clearToColour (const HAPI_TColour& colour);
 
-        /// <summary> Blits
-        //void blit ()
+        /// <summary> Blits an image to the screen, taking into account alpha blending. </summary>
+        void blit (const int x, const int y, const Texture& texture);
         
 
         #pragma endregion 
 
     private:
         
-        #pragma region Private helper functions
+        #pragma region Helper functions
 
         /// <summary> Sets the colour of an individual pixel. </summary>
-        void setPixel (const Pixel& pixel);
+        void setPixel (const int pixel, const HAPI_TColour& colour);
 
         #pragma endregion
 

@@ -24,10 +24,10 @@ struct Pixel final
 
 
 
-    int             x { 0 },    //!< The x co-ordinate of the pixel.
-                    y { 0 };    //!< The y co-ordinate of the pixel.
+    int             x       { 0 },  //!< The x co-ordinate of the pixel.
+                    y       { 0 };  //!< The y co-ordinate of the pixel.
 
-    HAPI_TColour    colour { }; //!< The colour which the pixel should be displayed as.
+    HAPI_TColour    colour  { };    //!< The colour which the pixel should be displayed as.
 };
 
 

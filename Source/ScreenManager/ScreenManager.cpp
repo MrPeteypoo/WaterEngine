@@ -1,6 +1,12 @@
 #include "ScreenManager.h"
 
-#include <HAPI_lib.h>   // Required to obtain a pointer to the screen.
+
+// STL headers.
+#include <string>
+
+
+// Engine headers.
+#include <HAPI_lib.h>
 
 
 const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
@@ -15,13 +21,13 @@ ScreenManager::ScreenManager (const int screenWidth, const int screenHeight)
     // We don't want silly screen resolutions now do we?
     if (screenWidth < 1 || screenHeight < 1)
     {
-        throw std::runtime_error ("Invalid screen resolution given in ScreenManager::ScreenManager()");
+        throw std::runtime_error ("ScreenManager::ScreenManager(): Invalid screen resolution (" + std::to_string (m_screenWidth) + "x" + std::to_string (m_screenHeight) + ").");
     }
 
     // Check if a valid screen pointer is available
     if (!(m_screen = HAPI->GetScreenPointer()))
     {
-        throw std::runtime_error ("Unable to obtain screen pointer from HAPI.");
+        throw std::runtime_error ("ScreenManager::ScreenManager(): Unable to obtain screen pointer from HAPI.");
     }
 }
 
@@ -65,52 +71,50 @@ ScreenManager& ScreenManager::operator= (ScreenManager&& move)
 #pragma endregion Constructors and destructor
 
 
-#pragma region Colouring functionality
+#pragma region Rendering functionality
 
 
 void ScreenManager::clearToBlack (const unsigned char blackLevel)
-{
-    // Pre-condition: Black level is from 0 to 255.
-    if (m_screen)
-    {
-        std::memset (m_screen, blackLevel, m_screenSize * sizeOfColour);
-    }
+{    
+    // Use memset for efficiency.
+    std::memset (m_screen, blackLevel, m_screenSize * sizeOfColour);
 }
 
 
 void ScreenManager::clearToColour (const HAPI_TColour& colour)
-{    
-    // Ensure we have a valid pointer to the screen
-    if (m_screen)
-    {
-        // Don't call setPixel, instead implement with unnecessary error checking removed for efficiency.
-        for (unsigned int i = 0; i < m_screenSize; ++i)
-        {
-            // Find the correct memory address
-            auto pixel = m_screen + i * sizeOfColour;
-
-            std::memcpy (pixel, &colour, sizeOfColour);
-        }
-    }
-}
-
-
-void ScreenManager::setPixel (const Pixel& pixel)
 {
-    // Pre-condition: The screen pointer must be valid and a valid pixel number has been given
-    if (m_screen)
+    // Don't call setPixel, instead implement with unnecessary error checking removed for efficiency.
+    for (int i = 0; i < m_screenSize; ++i)
     {
-        const int pixelNumber = pixel.x + pixel.y * m_screenWidth;
+        // Find the correct memory address
+        auto pixel = m_screen + i * sizeOfColour;
 
-        if (pixelNumber >= 0 && pixelNumber < m_screenSize)
-        {
-            // Find and set the correct pixel
-            auto pixelAddress = m_screen + pixelNumber * sizeOfColour;
-
-            std::memcpy (pixelAddress, &pixel.colour, sizeOfColour);
-        }
+        std::memcpy (pixel, &colour, sizeOfColour);
     }
+    
 }
 
 
-#pragma endregion Colouring functionality
+#pragma endregion Rendering functionality
+
+
+#pragma region Helper functions
+
+
+void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
+{
+    // Pre-condition: The pixel must be a valid value.
+    if (pixel < 0 || pixel >= m_screenSize)
+    {
+        std::runtime_error ("ScreenManager::setPixel(): Attempt to set pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize));
+    }
+
+
+    // Find and set the correct pixel
+    auto pixelAddress = m_screen + pixel * sizeOfColour;
+
+    std::memcpy (pixelAddress, &colour, sizeOfColour);
+}
+
+
+#pragma endregion Helper functions
