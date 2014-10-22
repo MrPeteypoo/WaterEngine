@@ -3,12 +3,18 @@
 
 
 // STL headers
+//#include <memory>
+//#include <string>
+
+
+// STL headers.
 #include <memory>
 #include <string>
 
 
-// Engine headers
-#include <HAPI_lib.h>
+// Forward declarations.
+typedef unsigned char BYTE;
+struct HAPI_TColour;
 
 
 /// <summary> A texture is a self-managed wrapper for any texture to be used in the HAPI engine. </summary>
@@ -37,15 +43,18 @@ class Texture final
 
         #pragma region Getters and setters
 
+        /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
+        bool hasLoaded() const      { return m_data != nullptr; }
+        
+        int getResolution() const   { return m_resolution; }
+        int getWidth() const        { return m_width; }
+        int getHeight() const       { return m_height; }
+        
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is 0. </summary>
-        const HAPI_TColour getPixel (const unsigned int pixel) const;
+        const HAPI_TColour getColour (const int pixel) const;
 
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is (0, 0). </summary>
-        const HAPI_TColour getPixel (const unsigned int x, const unsigned int y) const;
-        
-        const int getResolution() const { return m_resolution; }
-        const int getWidth() const      { return m_width; }
-        const int getHeight() const     { return m_height; }
+        const HAPI_TColour getColour (const int x, const int y) const;
 
         #pragma endregion
 
@@ -64,11 +73,11 @@ class Texture final
 
         #pragma region Member variables
         
-        int                     m_resolution    { 0 };          //!< The total number of pixels in the texture.
-        int                     m_width         { 0 };          //!< The width of the loaded texture.
-        int                     m_height        { 0 };          //!< The height of the loaded texture.
+        int                     m_resolution    { 0 };  //!< The total number of pixels in the texture.
+        int                     m_width         { 0 };  //!< The width of the loaded texture.
+        int                     m_height        { 0 };  //!< The height of the loaded texture.
 
-        std::unique_ptr<BYTE[]> m_data          {  };    //!< The raw memory data of the texture.
+        std::unique_ptr<BYTE[]> m_data          {  };   //!< The raw memory data of the texture.
 
         #pragma endregion
 };

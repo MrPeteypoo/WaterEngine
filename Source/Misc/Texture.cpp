@@ -1,6 +1,10 @@
 #include "Texture.h"
 
 
+// Engine headers.
+#include <HAPI_lib.h>
+
+
 const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
 
 
@@ -9,7 +13,10 @@ const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes o
 Texture::Texture (const std::string& fileLocation)
 {   
     // Attempt to load the texture during construction.
-    loadTexture (fileLocation);    
+    if (!loadTexture (fileLocation))
+    {
+        throw std::runtime_error ("Unable to initialise Texture with file: " + fileLocation);
+    }
 }
 
 
@@ -50,7 +57,7 @@ Texture& Texture::operator= (Texture&& move)
 #pragma region Getters and setters
 
 
-const HAPI_TColour Texture::getPixel (const unsigned int pixel) const
+const HAPI_TColour Texture::getColour (const int pixel) const
 {
     // Pre-condition: Ensure there is data available.
     if (!m_data)
@@ -58,9 +65,15 @@ const HAPI_TColour Texture::getPixel (const unsigned int pixel) const
         throw std::exception ("Attempt to obtain a pixel from an empty texture.");   
     }
 
+    // Pre-condition: Pixel number is valid, otherwise an access violation error will occur.
+    if (pixel < 0 || pixel >= m_resolution)
+    {
+        throw std::runtime_error ("Attempt to access pixel " + std::to_string (pixel) + ", max resolution is " + std::to_string (m_resolution));
+    }
+
     else
     {
-        // The order of channels in memory is BGRA
+        // The order of channels in memory is BGRA.
         const BYTE  blue    = m_data[pixel * sizeOfColour],
                     green   = m_data[pixel * sizeOfColour + 1],
                     red     = m_data[pixel * sizeOfColour + 2],
@@ -72,9 +85,9 @@ const HAPI_TColour Texture::getPixel (const unsigned int pixel) const
 }
 
 
-const HAPI_TColour Texture::getPixel (const unsigned int x, const unsigned int y) const
+const HAPI_TColour Texture::getColour (const int x, const int y) const
 {
-    return getPixel (x + y * m_width);
+    return getColour (x + y * m_width);
 }
 
 
@@ -87,12 +100,12 @@ const HAPI_TColour Texture::getPixel (const unsigned int x, const unsigned int y
 const bool Texture::loadTexture (const std::string& fileLocation)
 {
     // Create the data pointer.
-    BYTE* data = nullptr;
+    BYTE* data  = nullptr;
 
-    // Attempt to load the data.
+    // Attempt to load the data. If the loading succeeds then the width and height will be set.
     if (HAPI->LoadTexture (fileLocation, &data, &m_width, &m_height))
     {
-        // Calculate the correct resolution
+        // Calculate the correct resolution.
         m_resolution = m_width * m_height;
 
         // Create the data unique_ptr.
@@ -101,7 +114,7 @@ const bool Texture::loadTexture (const std::string& fileLocation)
         return true;
     }
 
-    
+    return false;
 }
 
 
