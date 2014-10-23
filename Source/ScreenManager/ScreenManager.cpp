@@ -157,10 +157,10 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
 HAPI_TColour ScreenManager::getPixel (const int pixel) const
 {
     // Pre-condition: The pixel must be a valid value.
-    if (pixel < 0 || pixel >= m_screenSize)
+    /*if (pixel < 0 || pixel >= m_screenSize)
     {
         std::runtime_error ("ScreenManager::getPixel(): Attempt to get pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize) + ".");
-    }
+    }*/
 
 
     // Find the correct address and return the colour.
@@ -179,10 +179,10 @@ HAPI_TColour ScreenManager::getPixel (const int pixel) const
 void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
 {
     // Pre-condition: The pixel must be a valid value.
-    if (pixel < 0 || pixel >= m_screenSize)
+    /*if (pixel < 0 || pixel >= m_screenSize)
     {
         std::runtime_error ("ScreenManager::setPixel(): Attempt to set pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize) + ".");
-    }
+    }*/
 
 
     // Find and set the correct pixel.
