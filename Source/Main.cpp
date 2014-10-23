@@ -55,7 +55,7 @@ void HAPI_Main()
             //screenManager.clearToBlack();
             
             screenManager.blitOpaque (0, 0, background);
-            screenManager.blit (96, 96, foreground);
+            screenManager.blitFast (96, 96, foreground);
         }
     }
 }

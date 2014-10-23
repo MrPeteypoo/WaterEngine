@@ -157,7 +157,60 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
 
 void ScreenManager::blitFast (const int posX, const int posY, const Texture& texture)
 {
-    
+    // Start by obtaining the width and height of the image.
+    const int   width = texture.getWidth(),
+                height = texture.getHeight();
+
+    // Ensure it's on-screen.
+    if (posX >= 0 && posX + width <= m_screenWidth &&
+        posY >= 0 && posY + height <= m_screenHeight)
+    {
+        // Get the destination pixel and for the texture.
+        const int destination = posX + posY * m_screenWidth;
+
+        const auto textureData = texture.getData();
+
+        BYTE* currentPixel = m_screen + destination * sizeOfColour;
+        const BYTE* currentData = textureData;
+
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                const auto alpha = currentData[3];
+
+                // Avoid unnecessary blending when alpha is 0 or 255.
+                switch (alpha)
+                {
+                    case 0:
+                        break;
+
+                    case 255:
+                        for (unsigned int i = 0; i < 3; ++i)
+                        {
+                            currentPixel[i] = currentData[i];
+                        }
+
+                        break;
+
+                    default:                        
+                        // Avoid floating-point arithmetic by bit-shifting.
+                        for (unsigned int i = 0; i < 3; ++i)
+                        {
+                            const auto current = currentPixel[i];
+                            currentPixel[i] = current + ((alpha * (currentData[i] - current)) >> 8);
+                        }
+
+                        break;
+                }
+                
+                currentPixel += sizeOfColour;
+                currentData += sizeOfColour;
+            }
+
+            currentPixel += (m_screenWidth - width) * sizeOfColour;
+        }
+    }
 }
 
 
@@ -173,7 +226,7 @@ void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& t
         // Obtain the data from the texture.
         const auto textureData = texture.getData();
 
-        const int dataWidth   = width * sizeOfColour,
+        const int   dataWidth   = width * sizeOfColour,
                     screenWidth = m_screenWidth * sizeOfColour;
 
         // Calculate the starting pointer to the position.
