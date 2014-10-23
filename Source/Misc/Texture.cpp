@@ -57,7 +57,7 @@ Texture& Texture::operator= (Texture&& move)
 #pragma region Getters and setters
 
 
-HAPI_TColour Texture::getPixel(const int pixelNumber) const
+HAPI_TColour Texture::getPixel (const int pixelNumber) const
 {
     try
     {
@@ -88,7 +88,7 @@ HAPI_TColour Texture::getPixel(const int pixelNumber) const
 }
 
 
-HAPI_TColour Texture::getPixel(const int x, const int y) const
+HAPI_TColour Texture::getPixel (const int x, const int y) const
 {
     // Re-implement for efficiency.
     try

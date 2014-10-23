@@ -39,12 +39,16 @@ class Texture final
         #pragma region Getters and setters
 
         /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
-        bool hasLoaded() const      { return m_data != nullptr; }
+        bool hasLoaded() const              { return m_data != nullptr; }
         
-        int getResolution() const   { return m_resolution; }
-        int getWidth() const        { return m_width; }
-        int getHeight() const       { return m_height; }
-        
+        int getResolution() const           { return m_resolution; }
+        int getWidth() const                { return m_width; }
+        int getHeight() const               { return m_height; }
+
+
+        /// <summary> Returns the raw data, useful for accessing line-by-line. </summary>
+        const BYTE* const getData() const   { return m_data.get(); }
+
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is 0. </summary>
         HAPI_TColour getPixel (const int pixelNumber) const;
 
