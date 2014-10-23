@@ -22,7 +22,9 @@ ScreenManager::ScreenManager (const int screenWidth, const int screenHeight)
     }
 
     // Check if a valid screen pointer is available
-    if (!(m_screen = HAPI->GetScreenPointer()))
+    m_screen = HAPI->GetScreenPointer();
+
+    if (!m_screen)
     {
         throw std::runtime_error ("ScreenManager::ScreenManager(): Unable to obtain screen pointer from HAPI.");
     }
@@ -103,8 +105,7 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
         posY >= 0 && posY + height <= m_screenHeight)
     {
         // Get the destination pixel and the size of the texture.
-        const int   destination = posX + posY * m_screenWidth,
-                    size = texture.getResolution();
+        const int destination = posX + posY * m_screenWidth;
 
         // Avoid creating the colour each loop.
         HAPI_TColour colour;
@@ -129,22 +130,20 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
                         break;
 
                     default:                        
-                        const HAPI_TColour current = getPixel (pixel);
+                        const HAPI_TColour screen = getPixel (pixel);
 
                         // Avoid floating-point arithmetic by bit-shifting.
-                        colour.red = colour.red + ((alpha * (current.red - colour.red)) >> 8);
-                        colour.green = colour.green + ((alpha * (current.green - colour.green)) >> 8);
-                        colour.blue = colour.blue + ((alpha * (current.blue - colour.blue)) >> 8);
-
-                        /*
-                        const float alpha = colour.alpha / 255.f, 
-                                    leftover = 1 - alpha;
+                        colour.red = screen.red + ((alpha * (colour.red - screen.red)) >> 8);
+                        colour.green = screen.green + ((alpha * (colour.green - screen.green)) >> 8);
+                        colour.blue = screen.blue + ((alpha * (colour.blue - screen.blue)) >> 8);
                         
-                        colour.red = (BYTE) (colour.red * alpha + current.red * leftover);
-                        colour.green = (BYTE) (colour.green * alpha + current.green * leftover);
-                        colour.blue = (BYTE) (colour.blue * alpha + current.blue * leftover);
-                        */
-
+                        // Calculate the blended value with floating-points.
+                        /*const float alpha = colour.alpha / 255.f, leftover = 1.f - alpha;
+                      
+                        colour.red = (BYTE) (colour.red * alpha + screen.red * leftover);
+                        colour.green = (BYTE) (colour.green * alpha + screen.green * leftover);
+                        colour.blue = (BYTE) (colour.blue * alpha + screen.blue * leftover);*/
+                        
                         setPixel (pixel, colour);
                         break;
                 }
@@ -153,6 +152,48 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
     }
 
     // Don't bother blitting an off-screen image for now.
+}
+
+
+void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& texture)
+{
+    try 
+    {
+        // Start by obtaining the width and height of the image.
+        const int width = texture.getWidth(), height = texture.getHeight();
+
+        // Ensure it's on-screen.
+        if (posX >= 0 && posX + width <= m_screenWidth &&
+            posY >= 0 && posY + height <= m_screenHeight)
+        {
+            // Obtain the data from the texture.
+            const auto textureData = texture.getData();
+
+            const int dataWidth   = width * sizeOfColour,
+                      screenWidth = m_screenWidth * sizeOfColour;
+
+            // Calculate the starting pointer to the position.
+            BYTE* const screen = m_screen + (posX + posY * screenWidth);
+            BYTE* currentLine = m_screen;
+
+            for (int y = 0; y < height; ++y)
+            {
+                // Increment the pointer and copy line-by-line.
+                currentLine = screen + y * screenWidth;
+                std::memcpy (currentLine, (textureData + y * dataWidth), dataWidth);
+            }
+        }
+    }
+
+    catch (std::exception& error)
+    {
+        HAPI->DebugText ("ScreenManager::blitOpaque(): " + (std::string) error.what());
+    }
+
+    catch (...)
+    {
+        HAPI->DebugText ("ScreenManager::blitOpaque(): Unknown error occurred.");
+    }
 }
 
 

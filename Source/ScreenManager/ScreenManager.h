@@ -43,6 +43,9 @@ class ScreenManager final
         /// <summary> Blits an image to the screen, taking into account alpha blending. </summary>
         void blit (const int posX, const int posY, const Texture& texture);
 
+        /// <summary> Blits an image to the screen without taking into account alpha blending. </summary>
+        void blitOpaque (const int posX, const int posY, const Texture& texture);
+
         #pragma endregion 
 
     private:

@@ -46,14 +46,16 @@ void HAPI_Main()
             return;
         }
         
+        screenManager.clearToBlack();
+        
         // Move and draw the stars
         while (HAPI->Update())
         {
             // Clear the screen
-            screenManager.clearToBlack();
-
-            screenManager.blit (0, 0, background);
-            //screenManager.blit (96, 96, foreground);
+            //screenManager.clearToBlack();
+            
+            screenManager.blitOpaque (0, 0, background);
+            screenManager.blit (96, 96, foreground);
         }
     }
 }
