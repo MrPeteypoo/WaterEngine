@@ -57,37 +57,65 @@ Texture& Texture::operator= (Texture&& move)
 #pragma region Getters and setters
 
 
-HAPI_TColour Texture::getColour (const int pixel) const
+HAPI_TColour Texture::getPixel(const int pixelNumber) const
 {
-    // Pre-condition: Ensure there is data available.
-    if (!m_data)
+    try
     {
-        throw std::exception ("Attempt to obtain a pixel from an empty texture.");   
+        const int pixel = pixelNumber * sizeOfColour;
+
+        // The order of channels in memory is BGRA, but the constructor takes RGBA.
+        return
+        {
+            m_data[pixel + 2],
+            m_data[pixel + 1],
+            m_data[pixel],
+            m_data[pixel + 3]
+        };
     }
 
-    // Pre-condition: Pixel number is valid, otherwise an access violation error will occur.
-    if (pixel < 0 || pixel >= m_resolution)
+    catch (const std::exception& error)
     {
-        throw std::runtime_error ("Attempt to access pixel " + std::to_string (pixel) + ", max resolution is " + std::to_string (m_resolution));
+        HAPI->DebugText ("Texture::getPixel(): " + (std::string) error.what());
     }
 
-    else
+    catch (...)
     {
-        // The order of channels in memory is BGRA.
-        const BYTE  blue    = m_data[pixel * sizeOfColour],
-                    green   = m_data[pixel * sizeOfColour + 1],
-                    red     = m_data[pixel * sizeOfColour + 2],
-                    alpha   = m_data[pixel * sizeOfColour + 3];
-                    
-
-        return { red, green, blue, alpha };
+        HAPI->DebugText ("Texture::getPixel(): Unknown error occurred.");
     }
+    
+    // Just return a black colour.
+    return { };
 }
 
 
-HAPI_TColour Texture::getColour (const int x, const int y) const
+HAPI_TColour Texture::getPixel(const int x, const int y) const
 {
-    return std::move (getColour (x + y * m_width));
+    // Re-implement for efficiency.
+    try
+    {
+        const int pixel = (x + y * m_width) * sizeOfColour;
+
+        // The order of channels in memory is BGRA, but the constructor takes RGBA.
+        return
+        {
+            m_data[pixel + 2],
+            m_data[pixel + 1],
+            m_data[pixel],
+            m_data[pixel + 3]
+        };
+    }
+
+    catch (const std::exception& error)
+    {
+        HAPI->DebugText ("Texture::getPixel(): " + (std::string) error.what());
+    }
+
+    catch (...)
+    {
+        HAPI->DebugText ("Texture::getPixel(): Unknown error occurred.");
+    }
+
+    return { };
 }
 
 

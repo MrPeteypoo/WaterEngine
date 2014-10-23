@@ -46,10 +46,10 @@ class Texture final
         int getHeight() const       { return m_height; }
         
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is 0. </summary>
-        HAPI_TColour getColour (const int pixel) const;
+        HAPI_TColour getPixel (const int pixelNumber) const;
 
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is (0, 0). </summary>
-        HAPI_TColour getColour (const int x, const int y) const;
+        HAPI_TColour getPixel (const int x, const int y) const;
 
         #pragma endregion
 

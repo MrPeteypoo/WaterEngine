@@ -113,12 +113,13 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
         {
             for (int x = 0; x < width; ++x)
             {
+                colour = texture.getPixel (x, y);
+                
                 const int pixel = destination + (x + y * m_screenWidth);
-                
-                colour = texture.getColour (x, y);
-                
+                const auto alpha = colour.alpha;
+
                 // Avoid unnecessary blending when alpha is 0 or 255.
-                switch (colour.alpha)
+                switch (alpha)
                 {
                     case 0:
                         break;
@@ -127,15 +128,22 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
                         setPixel (pixel, colour);
                         break;
 
-                    default:
-                        const float alpha = colour.alpha / 255.f, 
-                                    leftover = 1.f - alpha;
-
+                    default:                        
                         const HAPI_TColour current = getPixel (pixel);
+
+                        // Avoid floating-point arithmetic by bit-shifting.
+                        colour.red = colour.red + ((alpha * (current.red - colour.red)) >> 8);
+                        colour.green = colour.green + ((alpha * (current.green - colour.green)) >> 8);
+                        colour.blue = colour.blue + ((alpha * (current.blue - colour.blue)) >> 8);
+
+                        /*
+                        const float alpha = colour.alpha / 255.f, 
+                                    leftover = 1 - alpha;
                         
                         colour.red = (BYTE) (colour.red * alpha + current.red * leftover);
                         colour.green = (BYTE) (colour.green * alpha + current.green * leftover);
                         colour.blue = (BYTE) (colour.blue * alpha + current.blue * leftover);
+                        */
 
                         setPixel (pixel, colour);
                         break;
@@ -156,37 +164,39 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
 
 HAPI_TColour ScreenManager::getPixel (const int pixel) const
 {
-    // Pre-condition: The pixel must be a valid value.
-    /*if (pixel < 0 || pixel >= m_screenSize)
+    try
     {
-        std::runtime_error ("ScreenManager::getPixel(): Attempt to get pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize) + ".");
-    }*/
-
-
-    // Find the correct address and return the colour.
-    const auto pixelAddress = m_screen + pixel * sizeOfColour;
+        // Find the correct address and return the colour.
+        const auto pixelAddress = m_screen + pixel * sizeOfColour;
         
-    // The order of channels in memory is BGRA.
-    const BYTE  blue    = *pixelAddress,
-                green   = *(pixelAddress + 1),
-                red     = *(pixelAddress + 2),
-                alpha   = *(pixelAddress + 3);
+        // The order of channels in memory is BGRA, but the constructor takes RGBA.
+        return
+        {
+            *(pixelAddress + 2),
+            *(pixelAddress + 1),
+            *(pixelAddress),
+            *(pixelAddress + 3)
+        };
+    }
+    
+    catch (const std::exception& error)
+    {
+        HAPI->DebugText ("ScreenManager::getPixel(): " + (std::string) error.what());
+    }
 
-    return { red, green, blue, alpha };
+    catch (...)
+    {
+        HAPI->DebugText ("ScreenManager::getPixel(): Unknown error occurred.");
+    }
+    
+    return { };
 }
 
 
 void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
 {
-    // Pre-condition: The pixel must be a valid value.
-    /*if (pixel < 0 || pixel >= m_screenSize)
-    {
-        std::runtime_error ("ScreenManager::setPixel(): Attempt to set pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize) + ".");
-    }*/
-
-
     // Find and set the correct pixel.
-    auto pixelAddress = m_screen + pixel * sizeOfColour;
+    const auto pixelAddress = m_screen + pixel * sizeOfColour;
 
     std::memcpy (pixelAddress, &colour, sizeOfColour);
 }

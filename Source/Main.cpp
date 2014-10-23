@@ -33,7 +33,7 @@ void HAPI_Main()
     if (HAPI->Initialise (&screenWidth, &screenHeight))
     {
         // Set up the screen
-        auto screenManager = std::make_unique<ScreenManager> (ScreenManager (screenWidth, screenHeight));
+        auto screenManager = ScreenManager (screenWidth, screenHeight);
         HAPI->SetShowFPS (true);
 
         // Set up the textures
@@ -50,9 +50,10 @@ void HAPI_Main()
         while (HAPI->Update())
         {
             // Clear the screen
-            screenManager->clearToBlack();
+            screenManager.clearToBlack();
 
-            screenManager->blit (120, 120, foreground);
+            screenManager.blit (0, 0, background);
+            //screenManager.blit (96, 96, foreground);
         }
     }
 }
