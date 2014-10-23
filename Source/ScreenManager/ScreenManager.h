@@ -41,14 +41,16 @@ class ScreenManager final
         void clearToColour (const HAPI_TColour& colour);
 
         /// <summary> Blits an image to the screen, taking into account alpha blending. </summary>
-        void blit (const int x, const int y, const Texture& texture);
-        
+        void blit (const int posX, const int posY, const Texture& texture);
 
         #pragma endregion 
 
     private:
         
         #pragma region Helper functions
+
+        /// <summary> Returns the colour information of the given pixel on the screen. </summary>
+        HAPI_TColour getPixel (const int pixel) const;
 
         /// <summary> Sets the colour of an individual pixel. </summary>
         void setPixel (const int pixel, const HAPI_TColour& colour);

@@ -8,6 +8,9 @@
 #include <ScreenManager/ScreenManager.h>
 
 
+const std::string   backgroundLocation  = "background.tga",
+                    alphaTestLocation   = "alphaThing.tga";
+
 
 int screenWidth = 256, screenHeight = 256;
 DWORD oldTime = 0, currentTime = 0;
@@ -36,7 +39,12 @@ void HAPI_Main()
         // Set up the textures
         Texture background {}, foreground {};
 
-        //if (background.loadTexture ())
+        if (!background.loadTexture (backgroundLocation) || !foreground.loadTexture (alphaTestLocation))
+        {
+            HAPI->UserMessage ("Unable to load texture.", "Error");
+
+            return;
+        }
         
         // Move and draw the stars
         while (HAPI->Update())
@@ -44,7 +52,7 @@ void HAPI_Main()
             // Clear the screen
             screenManager->clearToBlack();
 
-            
+            screenManager->blit (120, 120, foreground);
         }
     }
 }

@@ -1,12 +1,9 @@
 #include "ScreenManager.h"
 
 
-// STL headers.
-#include <string>
-
-
 // Engine headers.
 #include <HAPI_lib.h>
+#include <Misc/Texture.h>
 
 
 const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
@@ -95,10 +92,88 @@ void ScreenManager::clearToColour (const HAPI_TColour& colour)
 }
 
 
+void ScreenManager::blit (const int posX, const int posY, const Texture& texture)
+{
+    // Start by obtaining the width and height of the image.
+    const int   width = texture.getWidth(),
+                height = texture.getHeight();
+
+    // Ensure it's on-screen.
+    if (posX >= 0 && posX + width <= m_screenWidth &&
+        posY >= 0 && posY + height <= m_screenHeight)
+    {
+        // Get the destination pixel and the size of the texture.
+        const int   destination = posX + posY * m_screenWidth,
+                    size = texture.getResolution();
+
+        // Avoid creating the colour each loop.
+        HAPI_TColour colour;
+
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                const int pixel = destination + (x + y * m_screenWidth);
+                
+                colour = texture.getColour (x, y);
+                
+                // Avoid unnecessary blending when alpha is 0 or 255.
+                switch (colour.alpha)
+                {
+                    case 0:
+                        break;
+
+                    case 255:
+                        setPixel (pixel, colour);
+                        break;
+
+                    default:
+                        const float alpha = colour.alpha / 255.f, 
+                                    leftover = 1.f - alpha;
+
+                        const HAPI_TColour current = getPixel (pixel);
+                        
+                        colour.red = (BYTE) (colour.red * alpha + current.red * leftover);
+                        colour.green = (BYTE) (colour.green * alpha + current.green * leftover);
+                        colour.blue = (BYTE) (colour.blue * alpha + current.blue * leftover);
+
+                        setPixel (pixel, colour);
+                        break;
+                }
+            }
+        }
+    }
+
+    // Don't bother blitting an off-screen image for now.
+}
+
+
 #pragma endregion Rendering functionality
 
 
 #pragma region Helper functions
+
+
+HAPI_TColour ScreenManager::getPixel (const int pixel) const
+{
+    // Pre-condition: The pixel must be a valid value.
+    if (pixel < 0 || pixel >= m_screenSize)
+    {
+        std::runtime_error ("ScreenManager::getPixel(): Attempt to get pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize) + ".");
+    }
+
+
+    // Find the correct address and return the colour.
+    const auto pixelAddress = m_screen + pixel * sizeOfColour;
+        
+    // The order of channels in memory is BGRA.
+    const BYTE  blue    = *pixelAddress,
+                green   = *(pixelAddress + 1),
+                red     = *(pixelAddress + 2),
+                alpha   = *(pixelAddress + 3);
+
+    return { red, green, blue, alpha };
+}
 
 
 void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
@@ -106,11 +181,11 @@ void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
     // Pre-condition: The pixel must be a valid value.
     if (pixel < 0 || pixel >= m_screenSize)
     {
-        std::runtime_error ("ScreenManager::setPixel(): Attempt to set pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize));
+        std::runtime_error ("ScreenManager::setPixel(): Attempt to set pixel " + std::to_string (pixel) + " when resolution is " + std::to_string (m_screenSize) + ".");
     }
 
 
-    // Find and set the correct pixel
+    // Find and set the correct pixel.
     auto pixelAddress = m_screen + pixel * sizeOfColour;
 
     std::memcpy (pixelAddress, &colour, sizeOfColour);
