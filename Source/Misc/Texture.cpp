@@ -57,7 +57,7 @@ Texture& Texture::operator= (Texture&& move)
 #pragma region Getters and setters
 
 
-const HAPI_TColour Texture::getColour (const int pixel) const
+HAPI_TColour Texture::getColour (const int pixel) const
 {
     // Pre-condition: Ensure there is data available.
     if (!m_data)
@@ -85,9 +85,9 @@ const HAPI_TColour Texture::getColour (const int pixel) const
 }
 
 
-const HAPI_TColour Texture::getColour (const int x, const int y) const
+HAPI_TColour Texture::getColour (const int x, const int y) const
 {
-    return getColour (x + y * m_width);
+    return std::move (getColour (x + y * m_width));
 }
 
 
@@ -97,7 +97,7 @@ const HAPI_TColour Texture::getColour (const int x, const int y) const
 #pragma region Loading functionality
 
 
-const bool Texture::loadTexture (const std::string& fileLocation)
+bool Texture::loadTexture (const std::string& fileLocation)
 {
     // Create the data pointer.
     BYTE* data  = nullptr;

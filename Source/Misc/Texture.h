@@ -2,11 +2,6 @@
 #define TEXTURE_INCLUDED
 
 
-// STL headers
-//#include <memory>
-//#include <string>
-
-
 // STL headers.
 #include <memory>
 #include <string>
@@ -51,10 +46,10 @@ class Texture final
         int getHeight() const       { return m_height; }
         
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is 0. </summary>
-        const HAPI_TColour getColour (const int pixel) const;
+        HAPI_TColour getColour (const int pixel) const;
 
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is (0, 0). </summary>
-        const HAPI_TColour getColour (const int x, const int y) const;
+        HAPI_TColour getColour (const int x, const int y) const;
 
         #pragma endregion
 
@@ -65,7 +60,7 @@ class Texture final
         /// Attempts to load a texture using the file location specified.
         /// <returns> Returns whether it was possible or not. </returns>
         /// </summary>
-        const bool loadTexture (const std::string& fileLocation);
+        bool loadTexture (const std::string& fileLocation);
     
         #pragma endregion
 
