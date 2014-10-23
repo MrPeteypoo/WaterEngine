@@ -155,45 +155,39 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
 }
 
 
+void ScreenManager::blitFast (const int posX, const int posY, const Texture& texture)
+{
+    
+}
+
+
 void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& texture)
 {
-    try 
+    // Start by obtaining the width and height of the image.
+    const int width = texture.getWidth(), height = texture.getHeight();
+
+    // Ensure it's on-screen.
+    if (posX >= 0 && posX + width <= m_screenWidth &&
+        posY >= 0 && posY + height <= m_screenHeight)
     {
-        // Start by obtaining the width and height of the image.
-        const int width = texture.getWidth(), height = texture.getHeight();
+        // Obtain the data from the texture.
+        const auto textureData = texture.getData();
 
-        // Ensure it's on-screen.
-        if (posX >= 0 && posX + width <= m_screenWidth &&
-            posY >= 0 && posY + height <= m_screenHeight)
+        const int dataWidth   = width * sizeOfColour,
+                    screenWidth = m_screenWidth * sizeOfColour;
+
+        // Calculate the starting pointer to the position.
+        BYTE* const screen = m_screen + (posX + posY * screenWidth);
+        BYTE* currentLine = m_screen;
+
+        for (int y = 0; y < height; ++y)
         {
-            // Obtain the data from the texture.
-            const auto textureData = texture.getData();
-
-            const int dataWidth   = width * sizeOfColour,
-                      screenWidth = m_screenWidth * sizeOfColour;
-
-            // Calculate the starting pointer to the position.
-            BYTE* const screen = m_screen + (posX + posY * screenWidth);
-            BYTE* currentLine = m_screen;
-
-            for (int y = 0; y < height; ++y)
-            {
-                // Increment the pointer and copy line-by-line.
-                currentLine = screen + y * screenWidth;
-                std::memcpy (currentLine, (textureData + y * dataWidth), dataWidth);
-            }
+            // Increment the pointer and copy line-by-line.
+            currentLine = screen + y * screenWidth;
+            std::memcpy (currentLine, (textureData + y * dataWidth), dataWidth);
         }
     }
-
-    catch (std::exception& error)
-    {
-        HAPI->DebugText ("ScreenManager::blitOpaque(): " + (std::string) error.what());
-    }
-
-    catch (...)
-    {
-        HAPI->DebugText ("ScreenManager::blitOpaque(): Unknown error occurred.");
-    }
+    
 }
 
 
