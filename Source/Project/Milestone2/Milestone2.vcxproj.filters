@@ -15,16 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Vectors\Vector3D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\ScreenManager\ScreenManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Helper\Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Misc\Texture.cpp">
@@ -32,19 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Vectors\Vector3D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\ScreenManager\ScreenManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Helper\RNG.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Helper\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Interfaces\IEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Misc\Texture.h">
