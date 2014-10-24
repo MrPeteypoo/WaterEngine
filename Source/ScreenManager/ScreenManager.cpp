@@ -137,13 +137,6 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
                         colour.green = screen.green + ((alpha * (colour.green - screen.green)) >> 8);
                         colour.blue = screen.blue + ((alpha * (colour.blue - screen.blue)) >> 8);
                         
-                        // Calculate the blended value with floating-points.
-                        /*const float alpha = colour.alpha / 255.f, leftover = 1.f - alpha;
-                      
-                        colour.red = (BYTE) (colour.red * alpha + screen.red * leftover);
-                        colour.green = (BYTE) (colour.green * alpha + screen.green * leftover);
-                        colour.blue = (BYTE) (colour.blue * alpha + screen.blue * leftover);*/
-                        
                         setPixel (pixel, colour);
                         break;
                 }
@@ -158,19 +151,18 @@ void ScreenManager::blit (const int posX, const int posY, const Texture& texture
 void ScreenManager::blitFast (const int posX, const int posY, const Texture& texture)
 {
     // Start by obtaining the width and height of the image.
-    const int   width = texture.getWidth(),
-                height = texture.getHeight();
+    const int width = texture.getWidth(), height = texture.getHeight();
 
     // Ensure it's on-screen.
     if (posX >= 0 && posX + width <= m_screenWidth &&
         posY >= 0 && posY + height <= m_screenHeight)
     {
-        // Get the destination pixel and for the texture.
-        const int destination = posX + posY * m_screenWidth;
-
+        // Obtain the raw data from the texture.
         const auto textureData = texture.getData();
 
-        BYTE* currentPixel = m_screen + destination * sizeOfColour;
+        const int destination = (posX + posY * m_screenWidth) * sizeOfColour;
+
+        BYTE* currentPixel = m_screen + destination;
         const BYTE* currentData = textureData;
 
         for (int y = 0; y < height; ++y)
@@ -204,10 +196,12 @@ void ScreenManager::blitFast (const int posX, const int posY, const Texture& tex
                         break;
                 }
                 
+                // Increment each pointer.
                 currentPixel += sizeOfColour;
                 currentData += sizeOfColour;
             }
 
+            // Since the width is done we must go onto the next line.
             currentPixel += (m_screenWidth - width) * sizeOfColour;
         }
     }
@@ -231,7 +225,7 @@ void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& t
 
         // Calculate the starting pointer to the position.
         BYTE* const screen = m_screen + (posX + posY * screenWidth);
-        BYTE* currentLine = m_screen;
+        BYTE* currentLine = nullptr;
 
         for (int y = 0; y < height; ++y)
         {

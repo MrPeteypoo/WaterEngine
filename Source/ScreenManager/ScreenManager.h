@@ -67,10 +67,10 @@ class ScreenManager final
         #pragma region Member variables
 
         BYTE*               m_screen        { nullptr };    //!< A cached copy of the HAPI screen pointer. Never to be deleted.
-
+        
+        int                 m_screenSize    { 0 };          //!< How many pixels in total exist on the screen.
         int                 m_screenWidth   { 0 };          //!< The pixel width of the screen.
         int                 m_screenHeight  { 0 };          //!< The pixel height of the screen.
-        int                 m_screenSize    { 0 };          //!< How many pixels in total exist on the screen.
 
         #pragma endregion
 };

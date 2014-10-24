@@ -9,7 +9,7 @@
 
 
 const std::string   backgroundLocation  = "background.tga",
-                    alphaTestLocation   = "alphaThing.tga";
+                    alphaThingLocation  = "alphaThing.tga";
 
 
 int screenWidth = 256, screenHeight = 256;
@@ -32,30 +32,63 @@ void HAPI_Main()
 {
     if (HAPI->Initialise (&screenWidth, &screenHeight))
     {
-        // Set up the screen
-        auto screenManager = ScreenManager (screenWidth, screenHeight);
         HAPI->SetShowFPS (true);
 
-        // Set up the textures
-        Texture background {}, foreground {};
+        // Set up the screen.
+        auto screenManager = ScreenManager (screenWidth, screenHeight);
+        screenManager.clearToBlack();
 
-        if (!background.loadTexture (backgroundLocation) || !foreground.loadTexture (alphaTestLocation))
+        // Set up the textures.
+        Texture background { }, alphaThing { };
+       
+        if (!background.loadTexture (backgroundLocation) || !alphaThing.loadTexture (alphaThingLocation))
         {
             HAPI->UserMessage ("Unable to load texture.", "Error");
-
-            return;
+            HAPI->Close();
         }
+
         
-        screenManager.clearToBlack();
+        // Calculate boundaries now.
+        const float boundaryLeft = 0.f,   boundaryRight = (float) (screenWidth - alphaThing.getWidth()),
+                    boundaryUp = 0.f,     boundaryDown = (float) (screenHeight - alphaThing.getHeight());
+
+        float movableX = screenWidth / 2.f - alphaThing.getWidth() / 2.f, 
+              movableY = screenHeight / 2.f - alphaThing.getHeight() / 2.f;
+
+        HAPI_TKeyboardData keyboard { };
+
+        const float speed = 0.1f;
         
-        // Move and draw the stars
+        // Move and draw the stars.
         while (HAPI->Update())
         {
-            // Clear the screen
-            //screenManager.clearToBlack();
-            
+            // Update keyboard data.
+            HAPI->GetKeyboardData (&keyboard);
+
+            // Handle keyboard input.
+            if (keyboard.scanCode[HK_LEFT] && movableX > boundaryLeft)
+            {
+                movableX -= speed;
+            }
+
+            if (keyboard.scanCode[HK_UP] && movableY > boundaryUp)
+            {
+                movableY -= speed;
+            }
+
+            if (keyboard.scanCode[HK_RIGHT] && movableX <= boundaryRight)
+            {
+                movableX += speed;
+            }
+
+            if (keyboard.scanCode[HK_DOWN] && movableY <= boundaryDown)
+            {
+                movableY += speed;
+            }
+
+            // Render images.
             screenManager.blitOpaque (0, 0, background);
-            screenManager.blitFast (96, 96, foreground);
+            screenManager.blitFast ((int) movableX, (int) movableY, alphaThing);
         }
     }
 }
