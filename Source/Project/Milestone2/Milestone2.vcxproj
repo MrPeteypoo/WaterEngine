@@ -19,11 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Main.cpp" />
+    <ClCompile Include="..\..\Game.cpp" />
     <ClCompile Include="..\..\Misc\Texture.cpp" />
     <ClCompile Include="..\..\ScreenManager\ScreenManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Misc\Texture.h" />
     <ClInclude Include="..\..\ScreenManager\ScreenManager.h" />
   </ItemGroup>

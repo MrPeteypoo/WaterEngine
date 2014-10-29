@@ -17,9 +17,11 @@ class ScreenManager final
 
         #pragma region Constructors and destructor
 
+        ScreenManager() = default;
+
         /// <summary> Create a ScreenManager with valid resolution values. Throws exceptions if the resolution is invalid or the
         /// HAPI screen pointer cannot be obtained. </summary>
-        ScreenManager (const int screenWidth = 1, const int screenHeight = 1);
+        ScreenManager (const int screenWidth, const int screenHeight);
 
         ScreenManager (const ScreenManager& copy)               = default;
         ScreenManager& operator= (const ScreenManager& copy);
@@ -27,7 +29,7 @@ class ScreenManager final
         ScreenManager (ScreenManager&& move);
         ScreenManager& operator= (ScreenManager&& move);
 
-        ~ScreenManager() = default;
+        ~ScreenManager()                                        = default;
 
         #pragma endregion
 
