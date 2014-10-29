@@ -98,13 +98,14 @@ void HAPI_Main()
 }
 
 
-float min (const float a, const float b)
+template <typename T> 
+T min (const T a, const T b)
 {
     return a < b ? a : b;
 }
 
 
-float max (const float a, const float b)
+template <typename T> T max (const T a, const T b)
 {
     return a > b ? a : b;
 }

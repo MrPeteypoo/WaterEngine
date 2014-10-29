@@ -83,6 +83,7 @@ void Game::updateDeltaTime()
 
     // Convert from milliseconds to seconds.
     m_deltaTime = (m_currentTime - m_oldTime) / 1000.f;
+
     m_sixtyFPSDeltaTime += m_deltaTime;
 }
 
@@ -91,7 +92,6 @@ void Game::updateCapped()
 {
     // Update keyboard data.
     HAPI->GetKeyboardData (&m_keyboard);
-    
 }
 
 
