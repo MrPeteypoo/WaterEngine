@@ -27,7 +27,7 @@ bool Game::initialise()
 
         // Set up the screen manager.
         m_screenManager = ScreenManager (m_screenWidth, m_screenHeight);
-        m_screenManager.clearToBlack();
+        m_screenManager.clearToBlackLevel();
 
         // Load textures.
         if (!m_background.loadTexture (backgroundLocation) || !m_circle.loadTexture (circleLocation))

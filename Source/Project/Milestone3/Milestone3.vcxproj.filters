@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\Maths\Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Maths\Retangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Game.h">
@@ -41,7 +44,10 @@
     <ClInclude Include="..\..\Maths\Vector2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Maths\Utilities.h">
+    <ClInclude Include="..\..\Maths\Rectangle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Maths\Utility.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -20,13 +20,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Game.cpp" />
+    <ClCompile Include="..\..\Maths\Retangle.cpp" />
     <ClCompile Include="..\..\Maths\Vector2D.cpp" />
     <ClCompile Include="..\..\Rendering\ScreenManager.cpp" />
     <ClCompile Include="..\..\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Game.h" />
-    <ClInclude Include="..\..\Maths\Utilities.h" />
+    <ClInclude Include="..\..\Maths\Rectangle.h" />
+    <ClInclude Include="..\..\Maths\Utility.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
     <ClInclude Include="..\..\Rendering\ScreenManager.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />
