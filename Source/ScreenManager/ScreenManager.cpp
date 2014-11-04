@@ -1,23 +1,32 @@
 #include "ScreenManager.h"
 
 
+// Engine headers.
+#include <HAPI_lib.h>
+#include <Misc/Texture.h>
+
+
+const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
+
+
 #pragma region Constructors and destructor
 
 
 ScreenManager::ScreenManager (const int screenWidth, const int screenHeight)
-    
-    : m_screenWidth (screenWidth), m_screenHeight (screenHeight), m_screenSize ((unsigned int) screenWidth * (unsigned int) screenHeight)
+    : m_screenWidth (screenWidth), m_screenHeight (screenHeight), m_screenSize (screenWidth * screenHeight)
 {
     // We don't want silly screen resolutions now do we?
     if (screenWidth < 1 || screenHeight < 1)
     {
-        throw std::runtime_error ("Invalid screen resolution given in ScreenManager::ScreenManager()");
+        throw std::runtime_error ("ScreenManager::ScreenManager(): Invalid screen resolution (" + std::to_string (m_screenWidth) + "x" + std::to_string (m_screenHeight) + ").");
     }
 
     // Check if a valid screen pointer is available
-    if (!(m_screen = HAPI->GetScreenPointer()))
+    m_screen = HAPI->GetScreenPointer();
+
+    if (!m_screen)
     {
-        throw std::runtime_error ("Unable to obtain screen pointer from HAPI.");
+        throw std::runtime_error ("ScreenManager::ScreenManager(): Unable to obtain screen pointer from HAPI.");
     }
 }
 
@@ -61,53 +70,218 @@ ScreenManager& ScreenManager::operator= (ScreenManager&& move)
 #pragma endregion Constructors and destructor
 
 
-#pragma region Colouring functionality
+#pragma region Rendering functionality
 
 
 void ScreenManager::clearToBlack (const unsigned char blackLevel)
-{
-    // Pre-condition: Black level is from 0 to 255.
-    if (m_screen)
-    {
-        std::memset (m_screen, blackLevel, m_screenSize * m_kColourSize);
-    }
+{    
+    // Use memset for efficiency.
+    std::memset (m_screen, blackLevel, m_screenSize * sizeOfColour);
 }
 
 
 void ScreenManager::clearToColour (const HAPI_TColour& colour)
-{    
-    // Ensure we have a valid pointer to the screen
-    
-    if (m_screen)
-    {
-        // Don't call setPixel, instead implement with unnecessary error checking removed for efficiency.
-        for (unsigned int i = 0; i < m_screenSize; ++i)
-        {
-            // Find the correct memory address
-            auto pixel = m_screen + i * m_kColourSize;
-
-            std::memcpy (pixel, &colour, m_kColourSize);
-        }
-    }
-}
-
-
-void ScreenManager::setPixel (const Pixel& pixel)
 {
-    // Pre-condition: The screen pointer must be valid and a valid pixel number has been given
-    if (m_screen)
+    // Don't call setPixel, instead implement with unnecessary error checking removed for efficiency.
+    for (int i = 0; i < m_screenSize; ++i)
     {
-        const int pixelNumber = pixel.x + pixel.y * m_screenWidth;
+        // Find the correct memory address
+        auto pixel = m_screen + i * sizeOfColour;
 
-        if (pixelNumber >= 0 && (unsigned int) pixelNumber < m_screenSize)
+        std::memcpy (pixel, &colour, sizeOfColour);
+    }
+    
+}
+
+
+void ScreenManager::blit (const int posX, const int posY, const Texture& texture)
+{
+    // Start by obtaining the width and height of the image.
+    const int   width = texture.getWidth(),
+                height = texture.getHeight();
+
+    // Ensure it's on-screen.
+    if (posX >= 0 && posX + width <= m_screenWidth &&
+        posY >= 0 && posY + height <= m_screenHeight)
+    {
+        // Get the destination pixel and the size of the texture.
+        const int destination = posX + posY * m_screenWidth;
+
+        // Avoid creating the colour each loop.
+        HAPI_TColour colour;
+
+        for (int y = 0; y < height; ++y)
         {
-            // Find and set the correct pixel
-            auto pixelAddress = m_screen + pixelNumber * m_kColourSize;
+            for (int x = 0; x < width; ++x)
+            {
+                colour = texture.getPixel (x, y);
+                
+                const int pixel = destination + (x + y * m_screenWidth);
+                const auto alpha = colour.alpha;
 
-            std::memcpy (pixelAddress, &pixel.colour, m_kColourSize);
+                // Avoid unnecessary blending when alpha is 0 or 255.
+                switch (alpha)
+                {
+                    case 0:
+                        break;
+
+                    case 255:
+                        setPixel (pixel, colour);
+                        break;
+
+                    default:                        
+                        const HAPI_TColour screen = getPixel (pixel);
+
+                        // Avoid floating-point arithmetic by bit-shifting.
+                        colour.red = screen.red + ((alpha * (colour.red - screen.red)) >> 8);
+                        colour.green = screen.green + ((alpha * (colour.green - screen.green)) >> 8);
+                        colour.blue = screen.blue + ((alpha * (colour.blue - screen.blue)) >> 8);
+                        
+                        setPixel (pixel, colour);
+                        break;
+                }
+            }
+        }
+    }
+
+    // Don't bother blitting an off-screen image for now.
+}
+
+
+void ScreenManager::blitFast (const int posX, const int posY, const Texture& texture)
+{
+    // Start by obtaining the width and height of the image.
+    const int width = texture.getWidth(), height = texture.getHeight();
+
+    // Ensure it's on-screen.
+    if (posX >= 0 && posX + width <= m_screenWidth &&
+        posY >= 0 && posY + height <= m_screenHeight)
+    {
+        // Obtain the raw data from the texture.
+        const auto textureData = texture.getData();
+
+        const int destination = (posX + posY * m_screenWidth) * sizeOfColour;
+
+        BYTE* currentPixel = m_screen + destination;
+        const BYTE* currentData = textureData;
+
+        for (int y = 0; y < height; ++y)
+        {
+            for (int x = 0; x < width; ++x)
+            {
+                const auto alpha = currentData[3];
+
+                // Avoid unnecessary blending when alpha is 0 or 255.
+                switch (alpha)
+                {
+                    case 0:
+                        break;
+
+                    case 255:
+                        for (unsigned int i = 0; i < 3; ++i)
+                        {
+                            currentPixel[i] = currentData[i];
+                        }
+
+                        break;
+
+                    default:                        
+                        // Avoid floating-point arithmetic by bit-shifting.
+                        for (unsigned int i = 0; i < 3; ++i)
+                        {
+                            const auto current = currentPixel[i];
+                            currentPixel[i] = current + ((alpha * (currentData[i] - current)) >> 8);
+                        }
+
+                        break;
+                }
+                
+                // Increment each pointer.
+                currentPixel += sizeOfColour;
+                currentData += sizeOfColour;
+            }
+
+            // Since the width is done we must go onto the next line.
+            currentPixel += (m_screenWidth - width) * sizeOfColour;
         }
     }
 }
 
 
-#pragma endregion Colouring functionality
+void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& texture)
+{
+    // Start by obtaining the width and height of the image.
+    const int width = texture.getWidth(), height = texture.getHeight();
+
+    // Ensure it's on-screen.
+    if (posX >= 0 && posX + width <= m_screenWidth &&
+        posY >= 0 && posY + height <= m_screenHeight)
+    {
+        // Obtain the data from the texture.
+        const auto textureData = texture.getData();
+
+        const int   dataWidth   = width * sizeOfColour,
+                    screenWidth = m_screenWidth * sizeOfColour;
+
+        // Calculate the starting pointer to the position.
+        BYTE* const screen = m_screen + (posX + posY * screenWidth);
+        BYTE* currentLine = nullptr;
+
+        for (int y = 0; y < height; ++y)
+        {
+            // Increment the pointer and copy line-by-line.
+            currentLine = screen + y * screenWidth;
+            std::memcpy (currentLine, (textureData + y * dataWidth), dataWidth);
+        }
+    }
+    
+}
+
+
+#pragma endregion Rendering functionality
+
+
+#pragma region Helper functions
+
+
+HAPI_TColour ScreenManager::getPixel (const int pixel) const
+{
+    try
+    {
+        // Find the correct address and return the colour.
+        const auto pixelAddress = m_screen + pixel * sizeOfColour;
+        
+        // The order of channels in memory is BGRA, but the constructor takes RGBA.
+        return
+        {
+            *(pixelAddress + 2),
+            *(pixelAddress + 1),
+            *(pixelAddress),
+            *(pixelAddress + 3)
+        };
+    }
+    
+    catch (const std::exception& error)
+    {
+        HAPI->DebugText ("ScreenManager::getPixel(): " + (std::string) error.what());
+    }
+
+    catch (...)
+    {
+        HAPI->DebugText ("ScreenManager::getPixel(): Unknown error occurred.");
+    }
+    
+    return { };
+}
+
+
+void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
+{
+    // Find and set the correct pixel.
+    const auto pixelAddress = m_screen + pixel * sizeOfColour;
+
+    std::memcpy (pixelAddress, &colour, sizeOfColour);
+}
+
+
+#pragma endregion Helper functions
