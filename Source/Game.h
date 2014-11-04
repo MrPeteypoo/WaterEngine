@@ -4,12 +4,14 @@
 
 // Engine headers.
 #include <HAPI_lib.h>
+#include <Maths/Vector2D.h>
 #include <Rendering/Texture.h>
 #include <Rendering/ScreenManager.h>
 
 
 // Alias declarations.
-using Keyboard = HAPI_TKeyboardData;
+using Controller    = HAPI_TControllerData;
+using Keyboard      = HAPI_TKeyboardData;
 
 
 
@@ -75,13 +77,13 @@ class Game final
         float           m_deltaTime         { 0.f };    //!< The deltaTime calculated each frame.
         float           m_sixtyFPSDeltaTime { 0.f };    //!< The deltaTime used to limit certain actions such as input to 60FPS.
 
+        Controller      m_controller        { };        //!< A cache of controller input, updated every 60 FPS.
         Keyboard        m_keyboard          { };        //!< A cache of keyboard input, updated every 60 FPS.
 
         Texture         m_background        { };        //!< The static background for milestone 2.
         Texture         m_circle            { };        //!< The alpha-blended circle for milestone 2.
         
-        float           m_circleX           { 0.f };    //!< The X position for the circle.
-        float           m_circleY           { 0.f };    //!< The Y position for the cicle.
+        Vector2D        m_circlePosition    { };        //!< The position to draw the circle on-screen.
 
         ScreenManager   m_screenManager     { };        //!< The screen manager used to draw everything onto the screen.
 
@@ -97,18 +99,5 @@ void HAPI_Main()
     game.run();
 }
 
-
-template <typename T>
-T min (const T a, const T b)
-{
-    return a < b ? a : b;
-}
-
-
-template <typename T>
-T max (const T a, const T b)
-{
-    return a > b ? a : b;
-}
 
 #endif // GAME_INCLUDED

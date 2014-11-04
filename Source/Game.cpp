@@ -1,6 +1,10 @@
 #include "Game.h"
 
 
+// Engine headers.
+#include <Maths/Utilities.h>
+
+
 // Milestone related constants.
 const std::string   backgroundLocation  = "background.tga",
                     circleLocation      = "alphaThing.tga";
@@ -32,8 +36,9 @@ bool Game::initialise()
             return false;
         }
 
-        m_circleX = m_screenWidth / 2.f - m_circle.getWidth() / 2.f;
-        m_circleY = m_screenHeight / 2.f - m_circle.getHeight() / 2.f;
+        // Centre the circle.
+        m_circlePosition = {    m_screenWidth / 2.f - m_circle.getWidth() / 2.f,
+                                m_screenHeight / 2.f - m_circle.getHeight() / 2.f };
 
         return true;
     }
@@ -105,22 +110,22 @@ void Game::updateMain()
     // Handle keyboard input.
     if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'])
     {
-        m_circleX = max (m_circleX - circleSpeed * m_deltaTime, leftBounds);
+        m_circlePosition.x = max (m_circlePosition.x - circleSpeed * m_deltaTime, leftBounds);
     }
 
     if (m_keyboard.scanCode[HK_UP] || m_keyboard.scanCode['W'])
     {
-        m_circleY = max (m_circleY - circleSpeed * m_deltaTime, upBounds);
+        m_circlePosition.y = max (m_circlePosition.y - circleSpeed * m_deltaTime, upBounds);
     }
 
     if (m_keyboard.scanCode[HK_RIGHT] || m_keyboard.scanCode['D'])
     {
-        m_circleX = min (m_circleX + circleSpeed * m_deltaTime, rightBounds);
+        m_circlePosition.x = min (m_circlePosition.x + circleSpeed * m_deltaTime, rightBounds);
     }
 
     if (m_keyboard.scanCode[HK_DOWN] || m_keyboard.scanCode['S'])
     {
-        m_circleY = min (m_circleY + circleSpeed * m_deltaTime, downBounds);
+        m_circlePosition.y = min (m_circlePosition.y + circleSpeed * m_deltaTime, downBounds);
     }
 }
 
@@ -129,7 +134,7 @@ void Game::renderAll()
 {
     // Render images.
     m_screenManager.blitOpaque (0, 0, m_background);
-    m_screenManager.blitFast ((int) m_circleX, (int) m_circleY, m_circle);
+    m_screenManager.blitFast ((int) m_circlePosition.x, (int) m_circlePosition.y, m_circle);
 }
 
 
