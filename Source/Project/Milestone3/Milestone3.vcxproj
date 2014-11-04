@@ -26,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Game.h" />
+    <ClInclude Include="..\..\Maths\Utilities.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
     <ClInclude Include="..\..\Rendering\ScreenManager.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />
