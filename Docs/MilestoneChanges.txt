@@ -1,4 +1,47 @@
-Milestone 1 v1 and 21/10/2014
+Simon Peter Campbell (N3053620)
+-------------------------------
+
+Milestone 2 v1 (24/10/2014)
+--------------------------------
+
+New Functionality
+-----------------
+
+Can load textures
+Can blit textures using a very fast opaque algorithm, a fast blending algorithm or a slow blending algorithm
+A texture can be blended into another texture using alpha values
+The blended texture can be used using keyboard input
+Textures which are slightly off-screen are not rendered
+
+Code Additions
+--------------
+
+ScreenManager::blitOpaque   Blits a texture to the screen line-by-line for efficiency, disregarding alpha values.
+ScreenManager::blitFast     Blits a texture to the screen by accessing the raw texture data and using bit-shifting for alpha blending.
+Texture class               Encapsulates a HAPI loaded texture, ensuring the avoidance of memory leaks. Can return a read-only version of 
+                            the stored data.
+HAPI_Main()                 Handles keyboard input and the rendering order of the textures.
+
+Tests
+-----
+
+Load a texture which doesn't exist:       The program will exit cleanly after informing the user of a missing texture.
+Try to draw a texture off-screen:         The texture is ignored and not drawn at all.
+Try to move the blended image off-screen: The user cannot move any further than the screen boundaries.
+
+
+(e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time)
+
+Notes
+-----
+
+Initially I tried using getPixel functions to obtain the data from the Texture class but that was incredibly slow. To remedy this whilst
+maintaining the ownership of the data with the Texture class I just returned a const pointer to const data to ensure it was read-only.
+My application is about 5% slower than the example which is a margin I am happy with for now but I look to increase efficiency in later
+milestones.
+
+
+Milestone 1 v1 (21/10/2014)
 --------------------------------
 
 New Functionality

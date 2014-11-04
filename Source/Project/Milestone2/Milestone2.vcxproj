@@ -19,25 +19,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Helper\Time.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Misc\Pixel.cpp" />
-    <ClCompile Include="Misc\Star.cpp" />
-    <ClCompile Include="ScreenManager\ScreenManager.cpp" />
-    <ClCompile Include="Vectors\Vector3D.cpp" />
+    <ClInclude Include="..\..\Game.h" />
+    <ClInclude Include="..\..\Interfaces\IEntity.h" />
+    <ClInclude Include="..\..\Maths\Vector2D.h" />
+    <ClInclude Include="..\..\Maths\Vector3D.h" />
+    <ClInclude Include="..\..\Rendering\ScreenManager.h" />
+    <ClInclude Include="..\..\Rendering\Texture.h" />
+    <ClInclude Include="..\..\Utility\RNG.h" />
+    <ClInclude Include="..\..\Utility\Time.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Helper\RNG.h" />
-    <ClInclude Include="Helper\Time.h" />
-    <ClInclude Include="Misc\Pixel.h" />
-    <ClInclude Include="Misc\Star.h" />
-    <ClInclude Include="ScreenManager\ScreenManager.h" />
-    <ClInclude Include="Vectors\Vector3D.h" />
+    <ClCompile Include="..\..\Game.cpp" />
+    <ClCompile Include="..\..\Maths\Vector2D.cpp" />
+    <ClCompile Include="..\..\Maths\Vector3D.cpp" />
+    <ClCompile Include="..\..\Rendering\ScreenManager.cpp" />
+    <ClCompile Include="..\..\Rendering\Texture.cpp" />
+    <ClCompile Include="..\..\Utility\Time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Milestone1</RootNamespace>
+    <RootNamespace>Milestone2</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -118,11 +120,11 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -138,11 +140,11 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -156,7 +158,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
@@ -164,7 +166,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -180,7 +182,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
@@ -188,7 +190,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
