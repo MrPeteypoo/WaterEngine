@@ -4,8 +4,8 @@
 
 // Engine headers.
 #include <HAPI_lib.h>
-#include <Misc/Texture.h>
-#include <ScreenManager/ScreenManager.h>
+#include <Rendering/Texture.h>
+#include <Rendering/ScreenManager.h>
 
 
 // Alias declarations.

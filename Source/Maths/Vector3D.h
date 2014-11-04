@@ -37,12 +37,6 @@ struct Vector3D final
     /// <summary> Finds the difference between two vectors. </summary>
     Vector3D operator- (const Vector3D& rhs) const;
 
-    /// <summary> Translates a vector positively by the specified amount. </summary>
-    Vector3D operator+ (const float rhs) const;
-
-    /// <summary> Translates a vector negatively by the specified amount. </summary>
-    Vector3D operator- (const float rhs) const;
-
     /// <summary> Multiples each component of the vector by a value. </summary>
     Vector3D operator* (const float rhs) const;
 
@@ -54,12 +48,6 @@ struct Vector3D final
 
     /// <summary> Subtracts a vector from the current vector. </summary>
     Vector3D& operator-= (const Vector3D& rhs);
-
-    /// <summary> Translates the current vector positively by the specified amount. </summary>
-    Vector3D& operator+= (const float rhs);
-
-    /// <summary> Translates the current vector negatively by the specified amount. </summary>
-    Vector3D& operator-= (const float rhs);
 
     /// <summary> Multiples each component of the current vector by a value. </summary>
     Vector3D& operator*= (const float rhs);
@@ -79,7 +67,7 @@ struct Vector3D final
     void translate (const Vector3D& translate);
 
     /// <summary> Translates the each component by the values given. </summary>
-    void translate (const float x = 0.f, const float y = 0.f, const float z = 0.f);
+    void translate (const float moveX = 0.f, const float moveY = 0.f, const float moveZ = 0.f);
 
     #pragma endregion
 
@@ -110,6 +98,17 @@ struct Vector3D final
 
     #pragma endregion
 };
+
+
+#pragma region Helper functions
+
+/// <summary> Calculates the dot/scalar product of two given vectors. </summary>
+float dotProduct (const Vector3D& lhs, const Vector3D& rhs);
+
+/// <summary> Calculates the cross/vector product of two given vectors. </summary>
+Vector3D crossProduct (const Vector3D& lhs, const Vector3D& rhs);
+
+#pragma endregion
 
 
 #endif // VECTOR3D_INCLUDED

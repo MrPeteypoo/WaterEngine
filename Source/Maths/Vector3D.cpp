@@ -52,49 +52,33 @@ bool Vector3D::operator!= (const Vector3D& rhs) const
 
 Vector3D Vector3D::operator+ (const Vector3D& rhs) const
 {
-    return Vector3D (   x + rhs.x,
-                        y + rhs.y,
-                        z + rhs.z   );
+    return {    x + rhs.x,
+                y + rhs.y,
+                z + rhs.z   };
 }
 
 
 Vector3D Vector3D::operator- (const Vector3D& rhs) const
 {
-    return Vector3D (   x - rhs.x,
-                        y - rhs.y,
-                        z - rhs.z   );
-}
-
-
-Vector3D Vector3D::operator+ (const float rhs) const
-{
-    return Vector3D (   x + rhs,
-                        y + rhs,
-                        z + rhs     );
-}
-
-
-Vector3D Vector3D::operator- (const float rhs) const
-{
-    return Vector3D (   x - rhs,
-                        y - rhs,
-                        z - rhs     );
+    return {    x - rhs.x,
+                y - rhs.y,
+                z - rhs.z   };
 }
 
 
 Vector3D Vector3D::operator* (const float rhs) const
 {
-    return Vector3D (   x * rhs,
-                        y * rhs,
-                        z * rhs     );
+    return {    x * rhs,
+                y * rhs,
+                z * rhs };
 }
 
 
 Vector3D Vector3D::operator/ (const float rhs) const
 {
-    return Vector3D (   x / rhs,
-                        y / rhs,
-                        z / rhs     );
+    return {    x / rhs,
+                y / rhs,
+                z / rhs };
 }
 
 
@@ -113,26 +97,6 @@ Vector3D& Vector3D::operator-= (const Vector3D& rhs)
     x -= rhs.x;
     y -= rhs.y;
     z -= rhs.z;
-
-    return *this;
-}
-
-
-Vector3D& Vector3D::operator+= (const float rhs)
-{
-    x += rhs;
-    y += rhs;
-    z += rhs;
-
-    return *this;
-}
-
-
-Vector3D& Vector3D::operator-= (const float rhs)
-{
-    x -= rhs;
-    y -= rhs;
-    z -= rhs;
 
     return *this;
 }
@@ -176,11 +140,11 @@ void Vector3D::translate (const Vector3D& translate)
 }
 
 
-void Vector3D::translate (const float xInc, const float yInc, const float zInc)
+void Vector3D::translate (const float moveX, const float moveY, const float moveZ)
 {
-    x += xInc;
-    y += yInc;
-    z += zInc;
+    x += moveX;
+    y += moveY;
+    z += moveZ;
 }
 
 #pragma endregion Movement functionality
@@ -212,3 +176,32 @@ void Vector3D::normalise()
 }
 
 #pragma endregion Maths functionality
+
+
+#pragma region Helper functions
+
+
+float dotProduct (const Vector3D& lhs, const Vector3D& rhs)
+{
+    // Calculate each component.
+    const float x   { lhs.x * rhs.x },
+                y   { lhs.y * rhs.y },
+                z   { lhs.z * rhs.z };
+    
+    // Return the calculated product.
+    return ( x + y - z );
+}
+
+
+Vector3D crossProduct (const Vector3D& lhs, const Vector3D& rhs)
+{
+    // Calculate the determinants.
+    const float x   {  (lhs.y * rhs.z - lhs.z * rhs.y) },
+                y   { -(lhs.x * rhs.z - lhs.z * rhs.x) },
+                z   {  (lhs.x * rhs.y - lhs.y * rhs.x) };
+
+    return { x, y, z };
+}
+
+
+#pragma endregion

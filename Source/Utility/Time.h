@@ -1,5 +1,5 @@
-#if !defined HELPER_TIME_INCLUDED
-#define HELPER_TIME_INCLUDED
+#if !defined UTILITY_TIME_INCLUDED
+#define UTILITY_TIME_INCLUDED
 
 
 // STL headers.
@@ -7,7 +7,7 @@
 
 
 /// <summary> This namespace contains dedicated helper functions with various different purposes. </summary>
-namespace helper
+namespace utility
 {
     /// <summary> Obtains the current system time using the std::chrono library. </summary>
     time_t getCurrentTime();
@@ -16,4 +16,4 @@ namespace helper
     unsigned int getCurrentTimeUInt();
 }
 
-#endif // HELPER_TIME_INCLUDED
+#endif // UTILITY_TIME_INCLUDED

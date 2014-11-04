@@ -3,7 +3,7 @@
 
 // Engine headers.
 #include <HAPI_lib.h>
-#include <Misc/Texture.h>
+#include <Rendering/Texture.h>
 
 
 const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
