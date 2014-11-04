@@ -134,7 +134,7 @@ void Game::renderAll()
 {
     // Render images.
     m_screenManager.blitOpaque (0, 0, m_background);
-    m_screenManager.blitFast ((int) m_circlePosition.x, (int) m_circlePosition.y, m_circle);
+    m_screenManager.blitBlend ((int) m_circlePosition.x, (int) m_circlePosition.y, m_circle);
 }
 
 

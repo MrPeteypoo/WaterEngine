@@ -6,7 +6,9 @@
 #include <Rendering/Texture.h>
 
 
-const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
+// Useful constants
+const size_t sizeOfColour { sizeof (Colour) };    //!< The size in bytes of the HAPI_TColour.
+
 
 
 #pragma region Constructors and destructor
@@ -73,14 +75,14 @@ ScreenManager& ScreenManager::operator= (ScreenManager&& move)
 #pragma region Rendering functionality
 
 
-void ScreenManager::clearToBlack (const unsigned char blackLevel)
+void ScreenManager::clearToBlackLevel (const BYTE blackLevel)
 {    
     // Use memset for efficiency.
     std::memset (m_screen, blackLevel, m_screenSize * sizeOfColour);
 }
 
 
-void ScreenManager::clearToColour (const HAPI_TColour& colour)
+void ScreenManager::clearToColour (const Colour& colour)
 {
     // Don't call setPixel, instead implement with unnecessary error checking removed for efficiency.
     for (int i = 0; i < m_screenSize; ++i)
@@ -94,61 +96,7 @@ void ScreenManager::clearToColour (const HAPI_TColour& colour)
 }
 
 
-void ScreenManager::blit (const int posX, const int posY, const Texture& texture)
-{
-    // Start by obtaining the width and height of the image.
-    const int   width = texture.getWidth(),
-                height = texture.getHeight();
-
-    // Ensure it's on-screen.
-    if (posX >= 0 && posX + width <= m_screenWidth &&
-        posY >= 0 && posY + height <= m_screenHeight)
-    {
-        // Get the destination pixel and the size of the texture.
-        const int destination = posX + posY * m_screenWidth;
-
-        // Avoid creating the colour each loop.
-        HAPI_TColour colour;
-
-        for (int y = 0; y < height; ++y)
-        {
-            for (int x = 0; x < width; ++x)
-            {
-                colour = texture.getPixel (x, y);
-                
-                const int pixel = destination + (x + y * m_screenWidth);
-                const auto alpha = colour.alpha;
-
-                // Avoid unnecessary blending when alpha is 0 or 255.
-                switch (alpha)
-                {
-                    case 0:
-                        break;
-
-                    case 255:
-                        setPixel (pixel, colour);
-                        break;
-
-                    default:                        
-                        const HAPI_TColour screen = getPixel (pixel);
-
-                        // Avoid floating-point arithmetic by bit-shifting.
-                        colour.red = screen.red + ((alpha * (colour.red - screen.red)) >> 8);
-                        colour.green = screen.green + ((alpha * (colour.green - screen.green)) >> 8);
-                        colour.blue = screen.blue + ((alpha * (colour.blue - screen.blue)) >> 8);
-                        
-                        setPixel (pixel, colour);
-                        break;
-                }
-            }
-        }
-    }
-
-    // Don't bother blitting an off-screen image for now.
-}
-
-
-void ScreenManager::blitFast (const int posX, const int posY, const Texture& texture)
+void ScreenManager::blitBlend (const int posX, const int posY, const Texture& texture)
 {
     // Start by obtaining the width and height of the image.
     const int width = texture.getWidth(), height = texture.getHeight();
@@ -244,7 +192,7 @@ void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& t
 #pragma region Helper functions
 
 
-HAPI_TColour ScreenManager::getPixel (const int pixel) const
+Colour ScreenManager::getPixel (const int pixel) const
 {
     try
     {
@@ -275,7 +223,7 @@ HAPI_TColour ScreenManager::getPixel (const int pixel) const
 }
 
 
-void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
+void ScreenManager::setPixel (const int pixel, const Colour& colour)
 {
     // Find and set the correct pixel.
     const auto pixelAddress = m_screen + pixel * sizeOfColour;

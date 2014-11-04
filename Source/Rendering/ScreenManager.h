@@ -3,9 +3,12 @@
 
 
 // Forward declarations.
-typedef unsigned char BYTE;
-class Texture;
-struct HAPI_TColour;
+class   Texture;
+struct  HAPI_TColour;
+
+using   BYTE    = unsigned char;
+using   Colour  = HAPI_TColour;
+
 
 
 /// <summary>
@@ -19,8 +22,9 @@ class ScreenManager final
 
         ScreenManager() = default;
 
-        /// <summary> Create a ScreenManager with valid resolution values. Throws exceptions if the resolution is invalid or the
-        /// HAPI screen pointer cannot be obtained. </summary>
+        /// <summary> 
+        /// Create a ScreenManager with valid resolution values. Throws exceptions if the resolution is invalid or the HAPI screen pointer cannot be obtained. 
+        /// </summary>
         ScreenManager (const int screenWidth, const int screenHeight);
 
         ScreenManager (const ScreenManager& copy)               = default;
@@ -37,16 +41,13 @@ class ScreenManager final
         #pragma region Rendering functionality
 
         /// <summary> Clears the screen to a black level between 0 and 255, quicker than clearing to a colour. </summary>
-        void clearToBlack (const unsigned char blackLevel = 0);
+        void clearToBlackLevel (const BYTE blackLevel = 0);
 
         /// <summary> Clears the entire screen to a single colour. </summary>
-        void clearToColour (const HAPI_TColour& colour);
+        void clearToColour (const Colour& colour);
 
         /// <summary> Blits an image to the screen, taking into account alpha blending. </summary>
-        void blit (const int posX, const int posY, const Texture& texture);
-
-        /// <summary> Obtains the raw data of the texture to speed up blit speed </summary>
-        void blitFast (const int posX, const int posY, const Texture& texture);
+        void blitBlend (const int posX, const int posY, const Texture& texture);
 
         /// <summary> Blits an image to the screen without taking into account alpha blending. </summary>
         void blitOpaque (const int posX, const int posY, const Texture& texture);
@@ -58,10 +59,10 @@ class ScreenManager final
         #pragma region Helper functions
 
         /// <summary> Returns the colour information of the given pixel on the screen. </summary>
-        HAPI_TColour getPixel (const int pixel) const;
+        Colour getPixel (const int pixel) const;
 
         /// <summary> Sets the colour of an individual pixel. </summary>
-        void setPixel (const int pixel, const HAPI_TColour& colour);
+        void setPixel (const int pixel, const Colour& colour);
 
         #pragma endregion
 
