@@ -24,9 +24,6 @@
     <ClCompile Include="..\..\Rendering\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Maths\Vector2D.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Maths\Rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
