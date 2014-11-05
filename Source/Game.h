@@ -2,14 +2,19 @@
 #define GAME_INCLUDED
 
 
+// STL headers.
+#include <memory>
+
+
 // Engine headers.
 #include <HAPI_lib.h>
 #include <Maths/Vector2D.h>
 #include <Rendering/Texture.h>
-#include <Rendering/ScreenManager.h>
 
 
 // Alias declarations.
+class ScreenManager;
+
 using Controller    = HAPI_TControllerData;
 using Keyboard      = HAPI_TKeyboardData;
 
@@ -68,24 +73,24 @@ class Game final
 
         #pragma region Member variables
 
-        int             m_screenWidth       { 256 };    //!< The width of the screen in pixels.
-        int             m_screenHeight      { 256 };    //!< The height of the screen in pixels.
+        int                             m_screenWidth       { 256 };        //!< The width of the screen in pixels.
+        int                             m_screenHeight      { 256 };        //!< The height of the screen in pixels.
 
-        DWORD           m_oldTime           { 0 };      //!< The previous time in milliseconds, used to calculate delta time.
-        DWORD           m_currentTime       { 0 };      //!< The current time in milliseconds, used to calculate delta time.
+        DWORD                           m_oldTime           { 0 };          //!< The previous time in milliseconds, used to calculate delta time.
+        DWORD                           m_currentTime       { 0 };          //!< The current time in milliseconds, used to calculate delta time.
 
-        float           m_deltaTime         { 0.f };    //!< The deltaTime calculated each frame.
-        float           m_sixtyFPSDeltaTime { 0.f };    //!< The deltaTime used to limit certain actions such as input to 60FPS.
+        float                           m_deltaTime         { 0.f };        //!< The deltaTime calculated each frame.
+        float                           m_sixtyFPSDeltaTime { 0.f };        //!< The deltaTime used to limit certain actions such as input to 60FPS.
 
-        Controller      m_controller        { };        //!< A cache of controller input, updated every 60 FPS.
-        Keyboard        m_keyboard          { };        //!< A cache of keyboard input, updated every 60 FPS.
+        Controller                      m_controller        { };            //!< A cache of controller input, updated every 60 FPS.
+        Keyboard                        m_keyboard          { };            //!< A cache of keyboard input, updated every 60 FPS.
 
-        Texture         m_background        { };        //!< The static background for milestone 2.
-        Texture         m_circle            { };        //!< The alpha-blended circle for milestone 2.
+        Texture                         m_background        { };            //!< The static background for milestone 2.
+        Texture                         m_circle            { };            //!< The alpha-blended circle for milestone 2.
         
-        Vector2D        m_circlePosition    { };        //!< The position to draw the circle on-screen.
+        Vector2D<float>                 m_circlePosition    { };            //!< The position to draw the circle on-screen.
 
-        ScreenManager   m_screenManager     { };        //!< The screen manager used to draw everything onto the screen.
+        std::shared_ptr<ScreenManager>  m_pScreenManager    { nullptr };    //!< The screen manager used to draw everything onto the screen.
 
         #pragma endregion
 

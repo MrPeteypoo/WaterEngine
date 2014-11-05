@@ -3,6 +3,7 @@
 
 // Engine headers.
 #include <Maths/Utility.h>
+#include <Rendering/ScreenManager.h>
 
 
 // Milestone related constants.
@@ -26,8 +27,8 @@ bool Game::initialise()
         }
 
         // Set up the screen manager.
-        m_screenManager = ScreenManager (m_screenWidth, m_screenHeight);
-        m_screenManager.clearToBlackLevel();
+        m_pScreenManager = std::make_shared<ScreenManager> (ScreenManager (m_screenWidth, m_screenHeight));
+        m_pScreenManager->clearToBlackLevel();
 
         // Load textures.
         if (!m_background.loadTexture (backgroundLocation) || !m_circle.loadTexture (circleLocation))
@@ -133,9 +134,8 @@ void Game::updateMain()
 void Game::renderAll()
 {
     // Render images.
-    m_screenManager.blitOpaque (0, 0, m_background);
-    m_screenManager.blitBlend ((int) m_circlePosition.x, (int) m_circlePosition.y, m_circle);
+    m_pScreenManager->blit ({ 0, 0 }, m_background, false);
+    m_pScreenManager->blit ((Vector2D<int>) m_circlePosition, m_circle);
 }
-
 
 #pragma endregion Engine functionality
