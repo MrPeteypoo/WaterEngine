@@ -149,29 +149,31 @@ bool Rectangle::intersects (const Rectangle& other) const
 #pragma region Manipulation functionality
 
 
-Rectangle Rectangle::clipped (const Rectangle& clipTo) const
+Rectangle Rectangle::clipped (const Rectangle& clip) const
 {
-    // Clip each element.
-    const int   left    { max (m_left, clipTo.m_left) },
-                top     { max (m_top, clipTo.m_top) },
+    // Clip each element, ensuring we maintain valid values.
+    const int   left    = clip.m_right < m_left ? clip.m_right  : max (m_left, clip.m_left),
+
+                top     = clip.m_bottom < m_top ? clip.m_bottom : max (m_top, clip.m_top),
                 
-    // Ensure we maintain valid values.
-                right   { left > m_right ? left : min (m_right, clipTo.m_right) },
-                bottom  { top > m_bottom ? top : min (m_bottom, clipTo.m_bottom) };
+                right   = left > m_right ?  left :  min (m_right, clip.m_right),
+
+                bottom  = top > m_bottom ?  top :   min (m_bottom, clip.m_bottom);
 
     return { left, top, right, bottom };
 }
 
 
-void Rectangle::clipTo (const Rectangle& other)
+void Rectangle::clipTo (const Rectangle& clip)
 {
-    // Clip each element.
-    m_left      = max (m_left, other.m_left);
-    m_top       = max (m_top, other.m_top);
+    // Clip each element, ensuring we maintain valid values.
+    m_left      = clip.m_right < m_left ?   clip.m_right  :     max (m_left, clip.m_left);
+
+    m_top       = clip.m_bottom < m_top ?   clip.m_bottom :     max (m_top, clip.m_top);
     
-    // Ensure we maintain valid values.
-    m_right     = m_left < m_right ? m_left : min (m_right, other.m_right);
-    m_bottom    = m_top < m_bottom ? m_top : min (m_bottom, other.m_bottom);
+    m_right     = m_left < m_right ?    m_left :    min (m_right, clip.m_right);
+
+    m_bottom    = m_top < m_bottom ?    m_top :    min (m_bottom, clip.m_bottom);
 }
 
 

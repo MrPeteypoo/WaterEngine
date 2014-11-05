@@ -74,7 +74,7 @@ class Rectangle final
         #pragma region Manipulation functionality
 
         /// <summary> Returns a clipped version of the current rectangle which is inside the given rectangle. </summary>
-        Rectangle clipped (const Rectangle& clipTo) const;
+        Rectangle clipped (const Rectangle& clip) const;
 
         /// <summary> Will clip the current rectangle so that it is inside of the given rectangle. </summary>
         void clipTo (const Rectangle& other);
