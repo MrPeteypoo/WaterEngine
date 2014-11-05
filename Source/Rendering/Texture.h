@@ -9,7 +9,8 @@
 
 // Forward declarations.
 typedef unsigned char BYTE;
-struct HAPI_TColour;
+
+using Colour = struct HAPI_TColour;
 
 
 /// <summary> A texture is a self-managed wrapper for any texture to be used in the HAPI engine. </summary>
@@ -37,9 +38,6 @@ class Texture final
 
 
         #pragma region Getters and setters
-
-        /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
-        bool hasLoaded() const              { return m_data != nullptr; }
         
         int getResolution() const           { return m_resolution; }
         int getWidth() const                { return m_width; }
@@ -50,15 +48,18 @@ class Texture final
         const BYTE* const getData() const   { return m_data.get(); }
 
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is 0. </summary>
-        HAPI_TColour getPixel (const int pixelNumber) const;
+        Colour getPixel (const int pixelNumber) const;
 
         /// <summary> Obtains each colour channel for the specified pixel. The first pixel is (0, 0). </summary>
-        HAPI_TColour getPixel (const int x, const int y) const;
+        Colour getPixel (const int x, const int y) const;
 
         #pragma endregion
 
 
         #pragma region Loading functionality
+
+        /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
+        bool hasLoaded() const              { return m_data != nullptr; }
         
         /// <summary> 
         /// Attempts to load a texture using the file location specified.
