@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Game.cpp" />
-    <ClCompile Include="..\..\Maths\Retangle.cpp" />
+    <ClCompile Include="..\..\Maths\Rectangle.cpp" />
     <ClCompile Include="..\..\Maths\Vector2D.cpp" />
     <ClCompile Include="..\..\Rendering\ScreenManager.cpp" />
     <ClCompile Include="..\..\Rendering\Texture.cpp" />

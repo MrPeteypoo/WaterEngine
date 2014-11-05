@@ -27,7 +27,7 @@
     <ClCompile Include="..\..\Maths\Vector2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Maths\Retangle.cpp">
+    <ClCompile Include="..\..\Maths\Rectangle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
