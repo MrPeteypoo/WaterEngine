@@ -134,8 +134,8 @@ void Game::updateMain()
 void Game::renderAll()
 {
     // Render images.
-    m_pScreenManager->blit ({ 0, 0 }, m_background, false);
-    m_pScreenManager->blit ((Vector2D<int>) m_circlePosition, m_circle);
+    m_pScreenManager->blit ({ -10, -10 }, m_background, false);
+    //m_pScreenManager->blit ((Vector2D<int>) m_circlePosition, m_circle);
 }
 
 #pragma endregion Engine functionality

@@ -7,7 +7,7 @@
 
 
 // Useful constants
-const size_t sizeOfColour { sizeof (Colour) };    //!< The size in bytes of the HAPI_TColour.
+const size_t sizeOfColour { sizeof (Colour) };    //!< The size in bytes of the Colour class.
 
 
 
@@ -63,7 +63,7 @@ void ScreenManager::clearToColour (const Colour& colour)
 }
 
 
-void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture, bool blendAlpha = true)
+void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture, bool blendAlpha)
 {    
     // Start by constructing the rectangle in screen space.
     Rectangle textureRect   { position.x, position.y, 
@@ -99,7 +99,30 @@ void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture,
 
 void ScreenManager::blitOpaque (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
 {
+    // Obtain the data from the texture.
+    const auto  textureData     = texture.getData();
 
+    // Cache zee variables captain!
+    const int   blitWidth       = drawArea.width(),
+                blitHeight      = drawArea.height(),
+               
+                dataWidth       = blitWidth * sizeOfColour,
+                screenWidth     = m_screenRect.width() * sizeOfColour,
+                
+                dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * dataWidth,
+                screenOffset    = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * screenWidth;
+
+
+    // Calculate the starting pointer to the position.
+    BYTE* const screen = m_screen + (position.x + position.y * screenWidth);
+    BYTE* currentLine = nullptr;
+
+    for (int y = 0; y < blitHeight; ++y)
+    {
+        // Increment the pointer and copy line-by-line.
+        currentLine = screen + screenOffset + y * screenWidth;
+        std::memcpy (currentLine, (textureData + dataOffset + y * dataWidth), dataWidth);
+    }
 }
 
 void ScreenManager::blitBlend (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
