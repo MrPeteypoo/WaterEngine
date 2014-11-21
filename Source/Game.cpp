@@ -38,8 +38,13 @@ bool Game::initialise()
         }
 
         // Centre the circle.
-        m_circlePosition = {    m_screenWidth / 2.f - m_circle.getWidth() / 2.f,
+        m_circlePosition    = { m_screenWidth / 2.f - m_circle.getWidth() / 2.f,
                                 m_screenHeight / 2.f - m_circle.getHeight() / 2.f };
+
+        m_centreZone        = { static_cast<int> (m_screenWidth / 2.f - m_screenWidth / 20.f), 
+                                static_cast<int> (m_screenHeight / 2.f - m_screenHeight / 20.f), 
+                                static_cast<int> (m_screenWidth / 2.f + m_screenWidth / 20.f), 
+                                static_cast<int> (m_screenHeight / 2.f + m_screenHeight / 20.f) };
 
         return true;
     }
@@ -98,39 +103,63 @@ void Game::updateCapped()
 {
     // Update keyboard data.
     HAPI->GetKeyboardData (&m_keyboard);
+    
+    // Update controller data.
+    m_controllerOn = HAPI->GetControllerData (0, &m_controller);
+
+    if (m_controllerOn)
+    {
+        const Rectangle circleRect { static_cast<int> (m_circlePosition.x), 
+                                     static_cast<int> (m_circlePosition.y), 
+                                     static_cast<int> (m_circlePosition.x + m_circle.getWidth() - 1), 
+                                     static_cast<int> (m_circlePosition.y + m_circle.getHeight() - 1) };
+
+        if (circleRect.intersects (m_centreZone))
+        {
+            HAPI->SetControllerRumble (0, 10000, 10000);
+        }
+
+        else
+        {
+            HAPI->SetControllerRumble (0, 0, 0);
+        }
+    }
 }
 
 
 void Game::updateMain()
 {
     // Handle keyboard input.
-    if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'])
+    if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_X] < -HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
         m_circlePosition.x -= circleSpeed * m_deltaTime;
     }
 
-    if (m_keyboard.scanCode[HK_UP] || m_keyboard.scanCode['W'])
+    if (m_keyboard.scanCode[HK_UP] || m_keyboard.scanCode['W'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_Y] > HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
         m_circlePosition.y -= circleSpeed * m_deltaTime;
     }
 
-    if (m_keyboard.scanCode[HK_RIGHT] || m_keyboard.scanCode['D'])
+    if (m_keyboard.scanCode[HK_RIGHT] || m_keyboard.scanCode['D'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_X] > HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
         m_circlePosition.x += circleSpeed * m_deltaTime;
     }
 
-    if (m_keyboard.scanCode[HK_DOWN] || m_keyboard.scanCode['S'])
+    if (m_keyboard.scanCode[HK_DOWN] || m_keyboard.scanCode['S'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_Y] < -HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
         m_circlePosition.y += circleSpeed * m_deltaTime;
     }
+
+    
 }
 
 
 void Game::renderAll()
-{
-    auto position = static_cast<Vector2D<int>> (m_circlePosition);
-    HAPI->DebugText (std::to_string (position.x) + ", " + std::to_string (position.y));
-    
+{    
     // Render images.
     m_pScreenManager->clearToBlackLevel();
     m_pScreenManager->blit ({ -64, -64 }, m_background);

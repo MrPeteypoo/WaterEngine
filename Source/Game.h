@@ -8,6 +8,7 @@
 
 // Engine headers.
 #include <HAPI_lib.h>
+#include <Maths/Rectangle.h>
 #include <Maths/Vector2D.h>
 #include <Rendering/Texture.h>
 
@@ -82,6 +83,8 @@ class Game final
         float                           m_deltaTime         { 0.f };        //!< The deltaTime calculated each frame.
         float                           m_sixtyFPSDeltaTime { 0.f };        //!< The deltaTime used to limit certain actions such as input to 60FPS.
 
+        bool                            m_controllerOn      { false };      //!< Indicates whether a controller is plugged in and turned on.
+
         Controller                      m_controller        { };            //!< A cache of controller input, updated every 60 FPS.
         Keyboard                        m_keyboard          { };            //!< A cache of keyboard input, updated every 60 FPS.
 
@@ -89,6 +92,8 @@ class Game final
         Texture                         m_circle            { };            //!< The alpha-blended circle for milestone 2.
         
         Vector2D<float>                 m_circlePosition    { };            //!< The position to draw the circle on-screen.
+
+        Rectangle                       m_centreZone        { };            //!< The centre point of the screen.
 
         std::shared_ptr<ScreenManager>  m_pScreenManager    { nullptr };    //!< The screen manager used to draw everything onto the screen.
 
