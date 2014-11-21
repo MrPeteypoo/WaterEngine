@@ -26,8 +26,8 @@ class Texture final
         Texture (Texture&& move);
         Texture& operator= (Texture&& move);
 
-        Texture()   = default;
-        ~Texture()  = default;
+        Texture()                                   = default;
+        ~Texture()                                  = default;
 
         
         // Explicitly remove copy functionality.
@@ -39,9 +39,9 @@ class Texture final
 
         #pragma region Getters and setters
         
-        int getResolution() const           { return m_resolution; }
-        int getWidth() const                { return m_width; }
-        int getHeight() const               { return m_height; }
+        unsigned int getResolution() const  { return m_resolution; }
+        unsigned int getWidth() const       { return m_width; }
+        unsigned int getHeight() const      { return m_height; }
 
 
         /// <summary> Returns the raw data, useful for accessing line-by-line. </summary>
@@ -73,9 +73,9 @@ class Texture final
 
         #pragma region Member variables
         
-        int                     m_resolution    { 0 };  //!< The total number of pixels in the texture.
-        int                     m_width         { 0 };  //!< The width of the loaded texture.
-        int                     m_height        { 0 };  //!< The height of the loaded texture.
+        unsigned int            m_resolution    { 0 };  //!< The total number of pixels in the texture.
+        unsigned int            m_width         { 0 };  //!< The width of the loaded texture.
+        unsigned int            m_height        { 0 };  //!< The height of the loaded texture.
 
         std::unique_ptr<BYTE[]> m_data          {  };   //!< The raw memory data of the texture.
 

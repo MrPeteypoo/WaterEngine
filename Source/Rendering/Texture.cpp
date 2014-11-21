@@ -57,7 +57,7 @@ Texture& Texture::operator= (Texture&& move)
 #pragma region Getters and setters
 
 
-HAPI_TColour Texture::getPixel (const int pixelNumber) const
+Colour Texture::getPixel (const int pixelNumber) const
 {
     try
     {
@@ -88,7 +88,7 @@ HAPI_TColour Texture::getPixel (const int pixelNumber) const
 }
 
 
-HAPI_TColour Texture::getPixel (const int x, const int y) const
+Colour Texture::getPixel (const int x, const int y) const
 {
     // Re-implement for efficiency.
     try
@@ -127,14 +127,17 @@ HAPI_TColour Texture::getPixel (const int x, const int y) const
 
 bool Texture::loadTexture (const std::string& fileLocation)
 {
-    // Create the data pointer.
-    BYTE* data  = nullptr;
+    // Create variable cache for interfacing with HAPI.
+    int     width = 0, height = 0;
+    BYTE*   data  = nullptr;
 
     // Attempt to load the data. If the loading succeeds then the width and height will be set.
-    if (HAPI->LoadTexture (fileLocation, &data, &m_width, &m_height))
+    if (HAPI->LoadTexture (fileLocation, &data, &width, &height))
     {
-        // Calculate the correct resolution.
-        m_resolution = m_width * m_height;
+        // Cast the values and calculate the resolution.
+        m_width         = static_cast<unsigned int> (width);
+        m_height        = static_cast<unsigned int> (height);
+        m_resolution    = m_width * m_height;
 
         // Create the data unique_ptr.
         m_data = std::unique_ptr<BYTE[]> (data);
