@@ -140,14 +140,14 @@ void ScreenManager::blitTransparent (const Vector2D<int>& position, const Rectan
                 textureWidth    = texture.getWidth() * sizeOfColour,
                 
                 dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * textureWidth,
-                screenOffset    = (position.x + drawArea.getLeft()) * sizeOfColour + (position.y + drawArea.getTop()) * screenWidth,
-
-                alphaIndex      = static_cast<unsigned int> (3);
+                screenOffset    = (position.x + drawArea.getLeft()) * sizeOfColour + (position.y + drawArea.getTop()) * screenWidth;
 
     // Create the required pointers for the blitting process.
     auto        currentData     = texture.getData() + dataOffset;
     auto        currentPixel    = m_screen + screenOffset;
 
+    // Avoid those magic constants!
+    const unsigned int alphaIndex = 3;
 
     for (unsigned int y = 0; y < blitHeight; ++y)
     {
