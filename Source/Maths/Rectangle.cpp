@@ -171,9 +171,9 @@ void Rectangle::clipTo (const Rectangle& clip)
 
     m_top       = clip.m_bottom < m_top ?   clip.m_bottom :     max (m_top, clip.m_top);
     
-    m_right     = m_left < m_right ?    m_left :    min (m_right, clip.m_right);
+    m_right     = m_left > m_right ?    m_left :    min (m_right, clip.m_right);
 
-    m_bottom    = m_top < m_bottom ?    m_top :    min (m_bottom, clip.m_bottom);
+    m_bottom    = m_top > m_bottom ?    m_top :    min (m_bottom, clip.m_bottom);
 }
 
 

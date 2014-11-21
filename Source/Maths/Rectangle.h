@@ -57,16 +57,16 @@ class Rectangle final
         #pragma region Calculation functionality
 
         /// <summary> Calculates and returns the width of the rectangle. </summary>
-        int width() const       { return m_right - m_left + 1; }
+        unsigned int width() const       { return static_cast<unsigned int> (m_right) - static_cast<unsigned int> (m_left) + 1; }
         
         /// <summary> Calculates and returns the height of the rectangle. </summary>
-        int height() const      { return m_bottom - m_top + 1; }
+        unsigned int height() const      { return static_cast<unsigned int> (m_bottom) - static_cast<unsigned int> (m_top) + 1; }
 
         /// <summary> Calculates the area of the rectangle based on the calculated width and height values. </summary>
-        int area() const        { return width() * height(); }
+        unsigned int area() const        { return width() * height(); }
 
         /// <summary> Calculates the perimeter of the rectangle based on the calculated width and height values. </summary>
-        int perimeter() const   { return width() * 2 + height() * 2; }
+        unsigned int perimeter() const   { return width() * 2 + height() * 2; }
 
         #pragma endregion
 
