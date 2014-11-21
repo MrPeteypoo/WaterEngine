@@ -15,6 +15,14 @@ using   BYTE    = unsigned char;
 using   Colour  = HAPI_TColour;
 
 
+/// <summary> Represents how an image should be blended when blit using the ScreenManager. </summary>
+enum class BlendType : int
+{
+    Opaque = 0,         //!< Enables fast blitting by disregarding alpha values.
+    Transparent = 1     //!< Enables alpha blending when blitting, slower but allows for transparency.
+};
+
+
 
 /// <summary>
 /// ScreenManager provides basic functionality required for a more robust way of managing the rendering capabilities of the HAPI library.
@@ -47,7 +55,7 @@ class ScreenManager final
         void clearToColour (const Colour& colour);
 
         /// <summary> Blits an image to the screen. Defaults to blending alpha values. </summary>
-        void blit (const Vector2D<int>& position, const Texture& texture, const bool alphaBlend = true);
+        void blit (const Vector2D<int>& position, const Texture& texture, const BlendType blendType = BlendType::Opaque);
 
     private:
         
@@ -55,7 +63,7 @@ class ScreenManager final
         void blitOpaque (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture);
 
         /// <summary> Will blit an image pixel-by-pixel taking into account alpha values, slower. </summary>
-        void blitBlend (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture);
+        void blitTransparent (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture);
 
         #pragma endregion
 

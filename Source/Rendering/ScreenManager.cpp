@@ -63,33 +63,37 @@ void ScreenManager::clearToColour (const Colour& colour)
 }
 
 
-void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture, bool blendAlpha)
+void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture, const BlendType blendType)
 {    
     // Start by constructing the rectangle in screen space.
-    Rectangle textureRect   { position.x, position.y, 
-                              position.x + texture.getWidth() - 1, position.y + texture.getHeight() - 1 };
-    
+    Rectangle textureRect   { position.x, 
+                              position.y, 
+                              position.x + static_cast<int> (texture.getWidth()) - 1,
+                              position.y + static_cast<int> (texture.getHeight()) - 1 };
+
     // We will only draw if the texture is on-screen.
     if (m_screenRect.intersects (textureRect))
     {
         // Check if any clipping is necessary.
         if (!m_screenRect.contains (textureRect))
         {
+            // Clip the rectangle.
             textureRect.clipTo (m_screenRect);
-            
-            // Translate back to texture space, ready for blitting.
-            textureRect.translate (-position.x, -position.y);
         }
+            
+        // Translate back to texture space, ready for blitting.
+        textureRect.translate (-position.x, -position.y);
 
         // Call the correct blitting function.
-        if (blendAlpha)
+        switch (blendType)
         {
-            blitBlend (position, textureRect, texture);
-        }
+            case BlendType::Opaque:
+                blitOpaque (position, textureRect, texture);
+                break;
 
-        else
-        {
-            blitOpaque (position, textureRect, texture);
+            case BlendType::Transparent:
+                blitTransparent (position, textureRect, texture);
+                break;
         }
     }
 
@@ -99,116 +103,93 @@ void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture,
 
 void ScreenManager::blitOpaque (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
 {
-    // Obtain the data from the texture.
-    const auto  textureData     = texture.getData();
-
     // Cache zee variables captain!
-    const int   blitWidth       = drawArea.width(),
-                blitHeight      = drawArea.height(),
+    const auto  blitWidth       = drawArea.width(),
+                blitHeight      = drawArea.height();
                
-                dataWidth       = blitWidth * sizeOfColour,
+    const auto  dataWidth       = blitWidth * sizeOfColour,
                 screenWidth     = m_screenRect.width() * sizeOfColour,
+                textureWidth    = texture.getWidth() * sizeOfColour,
                 
-                dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * dataWidth,
-                screenOffset    = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * screenWidth;
+                dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * textureWidth,
+                screenOffset    = (position.x + drawArea.getLeft()) * sizeOfColour + (position.y + drawArea.getTop()) * screenWidth;
+    
+    // Obtain the data from the texture.
+    const auto  textureData     = texture.getData() + dataOffset;
+    
+    // Calculate the starting pointer to the screen position.
+    const auto  screen          = m_screen + screenOffset;
+    BYTE*       currentLine     = nullptr;
 
-
-    // Calculate the starting pointer to the position.
-    BYTE* const screen = m_screen + (position.x + position.y * screenWidth);
-    BYTE* currentLine = nullptr;
-
-    for (int y = 0; y < blitHeight; ++y)
+    for (unsigned int y = 0; y < blitHeight; ++y)
     {
         // Increment the pointer and copy line-by-line.
-        currentLine = screen + screenOffset + y * screenWidth;
-        std::memcpy (currentLine, (textureData + dataOffset + y * dataWidth), dataWidth);
+        currentLine = screen + y * screenWidth;
+        std::memcpy (currentLine, (textureData + y * textureWidth), dataWidth);
     }
 }
 
-void ScreenManager::blitBlend (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
-{/*
-    // Start by obtaining the width and height of the image.
-    const int width = texture.getWidth(), height = texture.getHeight();
-
-    // Ensure it's on-screen.
-    if (posX >= 0 && posX + width <= m_screenWidth &&
-        posY >= 0 && posY + height <= m_screenHeight)
-    {
-        // Obtain the raw data from the texture.
-        const auto textureData = texture.getData();
-
-        const int destination = (posX + posY * m_screenWidth) * sizeOfColour;
-
-        BYTE* currentPixel = m_screen + destination;
-        const BYTE* currentData = textureData;
-
-        for (int y = 0; y < height; ++y)
-        {
-            for (int x = 0; x < width; ++x)
-            {
-                const auto alpha = currentData[3];
-
-                // Avoid unnecessary blending when alpha is 0 or 255.
-                switch (alpha)
-                {
-                    case 0:
-                        break;
-
-                    case 255:
-                        for (unsigned int i = 0; i < 3; ++i)
-                        {
-                            currentPixel[i] = currentData[i];
-                        }
-
-                        break;
-
-                    default:                        
-                        // Avoid floating-point arithmetic by bit-shifting.
-                        for (unsigned int i = 0; i < 3; ++i)
-                        {
-                            const auto current = currentPixel[i];
-                            currentPixel[i] = current + ((alpha * (currentData[i] - current)) >> 8);
-                        }
-
-                        break;
-                }
+void ScreenManager::blitTransparent (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
+{    
+    // Cache zee variables captain!
+    const auto  blitWidth       = drawArea.width(),
+                blitHeight      = drawArea.height();
+               
+    const auto  dataWidth       = blitWidth * sizeOfColour,
+                screenWidth     = m_screenRect.width() * sizeOfColour,
+                textureWidth    = texture.getWidth() * sizeOfColour,
                 
-                // Increment each pointer.
-                currentPixel += sizeOfColour;
-                currentData += sizeOfColour;
-            }
+                dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * textureWidth,
+                screenOffset    = (position.x + drawArea.getLeft()) * sizeOfColour + (position.y + drawArea.getTop()) * screenWidth,
 
-            // Since the width is done we must go onto the next line.
-            currentPixel += (m_screenWidth - width) * sizeOfColour;
-        }
-    }*/
-}
-    /*
-    // Start by obtaining the width and height of the image.
-    const int width = texture.getWidth(), height = texture.getHeight();
+                alphaIndex      = static_cast<unsigned int> (3);
 
-    // Ensure it's on-screen.
-    if (posX >= 0 && posX + width <= m_screenWidth &&
-        posY >= 0 && posY + height <= m_screenHeight)
+    // Create the required pointers for the blitting process.
+    auto        currentData     = texture.getData() + dataOffset;
+    auto        currentPixel    = m_screen + screenOffset;
+
+
+    for (unsigned int y = 0; y < blitHeight; ++y)
     {
-        // Obtain the data from the texture.
-        const auto textureData = texture.getData();
-
-        const int   dataWidth   = width * sizeOfColour,
-                    screenWidth = m_screenWidth * sizeOfColour;
-
-        // Calculate the starting pointer to the position.
-        BYTE* const screen = m_screen + (posX + posY * screenWidth);
-        BYTE* currentLine = nullptr;
-
-        for (int y = 0; y < height; ++y)
+        for (unsigned int x = 0; x < blitWidth; ++x)
         {
-            // Increment the pointer and copy line-by-line.
-            currentLine = screen + y * screenWidth;
-            std::memcpy (currentLine, (textureData + y * dataWidth), dataWidth);
+            const auto alpha = currentData[alphaIndex];
+
+            // Avoid unnecessary blending when alpha is 0 or 255.
+            switch (alpha)
+            {
+                case 0:
+                    break;
+
+                case 255:
+                    for (unsigned int i = 0; i < alphaIndex; ++i)
+                    {
+                        currentPixel[i] = currentData[i];
+                    }
+
+                    break;
+
+                default:                     
+                    for (unsigned int i = 0; i < alphaIndex; ++i)
+                    {
+                        // Avoid floating-point arithmetic by bit-shifting.
+                        const auto currentChannel = currentPixel[i];
+                        currentPixel[i] = currentChannel + ((alpha * (currentData[i] - currentChannel)) >> 8);
+                    }
+
+                    break;
+            }
+            
+            // Increment each pointer.
+            currentPixel += sizeOfColour;
+            currentData += sizeOfColour;
         }
+
+        // Since the width is done we must go onto the next line.
+        currentPixel += screenWidth - dataWidth;
+        currentData += textureWidth - dataWidth;
     }
-}*/
+}
 
 
 #pragma endregion Rendering functionality

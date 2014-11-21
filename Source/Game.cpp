@@ -7,10 +7,10 @@
 
 
 // Milestone related constants.
-const std::string   backgroundLocation  = "background.tga",
-                    circleLocation      = "alphaThing.tga";
+const auto  backgroundLocation  = "background.tga", //!< The file location for the background image.
+            circleLocation      = "alphaThing.tga"; //!< The file location for the circle image.
 
-const float         circleSpeed = 150.f; //!< The number of pixels a second the circle can travel.
+const auto  circleSpeed         = 150.f;            //!< The number of pixels a second the circle can travel.
 
 
 
@@ -56,7 +56,7 @@ void Game::run()
 {
     if (initialise())
     {
-        const float sixtyFPS = (float) (1.0 / 60.0);
+        const float sixtyFPS = static_cast<float> (1.0 / 60.0);
 
         HAPI->SetShowFPS (true);
 
@@ -103,39 +103,39 @@ void Game::updateCapped()
 
 void Game::updateMain()
 {
-    // Calculate the boundaries for the circle.
-    const float leftBounds = 0.f, upBounds = 0.f,
-                rightBounds = (float) (m_screenWidth - m_circle.getWidth()),
-                downBounds  = (float) (m_screenHeight - m_circle.getHeight());
-
     // Handle keyboard input.
     if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'])
     {
-        m_circlePosition.x = max (m_circlePosition.x - circleSpeed * m_deltaTime, leftBounds);
+        m_circlePosition.x -= circleSpeed * m_deltaTime;
     }
 
     if (m_keyboard.scanCode[HK_UP] || m_keyboard.scanCode['W'])
     {
-        m_circlePosition.y = max (m_circlePosition.y - circleSpeed * m_deltaTime, upBounds);
+        m_circlePosition.y -= circleSpeed * m_deltaTime;
     }
 
     if (m_keyboard.scanCode[HK_RIGHT] || m_keyboard.scanCode['D'])
     {
-        m_circlePosition.x = min (m_circlePosition.x + circleSpeed * m_deltaTime, rightBounds);
+        m_circlePosition.x += circleSpeed * m_deltaTime;
     }
 
     if (m_keyboard.scanCode[HK_DOWN] || m_keyboard.scanCode['S'])
     {
-        m_circlePosition.y = min (m_circlePosition.y + circleSpeed * m_deltaTime, downBounds);
+        m_circlePosition.y += circleSpeed * m_deltaTime;
     }
 }
 
 
 void Game::renderAll()
 {
+    auto position = static_cast<Vector2D<int>> (m_circlePosition);
+    HAPI->DebugText (std::to_string (position.x) + ", " + std::to_string (position.y));
+    
     // Render images.
-    m_pScreenManager->blit ({ -10, -10 }, m_background, false);
-    //m_pScreenManager->blit ((Vector2D<int>) m_circlePosition, m_circle);
+    m_pScreenManager->clearToBlackLevel();
+    m_pScreenManager->blit ({ -64, -64 }, m_background);
+    m_pScreenManager->blit (static_cast<Vector2D<int>> (m_circlePosition), m_circle, BlendType::Transparent);
+
 }
 
 #pragma endregion Engine functionality
