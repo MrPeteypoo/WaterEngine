@@ -44,7 +44,16 @@
     <ClInclude Include="..\..\Maths\Rectangle.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Maths\Utility.h">
+    <ClInclude Include="..\..\Maths\Vector3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Utility\RNG.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Utility\Time.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Utility\Maths.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
