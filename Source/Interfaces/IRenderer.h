@@ -9,8 +9,6 @@
 // Forward declarations.
 template <typename T> struct Vector2D;
 
-using Byte = unsigned char;
-
 
 
 /// <summary> An interface for 2D rendering systems, used for platform-independant drawing functionality. </summary>
@@ -18,14 +16,14 @@ class IRenderer2D
 {
     public:
         // Ensure destructor is virtual since this is an interface.
-        virtual ~IRenderer2D() = 0;
+        virtual ~IRenderer2D() {}
 
     
         /// <summary> Initialise all data and prepare for rendering. </summary>
-        virtual bool initialise (const int screenWidth, const int screenHeight) = 0;
+        virtual void initialise (const int screenWidth, const int screenHeight) = 0;
 
         /// <summary> Causes all loaded texture data to be deleted, invalidating all current keys. </summary>
-        virtual void cleanTextureData() = 0;
+        virtual void clearTextureData() = 0;
 
         /// <summary>
         /// Loads a texture from local storage, ready for rendering. 
@@ -35,10 +33,10 @@ class IRenderer2D
 
 
         /// <summary> Clears the screen to a black level between 0 and 255, quicker than clearing to a colour. </summary>
-        virtual void clearToBlack (const Byte blackLevel = 0) = 0;        
+        virtual void clearToBlack (const float blackLevel = 0) = 0;        
 
         /// <summary> Clears the entire screen to a single colour. </summary>
-        virtual void clearToColour (const Byte red, const Byte green, const Byte blue) = 0;
+        virtual void clearToColour (const float red, const float green, const float blue, const float alpha = 1.f) = 0;
 
         /// <summary> 
         /// Requests that a texture be drawn onto the screen at a particular point. 
