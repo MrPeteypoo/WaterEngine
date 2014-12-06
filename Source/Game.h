@@ -7,7 +7,7 @@
 
 
 // Engine headers.
-#include <Rendering/RendererHAPI.h>
+#include <Rendering/Renderer2DHAPI.h>
 #include <HAPI_lib.h>
 #include <Maths/Rectangle.h>
 #include <Maths/Vector2D.h>

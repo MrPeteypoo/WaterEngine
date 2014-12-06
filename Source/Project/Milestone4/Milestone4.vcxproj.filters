@@ -48,7 +48,7 @@
     <ClInclude Include="..\..\Interfaces\IRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Rendering\RendererHAPI.h">
+    <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
