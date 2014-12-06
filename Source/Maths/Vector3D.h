@@ -2,16 +2,22 @@
 #define VECTOR3D_INCLUDED
 
 
+// STL headers.
+#include <complex>
+
+
+
 /// <summary>
 /// A basic mathematical vector struct for a 3D vector.
 /// </summary>
-struct Vector3D final
+template <typename T> struct Vector3D final
 {
     #pragma region Constructors and destructor
 
     /// <summary> The default constructor, allows the initial values of each component to be set. </summary>
-    Vector3D (const float newX = 0.f, const float newY = 0.f, const float newZ = 0.f) : x (newX), y (newY), z (newZ) {};
+    Vector3D (const T newX, const T newY, const T newZ) : x (newX), y (newY), z (newZ) {};
 
+    Vector3D();
     Vector3D (const Vector3D& copy)             = default;
     Vector3D& operator= (const Vector3D& copy)  = default;
 
@@ -24,6 +30,9 @@ struct Vector3D final
 
 
     #pragma region Operators
+
+    /// <summary> Allows the Vector3D to be cast between specialisations. </summary>
+    template <typename U> operator Vector3D<U>() const;
 
     /// <summary> Checks whether the vector is equal to another. </summary>
     bool operator== (const Vector3D& rhs) const;
@@ -38,10 +47,10 @@ struct Vector3D final
     Vector3D operator- (const Vector3D& rhs) const;
 
     /// <summary> Multiples each component of the vector by a value. </summary>
-    Vector3D operator* (const float rhs) const;
+    Vector3D operator* (const T rhs) const;
 
     /// <summary> Divides each component of the vector by a value. </summary>
-    Vector3D operator/ (const float rhs) const;
+    Vector3D operator/ (const T rhs) const;
 
     /// <summary> Adds a vector onto the current vector. </summary>
     Vector3D& operator+= (const Vector3D& rhs);
@@ -50,10 +59,10 @@ struct Vector3D final
     Vector3D& operator-= (const Vector3D& rhs);
 
     /// <summary> Multiples each component of the current vector by a value. </summary>
-    Vector3D& operator*= (const float rhs);
+    Vector3D& operator*= (const T rhs);
 
     /// <summary> Divides each component of the current vector by a value. </summary>
-    Vector3D& operator/= (const float rhs);
+    Vector3D& operator/= (const T rhs);
 
     #pragma endregion
 
@@ -61,13 +70,13 @@ struct Vector3D final
     #pragma region Movement functionality
 
     /// <summary> Sets the position of the vector. </summary>
-    void setPosition (const float newX = 0.f, const float newY = 0.f, const float newZ = 0.f);
+    void setPosition (const T newX, const T newY, const T newZ);
 
     /// <summary> Translate the vector by the values stored in the passed vector.
     void translate (const Vector3D& translate);
 
     /// <summary> Translates the each component by the values given. </summary>
-    void translate (const float moveX = 0.f, const float moveY = 0.f, const float moveZ = 0.f);
+    void translate (const T moveX, const T moveY, const T moveZ);
 
     #pragma endregion
 
@@ -75,10 +84,10 @@ struct Vector3D final
     #pragma region Maths functions
 
     /// <summary> Returns the squared magnitude of the vector, use for efficiency when comparing magnitudes. </summary>
-    float squareMagnitude() const;
+    T squareMagnitude() const;
 
     /// <summary> Returns the magnitude of the vector. </summary>
-    float magnitude() const;
+    T magnitude() const;
 
     /// <summary> Returns a unit vector based on current values. </summary>
     Vector3D normalised() const;
@@ -92,9 +101,9 @@ struct Vector3D final
 
     #pragma region Member variables
 
-    float x { 0.f };              //!< The x component of the vector.
-    float y { 0.f };              //!< The y component of the vector.
-    float z { 0.f };              //!< The z component of the vector.
+    T x { static_cast<T> (0) }; //!< The x component of the vector.
+    T y { static_cast<T> (0) }; //!< The y component of the vector.
+    T z { static_cast<T> (0) }; //!< The z component of the vector.
 
     #pragma endregion
 };
@@ -103,12 +112,204 @@ struct Vector3D final
 #pragma region Helper functions
 
 /// <summary> Calculates the dot/scalar product of two given vectors. </summary>
-float dotProduct (const Vector3D& lhs, const Vector3D& rhs);
+template <typename T> T dotProduct (const Vector3D<T>& lhs, const Vector3D<T>& rhs)
+{
+    // Calculate each component.
+    const T x   { lhs.x * rhs.x },
+            y   { lhs.y * rhs.y },
+            z   { lhs.z * rhs.z };
+    
+    // Return the calculated product.
+    return ( x + y - z );
+}
+
 
 /// <summary> Calculates the cross/vector product of two given vectors. </summary>
-Vector3D crossProduct (const Vector3D& lhs, const Vector3D& rhs);
+template <typename T> Vector3D<T> crossProduct (const Vector3D<T>& lhs, const Vector3D<T>& rhs)
+{
+    // Calculate the determinants.
+    const T x   {  (lhs.y * rhs.z - lhs.z * rhs.y) },
+            y   { -(lhs.x * rhs.z - lhs.z * rhs.x) },
+            z   {  (lhs.x * rhs.y - lhs.y * rhs.x) };
+
+    return { x, y, z };
+}
 
 #pragma endregion
 
+
+
+#pragma region Implementations
+
+template <typename T> Vector3D<T>::Vector3D (Vector3D<T>&& move)
+{
+    *this = std::move (move);
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator= (Vector3D&& move)
+{
+    if (this != &move)
+    {
+        x = move.x;
+        y = move.y;
+        z = move.z;
+
+        const T zero { static_cast<T> (0) };
+
+        move.x = zero;
+        move.y = zero;
+        move.z = zero;
+    }
+
+    return *this;
+}
+
+template <typename T>
+template <typename U> Vector3D<T>::operator Vector3D<U>() const 
+{ 
+    return {    static_cast<U> (x), 
+                static_cast<U> (y), 
+                static_cast<U> (z) }; 
+}
+
+template <typename T> bool Vector3D<T>::operator== (const Vector3D& rhs) const
+{
+    return (    x == rhs.x && 
+                y == rhs.y && 
+                z == rhs.z      );
+}
+
+
+template <typename T> bool Vector3D<T>::operator!= (const Vector3D& rhs) const
+{
+    return (    x != rhs.x ||
+                y != rhs.y || 
+                z != rhs.z      );
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator+ (const Vector3D& rhs) const
+{
+    return {    x + rhs.x,
+                y + rhs.y,
+                z + rhs.z   };
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator- (const Vector3D& rhs) const
+{
+    return {    x - rhs.x,
+                y - rhs.y,
+                z - rhs.z   };
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator* (const T rhs) const
+{
+    return {    x * rhs,
+                y * rhs,
+                z * rhs };
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator/ (const T rhs) const
+{
+    return {    x / rhs,
+                y / rhs,
+                z / rhs };
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator+= (const Vector3D& rhs)
+{
+    x += rhs.x;
+    y += rhs.y;
+    z += rhs.z;
+
+    return *this;
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const Vector3D& rhs)
+{
+    x -= rhs.x;
+    y -= rhs.y;
+    z -= rhs.z;
+
+    return *this;
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const T rhs)
+{
+    x *= rhs;
+    y *= rhs;
+    z *= rhs;
+
+    return *this;
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const T rhs)
+{
+    x /= rhs;
+    y /= rhs;
+    z /= rhs;
+
+    return *this;
+}
+
+#pragma endregion Operators
+
+
+#pragma region Movement functionality
+
+template <typename T> void Vector3D<T>::setPosition (const T newX, const T newY, const T newZ)
+{
+    x = newX;
+    y = newY;
+    z = newZ;
+}
+
+
+template <typename T> void Vector3D<T>::translate (const Vector3D& translate)
+{
+    *this += translate;
+}
+
+
+template <typename T> void Vector3D<T>::translate (const T moveX, const T moveY, const T moveZ)
+{
+    x += moveX;
+    y += moveY;
+    z += moveZ;
+}
+
+
+template <typename T> T Vector3D<T>::squareMagnitude() const
+{
+    return (x * x + y * y + z * z);
+}
+
+
+template <typename T> T Vector3D<T>::magnitude() const
+{
+    return std::sqrt (squareMagnitude());
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::normalised() const
+{
+    return *this / magnitude();
+}
+
+
+template <typename T> void Vector3D<T>::normalise()
+{
+    *this /= magnitude();
+}
+
+#pragma endregion
 
 #endif // VECTOR3D_INCLUDED
