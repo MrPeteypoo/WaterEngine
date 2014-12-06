@@ -7,7 +7,7 @@
 
 
 // Engine headers.
-#include <Maths/Utility.h>
+#include <Utility/Maths.h>
 
 
 #pragma region Constructors and destructor
@@ -152,13 +152,13 @@ bool Rectangle::intersects (const Rectangle& other) const
 Rectangle Rectangle::clipped (const Rectangle& clip) const
 {
     // Clip each element, ensuring we maintain valid values.
-    const int   left    = clip.m_right < m_left ? clip.m_right  : max (m_left, clip.m_left),
+    const int   left    = clip.m_right < m_left ? clip.m_right  : util::max (m_left, clip.m_left),
 
-                top     = clip.m_bottom < m_top ? clip.m_bottom : max (m_top, clip.m_top),
+                top     = clip.m_bottom < m_top ? clip.m_bottom : util::max (m_top, clip.m_top),
                 
-                right   = left > m_right ?  left :  min (m_right, clip.m_right),
+                right   = left > m_right        ? left          : util::min (m_right, clip.m_right),
 
-                bottom  = top > m_bottom ?  top :   min (m_bottom, clip.m_bottom);
+                bottom  = top > m_bottom        ? top           : util::min (m_bottom, clip.m_bottom);
 
     return { left, top, right, bottom };
 }
@@ -167,13 +167,13 @@ Rectangle Rectangle::clipped (const Rectangle& clip) const
 void Rectangle::clipTo (const Rectangle& clip)
 {
     // Clip each element, ensuring we maintain valid values.
-    m_left      = clip.m_right < m_left ?   clip.m_right  :     max (m_left, clip.m_left);
+    m_left      = clip.m_right < m_left ? clip.m_right  : util::max (m_left, clip.m_left);
 
-    m_top       = clip.m_bottom < m_top ?   clip.m_bottom :     max (m_top, clip.m_top);
+    m_top       = clip.m_bottom < m_top ? clip.m_bottom : util::max (m_top, clip.m_top);
     
-    m_right     = m_left > m_right ?    m_left :    min (m_right, clip.m_right);
+    m_right     = m_left > m_right      ? m_left        : util::min (m_right, clip.m_right);
 
-    m_bottom    = m_top > m_bottom ?    m_top :    min (m_bottom, clip.m_bottom);
+    m_bottom    = m_top > m_bottom      ? m_top         : util::min (m_bottom, clip.m_bottom);
 }
 
 

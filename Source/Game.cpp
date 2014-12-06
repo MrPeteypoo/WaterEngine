@@ -2,7 +2,7 @@
 
 
 // Engine headers.
-#include <Maths/Utility.h>
+#include <Utility/Maths.h>
 #include <Rendering/ScreenManager.h>
 
 
@@ -153,7 +153,6 @@ void Game::updateMain()
     {
         m_circlePosition.y += circleSpeed * m_deltaTime;
     }
-
     
 }
 
