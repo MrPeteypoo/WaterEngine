@@ -1,11 +1,16 @@
 #include "Game.h"
 
 
-// Milestone related constants.
-const std::string   backgroundLocation  = "background.tga",
-                    circleLocation      = "alphaThing.tga";
+// Engine headers.
+#include <Maths/Utility.h>
+#include <Rendering/ScreenManager.h>
 
-const float         circleSpeed = 150.f; //!< The number of pixels a second the circle can travel.
+
+// Milestone related constants.
+const auto  backgroundLocation  = "background.tga", //!< The file location for the background image.
+            circleLocation      = "alphaThing.tga"; //!< The file location for the circle image.
+
+const auto  circleSpeed         = 150.f;            //!< The number of pixels a second the circle can travel.
 
 
 
@@ -22,8 +27,8 @@ bool Game::initialise()
         }
 
         // Set up the screen manager.
-        m_screenManager = ScreenManager (m_screenWidth, m_screenHeight);
-        m_screenManager.clearToBlack();
+        m_pScreenManager = std::make_shared<ScreenManager> (ScreenManager (m_screenWidth, m_screenHeight));
+        m_pScreenManager->clearToBlackLevel();
 
         // Load textures.
         if (!m_background.loadTexture (backgroundLocation) || !m_circle.loadTexture (circleLocation))
@@ -32,8 +37,14 @@ bool Game::initialise()
             return false;
         }
 
-        m_circleX = m_screenWidth / 2.f - m_circle.getWidth() / 2.f;
-        m_circleY = m_screenHeight / 2.f - m_circle.getHeight() / 2.f;
+        // Centre the circle.
+        m_circlePosition    = { m_screenWidth / 2.f - m_circle.getWidth() / 2.f,
+                                m_screenHeight / 2.f - m_circle.getHeight() / 2.f };
+
+        m_centreZone        = { static_cast<int> (m_screenWidth / 2.f - m_screenWidth / 20.f), 
+                                static_cast<int> (m_screenHeight / 2.f - m_screenHeight / 20.f), 
+                                static_cast<int> (m_screenWidth / 2.f + m_screenWidth / 20.f), 
+                                static_cast<int> (m_screenHeight / 2.f + m_screenHeight / 20.f) };
 
         return true;
     }
@@ -50,7 +61,7 @@ void Game::run()
 {
     if (initialise())
     {
-        const float sixtyFPS = (float) (1.0 / 60.0);
+        const float sixtyFPS = static_cast<float> (1.0 / 60.0);
 
         HAPI->SetShowFPS (true);
 
@@ -92,45 +103,68 @@ void Game::updateCapped()
 {
     // Update keyboard data.
     HAPI->GetKeyboardData (&m_keyboard);
+    
+    // Update controller data.
+    m_controllerOn = HAPI->GetControllerData (0, &m_controller);
+
+    if (m_controllerOn)
+    {
+        const Rectangle circleRect { static_cast<int> (m_circlePosition.x), 
+                                     static_cast<int> (m_circlePosition.y), 
+                                     static_cast<int> (m_circlePosition.x + m_circle.getWidth() - 1), 
+                                     static_cast<int> (m_circlePosition.y + m_circle.getHeight() - 1) };
+
+        if (circleRect.intersects (m_centreZone))
+        {
+            HAPI->SetControllerRumble (0, 10000, 10000);
+        }
+
+        else
+        {
+            HAPI->SetControllerRumble (0, 0, 0);
+        }
+    }
 }
 
 
 void Game::updateMain()
 {
-    // Calculate the boundaries for the circle.
-    const float leftBounds = 0.f, upBounds = 0.f,
-                rightBounds = (float) (m_screenWidth - m_circle.getWidth()),
-                downBounds  = (float) (m_screenHeight - m_circle.getHeight());
-
     // Handle keyboard input.
-    if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'])
+    if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_X] < -HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
-        m_circleX = max (m_circleX - circleSpeed * m_deltaTime, leftBounds);
+        m_circlePosition.x -= circleSpeed * m_deltaTime;
     }
 
-    if (m_keyboard.scanCode[HK_UP] || m_keyboard.scanCode['W'])
+    if (m_keyboard.scanCode[HK_UP] || m_keyboard.scanCode['W'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_Y] > HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
-        m_circleY = max (m_circleY - circleSpeed * m_deltaTime, upBounds);
+        m_circlePosition.y -= circleSpeed * m_deltaTime;
     }
 
-    if (m_keyboard.scanCode[HK_RIGHT] || m_keyboard.scanCode['D'])
+    if (m_keyboard.scanCode[HK_RIGHT] || m_keyboard.scanCode['D'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_X] > HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
-        m_circleX = min (m_circleX + circleSpeed * m_deltaTime, rightBounds);
+        m_circlePosition.x += circleSpeed * m_deltaTime;
     }
 
-    if (m_keyboard.scanCode[HK_DOWN] || m_keyboard.scanCode['S'])
+    if (m_keyboard.scanCode[HK_DOWN] || m_keyboard.scanCode['S'] || 
+       (m_controllerOn && m_controller.analogueButtons[HK_ANALOGUE_LEFT_THUMB_Y] < -HK_GAMEPAD_LEFT_THUMB_DEADZONE))
     {
-        m_circleY = min (m_circleY + circleSpeed * m_deltaTime, downBounds);
+        m_circlePosition.y += circleSpeed * m_deltaTime;
     }
+
+    
 }
 
 
 void Game::renderAll()
-{
+{    
     // Render images.
-    m_screenManager.blitOpaque (0, 0, m_background);
-    m_screenManager.blitFast ((int) m_circleX, (int) m_circleY, m_circle);
-}
+    m_pScreenManager->clearToBlackLevel();
+    m_pScreenManager->blit ({ -64, -64 }, m_background);
+    m_pScreenManager->blit (static_cast<Vector2D<int>> (m_circlePosition), m_circle, BlendType::Transparent);
 
+}
 
 #pragma endregion Engine functionality

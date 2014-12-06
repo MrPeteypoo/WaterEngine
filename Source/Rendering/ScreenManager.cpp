@@ -6,21 +6,16 @@
 #include <Rendering/Texture.h>
 
 
-const size_t sizeOfColour { sizeof (HAPI_TColour) };    //!< The size in bytes of the HAPI_TColour.
+// Useful constants
+const size_t sizeOfColour { sizeof (Colour) };    //!< The size in bytes of the Colour class.
+
 
 
 #pragma region Constructors and destructor
 
 
 ScreenManager::ScreenManager (const int screenWidth, const int screenHeight)
-    : m_screenWidth (screenWidth), m_screenHeight (screenHeight), m_screenSize (screenWidth * screenHeight)
 {
-    // We don't want silly screen resolutions now do we?
-    if (screenWidth < 1 || screenHeight < 1)
-    {
-        throw std::runtime_error ("ScreenManager::ScreenManager(): Invalid screen resolution (" + std::to_string (m_screenWidth) + "x" + std::to_string (m_screenHeight) + ").");
-    }
-
     // Check if a valid screen pointer is available
     m_screen = HAPI->GetScreenPointer();
 
@@ -28,42 +23,15 @@ ScreenManager::ScreenManager (const int screenWidth, const int screenHeight)
     {
         throw std::runtime_error ("ScreenManager::ScreenManager(): Unable to obtain screen pointer from HAPI.");
     }
-}
-
-
-ScreenManager::ScreenManager (ScreenManager&& move)
-{
-    *this = std::move (move);
-}
-
-
-ScreenManager& ScreenManager::operator= (const ScreenManager& copy)
-{
-    m_screen = copy.m_screen;
-    m_screenWidth = copy.m_screenWidth;
-    m_screenHeight = copy.m_screenHeight;
-    m_screenSize = copy.m_screenSize;
-
-    return *this;
-}
-
-
-ScreenManager& ScreenManager::operator= (ScreenManager&& move)
-{
-    if (this != &move)
+    
+    // We don't want silly screen resolutions now do we?
+    if (screenWidth < 1 || screenHeight < 1)
     {
-        m_screen = move.m_screen;
-        m_screenWidth = move.m_screenWidth;
-        m_screenHeight = move.m_screenHeight;
-        m_screenSize = move.m_screenSize;
-
-        move.m_screen = nullptr;
-        move.m_screenWidth = 0;
-        move.m_screenHeight = 0;
-        move.m_screenSize = 0;
+        throw std::runtime_error ("ScreenManager::ScreenManager(): Invalid screen resolution (" +   std::to_string (screenWidth) + "x" + 
+                                                                                                    std::to_string (screenHeight) + ").");
     }
 
-    return *this;
+    m_screenRect = { 0, 0, screenWidth - 1, screenHeight - 1 };
 }
 
 
@@ -73,215 +41,155 @@ ScreenManager& ScreenManager::operator= (ScreenManager&& move)
 #pragma region Rendering functionality
 
 
-void ScreenManager::clearToBlack (const unsigned char blackLevel)
-{    
+void ScreenManager::clearToBlackLevel (const BYTE blackLevel)
+{
     // Use memset for efficiency.
-    std::memset (m_screen, blackLevel, m_screenSize * sizeOfColour);
+    std::memset (m_screen, blackLevel, m_screenRect.area() * sizeOfColour);
 }
 
 
-void ScreenManager::clearToColour (const HAPI_TColour& colour)
+void ScreenManager::clearToColour (const Colour& colour)
 {
+    const int screenSize = m_screenRect.area();
+
     // Don't call setPixel, instead implement with unnecessary error checking removed for efficiency.
-    for (int i = 0; i < m_screenSize; ++i)
+    for (int i = 0; i < screenSize; ++i)
     {
         // Find the correct memory address
         auto pixel = m_screen + i * sizeOfColour;
 
         std::memcpy (pixel, &colour, sizeOfColour);
     }
-    
 }
 
 
-void ScreenManager::blit (const int posX, const int posY, const Texture& texture)
-{
-    // Start by obtaining the width and height of the image.
-    const int   width = texture.getWidth(),
-                height = texture.getHeight();
+void ScreenManager::blit (const Vector2D<int>& position, const Texture& texture, const BlendType blendType)
+{    
+    // Start by constructing the rectangle in screen space.
+    Rectangle textureRect   { position.x, 
+                              position.y, 
+                              position.x + static_cast<int> (texture.getWidth()) - 1,
+                              position.y + static_cast<int> (texture.getHeight()) - 1 };
 
-    // Ensure it's on-screen.
-    if (posX >= 0 && posX + width <= m_screenWidth &&
-        posY >= 0 && posY + height <= m_screenHeight)
+    // We will only draw if the texture is on-screen.
+    if (m_screenRect.intersects (textureRect))
     {
-        // Get the destination pixel and the size of the texture.
-        const int destination = posX + posY * m_screenWidth;
-
-        // Avoid creating the colour each loop.
-        HAPI_TColour colour;
-
-        for (int y = 0; y < height; ++y)
+        // Check if any clipping is necessary.
+        if (!m_screenRect.contains (textureRect))
         {
-            for (int x = 0; x < width; ++x)
-            {
-                colour = texture.getPixel (x, y);
+            // Clip the rectangle.
+            textureRect.clipTo (m_screenRect);
+        }
+            
+        // Translate back to texture space, ready for blitting.
+        textureRect.translate (-position.x, -position.y);
+
+        // Call the correct blitting function.
+        switch (blendType)
+        {
+            case BlendType::Opaque:
+                blitOpaque (position, textureRect, texture);
+                break;
+
+            case BlendType::Transparent:
+                blitTransparent (position, textureRect, texture);
+                break;
+        }
+    }
+
+    // Do nothing if it doesn't intersect.
+}
+
+
+void ScreenManager::blitOpaque (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
+{
+    // Cache zee variables captain!
+    const auto  blitWidth       = drawArea.width(),
+                blitHeight      = drawArea.height();
+               
+    const auto  dataWidth       = blitWidth * sizeOfColour,
+                screenWidth     = m_screenRect.width() * sizeOfColour,
+                textureWidth    = texture.getWidth() * sizeOfColour,
                 
-                const int pixel = destination + (x + y * m_screenWidth);
-                const auto alpha = colour.alpha;
-
-                // Avoid unnecessary blending when alpha is 0 or 255.
-                switch (alpha)
-                {
-                    case 0:
-                        break;
-
-                    case 255:
-                        setPixel (pixel, colour);
-                        break;
-
-                    default:                        
-                        const HAPI_TColour screen = getPixel (pixel);
-
-                        // Avoid floating-point arithmetic by bit-shifting.
-                        colour.red = screen.red + ((alpha * (colour.red - screen.red)) >> 8);
-                        colour.green = screen.green + ((alpha * (colour.green - screen.green)) >> 8);
-                        colour.blue = screen.blue + ((alpha * (colour.blue - screen.blue)) >> 8);
-                        
-                        setPixel (pixel, colour);
-                        break;
-                }
-            }
-        }
-    }
-
-    // Don't bother blitting an off-screen image for now.
-}
-
-
-void ScreenManager::blitFast (const int posX, const int posY, const Texture& texture)
-{
-    // Start by obtaining the width and height of the image.
-    const int width = texture.getWidth(), height = texture.getHeight();
-
-    // Ensure it's on-screen.
-    if (posX >= 0 && posX + width <= m_screenWidth &&
-        posY >= 0 && posY + height <= m_screenHeight)
-    {
-        // Obtain the raw data from the texture.
-        const auto textureData = texture.getData();
-
-        const int destination = (posX + posY * m_screenWidth) * sizeOfColour;
-
-        BYTE* currentPixel = m_screen + destination;
-        const BYTE* currentData = textureData;
-
-        for (int y = 0; y < height; ++y)
-        {
-            for (int x = 0; x < width; ++x)
-            {
-                const auto alpha = currentData[3];
-
-                // Avoid unnecessary blending when alpha is 0 or 255.
-                switch (alpha)
-                {
-                    case 0:
-                        break;
-
-                    case 255:
-                        for (unsigned int i = 0; i < 3; ++i)
-                        {
-                            currentPixel[i] = currentData[i];
-                        }
-
-                        break;
-
-                    default:                        
-                        // Avoid floating-point arithmetic by bit-shifting.
-                        for (unsigned int i = 0; i < 3; ++i)
-                        {
-                            const auto current = currentPixel[i];
-                            currentPixel[i] = current + ((alpha * (currentData[i] - current)) >> 8);
-                        }
-
-                        break;
-                }
-                
-                // Increment each pointer.
-                currentPixel += sizeOfColour;
-                currentData += sizeOfColour;
-            }
-
-            // Since the width is done we must go onto the next line.
-            currentPixel += (m_screenWidth - width) * sizeOfColour;
-        }
-    }
-}
-
-
-void ScreenManager::blitOpaque (const int posX, const int posY, const Texture& texture)
-{
-    // Start by obtaining the width and height of the image.
-    const int width = texture.getWidth(), height = texture.getHeight();
-
-    // Ensure it's on-screen.
-    if (posX >= 0 && posX + width <= m_screenWidth &&
-        posY >= 0 && posY + height <= m_screenHeight)
-    {
-        // Obtain the data from the texture.
-        const auto textureData = texture.getData();
-
-        const int   dataWidth   = width * sizeOfColour,
-                    screenWidth = m_screenWidth * sizeOfColour;
-
-        // Calculate the starting pointer to the position.
-        BYTE* const screen = m_screen + (posX + posY * screenWidth);
-        BYTE* currentLine = nullptr;
-
-        for (int y = 0; y < height; ++y)
-        {
-            // Increment the pointer and copy line-by-line.
-            currentLine = screen + y * screenWidth;
-            std::memcpy (currentLine, (textureData + y * dataWidth), dataWidth);
-        }
-    }
+                dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * textureWidth,
+                screenOffset    = (position.x + drawArea.getLeft()) * sizeOfColour + (position.y + drawArea.getTop()) * screenWidth;
     
+    // Obtain the data from the texture.
+    const auto  textureData     = texture.getData() + dataOffset;
+    
+    // Calculate the starting pointer to the screen position.
+    const auto  screen          = m_screen + screenOffset;
+    BYTE*       currentLine     = nullptr;
+
+    for (unsigned int y = 0; y < blitHeight; ++y)
+    {
+        // Increment the pointer and copy line-by-line.
+        currentLine = screen + y * screenWidth;
+        std::memcpy (currentLine, (textureData + y * textureWidth), dataWidth);
+    }
+}
+
+void ScreenManager::blitTransparent (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture)
+{    
+    // Cache zee variables captain!
+    const auto  blitWidth       = drawArea.width(),
+                blitHeight      = drawArea.height();
+               
+    const auto  dataWidth       = blitWidth * sizeOfColour,
+                screenWidth     = m_screenRect.width() * sizeOfColour,
+                textureWidth    = texture.getWidth() * sizeOfColour,
+                
+                dataOffset      = drawArea.getLeft() * sizeOfColour + drawArea.getTop() * textureWidth,
+                screenOffset    = (position.x + drawArea.getLeft()) * sizeOfColour + (position.y + drawArea.getTop()) * screenWidth;
+
+    // Create the required pointers for the blitting process.
+    auto        currentData     = texture.getData() + dataOffset;
+    auto        currentPixel    = m_screen + screenOffset;
+
+    // Avoid those magic constants!
+    const unsigned int alphaIndex = 3;
+
+    for (unsigned int y = 0; y < blitHeight; ++y)
+    {
+        for (unsigned int x = 0; x < blitWidth; ++x)
+        {
+            const auto alpha = currentData[alphaIndex];
+
+            // Avoid unnecessary blending when alpha is 0 or 255.
+            switch (alpha)
+            {
+                case 0:
+                    break;
+
+                case 255:
+                    for (unsigned int i = 0; i < alphaIndex; ++i)
+                    {
+                        currentPixel[i] = currentData[i];
+                    }
+
+                    break;
+
+                default:                     
+                    for (unsigned int i = 0; i < alphaIndex; ++i)
+                    {
+                        // Avoid floating-point arithmetic by bit-shifting.
+                        const auto currentChannel = currentPixel[i];
+                        currentPixel[i] = currentChannel + ((alpha * (currentData[i] - currentChannel)) >> 8);
+                    }
+
+                    break;
+            }
+            
+            // Increment each pointer.
+            currentPixel += sizeOfColour;
+            currentData += sizeOfColour;
+        }
+
+        // Since the width is done we must go onto the next line.
+        currentPixel += screenWidth - dataWidth;
+        currentData += textureWidth - dataWidth;
+    }
 }
 
 
 #pragma endregion Rendering functionality
-
-
-#pragma region Helper functions
-
-
-HAPI_TColour ScreenManager::getPixel (const int pixel) const
-{
-    try
-    {
-        // Find the correct address and return the colour.
-        const auto pixelAddress = m_screen + pixel * sizeOfColour;
-        
-        // The order of channels in memory is BGRA, but the constructor takes RGBA.
-        return
-        {
-            *(pixelAddress + 2),
-            *(pixelAddress + 1),
-            *(pixelAddress),
-            *(pixelAddress + 3)
-        };
-    }
-    
-    catch (const std::exception& error)
-    {
-        HAPI->DebugText ("ScreenManager::getPixel(): " + (std::string) error.what());
-    }
-
-    catch (...)
-    {
-        HAPI->DebugText ("ScreenManager::getPixel(): Unknown error occurred.");
-    }
-    
-    return { };
-}
-
-
-void ScreenManager::setPixel (const int pixel, const HAPI_TColour& colour)
-{
-    // Find and set the correct pixel.
-    const auto pixelAddress = m_screen + pixel * sizeOfColour;
-
-    std::memcpy (pixelAddress, &colour, sizeOfColour);
-}
-
-
-#pragma endregion Helper functions
