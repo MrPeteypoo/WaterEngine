@@ -21,10 +21,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Interfaces\IEntity.h" />
-    <ClInclude Include="..\..\Interfaces\IRenderer.h\IRenderer.h" />
+    <ClInclude Include="..\..\Interfaces\IRenderer.h" />
     <ClInclude Include="..\..\Maths\Rectangle.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
     <ClInclude Include="..\..\Maths\Vector3D.h" />
+    <ClInclude Include="..\..\Rendering\HAPIRenderer.h" />
     <ClInclude Include="..\..\Rendering\ScreenManager.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />
     <ClInclude Include="..\..\Utility\Maths.h" />
@@ -36,6 +37,9 @@
     <ClCompile Include="..\..\Maths\Rectangle.cpp" />
     <ClCompile Include="..\..\Rendering\ScreenManager.cpp" />
     <ClCompile Include="..\..\Rendering\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>
