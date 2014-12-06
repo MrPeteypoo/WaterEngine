@@ -1,5 +1,41 @@
 Simon Peter Campbell (N3053620)
 -------------------------------
+Milestone 3 v1 (21/11/2014)
+--------------------------------
+
+New Functionality
+-----------------
+
+Blit supports clipping
+Controller support
+Controller rumble support
+Textures that are off-screen are skipped completely
+
+Code Additions
+--------------
+
+Rectangle class             A left-top-right-bottom Rectangle class used for clipping images before blitting.
+Game class                  Basic encapsulation for the entire game loop.
+Game::updateCapped          Obtains controller input and handles controller vibration.
+ScreenManager::blit         An entry point for all blitting functions.
+BlendType enum              Determines what blending model to use for the blitting.
+
+Tests
+-----
+
+Load a texture which is slightly off-screen:       The texture will be clipped appropriately.
+Plug in a controller after starting the game:      The controller is found and input is enabled.
+Move the left analogue stick on a controller:      Moves the object on-screen.
+Unplug a controller after starting the game:       Controller input is disabled and doesn't effect frame-rate.
+
+
+(e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time)
+
+Notes
+-----
+
+Most of the milestone was just cleanup work, there wasn't much core functionality that needed to be added to support clipping
+
 
 Milestone 2 v1 (24/10/2014)
 --------------------------------

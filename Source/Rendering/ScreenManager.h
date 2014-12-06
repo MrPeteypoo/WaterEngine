@@ -2,10 +2,26 @@
 #define SCREEN_MANAGER_INCLUDED
 
 
+// Engine headers.
+#include <Maths/Rectangle.h>
+#include <Maths/Vector2D.h>
+
+
 // Forward declarations.
-typedef unsigned char BYTE;
-class Texture;
-struct HAPI_TColour;
+class   Texture;
+struct  HAPI_TColour;
+
+using   BYTE    = unsigned char;
+using   Colour  = HAPI_TColour;
+
+
+/// <summary> Represents how an image should be blended when blit using the ScreenManager. </summary>
+enum class BlendType : int
+{
+    Opaque = 0,         //!< Enables fast blitting by disregarding alpha values.
+    Transparent = 1     //!< Enables alpha blending when blitting, slower but allows for transparency.
+};
+
 
 
 /// <summary>
@@ -17,17 +33,13 @@ class ScreenManager final
 
         #pragma region Constructors and destructor
 
-        ScreenManager() = default;
-
-        /// <summary> Create a ScreenManager with valid resolution values. Throws exceptions if the resolution is invalid or the
-        /// HAPI screen pointer cannot be obtained. </summary>
+        /// <summary> 
+        /// Create a ScreenManager with valid resolution values. Throws exceptions if the resolution is invalid or the HAPI screen pointer cannot be obtained. 
+        /// </summary>
         ScreenManager (const int screenWidth, const int screenHeight);
 
         ScreenManager (const ScreenManager& copy)               = default;
-        ScreenManager& operator= (const ScreenManager& copy);
-
-        ScreenManager (ScreenManager&& move);
-        ScreenManager& operator= (ScreenManager&& move);
+        ScreenManager& operator= (const ScreenManager& copy)    = default;
 
         ~ScreenManager()                                        = default;
 
@@ -37,31 +49,21 @@ class ScreenManager final
         #pragma region Rendering functionality
 
         /// <summary> Clears the screen to a black level between 0 and 255, quicker than clearing to a colour. </summary>
-        void clearToBlack (const unsigned char blackLevel = 0);
+        void clearToBlackLevel (const BYTE blackLevel = 0);
 
         /// <summary> Clears the entire screen to a single colour. </summary>
-        void clearToColour (const HAPI_TColour& colour);
+        void clearToColour (const Colour& colour);
 
-        /// <summary> Blits an image to the screen, taking into account alpha blending. </summary>
-        void blit (const int posX, const int posY, const Texture& texture);
-
-        /// <summary> Obtains the raw data of the texture to speed up blit speed </summary>
-        void blitFast (const int posX, const int posY, const Texture& texture);
-
-        /// <summary> Blits an image to the screen without taking into account alpha blending. </summary>
-        void blitOpaque (const int posX, const int posY, const Texture& texture);
-
-        #pragma endregion 
+        /// <summary> Blits an image to the screen. Defaults to blending alpha values. </summary>
+        void blit (const Vector2D<int>& position, const Texture& texture, const BlendType blendType = BlendType::Opaque);
 
     private:
         
-        #pragma region Helper functions
+        /// <summary> Will blit an image line-by-line without performing any alpha blending. </summary>
+        void blitOpaque (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture);
 
-        /// <summary> Returns the colour information of the given pixel on the screen. </summary>
-        HAPI_TColour getPixel (const int pixel) const;
-
-        /// <summary> Sets the colour of an individual pixel. </summary>
-        void setPixel (const int pixel, const HAPI_TColour& colour);
+        /// <summary> Will blit an image pixel-by-pixel taking into account alpha values, slower. </summary>
+        void blitTransparent (const Vector2D<int>& position, const Rectangle& drawArea, const Texture& texture);
 
         #pragma endregion
 
@@ -69,10 +71,7 @@ class ScreenManager final
         #pragma region Member variables
 
         BYTE*               m_screen        { nullptr };    //!< A cached copy of the HAPI screen pointer. Never to be deleted.
-        
-        int                 m_screenSize    { 0 };          //!< How many pixels in total exist on the screen.
-        int                 m_screenWidth   { 0 };          //!< The pixel width of the screen.
-        int                 m_screenHeight  { 0 };          //!< The pixel height of the screen.
+        Rectangle           m_screenRect    { };            //!< The rectangular area of the screen.
 
         #pragma endregion
 };
