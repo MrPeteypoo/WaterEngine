@@ -16,8 +16,8 @@
 #include <Rendering/Texture.h>
 
 
-using Colour            = HAPI_TColour;
-
+// Forward declarations
+using Colour = HAPI_TColour;
 
 const unsigned int  channel      = 255;
 const auto          sizeOfColour = sizeof (Colour);
@@ -121,12 +121,12 @@ void Renderer2DHAPI::clearTextureData()
 }
 
 
-TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation)
+TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions)
 {
     try
     {
         // Attempt to load the texture.
-        Texture texture (fileLocation);
+        Texture texture (fileLocation, frameDimensions);
 
         // Determine the texture ID.
         const TextureID textureID = m_impl->hasher (fileLocation);
@@ -186,7 +186,13 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
 }
 
 
-void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const unsigned int frame)
+void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend)
+{
+    drawTexture (point, id, blend, { 0, 0 });
+}
+
+
+void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const Vector2D<unsigned int>& frame)
 {
     try
     {
