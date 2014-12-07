@@ -5,6 +5,7 @@
 
 
 // STL headers.
+#include <iostream>
 #include <unordered_map>
 
 
@@ -26,9 +27,10 @@ const auto          sizeOfColour = sizeof (Colour);
 /// <summary> A POD structure with all working data for the HAPI renderer. </summary>
 struct Renderer2DHAPIImpl final
 {
-    BYTE*                               screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
-    Rectangle                           screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-    std::unordered_map<int, Texture>    textures    { };            //!< A container for all loaded texture data.
+    BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
+    Rectangle                               screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
+    std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
+    std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
 };
 
 
@@ -119,9 +121,38 @@ void Renderer2DHAPI::clearTextureData()
 }
 
 
-int Renderer2DHAPI::loadTexture (const std::string& fileLocation)
+TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation)
 {
-    return 0;
+    try
+    {
+        // Attempt to load the texture.
+        Texture texture (fileLocation);
+
+        // Determine the texture ID.
+        const TextureID textureID = m_impl->hasher (fileLocation);
+
+        // Add it to the unordered map.
+        m_impl->textures.emplace (textureID, std::move (texture));
+
+        return textureID;
+    }
+
+    catch (std::invalid_argument& error)
+    {
+        std::cerr << "Invalid argument caught in Renderer2DHAPI::loadTexture(): " << error.what() << std::endl;
+    }
+
+    catch (std::exception& error)
+    {
+        std::cerr << "Exception caught in Renderer2DHAPI::loadTexture(): " << error.what() << std::endl;
+    }
+
+    catch (...)
+    {
+        std::cerr << "Unknown error occurred in Renderer2DHAPI::loadTexture()." << std::endl;
+    }
+    
+    return static_cast<TextureID> (0);
 }
 
 
@@ -160,7 +191,7 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
 }
 
 
-void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const int id, const int frame)
+void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const unsigned int frame)
 {
 
 }

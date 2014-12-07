@@ -9,6 +9,8 @@
 // Forward declarations.
 template <typename T> struct Vector2D;
 
+using TextureID = size_t;
+
 
 
 /// <summary> An interface for 2D rendering systems, used for platform-independant drawing functionality. </summary>
@@ -29,7 +31,7 @@ class IRenderer2D
         /// Loads a texture from local storage, ready for rendering. 
         /// <returns> Returns the ID for the loaded texture. </returns>
         /// </summary>
-        virtual int loadTexture (const std::string& fileLocation) = 0;
+        virtual TextureID loadTexture (const std::string& fileLocation) = 0;
 
 
         /// <summary> Clears the screen to a black level between 0 and 255, quicker than clearing to a colour. </summary>
@@ -44,7 +46,7 @@ class IRenderer2D
         /// <param name="position"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        virtual void drawTexture (const Vector2D<int>& point, const int id, const int frame = 0) = 0;
+        virtual void drawTexture (const Vector2D<int>& point, const TextureID id, const unsigned int frame = 0) = 0;
 };
 
 
