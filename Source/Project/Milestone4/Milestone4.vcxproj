@@ -27,7 +27,6 @@
     <ClInclude Include="..\..\Maths\Vector3D.h" />
     <ClInclude Include="..\..\Rendering\BlendType.h" />
     <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h" />
-    <ClInclude Include="..\..\Rendering\ScreenManager.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />
     <ClInclude Include="..\..\Utility\Maths.h" />
     <ClInclude Include="..\..\Utility\RNG.h" />
@@ -37,7 +36,6 @@
     <ClCompile Include="..\..\Game.cpp" />
     <ClCompile Include="..\..\Maths\Rectangle.cpp" />
     <ClCompile Include="..\..\Rendering\Renderer2DHAPI.cpp" />
-    <ClCompile Include="..\..\Rendering\ScreenManager.cpp" />
     <ClCompile Include="..\..\Rendering\Texture.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
