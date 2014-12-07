@@ -63,7 +63,7 @@ class Renderer2DHAPI final : IRenderer2D
         /// <param name="position"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        void drawTexture (const Vector2D<int>& point, const TextureID id, const unsigned int frame = 0) final override;
+        void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const unsigned int frame = 0) final override;
 
         #pragma endregion
 

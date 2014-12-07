@@ -15,13 +15,6 @@ using   BYTE    = unsigned char;
 using   Colour  = HAPI_TColour;
 
 
-/// <summary> Represents how an image should be blended when blit using the ScreenManager. </summary>
-enum class BlendType : int
-{
-    Opaque = 0,         //!< Enables fast blitting by disregarding alpha values.
-    Transparent = 1     //!< Enables alpha blending when blitting, slower but allows for transparency.
-};
-
 
 
 /// <summary>

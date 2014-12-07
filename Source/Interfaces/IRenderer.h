@@ -6,11 +6,14 @@
 #include <string>
 
 
-// Forward declarations.
-template <typename T> struct Vector2D;
+// Engine headers.
+#include <Rendering/BlendType.h>
 
+
+// Forward declarations.
 using TextureID = size_t;
 
+template <typename T> struct Vector2D;
 
 
 /// <summary> An interface for 2D rendering systems, used for platform-independant drawing functionality. </summary>
@@ -46,7 +49,7 @@ class IRenderer2D
         /// <param name="position"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        virtual void drawTexture (const Vector2D<int>& point, const TextureID id, const unsigned int frame = 0) = 0;
+        virtual void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const unsigned int frame = 0) = 0;
 };
 
 

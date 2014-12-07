@@ -51,6 +51,9 @@
     <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Rendering\BlendType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Maths\Rectangle.cpp">

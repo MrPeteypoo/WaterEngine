@@ -5,13 +5,13 @@
 
 
 // STL headers.
+#include <exception>
 #include <iostream>
 #include <unordered_map>
 
 
 // Engine headers.
 #include <HAPI_lib.h>
-#include <Maths/Rectangle.h>
 #include <Maths/Vector2D.h>
 #include <Rendering/Texture.h>
 
@@ -137,11 +137,6 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation)
         return textureID;
     }
 
-    catch (std::invalid_argument& error)
-    {
-        std::cerr << "Invalid argument caught in Renderer2DHAPI::loadTexture(): " << error.what() << std::endl;
-    }
-
     catch (std::exception& error)
     {
         std::cerr << "Exception caught in Renderer2DHAPI::loadTexture(): " << error.what() << std::endl;
@@ -149,7 +144,7 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation)
 
     catch (...)
     {
-        std::cerr << "Unknown error occurred in Renderer2DHAPI::loadTexture()." << std::endl;
+        std::cerr << "Unknown error caught in Renderer2DHAPI::loadTexture()." << std::endl;
     }
     
     return static_cast<TextureID> (0);
@@ -191,9 +186,26 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
 }
 
 
-void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const unsigned int frame)
+void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const unsigned int frame)
 {
+    try
+    {
+        // If the texture doesn't exist an out-of-range error will be thrown.
+        auto& texture = m_impl->textures.at (id);
 
+        // Blit the valid texture.
+        texture.blit (m_impl->screen, m_impl->screenSpace, point, blend, frame);
+    }
+
+    catch (std::exception& error)
+    {
+        std::cerr << "Exception caught in Renderer2DHAPI::drawTexture(): " << error.what() << std::endl;
+    }
+
+    catch (...) 
+    {
+        std::cerr << "Unknown error caught in Renderer2DHAPI::drawTexture()." << std::endl;    
+    }
 }
 
 
