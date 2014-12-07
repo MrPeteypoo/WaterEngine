@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Interfaces/IRenderer.h>
+#include <Interfaces/IRenderer2D.h>
 
 
 // Forward declarations

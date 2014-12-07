@@ -46,7 +46,7 @@ class IRenderer2D
         /// <summary> 
         /// Requests that a texture be drawn onto the screen at a particular point. 
         /// </summary>
-        /// <param name="position"> The top-left point where the texture should render from. </param>
+        /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         virtual void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend) = 0;
 
