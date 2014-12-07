@@ -7,10 +7,15 @@
 #include <string>
 
 
+// Engine headers.
+#include <Maths/Rectangle.h>
+#include <Maths/Vector2D.h>
+#include <Rendering/BlendType.h>
+
+
 // Forward declarations.
 typedef unsigned char BYTE;
 
-using Colour = struct HAPI_TColour;
 
 
 /// <summary> A texture is a self-managed wrapper for any texture to be used in the HAPI engine. </summary>
@@ -20,8 +25,11 @@ class Texture final
         
         #pragma region Constructors and destructor
         
-        /// <summary> Create a texture and load the data at the same time. If the texture loading fails an exception will be thrown.</summary>
+        /// <summary> Create a texture by loading image data. Assumes there are no individual frames. </summary>
         Texture (const std::string& fileLocation);
+
+        /// <summary> Create a texture by loading image data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
+        Texture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions);
 
         Texture (Texture&& move);
         Texture& operator= (Texture&& move);
@@ -38,20 +46,18 @@ class Texture final
 
 
         #pragma region Getters and setters
-        
-        unsigned int getResolution() const  { return m_resolution; }
-        unsigned int getWidth() const       { return m_width; }
-        unsigned int getHeight() const      { return m_height; }
-
 
         /// <summary> Returns the raw data, useful for accessing line-by-line. </summary>
         const BYTE* const getData() const   { return m_data.get(); }
 
-        /// <summary> Obtains each colour channel for the specified pixel. The first pixel is 0. </summary>
-        Colour getPixel (const int pixelNumber) const;
+        /// <summary> Returns how many frames exist, 0 means the texture is not a spritesheet. </summary>
+        unsigned int getFrameCount() const  { return m_frames; }
 
-        /// <summary> Obtains each colour channel for the specified pixel. The first pixel is (0, 0). </summary>
-        Colour getPixel (const int x, const int y) const;
+        /// <summary> Sets the frame dimensions to the figures specified, (0, 0) disables spritesheet functionality and anything else enables it. </summary>
+        Texture& setFrameDimensions (const Vector2D<unsigned int>& dimensions);
+
+        /// <summary> Resets frame information, effectively disabling spritesheet functionality. </summary>
+        Texture& resetFrameDimensions();
 
         #pragma endregion
 
@@ -65,19 +71,42 @@ class Texture final
         /// Attempts to load a texture using the file location specified.
         /// <returns> Returns whether it was possible or not. </returns>
         /// </summary>
-        bool loadTexture (const std::string& fileLocation);
+        void loadTexture (const std::string& fileLocation);
     
         #pragma endregion
 
+
+        #pragma region Rendering
+
+        /// <summary> 
+        /// The entry point for blitting functionality. Determines whether blitting is necessary then calls the correct blitting function. 
+        /// </summary>
+        /// <param name="screen"> The screenbuffer to write texture data to. </param>
+        /// <param name="screenSpace"> The Rectangle representing the drawable area of the screen. </param>
+        /// <param name="point"> Where the blitting should begin, if this is off-screen then the texture will be clipped. </param>
+        /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
+        /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
+        void blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<int>& point, const BlendType blend, const Vector2D<unsigned int>& frame);
+        
     private:
+        
+        /// <summary> Will blit the texture line-by-line without performing any alpha blending. </summary>
+        void blitOpaque (BYTE* const screen, const Rectangle& screenSpace, const Vector2D<int> point, const Vector2D<unsigned int>& frameOffset, const Rectangle& drawArea);
+
+        /// <summary> Will blit the texture pixel-by-pixel taking into account alpha values, slower. </summary>
+        void blitTransparent (BYTE* const screen, const Rectangle& screenSpace, const Vector2D<int> point, const Vector2D<unsigned int>& frameOffset, const Rectangle& drawArea);
+
+        #pragma endregion
+
 
         #pragma region Member variables
         
-        unsigned int            m_resolution    { 0 };  //!< The total number of pixels in the texture.
-        unsigned int            m_width         { 0 };  //!< The width of the loaded texture.
-        unsigned int            m_height        { 0 };  //!< The height of the loaded texture.
+        unsigned int            m_frames            { 0 };  //!< How many frames the texture has, assuming it's a spritesheet.
+        Vector2D<unsigned int>  m_frameDimensions   {  };   //!< The width and height of the spritesheet.
 
-        std::unique_ptr<BYTE[]> m_data          {  };   //!< The raw memory data of the texture.
+        Rectangle               m_textureSpace      {  };   //!< The total rectangular area of the texture.
+
+        std::unique_ptr<BYTE[]> m_data              {  };   //!< The raw memory data of the texture.
 
         #pragma endregion
 };
