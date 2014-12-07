@@ -19,9 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Entities\MilestoneEntity.h" />
     <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Interfaces\IEntity.h" />
-    <ClInclude Include="..\..\Interfaces\IRenderer.h" />
+    <ClInclude Include="..\..\Interfaces\IRenderer2D.h" />
     <ClInclude Include="..\..\Maths\Rectangle.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
     <ClInclude Include="..\..\Maths\Vector3D.h" />
@@ -33,6 +34,7 @@
     <ClInclude Include="..\..\Utility\Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Entities\MilestoneEntity.cpp" />
     <ClCompile Include="..\..\Game.cpp" />
     <ClCompile Include="..\..\Maths\Rectangle.cpp" />
     <ClCompile Include="..\..\Rendering\Renderer2DHAPI.cpp" />

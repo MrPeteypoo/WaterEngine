@@ -42,13 +42,16 @@
     <ClInclude Include="..\..\Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Interfaces\IRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Rendering\BlendType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Entities\MilestoneEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Interfaces\IRenderer2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -63,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Rendering\Renderer2DHAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Entities\MilestoneEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
