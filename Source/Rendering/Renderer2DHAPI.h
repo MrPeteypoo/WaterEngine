@@ -14,7 +14,7 @@ struct Renderer2DHAPIImpl;
 /// <summary>
 /// A 2D rendering engine which uses the HAPI library for all drawing requirements.
 /// </summary>
-class Renderer2DHAPI final : IRenderer2D
+class Renderer2DHAPI final : public IRenderer2D
 {
     public:
 
