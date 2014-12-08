@@ -47,10 +47,10 @@ namespace util
         
 
             /// <summary> Retrieves the next random number from the sequence. </summary>
-            T operator()                            { return m_distribution (m_generator);
+            T operator()()                          { return m_distribution (m_generator); }
 
             /// <summary> Retrieves the next random number from the sequence. </summary>
-            T getRandom()                           { return m_distribution (m_generator); }}
+            T getRandom()                           { return m_distribution (m_generator); }
 
             T getMin() const                        { return m_distribution.min(); }
             T getMax() const                        { return m_distribution.max(); }
@@ -103,7 +103,7 @@ namespace util
         
         
             /// <summary> Retrieves the next random number from the sequence. </summary>
-            T operator()                            { return m_distribution (m_generator); }
+            T operator()()                          { return m_distribution (m_generator); }
 
             /// <summary> Retrieves the next random number from the sequence. </summary>
             T getRandom()                           { return m_distribution (m_generator); }
