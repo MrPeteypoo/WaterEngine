@@ -5,6 +5,9 @@
 #include <memory>
 
 
+const float fifteenFPS = static_cast<float> (1.0 / 15.0);
+
+
 
 bool MilestoneEntity::initialise()
 {
@@ -19,10 +22,10 @@ void MilestoneEntity::update (const float deltaTime)
     {
         m_time += deltaTime;
 
-        const float fifteenFPS = 1.f / 15.f;
-
         if (m_time >= fifteenFPS)
         {
+            m_time -= fifteenFPS;
+
             if (++m_frame.x >= m_frameSize.x)
             {
                 m_frame.x = 0;

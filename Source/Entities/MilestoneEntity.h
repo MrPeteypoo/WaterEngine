@@ -32,6 +32,7 @@ class MilestoneEntity final : public IEntity
         Vector2D<float>& getPosition() final override { return m_position; }
 
         void setTextureID (const TextureID id)                  { m_texture = id; }
+        void setBlendType (const BlendType blend)               { m_blend = blend; }
         void setFrame (const Vector2D<unsigned int>& frame)     { m_frame = frame; }
         void setFrameSize (const Vector2D<unsigned int>& size)  { m_frameSize = size; }
 
