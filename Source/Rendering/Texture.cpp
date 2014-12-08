@@ -126,7 +126,7 @@ void Texture::loadTexture (const std::string& fileLocation)
     
     else
     {   
-        throw std::runtime_error ("Unable to initialise Texture with file: " + fileLocation);
+        throw std::runtime_error ("Texture::loadTexture(): Unable to initialise Texture with file \"" + fileLocation + "\"");
     }
 }
 
@@ -167,7 +167,7 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
 
     // Determine the frame offset and check if the texture size needs changing.
     Vector2D<unsigned int> frameOffset { 0, 0 };
-        
+
     // If m_frames is zero it's a single texture and therefore do not need to calculate offsets.
     if (m_frames != 0)
     {
