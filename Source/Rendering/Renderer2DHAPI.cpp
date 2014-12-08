@@ -44,7 +44,7 @@ struct Renderer2DHAPIImpl final
 Renderer2DHAPI::Renderer2DHAPI()
 {
     // Ensure we have our implementation data.
-    m_impl = new Renderer2DHAPIImpl();
+    m_pImpl = new Renderer2DHAPIImpl();
 }
 
 
@@ -60,16 +60,16 @@ Renderer2DHAPI& Renderer2DHAPI::operator= (Renderer2DHAPI&& move)
     if (this != &move)
     {
         // Ensure we don't have memory leaks.
-        if (m_impl)
+        if (m_pImpl)
         {
-            delete m_impl;
+            delete m_pImpl;
         }
 
         // Take ownership of the movee implementation data.
-        m_impl = move.m_impl;
+        m_pImpl = move.m_pImpl;
 
         // Ensure we don't break the movee.
-        move.m_impl = new Renderer2DHAPIImpl();
+        move.m_pImpl = new Renderer2DHAPIImpl();
     }
 
     return *this;
@@ -79,10 +79,10 @@ Renderer2DHAPI& Renderer2DHAPI::operator= (Renderer2DHAPI&& move)
 Renderer2DHAPI::~Renderer2DHAPI()
 {
     // Clean up after ourselves.
-    if (m_impl)
+    if (m_pImpl)
     {
-        delete m_impl;
-        m_impl = nullptr;
+        delete m_pImpl;
+        m_pImpl = nullptr;
     }
 }
 
@@ -104,11 +104,11 @@ void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight)
     }
 
     // Initialise data.
-    m_impl->screen = HAPI->GetScreenPointer();
-    m_impl->screenSpace = { 0, 0, screenWidth - 1, screenHeight - 1 };
+    m_pImpl->screen = HAPI->GetScreenPointer();
+    m_pImpl->screenSpace = { 0, 0, screenWidth - 1, screenHeight - 1 };
 
     // Ensure the screen pointer is valid.
-    if (!m_impl->screen)
+    if (!m_pImpl->screen)
     {
         throw std::runtime_error ("Renderer2DHAPI::initialise(): Failed to obtain a pointer to the screenbuffer.");
     }
@@ -117,7 +117,7 @@ void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight)
 
 void Renderer2DHAPI::clearTextureData()
 {
-    m_impl->textures.clear();
+    m_pImpl->textures.clear();
 }
 
 
@@ -129,10 +129,10 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Ve
         Texture texture (fileLocation, frameDimensions);
 
         // Determine the texture ID.
-        const TextureID textureID = m_impl->hasher (fileLocation);
+        const TextureID textureID = m_pImpl->hasher (fileLocation);
 
         // Add it to the unordered map.
-        m_impl->textures.emplace (textureID, std::move (texture));
+        m_pImpl->textures.emplace (textureID, std::move (texture));
 
         return textureID;
     }
@@ -163,13 +163,13 @@ void Renderer2DHAPI::clearToBlack (const float blackLevel)
     const auto black = static_cast<BYTE> (channel * blackLevel);
 
     // Use memset for efficiency.
-    std::memset (m_impl->screen, black, m_impl->screenSpace.area() * sizeOfColour);
+    std::memset (m_pImpl->screen, black, m_pImpl->screenSpace.area() * sizeOfColour);
 }
 
 
 void Renderer2DHAPI::clearToColour (const float red, const float green, const float blue, const float alpha)
 {
-    const auto      screenSize  =   m_impl->screenSpace.area();
+    const auto      screenSize  =   m_pImpl->screenSpace.area();
     const Colour    colour      {   static_cast<BYTE> (channel * red),
                                     static_cast<BYTE> (channel * green), 
                                     static_cast<BYTE> (channel * blue), 
@@ -179,7 +179,7 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
     for (unsigned int i = 0; i < screenSize; ++i)
     {
         // Find the correct memory address
-        auto pixel = m_impl->screen + i * sizeOfColour;
+        auto pixel = m_pImpl->screen + i * sizeOfColour;
 
         std::memcpy (pixel, &colour, sizeOfColour);
     }
@@ -197,10 +197,10 @@ void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id
     try
     {
         // If the texture doesn't exist an out-of-range error will be thrown.
-        auto& texture = m_impl->textures.at (id);
+        auto& texture = m_pImpl->textures.at (id);
 
         // Blit the valid texture.
-        texture.blit (m_impl->screen, m_impl->screenSpace, point, blend, frame);
+        texture.blit (m_pImpl->screen, m_pImpl->screenSpace, point, blend, frame);
     }
 
     catch (std::exception& error)

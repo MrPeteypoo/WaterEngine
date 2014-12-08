@@ -76,7 +76,7 @@ class Renderer2DHAPI final : public IRenderer2D
 
     private:  
 
-        Renderer2DHAPIImpl* m_impl { nullptr };   //!< A pointer to the implementation data.
+        Renderer2DHAPIImpl* m_pImpl { nullptr };   //!< A pointer to the implementation data.
 };
 
 
