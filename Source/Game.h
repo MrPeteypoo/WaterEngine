@@ -4,18 +4,17 @@
 
 // STL headers.
 #include <memory>
+#include <vector>
 
 
 // Engine headers.
-#include <Rendering/Renderer2DHAPI.h>
 #include <HAPI_lib.h>
 #include <Maths/Rectangle.h>
-#include <Maths/Vector2D.h>
-#include <Rendering/Texture.h>
 
 
-// Alias declarations.
-class ScreenManager;
+// Forward declarations.
+class IEntity;
+class IRenderer2D;
 
 using Controller    = HAPI_TControllerData;
 using Keyboard      = HAPI_TKeyboardData;
@@ -75,28 +74,25 @@ class Game final
 
         #pragma region Member variables
 
-        int                             m_screenWidth       { 256 };        //!< The width of the screen in pixels.
-        int                             m_screenHeight      { 256 };        //!< The height of the screen in pixels.
+        int                                     m_screenWidth       { 256 };        //!< The width of the screen in pixels.
+        int                                     m_screenHeight      { 256 };        //!< The height of the screen in pixels.
 
-        DWORD                           m_oldTime           { 0 };          //!< The previous time in milliseconds, used to calculate delta time.
-        DWORD                           m_currentTime       { 0 };          //!< The current time in milliseconds, used to calculate delta time.
+        DWORD                                   m_oldTime           { 0 };          //!< The previous time in milliseconds, used to calculate delta time.
+        DWORD                                   m_currentTime       { 0 };          //!< The current time in milliseconds, used to calculate delta time.
 
-        float                           m_deltaTime         { 0.f };        //!< The deltaTime calculated each frame.
-        float                           m_sixtyFPSDeltaTime { 0.f };        //!< The deltaTime used to limit certain actions such as input to 60FPS.
+        float                                   m_deltaTime         { 0.f };        //!< The deltaTime calculated each frame.
+        float                                   m_sixtyFPSDeltaTime { 0.f };        //!< The deltaTime used to limit certain actions such as input to 60FPS.
 
-        bool                            m_controllerOn      { false };      //!< Indicates whether a controller is plugged in and turned on.
+        bool                                    m_controllerOn      { false };      //!< Indicates whether a controller is plugged in and turned on.
 
-        Controller                      m_controller        { };            //!< A cache of controller input, updated every 60 FPS.
-        Keyboard                        m_keyboard          { };            //!< A cache of keyboard input, updated every 60 FPS.
+        Controller                              m_controller        {  };           //!< A cache of controller input, updated every 60 FPS.
+        Keyboard                                m_keyboard          {  };           //!< A cache of keyboard input, updated every 60 FPS.
 
-        Texture                         m_background        { };            //!< The static background for milestone 2.
-        Texture                         m_circle            { };            //!< The alpha-blended circle for milestone 2.
-        
-        Vector2D<float>                 m_circlePosition    { };            //!< The position to draw the circle on-screen.
+        Rectangle                               m_centreZone        {  };           //!< The centre point of the screen.
 
-        Rectangle                       m_centreZone        { };            //!< The centre point of the screen.
+        std::vector<std::unique_ptr<IEntity>>   m_entities          {  };    //!< A vector containing every entity in the game.
 
-        std::shared_ptr<ScreenManager>  m_pScreenManager    { nullptr };    //!< The screen manager used to draw everything onto the screen.
+        std::shared_ptr<IRenderer2D>            m_pRenderer         { nullptr };    //!< The renderer used to draw everything onto the screen.
 
         #pragma endregion
 
