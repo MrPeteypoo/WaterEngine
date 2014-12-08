@@ -30,7 +30,7 @@ class IEntity
         virtual void render (const std::shared_ptr<IRenderer2D>& renderer) = 0;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
-        virtual Vector2D<float>& getPosition();
+        virtual Vector2D<float>& getPosition() = 0;
 };
 
 
