@@ -48,7 +48,7 @@ class Texture final
         #pragma region Getters and setters
 
         /// <summary> Returns the raw data, useful for accessing line-by-line. </summary>
-        const BYTE* const getData() const   { return m_data.get(); }
+        const BYTE* const getData() const   { return m_pData.get(); }
 
         /// <summary> Returns how many frames exist, 0 means the texture is not a spritesheet. </summary>
         unsigned int getFrameCount() const  { return m_frames; }
@@ -65,7 +65,7 @@ class Texture final
         #pragma region Loading functionality
 
         /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
-        bool hasLoaded() const              { return m_data != nullptr; }
+        bool hasLoaded() const              { return m_pData != nullptr; }
         
         /// <summary> 
         /// Attempts to load a texture using the file location specified.
@@ -106,7 +106,7 @@ class Texture final
 
         Rectangle               m_textureSpace      {  };   //!< The total rectangular area of the texture.
 
-        std::unique_ptr<BYTE[]> m_data              {  };   //!< The raw memory data of the texture.
+        std::unique_ptr<BYTE[]> m_pData              {  };   //!< The raw memory data of the texture.
 
         #pragma endregion
 };

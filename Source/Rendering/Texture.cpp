@@ -50,12 +50,12 @@ Texture& Texture::operator= (Texture&& move)
 
         m_frameDimensions = std::move (move.m_frameDimensions);
         m_textureSpace = std::move (move.m_textureSpace);
-        m_data = std::move (move.m_data);
+        m_pData = std::move (move.m_pData);
 
 
         // Reset the movee.
         move.m_frames = 0;
-        move.m_data = nullptr;
+        move.m_pData = nullptr;
     }
 
     return *this;
@@ -74,6 +74,8 @@ Texture& Texture::resetFrameDimensions()
     m_frames = 0;
     m_frameDimensions.x = 0;
     m_frameDimensions.y = 0;
+
+    return *this;
 }
 
 
@@ -92,6 +94,8 @@ Texture& Texture::setFrameDimensions (const Vector2D<unsigned int>& dimensions)
         m_frameDimensions.x = dimensions.x;
         m_frameDimensions.y = dimensions.y;
     }
+
+    return *this;
 }
 
 
@@ -117,7 +121,7 @@ void Texture::loadTexture (const std::string& fileLocation)
         m_textureSpace = { 0, 0, width - 1, height - 1 };
 
         // Turn the raw pointer into a unique_ptr.
-        m_data = std::unique_ptr<BYTE[]> (data);
+        m_pData = std::unique_ptr<BYTE[]> (data);
     }
     
     else
@@ -160,6 +164,24 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
                             point.y,
                             point.x + static_cast<int> (textureWidth - 1),
                             point.y + static_cast<int> (textureHeight - 1) };
+
+    // Determine the frame offset and check if the texture size needs changing.
+    Vector2D<unsigned int> frameOffset { 0, 0 };
+        
+    // If m_frames is zero it's a single texture and therefore do not need to calculate offsets.
+    if (m_frames != 0)
+    {
+        const unsigned int  frameWidth = textureWidth / m_frameDimensions.x,
+                            frameHeight = textureHeight / m_frameDimensions.y;
+
+        // Update the texture co-ordinates.
+        texture.setRight (point.x + static_cast<int> (frameWidth) - 1);
+        texture.setBottom (point.y + static_cast<int> (frameHeight) - 1);
+
+        // Calculate how much we need to translate by.
+        frameOffset.x = frame.x * frameWidth;
+        frameOffset.y = frame.y * frameHeight;
+    }
     
     // We will only draw if the texture is on-screen.
     if (screenSpace.intersects (texture))
@@ -174,20 +196,6 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
         // Translate back to texture space, ready for blitting.
         texture.translate (-point.x, -point.y);
 
-        // Determine the frame offset.
-        Vector2D<unsigned int> frameOffset { 0, 0 };
-        
-        // If m_frames is zero it's a single texture, if not then as long as frame is equal to zero we don't need an offset.
-        if (m_frames != 0 && (frame.x != 0 || frame.y != 0))
-        {
-            const unsigned int  frameWidth = textureWidth / m_frameDimensions.x,
-                                frameHeight = textureHeight / m_frameDimensions.y;
-
-            // Calculate how much we need to translate by.
-            frameOffset.x = frame.x * frameWidth;
-            frameOffset.y = frame.y * frameHeight;             
-        }
-
         // Call the correct blitting function.
         switch (blend)
         {
@@ -196,7 +204,7 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
                 break;
 
             case BlendType::Transparent:
-                //blitTransparent (position, textureRect, texture);
+                blitTransparent (screen, screenSpace, point, frameOffset, texture);
                 break;
         }
     }
@@ -219,7 +227,7 @@ void Texture::blitOpaque (BYTE* screen, const Rectangle& screenSpace, const Vect
                 screenOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * screenWidth;
     
     // Obtain the data from the texture.
-    const auto  textureData     = m_data.get() + dataOffset;
+    const auto  textureData     = m_pData.get() + dataOffset;
     
     // Calculate the starting pointer to the screen position.
     screen += screenOffset;    
@@ -248,7 +256,7 @@ void Texture::blitTransparent (BYTE* const screen, const Rectangle& screenSpace,
                 screenOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * screenWidth;
 
     // Create the required pointers for the blitting process.
-    auto        currentData     = m_data.get() + dataOffset;
+    auto        currentData     = m_pData.get() + dataOffset;
     auto        currentPixel    = screen + screenOffset;
 
     // Avoid those magic constants!
