@@ -1,5 +1,42 @@
 Simon Peter Campbell (N3053620)
 -------------------------------
+Milestone 4 v1 (8/12/2014)
+--------------------------------
+
+New Functionality
+-----------------
+
+Completely black-boxed the rendering system.
+Moved blitting into the Texture class.
+Added spritesheet support to the Texture class.
+Created a basic entity system.
+Changed Vector3D to be a template.
+Added multiple instances of animated explosions.
+
+Code Additions
+--------------
+
+IRenderer2D interface       An interface for the rest of the system to interact with the renderering systems with.
+Renderer2DHAPI class        A 2D renderer which uses HAPI for the rendering and loading of images.
+IEntity interface           A basic interface for basic entity rendering and updating.
+Texture spritesheet support Textures can now be split up into frames within the same Texture.
+
+Tests
+-----
+
+Attempt to use the rendering interface:            The game renders the same as it previously has at comparable speeds.
+Attempt to draw an invalid texture:                Exceptions are thrown and the texture will not be drawn.
+Attempt to load an invalid texture:                Exceptions are thrown and an invalid ID is returned.
+
+
+(e.g. a stress test may be done where you try extreme values for things. e.g. render 1,000 sprites all at the same time)
+
+Notes
+-----
+
+Mostly vast amounts of refactoring, the new system feels much nicer.
+
+
 Milestone 3 v1 (21/11/2014)
 --------------------------------
 
@@ -34,7 +71,7 @@ Unplug a controller after starting the game:       Controller input is disabled 
 Notes
 -----
 
-Most of the milestone was just cleanup work, there wasn't much core functionality that needed to be added to support clipping
+Most of the milestone was just cleanup work, there wasn't much core functionality that needed to be added to support clipping.
 
 
 Milestone 2 v1 (24/10/2014)
