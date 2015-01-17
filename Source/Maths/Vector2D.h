@@ -32,7 +32,7 @@ template <typename T> struct Vector2D final
     #pragma region Operators
 
     /// <summary> Allows the Vector2D to be cast between specialisations. </summary>
-    template <typename U> operator Vector2D<U>() { return { static_cast<U> (x), static_cast<U> (y) }; }
+    template <typename U> operator Vector2D<U>() const;
 
     /// <summary> Checks whether the vector is equal to another. </summary>
     bool operator== (const Vector2D& rhs) const;
@@ -100,8 +100,8 @@ template <typename T> struct Vector2D final
 
     #pragma region Member variables
 
-    T x { (T) 0 };              //!< The x component of the vector.
-    T y { (T) 0 };              //!< The y component of the vector.
+    T x { static_cast<T> (0) }; //!< The x component of the vector.
+    T y { static_cast<T> (0) }; //!< The y component of the vector.
 
     #pragma endregion
 };
@@ -141,11 +141,21 @@ template <typename T> Vector2D<T>& Vector2D<T>::operator= (Vector2D&& move)
         x = move.x;
         y = move.y;
 
-        move.x = (T) 0;
-        move.y = (T) 0;
+        const T zero { static_cast<T> (0) };
+
+        move.x = zero;
+        move.y = zero;
     }
 
     return *this;
+}
+
+
+template <typename T>
+template <typename U> Vector2D<T>::operator Vector2D<U>() const
+{ 
+    return {    static_cast<U> (x), 
+                static_cast<U> (y) }; 
 }
 
 

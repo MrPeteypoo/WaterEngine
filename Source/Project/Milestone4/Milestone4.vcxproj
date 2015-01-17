@@ -19,23 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Game.cpp" />
-    <ClCompile Include="..\..\Maths\Rectangle.cpp" />
-    <ClCompile Include="..\..\Rendering\ScreenManager.cpp" />
-    <ClCompile Include="..\..\Rendering\Texture.cpp" />
+    <ClInclude Include="..\..\Entities\MilestoneEntity.h" />
+    <ClInclude Include="..\..\Game.h" />
+    <ClInclude Include="..\..\Interfaces\IEntity.h" />
+    <ClInclude Include="..\..\Interfaces\IRenderer2D.h" />
+    <ClInclude Include="..\..\Maths\Rectangle.h" />
+    <ClInclude Include="..\..\Maths\Vector2D.h" />
+    <ClInclude Include="..\..\Maths\Vector3D.h" />
+    <ClInclude Include="..\..\Rendering\BlendType.h" />
+    <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h" />
+    <ClInclude Include="..\..\Rendering\Texture.h" />
+    <ClInclude Include="..\..\Utility\Maths.h" />
+    <ClInclude Include="..\..\Utility\RNG.h" />
+    <ClInclude Include="..\..\Utility\Time.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Game.h" />
-    <ClInclude Include="..\..\Maths\Rectangle.h" />
-    <ClInclude Include="..\..\Maths\Utility.h" />
-    <ClInclude Include="..\..\Maths\Vector2D.h" />
-    <ClInclude Include="..\..\Rendering\ScreenManager.h" />
-    <ClInclude Include="..\..\Rendering\Texture.h" />
+    <ClCompile Include="..\..\Entities\MilestoneEntity.cpp" />
+    <ClCompile Include="..\..\Game.cpp" />
+    <ClCompile Include="..\..\Maths\Rectangle.cpp" />
+    <ClCompile Include="..\..\Rendering\Renderer2DHAPI.cpp" />
+    <ClCompile Include="..\..\Rendering\Texture.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Milestone3</RootNamespace>
+    <RootNamespace>Milestone4</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -120,7 +128,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)../</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -140,7 +148,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)../</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -162,7 +170,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)../</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -186,7 +194,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)../</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
