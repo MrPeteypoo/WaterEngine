@@ -26,7 +26,6 @@
     <ClInclude Include="..\..\Maths\Rectangle.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
     <ClInclude Include="..\..\Maths\Vector3D.h" />
-    <ClInclude Include="..\..\Rendering\BlendType.h" />
     <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />
     <ClInclude Include="..\..\Utility\Maths.h" />
