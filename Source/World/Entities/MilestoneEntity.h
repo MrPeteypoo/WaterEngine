@@ -3,8 +3,8 @@
 
 
 // Engine headers.
-#include <Interfaces/IEntity.h>
-#include <Interfaces/IRenderer2D.h>
+#include <World/Entities/IEntity.h>
+#include <Rendering/IRenderer2D.h>
 #include <Maths/Vector2D.h>
 
 

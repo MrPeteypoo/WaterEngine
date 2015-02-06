@@ -7,7 +7,7 @@
 
 
 // Engine headers.
-//#include <Entities/MilestoneEntity.h>
+#include <World/Entities/MilestoneEntity.h>
 #include <Maths/Vector2D.h>
 #include <Maths/Vector3D.h>
 #include <Rendering/Renderer2DHAPI.h>
@@ -48,7 +48,7 @@ bool Game::initialise()
                                 m_pRenderer->loadTexture (explosionLocation, { 5, 5 }) };
 
         // Make the entities.
-        /*auto background = std::make_unique<MilestoneEntity>(), circle = std::make_unique<MilestoneEntity>();
+        auto background = std::make_unique<MilestoneEntity>(), circle = std::make_unique<MilestoneEntity>();
 
         background->getPosition() = { 0.f, 0.f };
         background->setTextureID (ids[0]);
@@ -90,7 +90,7 @@ bool Game::initialise()
                             static_cast<int> (m_screenHeight / 2.f - m_screenHeight / 20.f), 
                             static_cast<int> (m_screenWidth / 2.f + m_screenWidth / 20.f), 
                             static_cast<int> (m_screenHeight / 2.f + m_screenHeight / 20.f) };
-                            */
+                            
         return true;
     }
 
@@ -160,8 +160,8 @@ void Game::updateCapped()
 
     if (m_controllerOn)
     {
-        /*const auto& circlePosition = m_entities[1]->getPosition();
-        const Rectangle circleRect { static_cast<int> (circlePosition.x), 
+        const auto& circlePosition = m_entities[1]->getPosition();
+        const Rectangle<int> circleRect { static_cast<int> (circlePosition.x), 
                                      static_cast<int> (circlePosition.y), 
                                      static_cast<int> (circlePosition.x + 63), 
                                      static_cast<int> (circlePosition.y + 63) };
@@ -174,14 +174,14 @@ void Game::updateCapped()
         else
         {
             HAPI->SetControllerRumble (0, 0, 0);
-        }*/
+        }
     }
 }
 
 
 void Game::updateMain()
 {
-    /*auto& circlePosition = m_entities[1]->getPosition();
+    auto& circlePosition = m_entities[1]->getPosition();
 
     // Handle keyboard input.
     if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 
@@ -214,7 +214,7 @@ void Game::updateMain()
         {
             entity->update (m_deltaTime);
         }
-    }*/
+    }
 }
 
 
@@ -226,13 +226,13 @@ void Game::renderAll()
     Vector2D<> point2D { };
     Vector3D<> point3D { };
 
-    /*for (auto& entity : m_entities)
+    for (auto& entity : m_entities)
     {
         if (entity)
         {
             entity->render (m_pRenderer);
         }
-    }*/
+    }
 }
 
 

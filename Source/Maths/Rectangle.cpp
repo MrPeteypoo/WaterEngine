@@ -21,7 +21,7 @@ template Rectangle<double>;
 #pragma endregion
 
 
-#pragma region Constructors and destructor
+#pragma region Constructors
 
 template <typename T> Rectangle<T>::Rectangle (const T left, const T top, const T right, const T bottom)
 {
@@ -71,13 +71,6 @@ template <typename T> Rectangle<T>& Rectangle<T>::operator= (Rectangle&& move)
 
 
 #pragma region Operators
-
-template <typename T>
-template <typename U> Rectangle<T>::operator Rectangle<U>() const
-{
-    return { (U) m_left, (U) m_top, (U) m_right, (U) m_bottom };
-}
-
 
 template <typename T> bool Rectangle<T>::operator== (const Rectangle& rhs) const
 {

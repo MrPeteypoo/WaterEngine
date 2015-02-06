@@ -28,7 +28,7 @@ template <typename T> class Rectangle final
         #pragma region Operators
         
         /// <summary> Returns a casted version of the rectangle with the desired type. </summary>
-        template <typename U> operator Rectangle<U>() const;
+        template <typename U> operator Rectangle<U>() const { return { (U) m_left, (U) m_top, (U) m_right, (U) m_bottom }; }
 
         bool operator== (const Rectangle& rhs) const;
         bool operator!= (const Rectangle& rhs) const;

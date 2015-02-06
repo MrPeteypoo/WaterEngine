@@ -37,7 +37,7 @@ template <typename T = float> struct Vector3D final
     #pragma region Operators
 
     /// <summary> Allows the Vector3D to be cast between specialisations. </summary>
-    template <typename U> operator Vector3D<U>() const;
+    template <typename U> operator Vector3D<U>() const  { return { (U) x, (U) y, (U) z }; }
 
     /// <summary> Checks whether the vector is equal to another. </summary>
     bool operator== (const Vector3D& rhs) const;

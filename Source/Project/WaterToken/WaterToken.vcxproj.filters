@@ -37,6 +37,9 @@
     <ClCompile Include="..\..\Maths\Vector3D.cpp">
       <Filter>Maths</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h">
@@ -72,6 +75,12 @@
     <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Rendering\IRenderer2D.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\World\Entities\IEntity.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\World\Entities\MilestoneEntity.h">
+      <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

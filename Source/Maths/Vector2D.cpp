@@ -44,13 +44,6 @@ template <typename T> Vector2D<T>& Vector2D<T>::operator= (Vector2D&& move)
 
 #pragma region Operators
 
-template <typename T>
-template <typename U> Vector2D<T>::operator Vector2D<U>() const
-{ 
-    return { (U) x, (U) y }; 
-}
-
-
 template <typename T> bool Vector2D<T>::operator== (const Vector2D& rhs) const
 {
     return (x == rhs.x && y == rhs.y);

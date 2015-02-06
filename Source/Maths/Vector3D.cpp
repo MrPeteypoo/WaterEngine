@@ -46,14 +46,6 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator= (Vector3D&& move)
 
 #pragma region Operators
 
-template <typename T>
-template <typename U> Vector3D<T>::operator Vector3D<U>() const 
-{ 
-    return {    static_cast<U> (x), 
-                static_cast<U> (y), 
-                static_cast<U> (z) }; 
-}
-
 template <typename T> bool Vector3D<T>::operator== (const Vector3D& rhs) const
 {
     return (    x == rhs.x && 

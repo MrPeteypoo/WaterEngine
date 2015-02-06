@@ -36,7 +36,7 @@ template <typename T = float> struct Vector2D final
     #pragma region Operators
 
     /// <summary> Allows the Vector2D to be cast between specialisations. </summary>
-    template <typename U> operator Vector2D<U>() const;
+    template <typename U> operator Vector2D<U>() const  { return { (U) x, (U) y }; }
 
     /// <summary> Checks whether the vector is equal to another. </summary>
     bool operator== (const Vector2D& rhs) const;
