@@ -46,6 +46,18 @@ template <typename T = float> struct Vector2D final
     /// <summary> Finds the difference between two vectors. </summary>
     Vector2D operator- (const Vector2D& rhs) const;
 
+    /// <summary> Multiples each component of two vectors. </summary>
+    Vector2D operator* (const Vector2D& rhs) const;
+
+    /// <summary> Divides each component of two vectors. </summary>
+    Vector2D operator/ (const Vector2D& rhs) const;
+
+    /// <summary> Translates each component of the vector by a value. </summary>
+    Vector2D operator+ (const T rhs) const;
+
+    /// <summary> Negatively translates each component of the vector by a value. </summary>
+    Vector2D operator- (const T rhs) const;
+
     /// <summary> Multiples each component of the vector by a value. </summary>
     Vector2D operator* (const T rhs) const;
 
@@ -57,6 +69,18 @@ template <typename T = float> struct Vector2D final
 
     /// <summary> Subtracts a vector from the current vector. </summary>
     Vector2D& operator-= (const Vector2D& rhs);
+
+    /// <summary> Multiples each component of the current vector by the given vector. </summary>
+    Vector2D& operator*= (const Vector2D& rhs);
+
+    /// <summary> Divides each component of the current vector by the given vector. </summary>
+    Vector2D& operator/= (const Vector2D& rhs);
+
+    /// <summary> Adds a value onto each component of the current vector. </summary>
+    Vector2D& operator+= (const T rhs);
+
+    /// <summary> Subtracts a value from each component of the current vector. </summary>
+    Vector2D& operator-= (const T rhs);
 
     /// <summary> Multiples each component of the current vector by a value. </summary>
     Vector2D& operator*= (const T rhs);
@@ -95,40 +119,24 @@ template <typename T = float> struct Vector2D final
     /// <summary> Converts the vector into a unit vector. </summary>
     void normalise();
 
+    /// <summary> Calculates the dot/scalar product of two given vectors. </summary>
+    static T dotProduct (const Vector2D<T>& lhs, const Vector2D<T>& rhs);
+
     #pragma endregion
 
 
     #pragma region Member variables
 
-    T x { static_cast<T> (0) }; //!< The x component of the vector.
-    T y { static_cast<T> (0) }; //!< The y component of the vector.
+    T   x   { (T) 0 },  //!< The x component of the vector.
+        y   { (T) 0 };  //!< The y component of the vector.
 
     #pragma endregion
 };
 
 
-#pragma region Helper functions
-
-
-/// <summary> Calculates the dot/scalar product of two given vectors. </summary>
-template <typename T> T dotProduct (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
-{
-    // Calculate each component.
-    const T x   { lhs.x * rhs.x },
-            y   { lhs.y * rhs.y };
-    
-    // Return the calculated product.
-    return ( x + y );
-}
-
-
-#pragma endregion
-
-
 #pragma region Implementations
 
-
-template <typename T> Vector2D<T>::Vector2D (Vector2D<T>&& move)
+template <typename T> Vector2D<T>::Vector2D (Vector2D&& move)
 {
     *this = std::move (move);
 }
@@ -141,7 +149,7 @@ template <typename T> Vector2D<T>& Vector2D<T>::operator= (Vector2D&& move)
         x = move.x;
         y = move.y;
 
-        const T zero { static_cast<T> (0) };
+        const T zero { (T) 0 };
 
         move.x = zero;
         move.y = zero;
@@ -154,8 +162,7 @@ template <typename T> Vector2D<T>& Vector2D<T>::operator= (Vector2D&& move)
 template <typename T>
 template <typename U> Vector2D<T>::operator Vector2D<U>() const
 { 
-    return {    static_cast<U> (x), 
-                static_cast<U> (y) }; 
+    return { (U) x, (U) y }; 
 }
 
 
@@ -180,6 +187,30 @@ template <typename T> Vector2D<T> Vector2D<T>::operator+ (const Vector2D& rhs) c
 template <typename T> Vector2D<T> Vector2D<T>::operator- (const Vector2D& rhs) const
 {
     return { x - rhs.x, y - rhs.y };
+}
+
+
+template <typename T> Vector2D<T> Vector2D<T>::operator* (const Vector2D& rhs) const
+{
+    return { x * rhs.x, y * rhs.y };
+}
+
+
+template <typename T> Vector2D<T> Vector2D<T>::operator/ (const Vector2D& rhs) const
+{
+    return { x / rhs.x, y / rhs.y };
+}
+
+
+template <typename T> Vector2D<T> Vector2D<T>::operator+ (const T rhs) const
+{
+    return { x + rhs, y + rhs };
+}
+
+
+template <typename T> Vector2D<T> Vector2D<T>::operator- (const T rhs) const
+{
+    return { x - rhs, y - rhs };
 }
 
 
@@ -208,6 +239,42 @@ template <typename T> Vector2D<T>& Vector2D<T>::operator-= (const Vector2D& rhs)
 {
     x -= rhs.x;
     y -= rhs.y;
+
+    return *this;
+}
+
+
+template <typename T> Vector2D<T>& Vector2D<T>::operator*= (const Vector2D& rhs)
+{
+    x *= rhs.x;
+    y *= rhs.y;
+
+    return *this;
+}
+
+
+template <typename T> Vector2D<T>& Vector2D<T>::operator/= (const Vector2D& rhs)
+{
+    x /= rhs.x;
+    y /= rhs.y;
+
+    return *this;
+}
+
+
+template <typename T> Vector2D<T>& Vector2D<T>::operator+= (const T rhs)
+{
+    x += rhs;
+    y += rhs;
+
+    return *this;
+}
+
+
+template <typename T> Vector2D<T>& Vector2D<T>::operator-= (const T rhs)
+{
+    x -= rhs;
+    y -= rhs;
 
     return *this;
 }
@@ -275,7 +342,16 @@ template <typename T> void Vector2D<T>::normalise()
 }
 
 
+template <typename T> T Vector2D<T>::dotProduct (const Vector2D<T>& lhs, const Vector2D<T>& rhs)
+{
+    // Calculate each component.
+    const T x   { lhs.x * rhs.x },
+            y   { lhs.y * rhs.y };
+    
+    // Return the calculated product.
+    return ( x + y );
+}
+
 #pragma endregion
 
-
-#endif // Vector2D_INCLUDED
+#endif // VECTOR2D_INCLUDED

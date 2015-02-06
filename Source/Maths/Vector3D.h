@@ -6,18 +6,17 @@
 #include <complex>
 
 
-
 /// <summary>
 /// A basic mathematical vector struct for a 3D vector.
 /// </summary>
-template <typename T> struct Vector3D final
+template <typename T = float> struct Vector3D final
 {
     #pragma region Constructors and destructor
 
     /// <summary> The default constructor, allows the initial values of each component to be set. </summary>
     Vector3D (const T newX, const T newY, const T newZ) : x (newX), y (newY), z (newZ) {};
 
-    Vector3D();
+    Vector3D()                                  = default;
     Vector3D (const Vector3D& copy)             = default;
     Vector3D& operator= (const Vector3D& copy)  = default;
 
@@ -43,8 +42,20 @@ template <typename T> struct Vector3D final
     /// <summary> Adds two vectors together. </summary>
     Vector3D operator+ (const Vector3D& rhs) const;
 
-    /// <summary> Finds the difference between two vectors. </summary>
+    /// <summary> Calculates the difference between two vectors. </summary>
     Vector3D operator- (const Vector3D& rhs) const;
+
+    /// <summary> Multiples each component of two vectors. </summary>
+    Vector3D operator* (const Vector3D& rhs) const;
+
+    /// <summary> Divides each component of two vectors. </summary>
+    Vector3D operator/ (const Vector3D& rhs) const;
+
+    /// <summary> Translates each component of the vector by a value. </summary>
+    Vector3D operator+ (const T rhs) const;
+
+    /// <summary> Negatively translates each component of the vector by a value. </summary>
+    Vector3D operator- (const T rhs) const;
 
     /// <summary> Multiples each component of the vector by a value. </summary>
     Vector3D operator* (const T rhs) const;
@@ -57,6 +68,18 @@ template <typename T> struct Vector3D final
 
     /// <summary> Subtracts a vector from the current vector. </summary>
     Vector3D& operator-= (const Vector3D& rhs);
+
+    /// <summary> Multiples each component of the current vector by the given vector. </summary>
+    Vector3D& operator*= (const Vector3D& rhs);
+
+    /// <summary> Divides each component of the current vector by the given vector. </summary>
+    Vector3D& operator/= (const Vector3D& rhs);
+
+    /// <summary> Adds a value onto each component of the current vector. </summary>
+    Vector3D& operator+= (const T rhs);
+
+    /// <summary> Subtracts a value from each component of the current vector. </summary>
+    Vector3D& operator-= (const T rhs);
 
     /// <summary> Multiples each component of the current vector by a value. </summary>
     Vector3D& operator*= (const T rhs);
@@ -95,6 +118,11 @@ template <typename T> struct Vector3D final
     /// <summary> Converts the vector into a unit vector. </summary>
     void normalise();
 
+    /// <summary> Calculates the dot/scalar product of two given vectors. </summary>
+    static T dotProduct (const Vector3D& lhs, const Vector3D& rhs);
+    
+    /// <summary> Calculates the cross/vector product of two given vectors. </summary>
+    static Vector3D crossProduct (const Vector3D& lhs, const Vector3D& rhs);
 
     #pragma endregion
 
@@ -107,36 +135,6 @@ template <typename T> struct Vector3D final
 
     #pragma endregion
 };
-
-
-#pragma region Helper functions
-
-/// <summary> Calculates the dot/scalar product of two given vectors. </summary>
-template <typename T> T dotProduct (const Vector3D<T>& lhs, const Vector3D<T>& rhs)
-{
-    // Calculate each component.
-    const T x   { lhs.x * rhs.x },
-            y   { lhs.y * rhs.y },
-            z   { lhs.z * rhs.z };
-    
-    // Return the calculated product.
-    return ( x + y - z );
-}
-
-
-/// <summary> Calculates the cross/vector product of two given vectors. </summary>
-template <typename T> Vector3D<T> crossProduct (const Vector3D<T>& lhs, const Vector3D<T>& rhs)
-{
-    // Calculate the determinants.
-    const T x   {  (lhs.y * rhs.z - lhs.z * rhs.y) },
-            y   { -(lhs.x * rhs.z - lhs.z * rhs.x) },
-            z   {  (lhs.x * rhs.y - lhs.y * rhs.x) };
-
-    return { x, y, z };
-}
-
-#pragma endregion
-
 
 
 #pragma region Implementations
@@ -164,6 +162,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator= (Vector3D&& move)
 
     return *this;
 }
+
 
 template <typename T>
 template <typename U> Vector3D<T>::operator Vector3D<U>() const 
@@ -205,6 +204,38 @@ template <typename T> Vector3D<T> Vector3D<T>::operator- (const Vector3D& rhs) c
 }
 
 
+template <typename T> Vector3D<T> Vector3D<T>::operator* (const Vector3D& rhs) const
+{
+    return {    x * rhs.x,
+                y * rhs.y,
+                z * rhs.z   };
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator/ (const Vector3D& rhs) const
+{
+    return {    x / rhs.x,
+                y / rhs.y,
+                z / rhs.z   };
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator+ (const T rhs) const
+{
+    return {    x + rhs,
+                y + rhs,
+                z + rhs };
+}
+
+
+template <typename T> Vector3D<T> Vector3D<T>::operator- (const T rhs) const
+{
+    return {    x - rhs,
+                y - rhs,
+                z - rhs };
+}
+
+
 template <typename T> Vector3D<T> Vector3D<T>::operator* (const T rhs) const
 {
     return {    x * rhs,
@@ -241,6 +272,46 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const Vector3D& rhs)
 }
 
 
+template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const Vector3D& rhs)
+{
+    x *= rhs.x;
+    y *= rhs.y;
+    z *= rhs.z;
+
+    return *this;
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const Vector3D& rhs)
+{
+    x /= rhs.x;
+    y /= rhs.y;
+    z /= rhs.z;
+
+    return *this;
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator+= (const T rhs)
+{
+    x += rhs;
+    y += rhs;
+    z += rhs;
+
+    return *this;
+}
+
+
+template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const T rhs)
+{
+    x -= rhs;
+    y -= rhs;
+    z -= rhs;
+
+    return *this;
+}
+
+
 template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const T rhs)
 {
     x *= rhs;
@@ -260,10 +331,6 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const T rhs)
     return *this;
 }
 
-#pragma endregion Operators
-
-
-#pragma region Movement functionality
 
 template <typename T> void Vector3D<T>::setPosition (const T newX, const T newY, const T newZ)
 {
@@ -308,6 +375,29 @@ template <typename T> Vector3D<T> Vector3D<T>::normalised() const
 template <typename T> void Vector3D<T>::normalise()
 {
     *this /= magnitude();
+}
+
+
+template <typename T> T Vector3D<T>::dotProduct (const Vector3D<T>& lhs, const Vector3D<T>& rhs)
+{
+    // Calculate each component.
+    const T x   { lhs.x * rhs.x },
+            y   { lhs.y * rhs.y },
+            z   { lhs.z * rhs.z };
+    
+    // Return the calculated product.
+    return ( x + y - z );
+}
+
+
+template <typename T> Vector3D<T> crossProduct (const Vector3D<T>& lhs, const Vector3D<T>& rhs)
+{
+    // Calculate the determinants.
+    const T x   {  (lhs.y * rhs.z - lhs.z * rhs.y) },
+            y   { -(lhs.x * rhs.z - lhs.z * rhs.x) },
+            z   {  (lhs.x * rhs.y - lhs.y * rhs.x) };
+
+    return { x, y, z };
 }
 
 #pragma endregion

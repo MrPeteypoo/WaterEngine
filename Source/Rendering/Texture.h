@@ -106,7 +106,7 @@ class Texture final
 
         Rectangle               m_textureSpace      {  };   //!< The total rectangular area of the texture.
 
-        std::unique_ptr<BYTE[]> m_pData              {  };   //!< The raw memory data of the texture.
+        std::unique_ptr<BYTE[]> m_pData             {  };   //!< The raw memory data of the texture.
 
         #pragma endregion
 };

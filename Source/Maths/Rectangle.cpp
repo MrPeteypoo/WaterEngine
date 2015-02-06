@@ -10,10 +10,20 @@
 #include <Utility/Maths.h>
 
 
+
+#pragma region Instantiations
+
+template Rectangle<int>;
+template Rectangle<unsigned int>;
+template Rectangle<float>;
+template Rectangle<double>;
+
+#pragma endregion
+
+
 #pragma region Constructors and destructor
 
-
-Rectangle::Rectangle (const int left, const int top, const int right, const int bottom)
+template <typename T> Rectangle<T>::Rectangle (const T left, const T top, const T right, const T bottom)
 {
     // Test each component to check if it's valid.
     if (left > right || right < left || top > bottom || bottom < top)
@@ -31,33 +41,67 @@ Rectangle::Rectangle (const int left, const int top, const int right, const int 
 }
 
 
-Rectangle::Rectangle (Rectangle&& move)
+template <typename T> Rectangle<T>::Rectangle (Rectangle&& move)
 {
     *this = std::move (move);
 }
 
 
-Rectangle& Rectangle::operator= (Rectangle&& move)
+template <typename T> Rectangle<T>& Rectangle<T>::operator= (Rectangle&& move)
 {
     if (this != &move)
     {
-        m_left = move.m_left;
-        m_top = move.m_top;
-        m_right = move.m_right;
-        m_bottom = move.m_bottom;
+        m_left          = move.m_left;
+        m_top           = move.m_top;
+        m_right         = move.m_right;
+        m_bottom        = move.m_bottom;
+
+        // Reset primitives.
+        const T zero    = (T) 0;
+        move.m_left     = zero;
+        move.m_top      = zero;
+        move.m_right    = zero;
+        move.m_bottom   = zero;
     }
 
     return *this;
 }
 
+#pragma endregion
 
-#pragma endregion Constructors and destructor
+
+#pragma region Operators
+
+template <typename T>
+template <typename U> Rectangle<T>::operator Rectangle<U>() const
+{
+    return { (U) m_left, (U) m_top, (U) m_right, (U) m_bottom };
+}
+
+
+template <typename T> bool Rectangle<T>::operator== (const Rectangle& rhs) const
+{
+    return (m_left == rhs.m_left &&
+            m_top == rhs.m_top &&
+            m_right == rhs.m_right &&
+            m_bottom == rhs.m_bottom    );
+}
+
+
+template <typename T> bool Rectangle<T>::operator!= (const Rectangle& rhs) const
+{
+    return (m_left != rhs.m_left ||
+            m_top != rhs.m_top ||
+            m_right != rhs.m_right ||
+            m_bottom != rhs.m_bottom    );
+}
+
+#pragma endregion
 
 
 #pragma region Getters and setters
 
-
-void Rectangle::setLeft (const int left)
+template <typename T> void Rectangle<T>::setLeft (const T left)
 {
     if (left > m_right)
     {
@@ -68,7 +112,7 @@ void Rectangle::setLeft (const int left)
 }
 
 
-void Rectangle::setTop (const int top)
+template <typename T> void Rectangle<T>::setTop (const T top)
 {
     if (top > m_bottom)
     {
@@ -79,7 +123,7 @@ void Rectangle::setTop (const int top)
 }
 
 
-void Rectangle::setRight (const int right)
+template <typename T> void Rectangle<T>::setRight (const T right)
 {
     if (m_right < m_left)
     {
@@ -90,7 +134,7 @@ void Rectangle::setRight (const int right)
 }
 
 
-void Rectangle::setBottom (const int bottom)
+template <typename T> void Rectangle<T>::setBottom (const T bottom)
 {
     if (bottom < m_top)
     {
@@ -100,32 +144,12 @@ void Rectangle::setBottom (const int bottom)
     m_bottom = bottom;
 }
 
-
-#pragma endregion Getters and setters
+#pragma endregion 
 
 
 #pragma region Testing functionality
 
-
-bool Rectangle::operator== (const Rectangle& rhs) const
-{
-    return (m_left == rhs.m_left &&
-            m_top == rhs.m_top &&
-            m_right == rhs.m_right &&
-            m_bottom == rhs.m_bottom    );
-}
-
-
-bool Rectangle::operator!= (const Rectangle& rhs) const
-{
-    return (m_left != rhs.m_left ||
-            m_top != rhs.m_top ||
-            m_right != rhs.m_right ||
-            m_bottom != rhs.m_bottom    );
-}
-
-
-bool Rectangle::contains (const Rectangle& other) const
+template <typename T> bool Rectangle<T>::contains (const Rectangle& other) const
 {
     return (m_left <= other.m_left &&
             m_top <= other.m_top &&
@@ -134,7 +158,7 @@ bool Rectangle::contains (const Rectangle& other) const
 }
 
 
-bool Rectangle::intersects (const Rectangle& other) const
+template <typename T> bool Rectangle<T>::intersects (const Rectangle& other) const
 {
     return (m_left <= other.m_right &&      // A's left to B's right
             m_top <= other.m_bottom &&      // A's top to B's bottom
@@ -142,29 +166,27 @@ bool Rectangle::intersects (const Rectangle& other) const
             m_bottom >= other.m_top     );  // A's bottom to B's top
 }
 
-
-#pragma endregion Testing functionality
+#pragma endregion
 
 
 #pragma region Manipulation functionality
 
-
-Rectangle Rectangle::clipped (const Rectangle& clip) const
+template <typename T> Rectangle<T> Rectangle<T>::clipped (const Rectangle& clip) const
 {
     // Clip each element, ensuring we maintain valid values.
-    const int   left    = clip.m_right < m_left ? clip.m_right  : util::max (m_left, clip.m_left),
+    const T left    = clip.m_right < m_left ? clip.m_right  : util::max (m_left, clip.m_left),
 
-                top     = clip.m_bottom < m_top ? clip.m_bottom : util::max (m_top, clip.m_top),
+            top     = clip.m_bottom < m_top ? clip.m_bottom : util::max (m_top, clip.m_top),
                 
-                right   = left > m_right        ? left          : util::min (m_right, clip.m_right),
+            right   = left > m_right        ? left          : util::min (m_right, clip.m_right),
 
-                bottom  = top > m_bottom        ? top           : util::min (m_bottom, clip.m_bottom);
+            bottom  = top > m_bottom        ? top           : util::min (m_bottom, clip.m_bottom);
 
     return { left, top, right, bottom };
 }
 
 
-void Rectangle::clipTo (const Rectangle& clip)
+template <typename T> void Rectangle<T>::clipTo (const Rectangle& clip)
 {
     // Clip each element, ensuring we maintain valid values.
     m_left      = clip.m_right < m_left ? clip.m_right  : util::max (m_left, clip.m_left);
@@ -177,7 +199,7 @@ void Rectangle::clipTo (const Rectangle& clip)
 }
 
 
-void Rectangle::translate (const int moveX, const int moveY)
+template <typename T> void Rectangle<T>::translate (const T moveX, const T moveY)
 {
     m_left += moveX;
     m_top += moveY;
@@ -185,5 +207,4 @@ void Rectangle::translate (const int moveX, const int moveY)
     m_bottom += moveY;
 }
 
-
-#pragma endregion Manipulation functionality
+#pragma endregion

@@ -5,16 +5,16 @@
 /// <summary>
 /// A basic Rectangle class, useful for representing spaces such as screen space.
 /// </summary>
-class Rectangle final
+template <typename T> class Rectangle final
 {
     public:
         
         #pragma region Constructors and destructor
 
         /// <summary> Construct a rectangle with a value for each co-ordinate. </summary>
-        Rectangle (const int left, const int top, const int roght, const int bottom);
+        Rectangle (const T left, const T top, const T roght, const T bottom);
 
-        Rectangle()                                     = default;    
+        Rectangle()                                     = default;
         Rectangle (const Rectangle& copy)               = default;
         Rectangle& operator= (const Rectangle& copy)    = default;
         ~Rectangle()                                    = default;
@@ -25,25 +25,33 @@ class Rectangle final
         #pragma endregion
 
 
+        #pragma region Operators
+        
+        /// <summary> Returns a casted version of the rectangle with the desired type. </summary>
+        template <typename U> operator Rectangle<U>() const;
+
+        bool operator== (const Rectangle& rhs) const;
+        bool operator!= (const Rectangle& rhs) const;
+
+        #pragma endregion
+
+
         #pragma region Getters and setters
 
-        int getLeft() const     { return m_left; }
-        int getTop() const      { return m_top; }
-        int getRight() const    { return m_right; }
-        int getBottom() const   { return m_bottom; }
+        T getLeft() const     { return m_left; }
+        T getTop() const      { return m_top; }
+        T getRight() const    { return m_right; }
+        T getBottom() const   { return m_bottom; }
 
-        void setLeft (const int left);
-        void setTop (const int top);
-        void setRight (const int right);
-        void setBottom (const int bottom);
+        void setLeft (const T left);
+        void setTop (const T top);
+        void setRight (const T right);
+        void setBottom (const T bottom);
 
         #pragma endregion
 
 
         #pragma region Testing functionality
-        
-        bool operator== (const Rectangle& rhs) const;
-        bool operator!= (const Rectangle& rhs) const;
 
         /// <summary> Checks if the given rectangle is contained within the current rectangle. </summary>
         bool contains (const Rectangle& other) const;
@@ -57,16 +65,16 @@ class Rectangle final
         #pragma region Calculation functionality
 
         /// <summary> Calculates and returns the width of the rectangle. </summary>
-        unsigned int width() const       { return static_cast<unsigned int> (m_right) - static_cast<unsigned int> (m_left) + 1; }
+        T width() const     { return m_right - m_left + 1; }
         
         /// <summary> Calculates and returns the height of the rectangle. </summary>
-        unsigned int height() const      { return static_cast<unsigned int> (m_bottom) - static_cast<unsigned int> (m_top) + 1; }
+        T height() const    { return m_bottom - m_top + 1; }
 
         /// <summary> Calculates the area of the rectangle based on the calculated width and height values. </summary>
-        unsigned int area() const        { return width() * height(); }
+        T area() const      { return width() * height(); }
 
         /// <summary> Calculates the perimeter of the rectangle based on the calculated width and height values. </summary>
-        unsigned int perimeter() const   { return width() * 2 + height() * 2; }
+        T perimeter() const { return width() * 2 + height() * 2; }
 
         #pragma endregion
 
@@ -80,7 +88,7 @@ class Rectangle final
         void clipTo (const Rectangle& other);
 
         /// <summary> Translates each co-ordinate by the given amount. </summary>
-        void translate (const int moveX, const int moveY);
+        void translate (const T moveX, const T moveY);
 
         #pragma endregion
 
@@ -88,10 +96,10 @@ class Rectangle final
     
         #pragma region Member variables
 
-        int m_left      { 0 },  //!< The left co-ordinate.
-            m_top       { 0 },  //!< The top co-ordinate.
-            m_right     { 0 },  //!< The right co-ordinate.
-            m_bottom    { 0 };  //!< The bottom co-ordinate.
+        T   m_left      { (T) 0 },  //!< The left co-ordinate.
+            m_top       { (T) 0 },  //!< The top co-ordinate.
+            m_right     { (T) 0 },  //!< The right co-ordinate.
+            m_bottom    { (T) 0 };  //!< The bottom co-ordinate.
 
         #pragma endregion
 
