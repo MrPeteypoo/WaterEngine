@@ -7,8 +7,9 @@
 
 
 // Forward declarations.
-using TextureID = size_t;
 template <typename T> struct Vector2D;
+using Point = Vector2D<int>;
+using TextureID = size_t;
 
 
 
@@ -28,7 +29,6 @@ class IRenderer2D
 
         // Ensure destructor is virtual since this is an interface.
         virtual ~IRenderer2D() {}
-
     
         /// <summary> Initialise all data and prepare for rendering. </summary>
         virtual void initialise (const int screenWidth, const int screenHeight) = 0;
@@ -38,31 +38,41 @@ class IRenderer2D
 
         /// <summary>
         /// Loads a texture from local storage, ready for rendering. 
-        /// <returns> Returns the ID for the loaded texture. </returns>
         /// </summary>
-        virtual TextureID loadTexture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions) = 0;
-
-
-        /// <summary> Clears the screen to a black level between 0 and 255, quicker than clearing to a colour. </summary>
+        /// <returns> Returns the ID for the loaded texture. </returns>
+        virtual TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) = 0;
+        
+        /// <summary> Clears the screen to a black level between 0 and 1, quicker than clearing to a colour. </summary>
         virtual void clearToBlack (const float blackLevel = 0) = 0;        
 
         /// <summary> Clears the entire screen to a single colour. </summary>
         virtual void clearToColour (const float red, const float green, const float blue, const float alpha = 1.f) = 0;
 
-        /// <summary> 
-        /// Requests that a texture be drawn onto the screen at a particular point. 
-        /// </summary>
+        /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
         /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
-        virtual void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend) = 0;
+        virtual void drawToScreen (const Point& point, const TextureID id, const BlendType blend) = 0;
 
-        /// <summary> 
-        /// Requests that a texture be drawn onto the screen at a particular point. 
-        /// </summary>
-        /// <param name="position"> The top-left point where the texture should render from. </param>
+        /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
+        /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        virtual void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const Vector2D<unsigned int>& frame) = 0;
+        virtual void drawToScreen (const Point& point, const TextureID id, const BlendType blend, const Point& frame) = 0;
+
+        /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
+        /// <param name="point"> The target top-left point on the texture to draw onto. </param>
+        /// <param name="source"> The source texture to draw. </param>
+        /// <param name="target"> The target texture to draw onto. </param>
+        /// <param name="blend"> The type of alpha blending to perform. </param>
+        virtual void drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend) = 0;
+
+        /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
+        /// <param name="point"> The target top-left point on the texture to draw onto. </param>
+        /// <param name="source"> The source texture to draw. </param>
+        /// <param name="target"> The target texture to draw onto. </param>
+        /// <param name="blend"> The type of alpha blending to perform. </param>
+        /// <param name="frame"> The frame of the source texture to draw. </param>
+        virtual void drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) = 0;
 };
 
 

@@ -26,7 +26,7 @@ class Renderer2DHAPI final : public IRenderer2D
 
         ~Renderer2DHAPI() final override;
         
-        Renderer2DHAPI (const Renderer2DHAPI& copy) = delete;
+        Renderer2DHAPI (const Renderer2DHAPI& copy)             = delete;
         Renderer2DHAPI& operator= (const Renderer2DHAPI&& copy) = delete;
 
         #pragma endregion
@@ -34,7 +34,7 @@ class Renderer2DHAPI final : public IRenderer2D
             
         #pragma region Initialisation
 
-        /// <summary> Initialise all data and prepare for rendering. </summary>
+        /// <summary> Initialise all data and prepares for rendering. </summary>
         void initialise (const int screenWidth, const int screenHeight) final override;
 
         /// <summary> Causes all loaded texture data to be wiped. </summary>
@@ -42,9 +42,9 @@ class Renderer2DHAPI final : public IRenderer2D
 
         /// <summary>
         /// Loads a texture from local storage, ready for rendering. 
-        /// <returns> Returns the ID for the loaded texture. </returns>
         /// </summary>
-        TextureID loadTexture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions) final override;
+        /// <returns> Returns the ID for the loaded texture. </returns>
+        TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) final override;
         
         #pragma endregion
 
@@ -57,20 +57,31 @@ class Renderer2DHAPI final : public IRenderer2D
         /// <summary> Clears the entire screen to a single colour. Values should be between 0 and 1. </summary>
         void clearToColour (const float red, const float green, const float blue, const float alpha = 1.f) final override;
 
-        /// <summary> 
-        /// Requests that a texture be drawn onto the screen at a particular point. 
-        /// </summary>
-        /// <param name="position"> The top-left point where the texture should render from. </param>
+        /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
+        /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
-        void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend) final override;
+        void drawToScreen (const Point& point, const TextureID id, const BlendType blend) final override;
 
-        /// <summary> 
-        /// Requests that a texture be drawn onto the screen at a particular point. 
-        /// </summary>
-        /// <param name="position"> The top-left point where the texture should render from. </param>
+        /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
+        /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        void drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const Vector2D<unsigned int>& frame) final override;
+        void drawToScreen (const Point& point, const TextureID id, const BlendType blend, const Point& frame) final override;
+
+        /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
+        /// <param name="point"> The target top-left point on the texture to draw onto. </param>
+        /// <param name="source"> The source texture to draw. </param>
+        /// <param name="target"> The target texture to draw onto. </param>
+        /// <param name="blend"> The type of alpha blending to perform. </param>
+        void drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend) final override;
+
+        /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
+        /// <param name="point"> The target top-left point on the texture to draw onto. </param>
+        /// <param name="source"> The source texture to draw. </param>
+        /// <param name="target"> The target texture to draw onto. </param>
+        /// <param name="blend"> The type of alpha blending to perform. </param>
+        /// <param name="frame"> The frame of the source texture to draw. </param>
+        void drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) final override;
 
         #pragma endregion
 

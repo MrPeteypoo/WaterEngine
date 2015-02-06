@@ -1,9 +1,6 @@
 #include <Rendering/Renderer2DHAPI.h>
 
 
-#pragma region Implmentation data
-
-
 // STL headers.
 #include <exception>
 #include <iostream>
@@ -14,32 +11,31 @@
 #include <HAPI_lib.h>
 #include <Maths/Vector2D.h>
 #include <Rendering/Texture.h>
+#include <Utility/Maths.h>
 
 
 // Forward declarations
-using Colour = HAPI_TColour;
+using       Colour       = HAPI_TColour;
+const auto  channel      = 255U;
+const auto  sizeOfColour = sizeof (Colour);
 
-const unsigned int  channel      = 255;
-const auto          sizeOfColour = sizeof (Colour);
 
 
+#pragma region Implmentation data
 
 /// <summary> A POD structure with all working data for the HAPI renderer. </summary>
 struct Renderer2DHAPIImpl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
-    Rectangle                               screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
+    Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
     std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
     std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
 };
 
-
 #pragma endregion
 
 
-
 #pragma region Constructors and destructor
-
 
 Renderer2DHAPI::Renderer2DHAPI()
 {
@@ -67,9 +63,7 @@ Renderer2DHAPI& Renderer2DHAPI::operator= (Renderer2DHAPI&& move)
 
         // Take ownership of the movee implementation data.
         m_pImpl = move.m_pImpl;
-
-        // Ensure we don't break the movee.
-        move.m_pImpl = new Renderer2DHAPIImpl();
+        move.m_pImpl = nullptr;
     }
 
     return *this;
@@ -86,13 +80,10 @@ Renderer2DHAPI::~Renderer2DHAPI()
     }
 }
 
-
 #pragma endregion Constructors and destructor
 
 
-
 #pragma region Initialisation
-
 
 void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight)
 {
@@ -121,7 +112,7 @@ void Renderer2DHAPI::clearTextureData()
 }
 
 
-TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions)
+TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
 {
     try
     {
@@ -160,7 +151,7 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Ve
 
 void Renderer2DHAPI::clearToBlack (const float blackLevel)
 {
-    const auto black = static_cast<BYTE> (channel * blackLevel);
+    const auto black = (BYTE) (channel * util::clamp (blackLevel, 0.f, 1.f));
 
     // Use memset for efficiency.
     std::memset (m_pImpl->screen, black, m_pImpl->screenSpace.area() * sizeOfColour);
@@ -170,13 +161,13 @@ void Renderer2DHAPI::clearToBlack (const float blackLevel)
 void Renderer2DHAPI::clearToColour (const float red, const float green, const float blue, const float alpha)
 {
     const auto      screenSize  =   m_pImpl->screenSpace.area();
-    const Colour    colour      {   static_cast<BYTE> (channel * red),
-                                    static_cast<BYTE> (channel * green), 
-                                    static_cast<BYTE> (channel * blue), 
-                                    static_cast<BYTE> (channel * alpha) };
+    const Colour    colour      {   (BYTE) (channel * red),
+                                    (BYTE) (channel * green), 
+                                    (BYTE) (channel * blue), 
+                                    (BYTE) (channel * alpha) };
 
     // Loop through each pixel
-    for (unsigned int i = 0; i < screenSize; ++i)
+    for (auto i = 0; i < screenSize; ++i)
     {
         // Find the correct memory address
         auto pixel = m_pImpl->screen + i * sizeOfColour;
@@ -186,13 +177,13 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
 }
 
 
-void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend)
+void Renderer2DHAPI::drawToScreen (const Point& point, const TextureID id, const BlendType blend)
 {
-    drawTexture (point, id, blend, { 0, 0 });
+    drawToScreen (point, id, blend, { 0, 0 });
 }
 
 
-void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id, const BlendType blend, const Vector2D<unsigned int>& frame)
+void Renderer2DHAPI::drawToScreen (const Point& point, const TextureID id, const BlendType blend, const Point& frame)
 {
     try
     {
@@ -205,12 +196,42 @@ void Renderer2DHAPI::drawTexture (const Vector2D<int>& point, const TextureID id
 
     catch (std::exception& error)
     {
-        std::cerr << "Exception caught in Renderer2DHAPI::drawTexture(): " << error.what() << std::endl;
+        std::cerr << "Exception caught in Renderer2DHAPI::drawToScreen(): " << error.what() << std::endl;
     }
 
     catch (...) 
     {
-        std::cerr << "Unknown error caught in Renderer2DHAPI::drawTexture()." << std::endl;    
+        std::cerr << "Unknown error caught in Renderer2DHAPI::drawToScreen()." << std::endl;    
+    }
+}
+
+
+void Renderer2DHAPI::drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend)
+{
+    drawToTexture (point, source, target, blend, { 0, 0 });
+}
+
+
+void Renderer2DHAPI::drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
+{
+    try
+    {
+        // If the texture doesn't exist an out-of-range error will be thrown.
+        auto& sourceTexture = m_pImpl->textures.at (source);
+        auto& targetTexture = m_pImpl->textures.at (target);
+
+        // Blit the valid texture.
+        targetTexture.blit (m_pImpl->screen, m_pImpl->screenSpace, point, blend, frame);
+    }
+
+    catch (std::exception& error)
+    {
+        std::cerr << "Exception caught in Renderer2DHAPI::drawToTexture(): " << error.what() << std::endl;
+    }
+
+    catch (...) 
+    {
+        std::cerr << "Unknown error caught in Renderer2DHAPI::drawToTexture()." << std::endl;
     }
 }
 

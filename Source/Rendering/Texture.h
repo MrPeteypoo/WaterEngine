@@ -3,7 +3,6 @@
 
 
 // STL headers.
-#include <memory>
 #include <string>
 
 
@@ -29,13 +28,12 @@ class Texture final
         Texture (const std::string& fileLocation);
 
         /// <summary> Create a texture by loading image data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
-        Texture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions);
-
+        Texture (const std::string& fileLocation, const Point& frameDimensions);
+        
+        Texture()                                   = default;
         Texture (Texture&& move);
         Texture& operator= (Texture&& move);
-
-        Texture()                                   = default;
-        ~Texture()                                  = default;
+        ~Texture();
 
         
         // Explicitly remove copy functionality.
@@ -48,13 +46,13 @@ class Texture final
         #pragma region Getters and setters
 
         /// <summary> Returns the raw data, useful for accessing line-by-line. </summary>
-        const BYTE* const getData() const   { return m_pData.get(); }
+        const BYTE* const getData() const   { return m_pData; }
 
         /// <summary> Returns how many frames exist, 0 means the texture is not a spritesheet. </summary>
-        unsigned int getFrameCount() const  { return m_frames; }
+        int getFrameCount() const           { return m_frames; }
 
         /// <summary> Sets the frame dimensions to the figures specified, (0, 0) disables spritesheet functionality and anything else enables it. </summary>
-        Texture& setFrameDimensions (const Vector2D<unsigned int>& dimensions);
+        Texture& setFrameDimensions (const Point& dimensions);
 
         /// <summary> Resets frame information, effectively disabling spritesheet functionality. </summary>
         Texture& resetFrameDimensions();
@@ -78,35 +76,37 @@ class Texture final
 
         #pragma region Rendering
 
-        /// <summary> 
-        /// The entry point for blitting functionality. Determines whether blitting is necessary then calls the correct blitting function. 
-        /// </summary>
-        /// <param name="screen"> The screenbuffer to write texture data to. </param>
-        /// <param name="screenSpace"> The Rectangle representing the drawable area of the screen. </param>
-        /// <param name="point"> Where the blitting should begin, if this is off-screen then the texture will be clipped. </param>
+        /// <summary> The entry point for blitting functionality. Determines whether blitting is necessary then calls the correct blitting function. </summary>
+        /// <param name="target"> The data buffer to write to, this is likely to be the screen. </param>
+        /// <param name="targetSpace"> The Rectangle representing the drawable area of the target. </param>
+        /// <param name="point"> Where the blitting should begin, if this is out-of-bounds then the texture will be clipped. </param>
         /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
         /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
-        void blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<int>& point, const BlendType blend, const Vector2D<unsigned int>& frame);
+        void blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame);
+
+        /// <summary> An overload which blits the current texture onto the target texture. </summary>
+        /// <param name="target"> The target texture to be altered. </param>
+        void blit (Texture& target, const Point& point, const BlendType blend, const Point& frame);
         
     private:
         
         /// <summary> Will blit the texture line-by-line without performing any alpha blending. </summary>
-        void blitOpaque (BYTE* const screen, const Rectangle& screenSpace, const Vector2D<int> point, const Vector2D<unsigned int>& frameOffset, const Rectangle& drawArea);
+        void blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea);
 
         /// <summary> Will blit the texture pixel-by-pixel taking into account alpha values, slower. </summary>
-        void blitTransparent (BYTE* const screen, const Rectangle& screenSpace, const Vector2D<int> point, const Vector2D<unsigned int>& frameOffset, const Rectangle& drawArea);
+        void blitTransparent (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea);
 
         #pragma endregion
 
 
         #pragma region Member variables
         
-        unsigned int            m_frames            { 0 };  //!< How many frames the texture has, assuming it's a spritesheet.
-        Vector2D<unsigned int>  m_frameDimensions   {  };   //!< The width and height of the spritesheet.
+        int             m_frames            { 0 };  //!< How many frames the texture has, assuming it's a spritesheet.
+        Point           m_frameDimensions   {  };   //!< The width and height of the spritesheet.
 
-        Rectangle               m_textureSpace      {  };   //!< The total rectangular area of the texture.
+        Rectangle<int>  m_textureSpace      {  };   //!< The total rectangular area of the texture.
 
-        std::unique_ptr<BYTE[]> m_pData             {  };   //!< The raw memory data of the texture.
+        BYTE*           m_pData             {  };   //!< The raw memory data of the texture.
 
         #pragma endregion
 };

@@ -16,7 +16,6 @@ const auto sizeOfColour = sizeof (HAPI_TColour);
 
 #pragma region Constructors and destructor
 
-
 Texture::Texture (const std::string& fileLocation)
 {   
     // Attempt to load the texture during construction.
@@ -24,7 +23,7 @@ Texture::Texture (const std::string& fileLocation)
 }
 
 
-Texture::Texture (const std::string& fileLocation, const Vector2D<unsigned int>& frameDimensions)
+Texture::Texture (const std::string& fileLocation, const Point& frameDimensions)
 {
     // Attempt to load the texture during construction.
     loadTexture (fileLocation);
@@ -50,7 +49,7 @@ Texture& Texture::operator= (Texture&& move)
 
         m_frameDimensions = std::move (move.m_frameDimensions);
         m_textureSpace = std::move (move.m_textureSpace);
-        m_pData = std::move (move.m_pData);
+        m_pData = move.m_pData;
 
 
         // Reset the movee.
@@ -62,12 +61,19 @@ Texture& Texture::operator= (Texture&& move)
 }
 
 
-#pragma endregion Constructors and destructor
+Texture::~Texture()
+{
+    if (m_pData)
+    {
+        delete[] m_pData;
+        m_pData = nullptr;
+    }
+}
 
+#pragma endregion
 
 
 #pragma region Getters and setters
-
 
 Texture& Texture::resetFrameDimensions()
 {
@@ -79,7 +85,7 @@ Texture& Texture::resetFrameDimensions()
 }
 
 
-Texture& Texture::setFrameDimensions (const Vector2D<unsigned int>& dimensions)
+Texture& Texture::setFrameDimensions (const Point& dimensions)
 {
     if (dimensions.x == 0 || dimensions.y == 0)
     {
@@ -98,30 +104,23 @@ Texture& Texture::setFrameDimensions (const Vector2D<unsigned int>& dimensions)
     return *this;
 }
 
-
-#pragma endregion Getters and setters
-
+#pragma endregion
 
 
 #pragma region Loading functionality
 
-
 void Texture::loadTexture (const std::string& fileLocation)
 {
     // Create variable cache for interfacing with HAPI.
-    int     width = 0, height = 0;
-    BYTE*   data  = nullptr;
+    int width = 0, height = 0;
 
     // Attempt to load the data. If the loading succeeds then the width and height will be set.
-    if (HAPI->LoadTexture (fileLocation, &data, &width, &height))
+    if (HAPI->LoadTexture (fileLocation, &m_pData, &width, &height))
     {
         resetFrameDimensions();
         
         // Initialise the texture space.
         m_textureSpace = { 0, 0, width - 1, height - 1 };
-
-        // Turn the raw pointer into a unique_ptr.
-        m_pData = std::unique_ptr<BYTE[]> (data);
     }
     
     else
@@ -130,24 +129,23 @@ void Texture::loadTexture (const std::string& fileLocation)
     }
 }
 
-
-#pragma endregion Loading functionality
-
+#pragma endregion
 
 
 #pragma region Rendering
 
-
-void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<int>& point, const BlendType blend, const Vector2D<unsigned int>& frame)
+void Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
 {
-    // Pre-conditions: screen is a valid pointer.
-    if (!screen)
+    // Pre-conditions: target is a valid pointer.
+    if (!target)
     {
-        throw std::invalid_argument ("Texture::blit(): Invalid pointer to the screenbuffer was given.");
+        throw std::invalid_argument ("Texture::blit(): Invalid pointer to the target was given.");
     }
 
     // Pre-condition: frame is valid.
-    if (m_frames != 0 && (frame.x >= m_frameDimensions.x || frame.y >= m_frameDimensions.y))
+    if (m_frames != 0 && 
+       (frame.x >= m_frameDimensions.x || frame.x < 0 ||
+        frame.y >= m_frameDimensions.y || frame.y < 0))
     {
         throw std::invalid_argument ("Texture::blit(): Invalid frame number given (" + 
                                      std::to_string (frame.x) + ", " + std::to_string (frame.y) + "). " +
@@ -156,17 +154,17 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
                                      std::to_string (m_frameDimensions.x) + ", " + std::to_string (m_frameDimensions.y) + ").");
     }
 
-    const unsigned int  textureWidth = m_textureSpace.width(), 
-                        textureHeight = m_textureSpace.height();
+    const auto  textureWidth = m_textureSpace.width(), 
+                textureHeight = m_textureSpace.height();
 
     // We need to check if the texture will actually need to be drawn.
-    Rectangle texture   {   point.x,
-                            point.y,
-                            point.x + static_cast<int> (textureWidth - 1),
-                            point.y + static_cast<int> (textureHeight - 1) };
+    Rectangle<int>  texture     {   point.x,
+                                    point.y,
+                                    point.x + textureWidth - 1,
+                                    point.y + textureHeight - 1 };
 
     // Determine the frame offset and check if the texture size needs changing.
-    Vector2D<unsigned int> frameOffset { 0, 0 };
+    Point frameOffset { 0, 0 };
 
     // If m_frames is zero it's a single texture and therefore do not need to calculate offsets.
     if (m_frames != 0)
@@ -175,22 +173,22 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
                             frameHeight = textureHeight / m_frameDimensions.y;
 
         // Update the texture co-ordinates.
-        texture.setRight (point.x + static_cast<int> (frameWidth) - 1);
-        texture.setBottom (point.y + static_cast<int> (frameHeight) - 1);
+        texture.setRight (point.x + frameWidth - 1);
+        texture.setBottom (point.y + frameHeight - 1);
 
         // Calculate how much we need to translate by.
-        frameOffset.x = frame.x * frameWidth;
-        frameOffset.y = frame.y * frameHeight;
+        frameOffset.x = frame.x * frameWidth, 0;
+        frameOffset.y = frame.y * frameHeight, 0;
     }
     
-    // We will only draw if the texture is on-screen.
-    if (screenSpace.intersects (texture))
+    // We will only draw if the texture is out-of-bounds.
+    if (targetSpace.intersects (texture))
     {
         // Check if any clipping is necessary.
-        if (!screenSpace.contains (texture))
+        if (!targetSpace.contains (texture))
         {
             // Clip the rectangle.
-            texture.clipTo (screenSpace);
+            texture.clipTo (targetSpace);
         }
             
         // Translate back to texture space, ready for blitting.
@@ -200,11 +198,11 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
         switch (blend)
         {
             case BlendType::Opaque:
-                blitOpaque (screen, screenSpace, point, frameOffset, texture);
+                blitOpaque (target, targetSpace, point, frameOffset, texture);
                 break;
 
             case BlendType::Transparent:
-                blitTransparent (screen, screenSpace, point, frameOffset, texture);
+                blitTransparent (target, targetSpace, point, frameOffset, texture);
                 break;
         }
     }
@@ -213,58 +211,65 @@ void Texture::blit (BYTE* screen, const Rectangle& screenSpace, const Vector2D<i
 }
 
 
-void Texture::blitOpaque (BYTE* screen, const Rectangle& screenSpace, const Vector2D<int> point, const Vector2D<unsigned int>& frameOffset, const Rectangle& drawArea)
+void Texture::blit (Texture& target, const Point& point, const BlendType blend, const Point& frame)
+{
+    // Forward onto the normal blitting function.
+    blit (target.m_pData, target.m_textureSpace, point, blend, frame);
+}
+
+
+void Texture::blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
 {    
     // Cache zee variables captain!
-    const auto  blitWidth       = drawArea.width(),
-                blitHeight      = drawArea.height();
+    const auto  blitWidth       = (size_t) drawArea.width(),
+                blitHeight      = (size_t) drawArea.height();
                
     const auto  dataWidth       = blitWidth * sizeOfColour,
-                screenWidth     = screenSpace.width() * sizeOfColour,
+                targetWidth     = targetSpace.width() * sizeOfColour,
                 textureWidth    = m_textureSpace.width() * sizeOfColour,
                 
                 dataOffset      = (drawArea.getLeft() + frameOffset.x) * sizeOfColour + (drawArea.getTop() + frameOffset.y) * textureWidth,
-                screenOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * screenWidth;
+                targetOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * targetWidth;
     
     // Obtain the data from the texture.
-    const auto  textureData     = m_pData.get() + dataOffset;
+    const auto  textureData     = m_pData + dataOffset;
     
-    // Calculate the starting pointer to the screen position.
-    screen += screenOffset;    
+    // Calculate the starting pointer to the target position.
+    BYTE* targetLine = target + targetOffset;    
     BYTE* currentLine = nullptr;
 
-    for (unsigned int y = 0; y < blitHeight; ++y)
+    for (size_t y = 0; y < blitHeight; ++y)
     {
         // Increment the pointer and copy line-by-line.
-        currentLine = screen + y * screenWidth;
+        currentLine = targetLine + y * targetWidth;
         std::memcpy (currentLine, (textureData + y * textureWidth), dataWidth);
     }
 }
 
 
-void Texture::blitTransparent (BYTE* const screen, const Rectangle& screenSpace, const Vector2D<int> point, const Vector2D<unsigned int>& frameOffset, const Rectangle& drawArea)
+void Texture::blitTransparent (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
 {
     // Cache zee variables captain!
-    const auto  blitWidth       = drawArea.width(),
-                blitHeight      = drawArea.height();
+    const auto  blitWidth       = (size_t) drawArea.width(),
+                blitHeight      = (size_t) drawArea.height(),
                
-    const auto  dataWidth       = blitWidth * sizeOfColour,
-                screenWidth     = screenSpace.width() * sizeOfColour,
+                dataWidth       = blitWidth * sizeOfColour,
+                targetWidth     = targetSpace.width() * sizeOfColour,
                 textureWidth    = m_textureSpace.width() * sizeOfColour,
                 
                 dataOffset      = (drawArea.getLeft() + frameOffset.x) * sizeOfColour + (drawArea.getTop() + frameOffset.y) * textureWidth,
-                screenOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * screenWidth;
+                targetOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * targetWidth;
 
     // Create the required pointers for the blitting process.
-    auto        currentData     = m_pData.get() + dataOffset;
-    auto        currentPixel    = screen + screenOffset;
+    auto        currentData     = m_pData + dataOffset;
+    auto        currentPixel    = target + targetOffset;
 
     // Avoid those magic constants!
-    const unsigned int alphaIndex = 3;
+    const auto  alphaIndex = 3U;
 
-    for (unsigned int y = 0; y < blitHeight; ++y)
+    for (size_t y = 0; y < blitHeight; ++y)
     {
-        for (unsigned int x = 0; x < blitWidth; ++x)
+        for (size_t x = 0; x < blitWidth; ++x)
         {
             const auto alpha = currentData[alphaIndex];
 
@@ -275,7 +280,7 @@ void Texture::blitTransparent (BYTE* const screen, const Rectangle& screenSpace,
                     break;
 
                 case 255:
-                    for (unsigned int i = 0; i < alphaIndex; ++i)
+                    for (auto i = 0U; i < alphaIndex; ++i)
                     {
                         currentPixel[i] = currentData[i];
                     }
@@ -283,7 +288,7 @@ void Texture::blitTransparent (BYTE* const screen, const Rectangle& screenSpace,
                     break;
 
                 default:                     
-                    for (unsigned int i = 0; i < alphaIndex; ++i)
+                    for (auto i = 0U; i < alphaIndex; ++i)
                     {
                         // Avoid floating-point arithmetic by bit-shifting.
                         const auto currentChannel = currentPixel[i];
@@ -299,10 +304,9 @@ void Texture::blitTransparent (BYTE* const screen, const Rectangle& screenSpace,
         }
 
         // Since the width is done we must go onto the next line.
-        currentPixel += screenWidth - dataWidth;
+        currentPixel += targetWidth - dataWidth;
         currentData += textureWidth - dataWidth;
     }
 }
 
-
-#pragma endregion Rendering
+#pragma endregion
