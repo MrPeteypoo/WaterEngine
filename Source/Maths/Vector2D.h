@@ -10,7 +10,7 @@
 /// <summary>
 /// A basic mathematical vector struct for a 2D vector.
 /// </summary>
-template <typename T> struct Vector2D final
+template <typename T = float> struct Vector2D final
 {
     #pragma region Constructors and destructor
 

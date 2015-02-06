@@ -8,9 +8,9 @@
 
 
 // Engine headers.
-#include <Interfaces/IRenderer2D.h>
 #include <Maths/Rectangle.h>
 #include <Maths/Vector2D.h>
+#include <Rendering/IRenderer2D.h>
 
 
 // Forward declarations.
