@@ -6,10 +6,6 @@
 #include <string>
 
 
-// Engine headers.
-#include <Rendering/BlendType.h>
-
-
 // Forward declarations.
 using TextureID = size_t;
 template <typename T> struct Vector2D;
