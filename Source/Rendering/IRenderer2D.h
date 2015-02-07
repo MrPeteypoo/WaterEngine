@@ -33,9 +33,8 @@ class IRenderer2D
         /// <summary> Initialise all data and prepare for rendering. </summary>
         /// <param name="screenWidth"> The width of the screen resolution. </param>
         /// <param name="screenHeight"> The height of the screen resolution. </param>
-        /// <param name="unitToPixelScaleX"> How much to scale the X value of point information given during the rendering process. </param>
-        /// <param name="unitToPixelScaleY"> How much to scale the Y value of point information given during the rendering process. </param>
-        virtual void initialise (const int screenWidth, const int screenHeight, const int unitToPixelScaleX, const int unitToPixelScaleY) = 0;
+        /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
+        virtual void initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale) = 0;
 
         /// <summary> Causes all loaded texture data to be deleted, invalidating all current keys. </summary>
         virtual void clearTextureData() = 0;

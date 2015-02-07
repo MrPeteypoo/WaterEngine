@@ -28,7 +28,7 @@ struct Renderer2DHAPI::Impl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
     Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-    Vector2D<int>                           unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
+    Vector2D<float>                         unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
     std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
     std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
 };
@@ -86,7 +86,7 @@ Renderer2DHAPI::~Renderer2DHAPI()
 
 #pragma region Initialisation
 
-void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight, const int unitToPixelScaleX, const int unitToPixelScaleY)
+void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale)
 {
     // Pre-condition: Width and height are valid.
     if (screenWidth <= 0 || screenHeight <= 0)
@@ -96,16 +96,16 @@ void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight, 
     }
 
     // Pre-condition: Pixel scale is valid.
-    if (unitToPixelScaleX <= 0 || unitToPixelScaleY <= 0)
+    if (unitToPixelScale.x <= 0 || unitToPixelScale.y <= 0)
     {
         throw std::invalid_argument ("Renderer2DHAPI::initialise(): Invalid scale values given (" +
-                                      std::to_string (unitToPixelScaleX) + "x" + std::to_string (unitToPixelScaleY) + ").");
+                                      std::to_string (unitToPixelScale.x) + "x" + std::to_string (unitToPixelScale.y) + ").");
    }
 
     // Initialise data.
     m_pImpl->screen = HAPI->GetScreenPointer();
     m_pImpl->screenSpace = { 0, 0, screenWidth - 1, screenHeight - 1 };
-    m_pImpl->unitToPixel = { unitToPixelScaleX, unitToPixelScaleY };
+    m_pImpl->unitToPixel = unitToPixelScale;
 
     // Ensure the screen pointer is valid.
     if (!m_pImpl->screen)
@@ -225,10 +225,12 @@ void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID
     try
     {
         // If the texture doesn't exist an out-of-range error will be thrown.
-        auto& texture = m_pImpl->textures.at (id);
+        auto& texture           = m_pImpl->textures.at (id);
+
+        const auto pixelSpace   = (Point) (point * m_pImpl->unitToPixel);
 
         // Blit the valid texture.
-        texture.blit (m_pImpl->screen, m_pImpl->screenSpace, point, blend, frame);
+        texture.blit (m_pImpl->screen, m_pImpl->screenSpace, pixelSpace, blend, frame);
     }
 
     catch (std::exception& error)
@@ -254,11 +256,13 @@ void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureI
     try
     {
         // If the texture doesn't exist an out-of-range error will be thrown.
-        auto& sourceTexture = m_pImpl->textures.at (source);
-        auto& targetTexture = m_pImpl->textures.at (target);
+        auto& sourceTexture     = m_pImpl->textures.at (source);
+        auto& targetTexture     = m_pImpl->textures.at (target);
+
+        const auto pixelSpace   = (Point) (point * m_pImpl->unitToPixel);
 
         // Blit the valid texture.
-        targetTexture.blit (m_pImpl->screen, m_pImpl->screenSpace, point, blend, frame);
+        targetTexture.blit (m_pImpl->screen, m_pImpl->screenSpace, pixelSpace, blend, frame);
     }
 
     catch (std::exception& error)

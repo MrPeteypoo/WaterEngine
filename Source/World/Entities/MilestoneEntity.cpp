@@ -44,7 +44,7 @@ void MilestoneEntity::render (const std::shared_ptr<IRenderer2D>& renderer)
 {
     if (renderer)
     {
-        renderer->drawToScreen (static_cast<Vector2D<int>> (m_position), m_texture, m_blend, m_frame);
+        renderer->drawToScreen (m_position, m_texture, m_blend, m_frame);
     }
 
     else

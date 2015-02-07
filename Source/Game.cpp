@@ -21,7 +21,7 @@ const auto  backgroundLocation  = "background.tga", //!< The file location for t
             circleLocation      = "alphaThing.tga", //!< The file location for the circle image.
             explosionLocation   = "explosion.png";  //!< The file location for the explosion spritesheet.
 
-const auto  circleSpeed         = 150.f;            //!< The number of pixels a second the circle can travel.
+const auto  circleSpeed         = 3.f;            //!< The number of pixels a second the circle can travel.
 
 
 
@@ -39,7 +39,7 @@ bool Game::initialise()
 
         // Set up the rendering engine.
         m_pRenderer = std::make_shared<Renderer2DHAPI>();
-        m_pRenderer->initialise (m_screenWidth, m_screenHeight, 16, 16);
+        m_pRenderer->initialise (m_screenWidth, m_screenHeight, { 32, 32 });
 
         // Load the textures.
         TextureID ids[3] = {    m_pRenderer->loadTexture (backgroundLocation, { 0, 0 }),
@@ -56,8 +56,7 @@ bool Game::initialise()
         background->setFrame ({ 0, 0 });
         
         // Centre the circle.
-        circle->getPosition() = {   m_screenWidth / 2.f - 32,
-                                    m_screenHeight / 2.f - 32 };
+        circle->getPosition() = { 3, 3 };
 
         circle->setTextureID (ids[1]);
         circle->setBlendType (BlendType::Transparent);
@@ -76,7 +75,7 @@ bool Game::initialise()
         {
             auto explosion = std::make_unique<MilestoneEntity>();
 
-            explosion->getPosition() = { m_screenWidth * rngF() - 61, m_screenHeight * rngF() - 61 };
+            explosion->getPosition() = { 8 * rngF() - 1.90625f, 8 * rngF() - 1.90625f };
             explosion->setTextureID (ids[2]);
             explosion->setBlendType (BlendType::Transparent);
             explosion->setFrameSize ({ 5, 5 });
@@ -85,10 +84,7 @@ bool Game::initialise()
             m_entities.push_back (std::move (explosion));
         }
 
-        m_centreZone    = { static_cast<int> (m_screenWidth / 2.f - m_screenWidth / 20.f), 
-                            static_cast<int> (m_screenHeight / 2.f - m_screenHeight / 20.f), 
-                            static_cast<int> (m_screenWidth / 2.f + m_screenWidth / 20.f), 
-                            static_cast<int> (m_screenHeight / 2.f + m_screenHeight / 20.f) };
+        m_centreZone    = { 3, 3, 5, 5 };
                             
         return true;
     }
@@ -160,10 +156,7 @@ void Game::updateCapped()
     if (m_controllerOn)
     {
         const auto& circlePosition = m_entities[1]->getPosition();
-        const Rectangle<int> circleRect { static_cast<int> (circlePosition.x), 
-                                     static_cast<int> (circlePosition.y), 
-                                     static_cast<int> (circlePosition.x + 63), 
-                                     static_cast<int> (circlePosition.y + 63) };
+        const Rectangle<float> circleRect   { circlePosition.x, circlePosition.y, circlePosition.x + 2, circlePosition.y + 2 };
 
         if (circleRect.intersects (m_centreZone))
         {
@@ -221,9 +214,6 @@ void Game::renderAll()
 {    
     // Render images.
     m_pRenderer->clearToBlack();
-
-    Vector2D<> point2D { };
-    Vector3D<> point3D { };
 
     for (auto& entity : m_entities)
     {

@@ -88,7 +88,7 @@ class Game final
         Controller                              m_controller        {  };           //!< A cache of controller input, updated every 60 FPS.
         Keyboard                                m_keyboard          {  };           //!< A cache of keyboard input, updated every 60 FPS.
 
-        Rectangle<int>                          m_centreZone        {  };           //!< The centre point of the screen.
+        Rectangle<float>                        m_centreZone        {  };           //!< The centre point of the screen.
 
         std::vector<std::unique_ptr<IEntity>>   m_entities          {  };           //!< A vector containing every entity in the game.
 

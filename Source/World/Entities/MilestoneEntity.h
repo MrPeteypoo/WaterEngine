@@ -29,7 +29,7 @@ class MilestoneEntity final : public IEntity
         void render (const std::shared_ptr<IRenderer2D>& renderer) final override;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
-        Vector2D<float>& getPosition() final override { return m_position; }
+        Vector2D<float>& getPosition() final override           { return m_position; }
 
         void setTextureID (const TextureID id)                  { m_texture = id; }
         void setBlendType (const BlendType blend)               { m_blend = blend; }
