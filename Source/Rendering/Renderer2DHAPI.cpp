@@ -24,12 +24,13 @@ const auto  sizeOfColour = sizeof (Colour);
 #pragma region Implmentation data
 
 /// <summary> A POD structure with all working data for the HAPI renderer. </summary>
-struct Renderer2DHAPIImpl final
+struct Renderer2DHAPI::Impl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
     Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-    std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
+    Vector2D<int>                           unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
     std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
+    std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
 };
 
 #pragma endregion
@@ -40,7 +41,7 @@ struct Renderer2DHAPIImpl final
 Renderer2DHAPI::Renderer2DHAPI()
 {
     // Ensure we have our implementation data.
-    m_pImpl = new Renderer2DHAPIImpl();
+    m_pImpl = new Impl();
 }
 
 
@@ -85,7 +86,7 @@ Renderer2DHAPI::~Renderer2DHAPI()
 
 #pragma region Initialisation
 
-void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight)
+void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight, const int unitToPixelScaleX, const int unitToPixelScaleY)
 {
     // Pre-condition: Width and height are valid.
     if (screenWidth <= 0 || screenHeight <= 0)
@@ -94,9 +95,17 @@ void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight)
                                       std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
     }
 
+    // Pre-condition: Pixel scale is valid.
+    if (unitToPixelScaleX <= 0 || unitToPixelScaleY <= 0)
+    {
+        throw std::invalid_argument ("Renderer2DHAPI::initialise(): Invalid scale values given (" +
+                                      std::to_string (unitToPixelScaleX) + "x" + std::to_string (unitToPixelScaleY) + ").");
+   }
+
     // Initialise data.
     m_pImpl->screen = HAPI->GetScreenPointer();
     m_pImpl->screenSpace = { 0, 0, screenWidth - 1, screenHeight - 1 };
+    m_pImpl->unitToPixel = { unitToPixelScaleX, unitToPixelScaleY };
 
     // Ensure the screen pointer is valid.
     if (!m_pImpl->screen)
@@ -112,18 +121,46 @@ void Renderer2DHAPI::clearTextureData()
 }
 
 
+TextureID Renderer2DHAPI::createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
+{
+    // We know that all valid string values will end in .* so we can just increment an integer value and guarantee we'll have a valid
+    // hashed TextureID at the end of it!
+    static auto blankID         = 0U;
+
+    // Determine the correct dimensions.
+    const auto dimensions       = pixelDimensions ? (Point) textureDimensions : (Point) (textureDimensions * m_pImpl->unitToPixel);
+
+    // Determine the texture ID.
+    const TextureID textureID   = m_pImpl->hasher (std::to_string (blankID++));
+    
+    // Check if we should enable sprite sheet funcitonality.
+    Texture texture             = frameDimensions.x > 0 && frameDimensions.y > 0 ?
+                                    Texture (dimensions, frameDimensions) :
+                                    Texture (dimensions);
+
+    // Finally load the texture and return the ID.
+    m_pImpl->textures.emplace (textureID, std::move (texture));
+
+    return textureID;
+}
+
+
 TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
 {
     try
     {
-        // Attempt to load the texture.
-        Texture texture (fileLocation, frameDimensions);
-
         // Determine the texture ID.
         const TextureID textureID = m_pImpl->hasher (fileLocation);
 
-        // Add it to the unordered map.
-        m_pImpl->textures.emplace (textureID, std::move (texture));
+        // Check if it exists first.
+        if (m_pImpl->textures.find (textureID) == m_pImpl->textures.end())
+        {
+            // Attempt to load the texture.
+            Texture texture (fileLocation, frameDimensions);
+
+            // Add it to the unordered map.
+            m_pImpl->textures.emplace (textureID, std::move (texture));
+        }
 
         return textureID;
     }
@@ -138,7 +175,7 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Po
         std::cerr << "Unknown error caught in Renderer2DHAPI::loadTexture()." << std::endl;
     }
     
-    return static_cast<TextureID> (0);
+    return (TextureID) 0;
 }
 
 
@@ -177,13 +214,13 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
 }
 
 
-void Renderer2DHAPI::drawToScreen (const Point& point, const TextureID id, const BlendType blend)
+void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend)
 {
     drawToScreen (point, id, blend, { 0, 0 });
 }
 
 
-void Renderer2DHAPI::drawToScreen (const Point& point, const TextureID id, const BlendType blend, const Point& frame)
+void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend, const Point& frame)
 {
     try
     {
@@ -206,13 +243,13 @@ void Renderer2DHAPI::drawToScreen (const Point& point, const TextureID id, const
 }
 
 
-void Renderer2DHAPI::drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend)
+void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend)
 {
     drawToTexture (point, source, target, blend, { 0, 0 });
 }
 
 
-void Renderer2DHAPI::drawToTexture (const Point& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
+void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
 {
     try
     {

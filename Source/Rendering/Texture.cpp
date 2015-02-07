@@ -33,6 +33,23 @@ Texture::Texture (const std::string& fileLocation, const Point& frameDimensions)
 }
 
 
+Texture::Texture (const Point& pixelDimensions)
+{
+    // Load all the data captain!
+    fillWithBlankData (pixelDimensions);
+}
+
+
+Texture::Texture (const Point& pixelDimensions, const Point& frameDimensions)
+{
+    // Load all the data captain!
+    fillWithBlankData (pixelDimensions);
+
+    // Set up the spritesheet!
+    setFrameDimensions (frameDimensions);
+}
+
+
 Texture::Texture (Texture&& move)
 {
     // Just use the operator implementation.
@@ -63,11 +80,7 @@ Texture& Texture::operator= (Texture&& move)
 
 Texture::~Texture()
 {
-    if (m_pData)
-    {
-        delete[] m_pData;
-        m_pData = nullptr;
-    }
+    cleanUp();
 }
 
 #pragma endregion
@@ -111,6 +124,9 @@ Texture& Texture::setFrameDimensions (const Point& dimensions)
 
 void Texture::loadTexture (const std::string& fileLocation)
 {
+    // Make sure we don't leak memory.
+    cleanUp();
+
     // Create variable cache for interfacing with HAPI.
     int width = 0, height = 0;
 
@@ -126,6 +142,45 @@ void Texture::loadTexture (const std::string& fileLocation)
     else
     {   
         throw std::runtime_error ("Texture::loadTexture(): Unable to initialise Texture with file \"" + fileLocation + "\"");
+    }
+}
+
+
+void Texture::fillWithBlankData (const Point& dimensions)
+{
+    // Pre-condition: Ensure the dimensions are valid.
+    if (dimensions.x <= 0 || dimensions.y <= 0)
+    {
+        throw std::invalid_argument ("Texture::fillWithBlankData(): Invalid texture dimensions given (" + 
+                                      std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ").");     
+    }
+
+    // Make sure we don't leak memory.
+    cleanUp();
+
+    // Allocate enough data.
+    const auto size = dimensions.x * dimensions.y;
+    m_pData         = new BYTE[size];
+
+    // Prepare the texture.
+    resetFrameDimensions();
+
+    m_textureSpace  = { 0, 0, dimensions.x, dimensions.y };
+
+    // Ensure all data is black.
+    for (int i = 0; i < size; ++i)
+    {
+        m_pData[i] = 0;
+    }
+}
+
+
+void Texture::cleanUp()
+{
+    if (m_pData)
+    {
+        delete[] m_pData;
+        m_pData = nullptr;
     }
 }
 

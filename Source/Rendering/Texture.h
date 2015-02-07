@@ -29,6 +29,12 @@ class Texture final
 
         /// <summary> Create a texture by loading image data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
         Texture (const std::string& fileLocation, const Point& frameDimensions);
+
+        /// <summary> Create a texture with blank data. </summary>
+        Texture (const Point& pixelDimensions);
+
+        /// <summary> Create a texture with blank data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
+        Texture (const Point& pixelDimensions, const Point& frameDimensions);
         
         Texture()                                   = default;
         Texture (Texture&& move);
@@ -65,11 +71,15 @@ class Texture final
         /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
         bool hasLoaded() const              { return m_pData != nullptr; }
         
-        /// <summary> 
-        /// Attempts to load a texture using the file location specified.
+        /// <summary> Attempts to load a texture using the file location specified. </summary>
         /// <returns> Returns whether it was possible or not. </returns>
-        /// </summary>
         void loadTexture (const std::string& fileLocation);
+
+        /// <summary> Fills the texture with blank data according to the dimensions specified. </summary>
+        void fillWithBlankData (const Point& dimensions);
+
+        /// <summary> Cleans the currently held data. </summary>
+        void cleanUp();
     
         #pragma endregion
 

@@ -27,7 +27,6 @@ const auto  circleSpeed         = 150.f;            //!< The number of pixels a 
 
 #pragma region Engine functionality
 
-
 bool Game::initialise()
 {
     try 
@@ -40,7 +39,7 @@ bool Game::initialise()
 
         // Set up the rendering engine.
         m_pRenderer = std::make_shared<Renderer2DHAPI>();
-        m_pRenderer->initialise (m_screenWidth, m_screenHeight);
+        m_pRenderer->initialise (m_screenWidth, m_screenHeight, 16, 16);
 
         // Load the textures.
         TextureID ids[3] = {    m_pRenderer->loadTexture (backgroundLocation, { 0, 0 }),
@@ -234,6 +233,5 @@ void Game::renderAll()
         }
     }
 }
-
 
 #pragma endregion Engine functionality
