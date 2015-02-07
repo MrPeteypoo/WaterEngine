@@ -29,6 +29,9 @@ class IRenderer2D
 
         // Ensure destructor is virtual since this is an interface.
         virtual ~IRenderer2D() {}
+
+
+        #pragma region Initialisation
     
         /// <summary> Initialise all data and prepare for rendering. </summary>
         /// <param name="screenWidth"> The width of the screen resolution. </param>
@@ -49,6 +52,17 @@ class IRenderer2D
         /// <summary> Loads a texture from local storage, ready for rendering. </summary>
         /// <returns> Returns the ID for the loaded texture. </returns>
         virtual TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) = 0;
+
+        /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
+        /// <param name="target"> The texture to modify. </param>
+        /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
+        /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
+        virtual void scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits) = 0;
+
+        #pragma endregion
+
+
+        #pragma region Rendering
         
         /// <summary> Clears the screen to a black level between 0 and 1, quicker than clearing to a colour. </summary>
         virtual void clearToBlack (const float blackLevel = 0) = 0;        
@@ -81,6 +95,8 @@ class IRenderer2D
         /// <param name="blend"> The type of alpha blending to perform. </param>
         /// <param name="frame"> The frame of the source texture to draw. </param>
         virtual void drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) = 0;
+
+        #pragma endregion
 };
 
 

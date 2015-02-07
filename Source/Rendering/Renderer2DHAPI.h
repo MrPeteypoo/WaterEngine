@@ -49,6 +49,12 @@ class Renderer2DHAPI final : public IRenderer2D
         /// <summary> Loads a texture from local storage, ready for rendering. </summary>
         /// <returns> Returns the ID for the loaded texture. </returns>
         TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) final override;
+
+        /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
+        /// <param name="target"> The texture to modify. </param>
+        /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
+        /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
+        void scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits) final override;
         
         #pragma endregion
 
@@ -89,7 +95,7 @@ class Renderer2DHAPI final : public IRenderer2D
 
         #pragma endregion
 
-    private:  
+    private:
 
         // Forward declarations
         struct Impl;

@@ -122,6 +122,16 @@ Texture& Texture::setFrameDimensions (const Point& dimensions)
 
 #pragma region Loading functionality
 
+void Texture::cleanUp()
+{
+    if (m_pData)
+    {
+        delete[] m_pData;
+        m_pData = nullptr;
+    }
+}
+
+
 void Texture::loadTexture (const std::string& fileLocation)
 {
     // Make sure we don't leak memory.
@@ -174,20 +184,101 @@ void Texture::fillWithBlankData (const Point& dimensions)
     }
 }
 
+#pragma endregion
 
-void Texture::cleanUp()
+
+#pragma region Scaling
+
+void Texture::scaleToSize (const Point& dimensions)
 {
-    if (m_pData)
+    // Pre-condition: Ensure the dimensions are valid.
+    if (dimensions.x <= 0 || dimensions.y <= 0)
     {
-        delete[] m_pData;
-        m_pData = nullptr;
+        throw std::invalid_argument ("Texture::fillWithBlankData(): Invalid texture dimensions given (" + 
+                                      std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ").");
     }
+
+    // Work on the basis of colours instead of bytes for the scaling.
+    const auto  width       = m_textureSpace.width(),
+                height      = m_textureSpace.height();
+
+    // Don't do anything if no scaling is to be performed.
+    if (dimensions.x != width || dimensions.y != height)
+    {
+        const auto  floatWidth  = (float) dimensions.x,
+                    floatHeight = (float) dimensions.y;
+
+        // Allocate the required data.
+        Colour* scaledData      = new Colour[dimensions.x * dimensions.y];
+
+        // Filter each pixel.
+        for (int y = 0; y < dimensions.y; ++y)
+        {
+            for (int x = 0; x < dimensions.x; ++x)
+            {
+                // We need to find where we are in terms of the unscaled data.
+                const float unscaledX = x / floatWidth * width,
+                            unscaledY = y / floatHeight * height;
+
+                // Now we need to calculate the current scaled pixel using bilinear filtering.
+                scaledData[x + y * dimensions.x] = bilinearFilteredPixel (unscaledX, unscaledY);
+            }
+        }
+
+        // Clean up the old texture data and replace it with the new data.
+        cleanUp();
+        m_pData         = (BYTE*) scaledData;
+        m_textureSpace  = { 0, 0, dimensions.x - 1, dimensions.y - 1 };
+        setFrameDimensions (m_frameDimensions);
+    }
+}
+
+
+Colour Texture::bilinearFilteredPixel (const float x, const float y) const
+{
+    /// This code is a modified version of a very useful blog post.
+    /// theowl84 (2011) 'Bilinear Pixel Interpolation using SSE', FastC++: Coding Cpp Efficiently, 16 June.
+    /// Available at: http://fastcpp.blogspot.co.uk/2011/06/bilinear-pixel-interpolation-using-sse.html (Accessed: 07/02/2015).
+
+    // We avoid casting as much as possible here since this is a load-time function, we do not need to sacrifice clarity for efficiency.
+    // Start by flooring X and Y so we can interpolate between pixels.
+    const auto  px      = (int) x,
+                py      = (int) y,
+                stride  = m_textureSpace.width();
+
+    // Obtain the base pixel.
+    const auto  p0      = (Colour*) (m_pData) + px + py * stride;
+ 
+    // Obtain a reference to the four neighbouring pixels.
+    const auto& p1      = p0[0 + 0 * stride],
+                p2      = p0[1 + 0 * stride],
+                p3      = p0[0 + 1 * stride],
+                p4      = p0[1 + 1 * stride];
+ 
+    // Calculate the weights for each pixel. This is where we determine how much to blend each neighbour by. We need to clamp to prevent overshooting.
+    const auto  fx      = x < m_textureSpace.getRight() ? x - px : 0.f,
+                fy      = y < m_textureSpace.getBottom() ? y - py : 0.f,
+                fx1     = 1.0f - fx,
+                fy1     = 1.0f - fy,
+  
+                w1      = fx1 * fy1,
+                w2      = fx  * fy1,
+                w3      = fx1 * fy,
+                w4      = fx  * fy;
+ 
+    // Interpolate each channel, for cache reasons calculate in BGRA order.
+    const auto  b       = (BYTE) (p1.blue * w1 + p2.blue * w2 + p3.blue * w3 + p4.blue * w4),
+                g       = (BYTE) (p1.green * w1 + p2.green * w2 + p3.green * w3 + p4.green * w4),
+                r       = (BYTE) (p1.red * w1 + p2.red * w2 + p3.red * w3 + p4.red * w4),
+                a       = (BYTE) (p1.alpha * w1 + p2.alpha * w2 + p3.alpha * w3 + p4.alpha * w4);
+ 
+    return { r, g, b, a };
 }
 
 #pragma endregion
 
 
-#pragma region Rendering
+#pragma region Blitting
 
 void Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
 {

@@ -13,7 +13,10 @@
 
 
 // Forward declarations.
-typedef unsigned char BYTE;
+struct HAPI_TColour;
+
+using Colour    = HAPI_TColour;
+using BYTE      = unsigned char;
 
 
 
@@ -70,6 +73,9 @@ class Texture final
 
         /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
         bool hasLoaded() const              { return m_pData != nullptr; }
+
+        /// <summary> Cleans the currently held data. </summary>
+        void cleanUp();
         
         /// <summary> Attempts to load a texture using the file location specified. </summary>
         /// <returns> Returns whether it was possible or not. </returns>
@@ -77,14 +83,24 @@ class Texture final
 
         /// <summary> Fills the texture with blank data according to the dimensions specified. </summary>
         void fillWithBlankData (const Point& dimensions);
-
-        /// <summary> Cleans the currently held data. </summary>
-        void cleanUp();
     
         #pragma endregion
 
 
-        #pragma region Rendering
+        #pragma region Scaling
+
+        /// <summary> Scales the texture using bilinear filtering to the desired dimensions. </summary>
+        /// <param name="dimensions"> The width and height to scale to. </param>
+        void scaleToSize (const Point& dimensions);
+
+        /// <summary> Calculates the bilinear filtered pixel of the given x and y values. </summary>
+        /// <returns> The calculated filtered pixel. </returns>
+        Colour bilinearFilteredPixel (const float x, const float y) const;        
+
+        #pragma endregion
+
+
+        #pragma region Blitting
 
         /// <summary> The entry point for blitting functionality. Determines whether blitting is necessary then calls the correct blitting function. </summary>
         /// <param name="target"> The data buffer to write to, this is likely to be the screen. </param>
@@ -96,10 +112,17 @@ class Texture final
 
         /// <summary> An overload which blits the current texture onto the target texture. </summary>
         /// <param name="target"> The target texture to be altered. </param>
+        /// <param name="point"> Where the blitting should begin, if this is out-of-bounds then the texture will be clipped. </param>
+        /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
+        /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
         void blit (Texture& target, const Point& point, const BlendType blend, const Point& frame);
+
+        #pragma endregion
         
     private:
         
+        #pragma region Blitting implementation
+
         /// <summary> Will blit the texture line-by-line without performing any alpha blending. </summary>
         void blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea);
 

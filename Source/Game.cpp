@@ -63,7 +63,7 @@ bool Game::initialise()
         circle->setFrameSize ({ 0, 0 });
         circle->setFrame ({ 0, 0 });
         
-        m_entities.push_back (std::move (background));
+        //m_entities.push_back (std::move (background));
         m_entities.push_back (std::move (circle));
         
         
@@ -81,16 +81,17 @@ bool Game::initialise()
             explosion->setFrameSize ({ 5, 5 });
             explosion->setFrame ({ rngU() % 5, rngU() % 5 });
 
-            m_entities.push_back (std::move (explosion));
+            //m_entities.push_back (std::move (explosion));
         }
 
         m_centreZone    = { 3, 3, 5, 5 };
+        m_pRenderer->scaleTexture (ids[1], { 1.135f, 1.764f }, false);
                             
         return true;
     }
 
     // Initialisation failed so just exit.
-    catch (std::exception& error)
+    catch (const std::exception& error)
     {
         std::cerr << "Exception caught in Game::initialise(): " << error.what() << std::endl;
     }
@@ -155,12 +156,12 @@ void Game::updateCapped()
 
     if (m_controllerOn)
     {
-        const auto& circlePosition = m_entities[1]->getPosition();
+        const auto& circlePosition = m_entities[0]->getPosition();
         const Rectangle<float> circleRect   { circlePosition.x, circlePosition.y, circlePosition.x + 2, circlePosition.y + 2 };
 
         if (circleRect.intersects (m_centreZone))
         {
-            HAPI->SetControllerRumble (0, 10000, 10000);
+            //HAPI->SetControllerRumble (0, 10000, 10000);
         }
 
         else
@@ -173,7 +174,7 @@ void Game::updateCapped()
 
 void Game::updateMain()
 {
-    auto& circlePosition = m_entities[1]->getPosition();
+    auto& circlePosition = m_entities[0]->getPosition();
 
     // Handle keyboard input.
     if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 

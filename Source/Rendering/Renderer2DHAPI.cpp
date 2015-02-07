@@ -81,7 +81,7 @@ Renderer2DHAPI::~Renderer2DHAPI()
     }
 }
 
-#pragma endregion Constructors and destructor
+#pragma endregion
 
 
 #pragma region Initialisation
@@ -165,7 +165,7 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Po
         return textureID;
     }
 
-    catch (std::exception& error)
+    catch (const std::exception& error)
     {
         std::cerr << "Exception caught in Renderer2DHAPI::loadTexture(): " << error.what() << std::endl;
     }
@@ -179,7 +179,33 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Po
 }
 
 
-#pragma endregion Rendering
+void Renderer2DHAPI::scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits)
+{
+    try
+    {
+        // Ensure the texture actually exists.
+        auto& texture       = m_pImpl->textures.at (target);
+
+        // Scale the dimensions if necessary.
+        const Point size    = pixelUnits ? dimensions : dimensions * m_pImpl->unitToPixel;
+
+        // Inform the texture to change its dimensions.
+        texture.scaleToSize (size);
+    }
+
+    catch (const std::exception& error)
+    {
+        std::cerr << "Exception caught in Renderer2DHAPI::scaleTexture(): " << error.what() << std::endl;
+    }
+
+    catch (...)
+    {
+        std::cerr << "Unknown error caught in Renderer2DHAPI::scaleTexture()." << std::endl;
+    }
+}
+
+
+#pragma endregion
 
 
 
@@ -233,7 +259,7 @@ void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID
         texture.blit (m_pImpl->screen, m_pImpl->screenSpace, pixelSpace, blend, frame);
     }
 
-    catch (std::exception& error)
+    catch (const std::exception& error)
     {
         std::cerr << "Exception caught in Renderer2DHAPI::drawToScreen(): " << error.what() << std::endl;
     }
@@ -265,7 +291,7 @@ void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureI
         sourceTexture.blit (targetTexture, pixelSpace, blend, frame);
     }
 
-    catch (std::exception& error)
+    catch (const std::exception& error)
     {
         std::cerr << "Exception caught in Renderer2DHAPI::drawToTexture(): " << error.what() << std::endl;
     }
