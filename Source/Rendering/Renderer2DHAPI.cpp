@@ -262,7 +262,7 @@ void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureI
         const auto pixelSpace   = (Point) (point * m_pImpl->unitToPixel);
 
         // Blit the valid texture.
-        targetTexture.blit (m_pImpl->screen, m_pImpl->screenSpace, pixelSpace, blend, frame);
+        sourceTexture.blit (targetTexture, pixelSpace, blend, frame);
     }
 
     catch (std::exception& error)
