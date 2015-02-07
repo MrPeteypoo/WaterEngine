@@ -46,9 +46,7 @@ class IRenderer2D
         /// <returns> The ID of the newly created texture. </returns>
         virtual TextureID createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) = 0;
 
-        /// <summary>
-        /// Loads a texture from local storage, ready for rendering. 
-        /// </summary>
+        /// <summary> Loads a texture from local storage, ready for rendering. </summary>
         /// <returns> Returns the ID for the loaded texture. </returns>
         virtual TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) = 0;
         
