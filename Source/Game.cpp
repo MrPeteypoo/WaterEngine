@@ -10,11 +10,11 @@
 #include <World/Entities/MilestoneEntity.h>
 #include <Maths/Vector2D.h>
 #include <Maths/Vector3D.h>
-#include <Rendering/Renderer2DHAPI.h>
+#include <Rendering/RendererHAPI.h>
 #include <Utility/Maths.h>
 #include <Utility/RNG.h>
 #include <Utility/Time.h>
-#include <Audio/IAudioSystem.h>
+#include <Audio/IAudio.h>
 
 
 // Milestone related constants.
@@ -39,7 +39,7 @@ bool Game::initialise()
         }
 
         // Set up the rendering engine.
-        m_pRenderer = std::make_shared<Renderer2DHAPI>();
+        m_pRenderer = std::make_shared<RendererHAPI>();
         m_pRenderer->initialise (m_screenWidth, m_screenHeight, { 128, 128 });
 
         // Load the textures.

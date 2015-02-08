@@ -40,7 +40,7 @@ void MilestoneEntity::update (const float deltaTime)
 }
 
 
-void MilestoneEntity::render (const std::shared_ptr<IRenderer2D>& renderer)
+void MilestoneEntity::render (const std::shared_ptr<IRenderer>& renderer)
 {
     if (renderer)
     {

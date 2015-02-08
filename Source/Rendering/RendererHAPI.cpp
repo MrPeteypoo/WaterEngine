@@ -1,4 +1,4 @@
-#include <Rendering/Renderer2DHAPI.h>
+#include <Rendering/RendererHAPI.h>
 
 
 // STL headers.
@@ -25,8 +25,8 @@ const auto  sizeOfColour = sizeof (Colour);
 
 #pragma region Implmentation data
 
-/// <summary> A POD structure with all working data for the Renderer2DHAPI class. </summary>
-struct Renderer2DHAPI::Impl final
+/// <summary> A POD structure with all working data for the RendererHAPI class. </summary>
+struct RendererHAPI::Impl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
     Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
@@ -40,21 +40,21 @@ struct Renderer2DHAPI::Impl final
 
 #pragma region Constructors and destructor
 
-Renderer2DHAPI::Renderer2DHAPI()
+RendererHAPI::RendererHAPI()
 {
     // Ensure we have our implementation data.
     m_pImpl = new Impl();
 }
 
 
-Renderer2DHAPI::Renderer2DHAPI (Renderer2DHAPI&& move)
+RendererHAPI::RendererHAPI (RendererHAPI&& move)
 {
     // Just use the operator implementation.
     *this = std::move (move);
 }
 
 
-Renderer2DHAPI& Renderer2DHAPI::operator= (Renderer2DHAPI&& move)
+RendererHAPI& RendererHAPI::operator= (RendererHAPI&& move)
 {
     if (this != &move)
     {
@@ -73,7 +73,7 @@ Renderer2DHAPI& Renderer2DHAPI::operator= (Renderer2DHAPI&& move)
 }
 
 
-Renderer2DHAPI::~Renderer2DHAPI()
+RendererHAPI::~RendererHAPI()
 {
     // Clean up after ourselves.
     if (m_pImpl)
@@ -88,19 +88,19 @@ Renderer2DHAPI::~Renderer2DHAPI()
 
 #pragma region Initialisation
 
-void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale)
+void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale)
 {
     // Pre-condition: Width and height are valid.
     if (screenWidth <= 0 || screenHeight <= 0)
     {
-        throw std::invalid_argument ("Renderer2DHAPI::initialise(): Invalid screen resolution given (" + 
+        throw std::invalid_argument ("RendererHAPI::initialise(): Invalid screen resolution given (" + 
                                       std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
     }
 
     // Pre-condition: Pixel scale is valid.
     if (unitToPixelScale.x <= 0 || unitToPixelScale.y <= 0)
     {
-        throw std::invalid_argument ("Renderer2DHAPI::initialise(): Invalid scale values given (" +
+        throw std::invalid_argument ("RendererHAPI::initialise(): Invalid scale values given (" +
                                       std::to_string (unitToPixelScale.x) + "x" + std::to_string (unitToPixelScale.y) + ").");
    }
 
@@ -112,18 +112,18 @@ void Renderer2DHAPI::initialise (const int screenWidth, const int screenHeight, 
     // Ensure the screen pointer is valid.
     if (!m_pImpl->screen)
     {
-        throw std::runtime_error ("Renderer2DHAPI::initialise(): Failed to obtain a pointer to the screenbuffer.");
+        throw std::runtime_error ("RendererHAPI::initialise(): Failed to obtain a pointer to the screenbuffer.");
     }
 }
 
 
-void Renderer2DHAPI::clearTextureData()
+void RendererHAPI::clearTextureData()
 {
     m_pImpl->textures.clear();
 }
 
 
-TextureID Renderer2DHAPI::createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
+TextureID RendererHAPI::createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
 {
     // We know that all valid string values will end in .* so we can just increment an integer value and guarantee we'll have a valid
     // hashed TextureID at the end of it!
@@ -147,7 +147,7 @@ TextureID Renderer2DHAPI::createBlankTexture (const Vector2D<float>& textureDime
 }
 
 
-TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
+TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
 {
     try
     {
@@ -169,19 +169,19 @@ TextureID Renderer2DHAPI::loadTexture (const std::string& fileLocation, const Po
 
     catch (const std::exception& error)
     {
-        std::cerr << "Exception caught in Renderer2DHAPI::loadTexture(): " << error.what() << std::endl;
+        std::cerr << "Exception caught in RendererHAPI::loadTexture(): " << error.what() << std::endl;
     }
 
     catch (...)
     {
-        std::cerr << "Unknown error caught in Renderer2DHAPI::loadTexture()." << std::endl;
+        std::cerr << "Unknown error caught in RendererHAPI::loadTexture()." << std::endl;
     }
     
     return (TextureID) 0;
 }
 
 
-void Renderer2DHAPI::scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits)
+void RendererHAPI::scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits)
 {
     try
     {
@@ -197,12 +197,12 @@ void Renderer2DHAPI::scaleTexture (const TextureID target, const Vector2D<float>
 
     catch (const std::exception& error)
     {
-        std::cerr << "Exception caught in Renderer2DHAPI::scaleTexture(): " << error.what() << std::endl;
+        std::cerr << "Exception caught in RendererHAPI::scaleTexture(): " << error.what() << std::endl;
     }
 
     catch (...)
     {
-        std::cerr << "Unknown error caught in Renderer2DHAPI::scaleTexture()." << std::endl;
+        std::cerr << "Unknown error caught in RendererHAPI::scaleTexture()." << std::endl;
     }
 }
 
@@ -214,7 +214,7 @@ void Renderer2DHAPI::scaleTexture (const TextureID target, const Vector2D<float>
 #pragma region Rendering
 
 
-void Renderer2DHAPI::clearToBlack (const float blackLevel)
+void RendererHAPI::clearToBlack (const float blackLevel)
 {
     const auto black = (BYTE) (channel * util::clamp (blackLevel, 0.f, 1.f));
 
@@ -223,7 +223,7 @@ void Renderer2DHAPI::clearToBlack (const float blackLevel)
 }
 
 
-void Renderer2DHAPI::clearToColour (const float red, const float green, const float blue, const float alpha)
+void RendererHAPI::clearToColour (const float red, const float green, const float blue, const float alpha)
 {
     const auto      screenSize  =   m_pImpl->screenSpace.area();
     const Colour    colour      {   (BYTE) (channel * red),
@@ -242,13 +242,13 @@ void Renderer2DHAPI::clearToColour (const float red, const float green, const fl
 }
 
 
-void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend)
+void RendererHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend)
 {
     drawToScreen (point, id, blend, { 0, 0 });
 }
 
 
-void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend, const Point& frame)
+void RendererHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend, const Point& frame)
 {
     try
     {
@@ -263,23 +263,23 @@ void Renderer2DHAPI::drawToScreen (const Vector2D<float>& point, const TextureID
 
     catch (const std::exception& error)
     {
-        std::cerr << "Exception caught in Renderer2DHAPI::drawToScreen(): " << error.what() << std::endl;
+        std::cerr << "Exception caught in RendererHAPI::drawToScreen(): " << error.what() << std::endl;
     }
 
     catch (...) 
     {
-        std::cerr << "Unknown error caught in Renderer2DHAPI::drawToScreen()." << std::endl;    
+        std::cerr << "Unknown error caught in RendererHAPI::drawToScreen()." << std::endl;    
     }
 }
 
 
-void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend)
+void RendererHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend)
 {
     drawToTexture (point, source, target, blend, { 0, 0 });
 }
 
 
-void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
+void RendererHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
 {
     try
     {
@@ -295,12 +295,12 @@ void Renderer2DHAPI::drawToTexture (const Vector2D<float>& point, const TextureI
 
     catch (const std::exception& error)
     {
-        std::cerr << "Exception caught in Renderer2DHAPI::drawToTexture(): " << error.what() << std::endl;
+        std::cerr << "Exception caught in RendererHAPI::drawToTexture(): " << error.what() << std::endl;
     }
 
     catch (...) 
     {
-        std::cerr << "Unknown error caught in Renderer2DHAPI::drawToTexture()." << std::endl;
+        std::cerr << "Unknown error caught in RendererHAPI::drawToTexture()." << std::endl;
     }
 }
 

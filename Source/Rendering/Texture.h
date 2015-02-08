@@ -5,7 +5,7 @@
 // Engine headers.
 #include <Maths/Rectangle.h>
 #include <Maths/Vector2D.h>
-#include <Rendering/Renderer2DHAPI.h>
+#include <Rendering/RendererHAPI.h>
 
 
 // Forward declarations.
@@ -19,7 +19,7 @@ using BYTE      = unsigned char;
 /// <summary> 
 /// A texture is a self-managed wrapper for any texture to be used in the HAPI engine. 
 /// </summary>
-class Renderer2DHAPI::Texture final
+class RendererHAPI::Texture final
 {
     public:
         

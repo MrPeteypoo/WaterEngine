@@ -25,7 +25,7 @@
     <ClCompile Include="..\..\Maths\Rectangle.cpp" />
     <ClCompile Include="..\..\Maths\Vector2D.cpp" />
     <ClCompile Include="..\..\Maths\Vector3D.cpp" />
-    <ClCompile Include="..\..\Rendering\Renderer2DHAPI.cpp" />
+    <ClCompile Include="..\..\Rendering\RendererHAPI.cpp" />
     <ClCompile Include="..\..\Rendering\Texture.cpp" />
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp" />
   </ItemGroup>
@@ -37,8 +37,8 @@
     <ClInclude Include="..\..\Maths\Rectangle.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
     <ClInclude Include="..\..\Maths\Vector3D.h" />
-    <ClInclude Include="..\..\Rendering\IRenderer2D.h" />
-    <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h" />
+    <ClInclude Include="..\..\Rendering\IRenderer.h" />
+    <ClInclude Include="..\..\Rendering\RendererHAPI.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />
     <ClInclude Include="..\..\Utility\Maths.h" />
     <ClInclude Include="..\..\Utility\RNG.h" />

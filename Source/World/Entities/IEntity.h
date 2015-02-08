@@ -3,7 +3,7 @@
 
 
 // Forward declarations.
-class IRenderer2D;                                            // Declaration required for render().
+class IRenderer;                                            // Declaration required for render().
 namespace std { template <typename T> class shared_ptr; }   // Declaration required for render().
 
 template <typename T> struct Vector2D;                      // Required for returning position.
@@ -27,7 +27,7 @@ class IEntity
         virtual void update (const float deltaTime) = 0;
 
         /// <summary> Renders the object on screen through the ScreenManager. </summary>
-        virtual void render (const std::shared_ptr<IRenderer2D>& renderer) = 0;
+        virtual void render (const std::shared_ptr<IRenderer>& renderer) = 0;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
         virtual Vector2D<float>& getPosition() = 0;

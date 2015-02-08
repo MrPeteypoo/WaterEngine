@@ -4,7 +4,7 @@
 
 // Engine headers.
 #include <World/Entities/IEntity.h>
-#include <Rendering/IRenderer2D.h>
+#include <Rendering/IRenderer.h>
 #include <Maths/Vector2D.h>
 
 
@@ -26,7 +26,7 @@ class MilestoneEntity final : public IEntity
         void update (const float deltaTime) final override;
 
         /// <summary> Renders the object on screen through the ScreenManager. </summary>
-        void render (const std::shared_ptr<IRenderer2D>& renderer) final override;
+        void render (const std::shared_ptr<IRenderer>& renderer) final override;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
         Vector2D<float>& getPosition() final override           { return m_position; }

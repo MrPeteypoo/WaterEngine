@@ -16,14 +16,14 @@ const auto sizeOfColour = sizeof (HAPI_TColour);
 
 #pragma region Constructors and destructor
 
-Renderer2DHAPI::Texture::Texture (const std::string& fileLocation)
+RendererHAPI::Texture::Texture (const std::string& fileLocation)
 {   
     // Attempt to load the texture during construction.
     loadTexture (fileLocation);
 }
 
 
-Renderer2DHAPI::Texture::Texture (const std::string& fileLocation, const Point& frameDimensions)
+RendererHAPI::Texture::Texture (const std::string& fileLocation, const Point& frameDimensions)
 {
     // Attempt to load the texture during construction.
     loadTexture (fileLocation);
@@ -33,14 +33,14 @@ Renderer2DHAPI::Texture::Texture (const std::string& fileLocation, const Point& 
 }
 
 
-Renderer2DHAPI::Texture::Texture (const Point& pixelDimensions)
+RendererHAPI::Texture::Texture (const Point& pixelDimensions)
 {
     // Load all the data captain!
     fillWithBlankData (pixelDimensions);
 }
 
 
-Renderer2DHAPI::Texture::Texture (const Point& pixelDimensions, const Point& frameDimensions)
+RendererHAPI::Texture::Texture (const Point& pixelDimensions, const Point& frameDimensions)
 {
     // Load all the data captain!
     fillWithBlankData (pixelDimensions);
@@ -50,14 +50,14 @@ Renderer2DHAPI::Texture::Texture (const Point& pixelDimensions, const Point& fra
 }
 
 
-Renderer2DHAPI::Texture::Texture (Texture&& move)
+RendererHAPI::Texture::Texture (Texture&& move)
 {
     // Just use the operator implementation.
     *this = std::move (move);
 }
 
 
-Renderer2DHAPI::Texture& Renderer2DHAPI::Texture::operator= (Texture&& move)
+RendererHAPI::Texture& RendererHAPI::Texture::operator= (Texture&& move)
 {
     if (this != &move)
     {
@@ -78,7 +78,7 @@ Renderer2DHAPI::Texture& Renderer2DHAPI::Texture::operator= (Texture&& move)
 }
 
 
-Renderer2DHAPI::Texture::~Texture()
+RendererHAPI::Texture::~Texture()
 {
     cleanUp();
 }
@@ -88,7 +88,7 @@ Renderer2DHAPI::Texture::~Texture()
 
 #pragma region Getters and setters
 
-void Renderer2DHAPI::Texture::resetFrameDimensions()
+void RendererHAPI::Texture::resetFrameDimensions()
 {
     m_frames = 0;
     m_frameDimensions.x = 0;
@@ -96,7 +96,7 @@ void Renderer2DHAPI::Texture::resetFrameDimensions()
 }
 
 
-void Renderer2DHAPI::Texture::setFrameDimensions (const Point& dimensions)
+void RendererHAPI::Texture::setFrameDimensions (const Point& dimensions)
 {
     if (dimensions.x == 0 || dimensions.y == 0)
     {
@@ -118,7 +118,7 @@ void Renderer2DHAPI::Texture::setFrameDimensions (const Point& dimensions)
 
 #pragma region Loading functionality
 
-void Renderer2DHAPI::Texture::cleanUp()
+void RendererHAPI::Texture::cleanUp()
 {
     if (m_pData)
     {
@@ -128,7 +128,7 @@ void Renderer2DHAPI::Texture::cleanUp()
 }
 
 
-void Renderer2DHAPI::Texture::loadTexture (const std::string& fileLocation)
+void RendererHAPI::Texture::loadTexture (const std::string& fileLocation)
 {
     // Make sure we don't leak memory.
     cleanUp();
@@ -152,7 +152,7 @@ void Renderer2DHAPI::Texture::loadTexture (const std::string& fileLocation)
 }
 
 
-void Renderer2DHAPI::Texture::fillWithBlankData (const Point& dimensions)
+void RendererHAPI::Texture::fillWithBlankData (const Point& dimensions)
 {
     // Pre-condition: Ensure the dimensions are valid.
     if (dimensions.x <= 0 || dimensions.y <= 0)
@@ -185,7 +185,7 @@ void Renderer2DHAPI::Texture::fillWithBlankData (const Point& dimensions)
 
 #pragma region Scaling
 
-void Renderer2DHAPI::Texture::scaleToSize (const Point& dimensions)
+void RendererHAPI::Texture::scaleToSize (const Point& dimensions)
 {
     // Pre-condition: Ensure the dimensions are valid.
     if (dimensions.x <= 0 || dimensions.y <= 0)
@@ -230,7 +230,7 @@ void Renderer2DHAPI::Texture::scaleToSize (const Point& dimensions)
 }
 
 
-Colour Renderer2DHAPI::Texture::bilinearFilteredPixel (const float x, const float y) const
+Colour RendererHAPI::Texture::bilinearFilteredPixel (const float x, const float y) const
 {
     /// This code is a modified version of a very useful blog post.
     /// theowl84 (2011) 'Bilinear Pixel Interpolation using SSE', FastC++: Coding Cpp Efficiently, 16 June.
@@ -276,7 +276,7 @@ Colour Renderer2DHAPI::Texture::bilinearFilteredPixel (const float x, const floa
 
 #pragma region Blitting
 
-void Renderer2DHAPI::Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
+void RendererHAPI::Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
 {
     // Pre-conditions: target is a valid pointer.
     if (!target)
@@ -353,14 +353,14 @@ void Renderer2DHAPI::Texture::blit (BYTE* const target, const Rectangle<int>& ta
 }
 
 
-void Renderer2DHAPI::Texture::blit (Texture& target, const Point& point, const BlendType blend, const Point& frame)
+void RendererHAPI::Texture::blit (Texture& target, const Point& point, const BlendType blend, const Point& frame)
 {
     // Forward onto the normal blitting function.
     blit (target.m_pData, target.m_textureSpace, point, blend, frame);
 }
 
 
-void Renderer2DHAPI::Texture::blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
+void RendererHAPI::Texture::blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
 {    
     // Cache zee variables captain!
     const auto  blitWidth       = (size_t) drawArea.width(),
@@ -389,7 +389,7 @@ void Renderer2DHAPI::Texture::blitOpaque (BYTE* const target, const Rectangle<in
 }
 
 
-void Renderer2DHAPI::Texture::blitTransparent (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
+void RendererHAPI::Texture::blitTransparent (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
 {
     // Cache zee variables captain!
     const auto  blitWidth       = (size_t) drawArea.width(),

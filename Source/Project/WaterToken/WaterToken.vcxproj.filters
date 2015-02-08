@@ -18,9 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Rendering\Renderer2DHAPI.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Rendering\Texture.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
@@ -43,11 +40,11 @@
     <ClCompile Include="..\..\Audio\AudioSFML.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Rendering\RendererHAPI.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Rendering\Texture.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -70,9 +67,6 @@
       <Filter>Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Game.h" />
-    <ClInclude Include="..\..\Rendering\IRenderer2D.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\World\Entities\IEntity.h">
       <Filter>World</Filter>
     </ClInclude>
@@ -87,6 +81,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Audio\AudioSFML.h">
       <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Rendering\IRenderer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Rendering\RendererHAPI.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
