@@ -14,7 +14,7 @@
 #include <Utility/Maths.h>
 #include <Utility/RNG.h>
 #include <Utility/Time.h>
-#include <Audio/IAudio.h>
+#include <Audio/AudioSFML.h>
 
 
 // Game namespace.

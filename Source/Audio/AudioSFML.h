@@ -34,13 +34,15 @@ namespace water
 
             /// <summary> Initialises the audio engine with the maximum number of sound channels specified. </summary>
             /// <param name="soundLimit"> The total number of sounds available at one time. </param>
-            void initialise (const size_t soundLimit = 32) override final;
+            /// <param name="bgmMixer"> The mixer volume for background music, 0 to 1. </param>
+            /// <param name="sfxMixer"> The mixer volume for sound effects, 0 to 1. </param>
+            void initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer) override final;
 
             /// <summary> Causes all loaded sound data to be deleted, invaliding all current keys. </summary>
             void clearSoundData() override final;
-
-            /// <summary> Prepares a music track to be streamed. The track won't be changed if the given file doesn't exist. </summary>
-            /// <returns> Whether the music track was changed. </returns>
+            
+            /// <summary> Prepares a music track to be streamed. </summary>
+            /// <returns> Whether the music track was loaded successfully. </returns>
             bool loadMusic (const std::string& fileLocation) override final;
 
             /// <summary> Loads a sound file into a sound buffer, this should be used for small sounds, not music. </summary>
@@ -55,19 +57,11 @@ namespace water
             /// <summary> Updates the audio system. </summary>
             void update() override final;
 
-            /// <summary> Causes all playing sounds to be stopped. </summary>
-            void stopAll() override final;
-
-            /// <summary> Resumes all paused sounds. </summary>
-            void resumeAll() override final;
-
-            /// <summary> Causes all playing sounds to be paused. </summary>
-            void pauseAll() override final;
-
             /// <summary> Plays the currently loaded music file. </summary>
+            /// <param name="volume"> The core volume of the music track. </param>
             /// <param name="offset"> An offset in seconds can be provided to start the track at a particular point. </param>
             /// <param name="loop"> Whether the track should be looped or not.</param>
-            void playMusic (const float offset = 0.f, const bool loop = true) override final;
+            void playMusic (const float volume = 1.f, const float offset = 0.f, const bool loop = true) override final;
 
             /// <summary> Stops the music from playing entirely. </summary>
             void stopMusic() override final;
@@ -94,19 +88,34 @@ namespace water
 
             /// <summary> Pauses a particular sound, this will maintain its position. </summary>
             void pauseSound (const PlaybackID sound) override final;
+
+            /// <summary> Causes all playing sounds to be stopped. </summary>
+            void stopSounds() override final;
+
+            /// <summary> Resumes all paused sounds. </summary>
+            void resumeSounds() override final;
+
+            /// <summary> Causes all playing sounds to be paused. </summary>
+            void pauseSounds() override final;
         
             #pragma endregion
 
     
             #pragma region Sound properties
+            
+            /// <summary> Changes the music mixer volume. </summary>
+            /// <param name="volume"> A normalised volume between 0 and 1. </param>
+            void adjustMusicMixer (const float volume) override final;
 
             /// <summary> Changes the effects mixer volume. </summary>
             /// <param name="volume"> A normalised volume between 0 and 1. </param>
-            void adjustEffectsVolume (const float volume) override final;
-
-            /// <summary> Changes the music mixer volume. </summary>
-            /// <param name="volume"> A normalised volume between 0 and 1. </param>
-            void adjustMusicVolume (const float volume) override final;
+            void adjustEffectsMixer (const float volume) override final;
+            
+            /// <summary> Adjusts the properties of a background music. </summary>
+            /// <param name="volume"> A normalised volume value from 0 to 1. </param>
+            /// <param name="offset"> An offset in seconds for the track. </param>
+            /// <param name="loop"> Should the track loop after finishing? </param>
+            void adjustMusicProperties (const float volume, const float offset, const bool loop) override final;
 
             /// <summary> Adjusts the properties of a playing sound. </summary>
             /// <param name="sound"> The currently playing sound to modify. </param>
@@ -118,6 +127,24 @@ namespace water
             #pragma endregion
 
         private:
+
+            #pragma region Utility
+
+            /// <summary> Destroys all sound data from the system. </summary>
+            void cleanUp();
+
+            /// <summary> A generic function which iterates through each channel calling the specified function. </summary>
+            /// <param name="function"> The function to perform on each channel. </param>
+            template <typename Function> void channelTraversal (Function function);
+
+            /// <summary> Searches through the sound channels to find an unused sound channel. </summary>
+            /// <returns> The location of the channel in the vector. </returns>
+            PlaybackID findInactiveChannel() const;
+
+            /// <summary> Checks whether a given PlaybackID is valid. </summary>
+            bool isValidID (const PlaybackID id) const;
+
+            #pragma endregion
 
             // Forward declarations.
             class Sound;

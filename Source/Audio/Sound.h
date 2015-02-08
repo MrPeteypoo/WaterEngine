@@ -27,6 +27,7 @@ namespace water
             Sound (Sound&& move);
             Sound& operator= (Sound&& move);
 
+            Sound()                                 = default;
             Sound (const Sound& copy)               = default;
             Sound& operator= (const Sound& copy)    = default;
             ~Sound()                                = default;        
@@ -37,22 +38,25 @@ namespace water
             #pragma region Wrapped functionality
 
             /// <summary> Plays the sound. </summary>
-            void play()                         { m_sound.play(); }
+            void play()                                     { m_sound.play(); }
 
             /// <summary> Pauses the sound. </summary>
-            void pause()                        { m_sound.pause(); }
+            void pause()                                    { m_sound.pause(); }
 
             /// <summary> Stops the sound from playing. </summary>
-            void stop()                         { m_sound.stop(); }
+            void stop()                                     { m_sound.stop(); }
 
             /// <summary> Checks if the sound has finished playing. </summary>
-            bool hasStopped() const             { return m_sound.getStatus() == sf::SoundSource::Status::Stopped; }
+            bool hasStopped() const                         { return m_sound.getStatus() == sf::SoundSource::Status::Stopped; }
 
             /// <summary> Checks if the sound is looping. </summary>
-            bool isLooping() const              { return m_sound.getLoop(); }
+            bool isLooping() const                          { return m_sound.getLoop(); }
 
             /// <summary> Enable or disable looping functionality. </summary>
-            void setLooping (const bool loop)   { m_sound.setLoop (true); }
+            void setLooping (const bool loop)               { m_sound.setLoop (true); }
+
+            /// <summary> Sets the source that's played from the sound. </summary>SW
+            void setBuffer (const sf::SoundBuffer& buffer)  { m_sound.setBuffer (buffer); }
 
             /// <summary> Sets the volume of the sound. </summary>
             /// <param name="volume"> A normalised value between 0 and 1. </param>
@@ -62,7 +66,7 @@ namespace water
             /// <summary> Resets the volume of the sound based on a new mixer value. </summary>
             void resetVolume (const float mixer);
 
-            /// <summary> Sets the position of the sound in seconds. </summary>
+            /// <summary> Sets the offset of the sound in seconds. </summary>
             void setOffset (const float seconds);
 
             #pragma endregion
