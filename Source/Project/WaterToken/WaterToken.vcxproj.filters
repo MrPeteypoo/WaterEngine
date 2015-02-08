@@ -37,10 +37,10 @@
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp">
       <Filter>World</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Audio\AudioSystemSFML.cpp">
+    <ClCompile Include="..\..\Audio\Sound.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Audio\Sound.cpp">
+    <ClCompile Include="..\..\Audio\AudioSFML.cpp">
       <Filter>Audio</Filter>
     </ClCompile>
   </ItemGroup>
@@ -79,13 +79,13 @@
     <ClInclude Include="..\..\World\Entities\MilestoneEntity.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Audio\IAudioSystem.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Audio\AudioSystemSFML.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Audio\Sound.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Audio\IAudio.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Audio\AudioSFML.h">
       <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>

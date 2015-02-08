@@ -1,5 +1,5 @@
-#if !defined INTERFACE_AUDIO_SYSTEM_INCLUDED
-#define INTERFACE_AUDIO_SYSTEM_INCLUDED
+#if !defined INTERFACE_AUDIO_INCLUDED
+#define INTERFACE_AUDIO_INCLUDED
 
 
 // STL headers.
@@ -15,12 +15,12 @@ using SoundID = size_t;
 /// <summary> 
 /// An interface to every audio system used in the engine. 
 /// </summary>
-class IAudioSystem
+class IAudio
 {
     public:
         
         // Ensure destructor is virtual since this is an interface.
-        virtual ~IAudioSystem() { }
+        virtual ~IAudio() { }
 
         
         #pragma region Initialisation
@@ -111,4 +111,4 @@ class IAudioSystem
         #pragma endregion
 };
 
-#endif // INTERFACE_AUDIO_SYSTEM_INCLUDED
+#endif // INTERFACE_AUDIO_INCLUDED

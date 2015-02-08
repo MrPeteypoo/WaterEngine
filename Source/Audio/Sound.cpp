@@ -12,13 +12,13 @@
 
 #pragma region Constructors
 
-AudioSystemSFML::Sound::Sound (Sound&& move)
+AudioSFML::Sound::Sound (Sound&& move)
 {
     *this = std::move (move);
 }
 
 
-AudioSystemSFML::Sound& AudioSystemSFML::Sound::operator= (Sound&& move)
+AudioSFML::Sound& AudioSFML::Sound::operator= (Sound&& move)
 {
     if (this != &move)
     {
@@ -37,7 +37,7 @@ AudioSystemSFML::Sound& AudioSystemSFML::Sound::operator= (Sound&& move)
 
 #pragma region Wrapped functionality
 
-void AudioSystemSFML::Sound::setVolume (const float volume, const float mixer)
+void AudioSFML::Sound::setVolume (const float volume, const float mixer)
 {
     // Assume the audio system is passing us good values.
     m_volume = volume;
@@ -47,14 +47,14 @@ void AudioSystemSFML::Sound::setVolume (const float volume, const float mixer)
 }
 
 
-void AudioSystemSFML::Sound::resetVolume (const float mixer)
+void AudioSFML::Sound::resetVolume (const float mixer)
 {
     // Apply the current volume and mixer together.
     m_sound.setVolume (m_volume * mixer);
 }
 
 
-void AudioSystemSFML::Sound::setOffset (const float seconds)
+void AudioSFML::Sound::setOffset (const float seconds)
 {
     // We should clamp the offset given.
     const auto duration = m_sound.getBuffer()->getDuration().asSeconds();

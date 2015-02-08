@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Audio/AudioSystemSFML.h>
+#include <Audio/AudioSFML.h>
 
 
 // Third party headers.
@@ -14,7 +14,7 @@
 /// <summary>
 /// A wrapper of the sf::Sound class which provides more control over the sound properties.
 /// </summary>
-class AudioSystemSFML::Sound final
+class AudioSFML::Sound final
 {
     public:
 

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Audio\AudioSystemSFML.cpp" />
+    <ClCompile Include="..\..\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Audio\Sound.cpp" />
     <ClCompile Include="..\..\Game.cpp" />
     <ClCompile Include="..\..\Maths\Rectangle.cpp" />
@@ -30,8 +30,8 @@
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Audio\AudioSystemSFML.h" />
-    <ClInclude Include="..\..\Audio\IAudioSystem.h" />
+    <ClInclude Include="..\..\Audio\AudioSFML.h" />
+    <ClInclude Include="..\..\Audio\IAudio.h" />
     <ClInclude Include="..\..\Audio\Sound.h" />
     <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Maths\Rectangle.h" />

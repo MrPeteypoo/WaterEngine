@@ -3,27 +3,27 @@
 
 
 // Engine headers.
-#include <Audio/IAudioSystem.h>
+#include <Audio/IAudio.h>
 
 
 
 /// <summary> 
 /// An audio engine which uses SFML to play multiple sounds at the same time. 
 /// </summary>
-class AudioSystemSFML final : public IAudioSystem
+class AudioSFML final : public IAudio
 {
     public:
 
         #pragma region Constructors and destructor
 
-        AudioSystemSFML();
-        AudioSystemSFML (AudioSystemSFML&& move);
-        AudioSystemSFML& operator= (AudioSystemSFML&& move);
+        AudioSFML();
+        AudioSFML (AudioSFML&& move);
+        AudioSFML& operator= (AudioSFML&& move);
 
-        ~AudioSystemSFML() override final;
+        ~AudioSFML() override final;
         
-        AudioSystemSFML (const AudioSystemSFML& copy)               = delete;
-        AudioSystemSFML& operator= (const AudioSystemSFML& copy)   = delete;
+        AudioSFML (const AudioSFML& copy)               = delete;
+        AudioSFML& operator= (const AudioSFML& copy)    = delete;
 
         #pragma endregion
 

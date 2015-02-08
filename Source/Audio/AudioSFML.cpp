@@ -1,4 +1,4 @@
-#include "AudioSystemSFML.h"
+#include "AudioSFML.h"
 
 
 // STL headers.
@@ -18,7 +18,7 @@
 #pragma region Implmentation data
 
 /// <summary> Contains the implementation data for the AudioSystemSFML class. </summary>
-struct AudioSystemSFML::Impl final
+struct AudioSFML::Impl final
 {
     size_t                                          soundLimit  { 31 };     //!< The number of sound effect channels available concurrently.
     float                                           sfxMixer    { 1.f };    //!< The effects mixer, this is the volume applied to every sound effect.
