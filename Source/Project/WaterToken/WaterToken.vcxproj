@@ -22,9 +22,9 @@
     <ClCompile Include="..\..\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Audio\Sound.cpp" />
     <ClCompile Include="..\..\Game.cpp" />
-    <ClCompile Include="..\..\Maths\Rectangle.cpp" />
-    <ClCompile Include="..\..\Maths\Vector2D.cpp" />
-    <ClCompile Include="..\..\Maths\Vector3D.cpp" />
+    <ClCompile Include="..\..\Misc\Rectangle.cpp" />
+    <ClCompile Include="..\..\Misc\Vector2.cpp" />
+    <ClCompile Include="..\..\Misc\Vector3.cpp" />
     <ClCompile Include="..\..\Rendering\RendererHAPI.cpp" />
     <ClCompile Include="..\..\Rendering\Texture.cpp" />
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp" />
@@ -34,9 +34,9 @@
     <ClInclude Include="..\..\Audio\IAudio.h" />
     <ClInclude Include="..\..\Audio\Sound.h" />
     <ClInclude Include="..\..\Game.h" />
-    <ClInclude Include="..\..\Maths\Rectangle.h" />
-    <ClInclude Include="..\..\Maths\Vector2D.h" />
-    <ClInclude Include="..\..\Maths\Vector3D.h" />
+    <ClInclude Include="..\..\Misc\Rectangle.h" />
+    <ClInclude Include="..\..\Misc\Vector2.h" />
+    <ClInclude Include="..\..\Misc\Vector3.h" />
     <ClInclude Include="..\..\Rendering\IRenderer.h" />
     <ClInclude Include="..\..\Rendering\RendererHAPI.h" />
     <ClInclude Include="..\..\Rendering\Texture.h" />

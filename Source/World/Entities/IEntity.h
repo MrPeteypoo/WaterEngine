@@ -6,7 +6,7 @@
 class IRenderer;                                            // Declaration required for render().
 namespace std { template <typename T> class shared_ptr; }   // Declaration required for render().
 
-template <typename T> struct Vector2D;                      // Required for returning position.
+template <typename T> struct Vector2;                      // Required for returning position.
 
 
 
@@ -30,7 +30,7 @@ class IEntity
         virtual void render (const std::shared_ptr<IRenderer>& renderer) = 0;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
-        virtual Vector2D<float>& getPosition() = 0;
+        virtual Vector2<float>& getPosition() = 0;
 };
 
 

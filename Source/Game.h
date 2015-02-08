@@ -9,7 +9,7 @@
 
 // Engine headers.
 #include <HAPI_lib.h>
-#include <Maths/Rectangle.h>
+#include <Misc/Rectangle.h>
 
 
 // Forward declarations.

@@ -30,7 +30,7 @@ struct RendererHAPI::Impl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
     Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-    Vector2D<float>                         unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
+    Vector2<float>                         unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
     std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
     std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
 };
@@ -88,7 +88,7 @@ RendererHAPI::~RendererHAPI()
 
 #pragma region Initialisation
 
-void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale)
+void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale)
 {
     // Pre-condition: Width and height are valid.
     if (screenWidth <= 0 || screenHeight <= 0)
@@ -123,7 +123,7 @@ void RendererHAPI::clearTextureData()
 }
 
 
-TextureID RendererHAPI::createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
+TextureID RendererHAPI::createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
 {
     // We know that all valid string values will end in .* so we can just increment an integer value and guarantee we'll have a valid
     // hashed TextureID at the end of it!
@@ -181,7 +181,7 @@ TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Poin
 }
 
 
-void RendererHAPI::scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits)
+void RendererHAPI::scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits)
 {
     try
     {
@@ -242,13 +242,13 @@ void RendererHAPI::clearToColour (const float red, const float green, const floa
 }
 
 
-void RendererHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend)
+void RendererHAPI::drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend)
 {
     drawToScreen (point, id, blend, { 0, 0 });
 }
 
 
-void RendererHAPI::drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend, const Point& frame)
+void RendererHAPI::drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend, const Point& frame)
 {
     try
     {
@@ -273,13 +273,13 @@ void RendererHAPI::drawToScreen (const Vector2D<float>& point, const TextureID i
 }
 
 
-void RendererHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend)
+void RendererHAPI::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend)
 {
     drawToTexture (point, source, target, blend, { 0, 0 });
 }
 
 
-void RendererHAPI::drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
+void RendererHAPI::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
 {
     try
     {

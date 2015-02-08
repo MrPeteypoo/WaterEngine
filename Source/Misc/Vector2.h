@@ -1,12 +1,12 @@
-#if !defined VECTOR2D_INCLUDED
-#define VECTOR2D_INCLUDED
+#if !defined VECTOR2_INCLUDED
+#define VECTOR2_INCLUDED
 
 
 
 /// <summary>
 /// A basic mathematical vector struct for a 2D vector.
 /// </summary>
-template <typename T = float> struct Vector2D final
+template <typename T = float> struct Vector2 final
 {
     #pragma region Member variables
 
@@ -19,78 +19,78 @@ template <typename T = float> struct Vector2D final
     #pragma region Constructors and destructor
 
     /// <summary> The default constructor, allows the initial values of each component to be set. </summary>
-    Vector2D (const T newX, const T newY) : x (newX), y (newY) {  };
+    Vector2 (const T newX, const T newY) : x (newX), y (newY) {  };
 
-    Vector2D()                                  = default;
-    Vector2D (const Vector2D& copy)             = default;
-    Vector2D& operator= (const Vector2D& copy)  = default;
+    Vector2()                                   = default;
+    Vector2 (const Vector2& copy)               = default;
+    Vector2& operator= (const Vector2& copy)    = default;
 
-    Vector2D (Vector2D&& move);
-    Vector2D& operator= (Vector2D&& move);
+    Vector2 (Vector2&& move);
+    Vector2& operator= (Vector2&& move);
 
-    ~Vector2D()                                 = default;
+    ~Vector2()                                  = default;
 
     #pragma endregion
 
 
     #pragma region Operators
 
-    /// <summary> Allows the Vector2D to be cast between specialisations. </summary>
-    template <typename U> operator Vector2D<U>() const  { return { (U) x, (U) y }; }
+    /// <summary> Allows the Vector2 to be cast between specialisations. </summary>
+    template <typename U> operator Vector2<U>() const   { return { (U) x, (U) y }; }
 
     /// <summary> Checks whether the vector is equal to another. </summary>
-    bool operator== (const Vector2D& rhs) const;
+    bool operator== (const Vector2& rhs) const;
 
     /// <summary> Checks whether the vector is not equal to another. </summary>
-    bool operator!= (const Vector2D& rhs) const;
+    bool operator!= (const Vector2& rhs) const;
 
     /// <summary> Adds two vectors together. </summary>
-    Vector2D operator+ (const Vector2D& rhs) const;
+    Vector2 operator+ (const Vector2& rhs) const;
 
     /// <summary> Finds the difference between two vectors. </summary>
-    Vector2D operator- (const Vector2D& rhs) const;
+    Vector2 operator- (const Vector2& rhs) const;
 
     /// <summary> Multiples each component of two vectors. </summary>
-    Vector2D operator* (const Vector2D& rhs) const;
+    Vector2 operator* (const Vector2& rhs) const;
 
     /// <summary> Divides each component of two vectors. </summary>
-    Vector2D operator/ (const Vector2D& rhs) const;
+    Vector2 operator/ (const Vector2& rhs) const;
 
     /// <summary> Translates each component of the vector by a value. </summary>
-    Vector2D operator+ (const T rhs) const;
+    Vector2 operator+ (const T rhs) const;
 
     /// <summary> Negatively translates each component of the vector by a value. </summary>
-    Vector2D operator- (const T rhs) const;
+    Vector2 operator- (const T rhs) const;
 
     /// <summary> Multiples each component of the vector by a value. </summary>
-    Vector2D operator* (const T rhs) const;
+    Vector2 operator* (const T rhs) const;
 
     /// <summary> Divides each component of the vector by a value. </summary>
-    Vector2D operator/ (const T rhs) const;
+    Vector2 operator/ (const T rhs) const;
 
     /// <summary> Adds a vector onto the current vector. </summary>
-    Vector2D& operator+= (const Vector2D& rhs);
+    Vector2& operator+= (const Vector2& rhs);
 
     /// <summary> Subtracts a vector from the current vector. </summary>
-    Vector2D& operator-= (const Vector2D& rhs);
+    Vector2& operator-= (const Vector2& rhs);
 
     /// <summary> Multiples each component of the current vector by the given vector. </summary>
-    Vector2D& operator*= (const Vector2D& rhs);
+    Vector2& operator*= (const Vector2& rhs);
 
     /// <summary> Divides each component of the current vector by the given vector. </summary>
-    Vector2D& operator/= (const Vector2D& rhs);
+    Vector2& operator/= (const Vector2& rhs);
 
     /// <summary> Adds a value onto each component of the current vector. </summary>
-    Vector2D& operator+= (const T rhs);
+    Vector2& operator+= (const T rhs);
 
     /// <summary> Subtracts a value from each component of the current vector. </summary>
-    Vector2D& operator-= (const T rhs);
+    Vector2& operator-= (const T rhs);
 
     /// <summary> Multiples each component of the current vector by a value. </summary>
-    Vector2D& operator*= (const T rhs);
+    Vector2& operator*= (const T rhs);
 
     /// <summary> Divides each component of the current vector by a value. </summary>
-    Vector2D& operator/= (const T rhs);
+    Vector2& operator/= (const T rhs);
 
     #pragma endregion
 
@@ -101,7 +101,7 @@ template <typename T = float> struct Vector2D final
     void setPosition (const T newX, const T newY);
 
     /// <summary> Translate the vector by the values stored in the passed vector.
-    void translate (const Vector2D& translate);
+    void translate (const Vector2& translate);
 
     /// <summary> Translates the each component by the values given. </summary>
     void translate (const T moveX, const T moveY);
@@ -118,23 +118,22 @@ template <typename T = float> struct Vector2D final
     T magnitude() const;
 
     /// <summary> Returns a unit vector based on current values. </summary>
-    Vector2D normalised() const;
+    Vector2 normalised() const;
 
     /// <summary> Converts the vector into a unit vector. </summary>
     void normalise();
 
-    /// <summary> Short hand for Vector2D::dotProduct(). </summary>
-    T dotProduct (const Vector2D& rhs) const    { return dotProduct (*this, rhs); }
+    /// <summary> Short hand for Vector2::dotProduct(). </summary>
+    T dotProduct (const Vector2& rhs) const { return dotProduct (*this, rhs); }
 
     /// <summary> Calculates the dot/scalar product of two given vectors. </summary>
-    static T dotProduct (const Vector2D& lhs, const Vector2D& rhs);
+    static T dotProduct (const Vector2& lhs, const Vector2& rhs);
 
     #pragma endregion
 };
 
 
-// Aliases
-using Point = Vector2D<int>;
+// Aliases.
+using Point = Vector2<int>;
 
-
-#endif // VECTOR2D_INCLUDED
+#endif // VECTOR2_INCLUDED

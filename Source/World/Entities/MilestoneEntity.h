@@ -5,7 +5,7 @@
 // Engine headers.
 #include <World/Entities/IEntity.h>
 #include <Rendering/IRenderer.h>
-#include <Maths/Vector2D.h>
+#include <Misc/Vector2.h>
 
 
 
@@ -29,21 +29,21 @@ class MilestoneEntity final : public IEntity
         void render (const std::shared_ptr<IRenderer>& renderer) final override;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
-        Vector2D<float>& getPosition() final override           { return m_position; }
+        Vector2<float>& getPosition() final override           { return m_position; }
 
         void setTextureID (const TextureID id)                  { m_texture = id; }
         void setBlendType (const BlendType blend)               { m_blend = blend; }
-        void setFrame (const Vector2D<unsigned int>& frame)     { m_frame = frame; }
-        void setFrameSize (const Vector2D<unsigned int>& size)  { m_frameSize = size; }
+        void setFrame (const Vector2<unsigned int>& frame)     { m_frame = frame; }
+        void setFrameSize (const Vector2<unsigned int>& size)  { m_frameSize = size; }
 
     private:
 
-        Vector2D<float>         m_position  {  };       //!< The position of the entity.
+        Vector2<float>         m_position  {  };       //!< The position of the entity.
 
         TextureID               m_texture   {  };       //!< The texture ID required for rendering the entity.
         BlendType               m_blend     {  };       //!< The blending algorithm the texture should use.
-        Vector2D<unsigned int>  m_frame     {  };       //!< The current animation frame to render.
-        Vector2D<unsigned int>  m_frameSize {  };       //!< The total number of frames in the animation.
+        Vector2<unsigned int>  m_frame     {  };       //!< The current animation frame to render.
+        Vector2<unsigned int>  m_frameSize {  };       //!< The total number of frames in the animation.
 
         float                   m_time      { 0.f };    //!< Keeps track of how much time has passed.
 };

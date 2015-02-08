@@ -7,30 +7,21 @@
     <Filter Include="Utility">
       <UniqueIdentifier>{fd504d1a-6741-4ae3-8953-628b57da58d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Maths">
-      <UniqueIdentifier>{53c3a0f5-1735-4f53-9599-29286071725a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{26036865-a72b-497d-a2a0-78000373f020}</UniqueIdentifier>
     </Filter>
     <Filter Include="Audio">
       <UniqueIdentifier>{cdc2c356-7001-4e63-a715-2c5be09351fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{53c3a0f5-1735-4f53-9599-29286071725a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Rendering\Texture.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Maths\Rectangle.cpp">
-      <Filter>Maths</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Game.cpp" />
-    <ClCompile Include="..\..\Maths\Vector2D.cpp">
-      <Filter>Maths</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Maths\Vector3D.cpp">
-      <Filter>Maths</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp">
       <Filter>World</Filter>
     </ClCompile>
@@ -42,6 +33,15 @@
     </ClCompile>
     <ClCompile Include="..\..\Rendering\RendererHAPI.cpp">
       <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\Rectangle.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\Vector2.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Misc\Vector3.cpp">
+      <Filter>Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,15 +56,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Utility\Time.h">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Maths\Rectangle.h">
-      <Filter>Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Maths\Vector2D.h">
-      <Filter>Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Maths\Vector3D.h">
-      <Filter>Maths</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\World\Entities\IEntity.h">
@@ -87,6 +78,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Rendering\RendererHAPI.h">
       <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Misc\Rectangle.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Misc\Vector2.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Misc\Vector3.h">
+      <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

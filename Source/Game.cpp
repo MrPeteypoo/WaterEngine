@@ -8,8 +8,8 @@
 
 // Engine headers.
 #include <World/Entities/MilestoneEntity.h>
-#include <Maths/Vector2D.h>
-#include <Maths/Vector3D.h>
+#include <Misc/Vector2.h>
+#include <Misc/Vector3.h>
 #include <Rendering/RendererHAPI.h>
 #include <Utility/Maths.h>
 #include <Utility/RNG.h>

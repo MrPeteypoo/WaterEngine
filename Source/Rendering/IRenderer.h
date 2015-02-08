@@ -7,8 +7,8 @@
 
 
 // Forward declarations.
-template <typename T> struct Vector2D;
-using Point = Vector2D<int>;
+template <typename T> struct Vector2;
+using Point = Vector2<int>;
 using TextureID = size_t;
 
 
@@ -41,7 +41,7 @@ class IRenderer
         /// <param name="screenWidth"> The width of the screen resolution. </param>
         /// <param name="screenHeight"> The height of the screen resolution. </param>
         /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
-        virtual void initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale) = 0;
+        virtual void initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale) = 0;
 
         /// <summary> Causes all loaded texture data to be deleted, invalidating all current keys. </summary>
         virtual void clearTextureData() = 0;
@@ -51,7 +51,7 @@ class IRenderer
         /// <param name="frameDimensions"> The frame dimensions of the texture, if x or y is zero then it is ignored. </param>
         /// <param name="textureDimensions"> Effects how the texture dimensions are interpreted, if false the values will be scaled, if true they will be in pixels. </param>
         /// <returns> The ID of the newly created texture. </returns>
-        virtual TextureID createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) = 0;
+        virtual TextureID createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) = 0;
 
         /// <summary> Loads a texture from local storage, ready for rendering. </summary>
         /// <returns> Returns the ID for the loaded texture. </returns>
@@ -61,7 +61,7 @@ class IRenderer
         /// <param name="target"> The texture to modify. </param>
         /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
         /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
-        virtual void scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits) = 0;
+        virtual void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) = 0;
 
         #pragma endregion
 
@@ -77,20 +77,20 @@ class IRenderer
         /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
         /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
-        virtual void drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend) = 0;
+        virtual void drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend) = 0;
 
         /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
         /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        virtual void drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend, const Point& frame) = 0;
+        virtual void drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend, const Point& frame) = 0;
 
         /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
         /// <param name="point"> The target top-left point on the texture to draw onto. </param>
         /// <param name="source"> The source texture to draw. </param>
         /// <param name="target"> The target texture to draw onto. </param>
         /// <param name="blend"> The type of alpha blending to perform. </param>
-        virtual void drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend) = 0;
+        virtual void drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend) = 0;
 
         /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
         /// <param name="point"> The target top-left point on the texture to draw onto. </param>
@@ -98,7 +98,7 @@ class IRenderer
         /// <param name="target"> The target texture to draw onto. </param>
         /// <param name="blend"> The type of alpha blending to perform. </param>
         /// <param name="frame"> The frame of the source texture to draw. </param>
-        virtual void drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) = 0;
+        virtual void drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) = 0;
 
         #pragma endregion
 };

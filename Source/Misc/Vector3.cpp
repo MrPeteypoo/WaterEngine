@@ -1,4 +1,4 @@
-#include "Vector3D.h"
+#include "Vector3.h"
 
 
 // STL headers.
@@ -8,22 +8,22 @@
 
 #pragma region Instantiations
 
-template Vector3D<int>;
-template Vector3D<float>;
-template Vector3D<double>;
+template Vector3<int>;
+template Vector3<float>;
+template Vector3<double>;
 
 #pragma endregion
 
 
 #pragma region Constructors
 
-template <typename T> Vector3D<T>::Vector3D (Vector3D<T>&& move)
+template <typename T> Vector3<T>::Vector3 (Vector3<T>&& move)
 {
     *this = std::move (move);
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator= (Vector3D&& move)
+template <typename T> Vector3<T>& Vector3<T>::operator= (Vector3&& move)
 {
     if (this != &move)
     {
@@ -46,7 +46,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator= (Vector3D&& move)
 
 #pragma region Operators
 
-template <typename T> bool Vector3D<T>::operator== (const Vector3D& rhs) const
+template <typename T> bool Vector3<T>::operator== (const Vector3& rhs) const
 {
     return (    x == rhs.x && 
                 y == rhs.y && 
@@ -54,7 +54,7 @@ template <typename T> bool Vector3D<T>::operator== (const Vector3D& rhs) const
 }
 
 
-template <typename T> bool Vector3D<T>::operator!= (const Vector3D& rhs) const
+template <typename T> bool Vector3<T>::operator!= (const Vector3& rhs) const
 {
     return (    x != rhs.x ||
                 y != rhs.y || 
@@ -62,7 +62,7 @@ template <typename T> bool Vector3D<T>::operator!= (const Vector3D& rhs) const
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator+ (const Vector3D& rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator+ (const Vector3& rhs) const
 {
     return {    x + rhs.x,
                 y + rhs.y,
@@ -70,7 +70,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator+ (const Vector3D& rhs) c
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator- (const Vector3D& rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator- (const Vector3& rhs) const
 {
     return {    x - rhs.x,
                 y - rhs.y,
@@ -78,7 +78,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator- (const Vector3D& rhs) c
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator* (const Vector3D& rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator* (const Vector3& rhs) const
 {
     return {    x * rhs.x,
                 y * rhs.y,
@@ -86,7 +86,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator* (const Vector3D& rhs) c
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator/ (const Vector3D& rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator/ (const Vector3& rhs) const
 {
     return {    x / rhs.x,
                 y / rhs.y,
@@ -94,7 +94,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator/ (const Vector3D& rhs) c
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator+ (const T rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator+ (const T rhs) const
 {
     return {    x + rhs,
                 y + rhs,
@@ -102,7 +102,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator+ (const T rhs) const
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator- (const T rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator- (const T rhs) const
 {
     return {    x - rhs,
                 y - rhs,
@@ -110,7 +110,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator- (const T rhs) const
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator* (const T rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator* (const T rhs) const
 {
     return {    x * rhs,
                 y * rhs,
@@ -118,7 +118,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator* (const T rhs) const
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::operator/ (const T rhs) const
+template <typename T> Vector3<T> Vector3<T>::operator/ (const T rhs) const
 {
     return {    x / rhs,
                 y / rhs,
@@ -126,7 +126,7 @@ template <typename T> Vector3D<T> Vector3D<T>::operator/ (const T rhs) const
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator+= (const Vector3D& rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator+= (const Vector3& rhs)
 {
     x += rhs.x;
     y += rhs.y;
@@ -136,7 +136,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator+= (const Vector3D& rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const Vector3D& rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator-= (const Vector3& rhs)
 {
     x -= rhs.x;
     y -= rhs.y;
@@ -146,7 +146,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const Vector3D& rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const Vector3D& rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator*= (const Vector3& rhs)
 {
     x *= rhs.x;
     y *= rhs.y;
@@ -156,7 +156,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const Vector3D& rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const Vector3D& rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator/= (const Vector3& rhs)
 {
     x /= rhs.x;
     y /= rhs.y;
@@ -166,7 +166,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const Vector3D& rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator+= (const T rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator+= (const T rhs)
 {
     x += rhs;
     y += rhs;
@@ -176,7 +176,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator+= (const T rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const T rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator-= (const T rhs)
 {
     x -= rhs;
     y -= rhs;
@@ -186,7 +186,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator-= (const T rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const T rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator*= (const T rhs)
 {
     x *= rhs;
     y *= rhs;
@@ -196,7 +196,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator*= (const T rhs)
 }
 
 
-template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const T rhs)
+template <typename T> Vector3<T>& Vector3<T>::operator/= (const T rhs)
 {
     x /= rhs;
     y /= rhs;
@@ -210,7 +210,7 @@ template <typename T> Vector3D<T>& Vector3D<T>::operator/= (const T rhs)
 
 #pragma region Movement functionality
 
-template <typename T> void Vector3D<T>::setPosition (const T newX, const T newY, const T newZ)
+template <typename T> void Vector3<T>::setPosition (const T newX, const T newY, const T newZ)
 {
     x = newX;
     y = newY;
@@ -218,13 +218,13 @@ template <typename T> void Vector3D<T>::setPosition (const T newX, const T newY,
 }
 
 
-template <typename T> void Vector3D<T>::translate (const Vector3D& translate)
+template <typename T> void Vector3<T>::translate (const Vector3& translate)
 {
     *this += translate;
 }
 
 
-template <typename T> void Vector3D<T>::translate (const T moveX, const T moveY, const T moveZ)
+template <typename T> void Vector3<T>::translate (const T moveX, const T moveY, const T moveZ)
 {
     x += moveX;
     y += moveY;
@@ -236,31 +236,31 @@ template <typename T> void Vector3D<T>::translate (const T moveX, const T moveY,
 
 #pragma region Maths functions
 
-template <typename T> T Vector3D<T>::squareMagnitude() const
+template <typename T> T Vector3<T>::squareMagnitude() const
 {
     return (x * x + y * y + z * z);
 }
 
 
-template <typename T> T Vector3D<T>::magnitude() const
+template <typename T> T Vector3<T>::magnitude() const
 {
     return (T) std::sqrt (squareMagnitude());
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::normalised() const
+template <typename T> Vector3<T> Vector3<T>::normalised() const
 {
     return *this / magnitude();
 }
 
 
-template <typename T> void Vector3D<T>::normalise()
+template <typename T> void Vector3<T>::normalise()
 {
     *this /= magnitude();
 }
 
 
-template <typename T> T Vector3D<T>::dotProduct (const Vector3D& lhs, const Vector3D& rhs)
+template <typename T> T Vector3<T>::dotProduct (const Vector3& lhs, const Vector3& rhs)
 {
     // Calculate each component.
     const T x   { lhs.x * rhs.x },
@@ -272,7 +272,7 @@ template <typename T> T Vector3D<T>::dotProduct (const Vector3D& lhs, const Vect
 }
 
 
-template <typename T> Vector3D<T> Vector3D<T>::crossProduct (const Vector3D& lhs, const Vector3D& rhs)
+template <typename T> Vector3<T> Vector3<T>::crossProduct (const Vector3& lhs, const Vector3& rhs)
 {
     // Calculate the determinants.
     const T x   {  (lhs.y * rhs.z - lhs.z * rhs.y) },

@@ -3,8 +3,8 @@
 
 
 // Engine headers.
-#include <Maths/Rectangle.h>
-#include <Maths/Vector2D.h>
+#include <Misc/Rectangle.h>
+#include <Misc/Vector2.h>
 #include <Rendering/RendererHAPI.h>
 
 

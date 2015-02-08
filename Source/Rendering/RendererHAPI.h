@@ -34,7 +34,7 @@ class RendererHAPI final : public IRenderer
         /// <param name="screenWidth"> The width of the screen resolution. </param>
         /// <param name="screenHeight"> The height of the screen resolution. </param>
         /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
-        void initialise (const int screenWidth, const int screenHeight, const Vector2D<float>& unitToPixelScale) override final;
+        void initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale) override final;
 
         /// <summary> Causes all loaded texture data to be wiped. </summary>
         void clearTextureData() override final;
@@ -44,7 +44,7 @@ class RendererHAPI final : public IRenderer
         /// <param name="frameDimensions"> The frame dimensions of the texture, if x or y is zero then it is ignored. </param>
         /// <param name="textureDimensions"> Effects how the texture dimensions are interpreted, if false the values will be scaled, if true they will be in pixels. </param>
         /// <returns> The ID of the newly created texture. </returns>
-        TextureID createBlankTexture (const Vector2D<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) override final;
+        TextureID createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) override final;
 
         /// <summary> Loads a texture from local storage, ready for rendering. </summary>
         /// <returns> Returns the ID for the loaded texture. </returns>
@@ -54,7 +54,7 @@ class RendererHAPI final : public IRenderer
         /// <param name="target"> The texture to modify. </param>
         /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
         /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
-        void scaleTexture (const TextureID target, const Vector2D<float>& dimensions, const bool pixelUnits) override final;
+        void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) override final;
         
         #pragma endregion
 
@@ -70,20 +70,20 @@ class RendererHAPI final : public IRenderer
         /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
         /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
-        void drawToScreen (const Vector2D<float>& position, const TextureID id, const BlendType blend) override final;
+        void drawToScreen (const Vector2<float>& position, const TextureID id, const BlendType blend) override final;
 
         /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
         /// <param name="point"> The top-left point where the texture should render from. </param>
         /// <param name="id"> The ID of the texture to render. </param>
         /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-        void drawToScreen (const Vector2D<float>& point, const TextureID id, const BlendType blend, const Point& frame) override final;
+        void drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend, const Point& frame) override final;
 
         /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
         /// <param name="point"> The target top-left point on the texture to draw onto. </param>
         /// <param name="source"> The source texture to draw. </param>
         /// <param name="target"> The target texture to draw onto. </param>
         /// <param name="blend"> The type of alpha blending to perform. </param>
-        void drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend) override final;
+        void drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend) override final;
 
         /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
         /// <param name="point"> The target top-left point on the texture to draw onto. </param>
@@ -91,7 +91,7 @@ class RendererHAPI final : public IRenderer
         /// <param name="target"> The target texture to draw onto. </param>
         /// <param name="blend"> The type of alpha blending to perform. </param>
         /// <param name="frame"> The frame of the source texture to draw. </param>
-        void drawToTexture (const Vector2D<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) override final;
+        void drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) override final;
 
         #pragma endregion
 
