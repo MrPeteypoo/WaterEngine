@@ -20,7 +20,7 @@ using Controller    = HAPI_TControllerData;
 using Keyboard      = HAPI_TKeyboardData;
 
 
-// Game namespace
+// Game namespace.
 namespace wt
 {
     /// <summary>
