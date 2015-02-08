@@ -37,6 +37,12 @@
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp">
       <Filter>World</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Audio\AudioSystemSFML.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Audio\Sound.cpp">
+      <Filter>Audio</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Rendering\Renderer2DHAPI.h">
@@ -73,7 +79,13 @@
     <ClInclude Include="..\..\World\Entities\MilestoneEntity.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Audio\IAudioEngine.h">
+    <ClInclude Include="..\..\Audio\IAudioSystem.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Audio\AudioSystemSFML.h">
+      <Filter>Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Audio\Sound.h">
       <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>

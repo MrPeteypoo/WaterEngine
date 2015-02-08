@@ -1,44 +1,49 @@
-#if !defined INTERFACE_AUDIO_SYSTEM_INCLUDED
-#define INTERFACE_AUDIO_SYSTEM_INCLUDED
+#if !defined AUDIO_SYSTEM_SFML_INCLUDED
+#define AUDIO_SYSTEM_SFML_INCLUDED
 
 
-// STL headers.
-#include <string>
-
-
-// Forward declarations.
-using PlaybackID = size_t;
-using SoundID = size_t;
+// Engine headers.
+#include <Audio/IAudioSystem.h>
 
 
 
 /// <summary> 
-/// An interface to every audio system used in the engine. 
+/// An audio engine which uses SFML to play multiple sounds at the same time. 
 /// </summary>
-class IAudioSystem
+class AudioSystemSFML final : public IAudioSystem
 {
     public:
-        
-        // Ensure destructor is virtual since this is an interface.
-        virtual ~IAudioSystem() { }
 
+        #pragma region Constructors and destructor
+
+        AudioSystemSFML();
+        AudioSystemSFML (AudioSystemSFML&& move);
+        AudioSystemSFML& operator= (AudioSystemSFML&& move);
+
+        ~AudioSystemSFML() override final;
         
+        AudioSystemSFML (const AudioSystemSFML& copy)               = delete;
+        AudioSystemSFML& operator= (const AudioSystemSFML& copy)   = delete;
+
+        #pragma endregion
+
+
         #pragma region Initialisation
 
         /// <summary> Initialises the audio engine with the maximum number of sound channels specified. </summary>
         /// <param name="soundLimit"> The total number of sounds available at one time. </param>
-        virtual void initialise (const size_t soundLimit = 32) = 0;
+        void initialise (const size_t soundLimit = 32) override final;
 
         /// <summary> Causes all loaded sound data to be deleted, invaliding all current keys. </summary>
-        virtual void clearSoundData() = 0;
+        void clearSoundData() override final;
 
         /// <summary> Prepares a music track to be streamed. The track won't be changed if the given file doesn't exist. </summary>
         /// <returns> Whether the music track was changed. </returns>
-        virtual bool loadMusic (const std::string& fileLocation) = 0;
+        bool loadMusic (const std::string& fileLocation) override final;
 
         /// <summary> Loads a sound file into a sound buffer, this should be used for small sounds, not music. </summary>
         /// <returns> The SoundID used to play the sound buffer. </returns>
-        virtual SoundID loadSound (const std::string& fileLocation) = 0;
+        SoundID loadSound (const std::string& fileLocation) override final;
 
         #pragma endregion
 
@@ -46,30 +51,30 @@ class IAudioSystem
         #pragma region Playback
 
         /// <summary> Updates the audio system. </summary>
-        virtual void update() = 0;
+        void update() override final;
 
         /// <summary> Causes all playing sounds to be stopped. </summary>
-        virtual void stopAll() = 0;
+        void stopAll() override final;
 
         /// <summary> Resumes all paused sounds. </summary>
-        virtual void resumeAll() = 0;
+        void resumeAll() override final;
 
         /// <summary> Causes all playing sounds to be paused. </summary>
-        virtual void pauseAll() = 0;
+        void pauseAll() override final;
 
         /// <summary> Plays the currently loaded music file. </summary>
         /// <param name="offset"> An offset in seconds can be provided to start the track at a particular point. </param>
         /// <param name="loop"> Whether the track should be looped or not.</param>
-        virtual void playMusic (const float offset = 0.f, const bool loop = true) = 0;
+        void playMusic (const float offset = 0.f, const bool loop = true) override final;
 
         /// <summary> Stops the music from playing entirely. </summary>
-        virtual void stopMusic() = 0;
+        void stopMusic() override final;
 
         /// <summary> Resumes the music track from the current point. </summary>
-        virtual void resumeMusic() = 0;
+        void resumeMusic() override final;
 
         /// <summary> Pauses the music at its current position. </summary>
-        virtual void pauseMusic() = 0;
+        void pauseMusic() override final;
 
         /// <summary> Plays the given sound with the desired parameters. </summary>
         /// <param name="sound"> The loaded sound buffer to play. </param>
@@ -77,16 +82,16 @@ class IAudioSystem
         /// <param name="offset"> An offset in seconds can be provided to start the sound at a particular point. </param>
         /// <param name="loop"> Should the sound loop after finishing? </param>
         /// <returns> The ID assigned to the newly playing sound. </returns>
-        virtual PlaybackID playSound (const SoundID sound, const float volume = 1.f, const float offset = 0.f, const bool loop = false) = 0;
+        PlaybackID playSound (const SoundID sound, const float volume = 1.f, const float offset = 0.f, const bool loop = false) override final;
 
         /// <summary> Stops a particular sound from playing. </summary>
-        virtual void stopSound (const PlaybackID sound) = 0;
+        void stopSound (const PlaybackID sound) override final;
 
         /// <summary> Resumes a paused sound, this will start from where it left off. </summary>
-        virtual void resumeSound (const PlaybackID sound) = 0;
+        void resumeSound (const PlaybackID sound) override final;
 
         /// <summary> Pauses a particular sound, this will maintain its position. </summary>
-        virtual void pauseSound (const PlaybackID sound) = 0;
+        void pauseSound (const PlaybackID sound) override final;
         
         #pragma endregion
 
@@ -95,20 +100,29 @@ class IAudioSystem
 
         /// <summary> Changes the effects mixer volume. </summary>
         /// <param name="volume"> A normalised volume between 0 and 1. </param>
-        virtual void adjustEffectsVolume (const float volume) = 0;
+        void adjustEffectsVolume (const float volume) override final;
 
         /// <summary> Changes the music mixer volume. </summary>
         /// <param name="volume"> A normalised volume between 0 and 1. </param>
-        virtual void adjustMusicVolume (const float volume) = 0;
+        void adjustMusicVolume (const float volume) override final;
 
         /// <summary> Adjusts the properties of a playing sound. </summary>
         /// <param name="sound"> The currently playing sound to modify. </param>
         /// <param name="volume"> A normalised volume value from 0 to 1. </param>
         /// <param name="offset"> An offset in seconds for the sound. </param>
         /// <param name="loop"> Should the sound loop after finishing? </param>
-        virtual void adjustSoundProperties (const PlaybackID sound, const float volume, const float offset = 0.f, const bool loop = false) = 0;
+        void adjustSoundProperties (const PlaybackID sound, const float volume, const float offset = 0.f, const bool loop = false) override final;
 
         #pragma endregion
+
+    private:
+
+        // Forward declarations.
+        class Sound;
+        struct Impl;
+
+
+        Impl*   m_pImpl { nullptr };    //!< A pointer to the implementation data.
 };
 
-#endif // INTERFACE_AUDIO_SYSTEM_INCLUDED
+#endif // AUDIO_SYSTEM_SFML_INCLUDED

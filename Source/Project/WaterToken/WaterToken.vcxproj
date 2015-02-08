@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Audio\AudioSystemSFML.cpp" />
+    <ClCompile Include="..\..\Audio\Sound.cpp" />
     <ClCompile Include="..\..\Game.cpp" />
     <ClCompile Include="..\..\Maths\Rectangle.cpp" />
     <ClCompile Include="..\..\Maths\Vector2D.cpp" />
@@ -28,7 +30,9 @@
     <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Audio\IAudioEngine.h" />
+    <ClInclude Include="..\..\Audio\AudioSystemSFML.h" />
+    <ClInclude Include="..\..\Audio\IAudioSystem.h" />
+    <ClInclude Include="..\..\Audio\Sound.h" />
     <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Maths\Rectangle.h" />
     <ClInclude Include="..\..\Maths\Vector2D.h" />
@@ -161,7 +165,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <MapFileName>$(TargetDir)$(TargetName).map</MapFileName>
-      <AdditionalDependencies>openal3264.lib;sndfile64.lib;sfml-audio-s-d64.lib;sfml-system-s-d64.lib;HAPI_Debug64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>openal3264.lib;sndfile64.lib;sfml-system-s-d64.lib;sfml-audio-s-d64.lib;HAPI_Debug64.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
