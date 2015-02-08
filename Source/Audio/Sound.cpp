@@ -52,7 +52,7 @@ namespace water
     void AudioSFML::Sound::resetVolume (const float mixer)
     {
         // Apply the current volume and mixer together.
-        m_sound.setVolume (m_volume * mixer);
+        m_sound.setVolume (100.f * m_volume * mixer);
     }
 
 

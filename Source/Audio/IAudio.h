@@ -75,7 +75,7 @@ namespace water
             /// <returns> The ID assigned to the newly playing sound. </returns>
             virtual PlaybackID playSound (const SoundID sound, const float volume = 1.f, const float offset = 0.f, const bool loop = false) = 0;
 
-            /// <summary> Stops a particular sound from playing. </summary>
+            /// <summary> Stops a particular sound from playing. Once you request it to stop you should never try to access the sound again. </summary>
             virtual void stopSound (const PlaybackID sound) = 0;
 
             /// <summary> Resumes a paused sound, this will start from where it left off. </summary>

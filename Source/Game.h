@@ -14,7 +14,12 @@
 
 // Forward declarations.
 class IEntity;
-namespace water { class IRenderer; }
+namespace water 
+{ 
+    class IAudio;
+    class IRenderer;
+    using SoundID = size_t;
+}
 
 using Controller    = HAPI_TControllerData;
 using Keyboard      = HAPI_TKeyboardData;
@@ -95,6 +100,8 @@ namespace wt
             std::vector<std::unique_ptr<IEntity>>   m_entities          {  };           //!< A vector containing every entity in the game.
 
             std::shared_ptr<water::IRenderer>       m_renderer          { nullptr };    //!< The renderer used to draw everything onto the screen.
+            std::shared_ptr<water::IAudio>          m_audio             { nullptr };    //!< CRAPPAPAPDWAKDWAJKJSEFJFSEJFS.
+            std::vector<water::SoundID>                    m_sounds            { };
 
             #pragma endregion
 

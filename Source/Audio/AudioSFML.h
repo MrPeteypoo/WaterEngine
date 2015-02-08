@@ -133,18 +133,20 @@ namespace water
             /// <summary> Destroys all sound data from the system. </summary>
             void cleanUp();
 
-            /// <summary> A generic function which iterates through each channel calling the specified function. </summary>
-            /// <param name="function"> The function to perform on each channel. </param>
-            template <typename Function> void channelTraversal (Function function);
-
-            /// <summary> Searches through the sound channels to find an unused sound channel. </summary>
-            /// <returns> The location of the channel in the vector. </returns>
-            PlaybackID findInactiveChannel() const;
-
             /// <summary> Checks whether a given PlaybackID is valid. </summary>
             bool isValidID (const PlaybackID id) const;
 
+            /// <summary> A generic function which iterates through each channel calling the specified function. </summary>
+            /// <param name="function"> The function to perform on each channel. </param>
+            /// <returns> Returns the index at which the given function returns true. </returns>
+            template <typename Function> PlaybackID channelTraversal (Function function);
+
+            /// <summary> Searches through the sound channels to find an unused sound channel. </summary>
+            /// <returns> The location of the channel in the vector. </returns>
+            PlaybackID findInactiveChannel();
+
             #pragma endregion
+
 
             // Forward declarations.
             class Sound;

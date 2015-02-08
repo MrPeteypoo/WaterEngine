@@ -32,7 +32,6 @@ namespace water
         sf::Music                                       bgm             { };        //!< The loaded background music.
         float                                           bgmVolume       { 1.f };    //!< The core volume of the music file.
 
-        size_t                                          playingCount    { 0 };      //!< The number of audio channels currently playing.
         size_t                                          previousChannel { 0 };      //!< Helps in speeding up the algorithm used to find unused tracks.
 
         std::hash<std::string>                          hasher          { };        //!< The hasher used to hash file names.
@@ -119,8 +118,6 @@ namespace water
         // Reset to defaults.
         m_impl->bgm.openFromFile ("");
         adjustMusicProperties (1.f, 0.f, true);
-        m_impl->playingCount = 0;
-        m_impl->previousChannel = 0;
         m_impl->channels.resize (m_impl->soundLimit);
     }
     
@@ -178,7 +175,7 @@ namespace water
         m_impl->bgm.stop();
     }
 
-
+    
     void AudioSFML::resumeMusic()
     {
         m_impl->bgm.play();
@@ -264,7 +261,7 @@ namespace water
     void AudioSFML::stopSounds()
     {
         // Forceably stop all sounds from playing.
-        auto stopFunction = [] (Sound& channel) { channel.stop(); };
+        auto stopFunction = [] (Sound& channel) { channel.stop(); return false; };
 
         channelTraversal (stopFunction);
     }
@@ -273,7 +270,7 @@ namespace water
     void AudioSFML::resumeSounds()
     {
         // Resume all sounds from where they left off.
-        auto resumeFunction = [] (Sound& channel) { channel.play(); };
+        auto resumeFunction = [] (Sound& channel) { channel.play(); return false; };
 
         channelTraversal (resumeFunction);
     }
@@ -282,7 +279,7 @@ namespace water
     void AudioSFML::pauseSounds()
     {
         // Pause all sounds at their current position.
-        auto pauseFunction = [] (Sound& channel) { channel.pause(); };
+        auto pauseFunction = [] (Sound& channel) { channel.pause(); return false; };
 
         channelTraversal (pauseFunction);
     }
@@ -307,9 +304,10 @@ namespace water
 
         // Now we need to create a function that will adjust the volume of each channel.
         auto volumeAdjust = 
-        [&] (Sound& channel)
+        [=] (Sound& channel)
         {
             channel.resetVolume (m_impl->sfxMixer);
+            return false;
         };
 
         channelTraversal (volumeAdjust);
@@ -320,11 +318,11 @@ namespace water
     {
         // Set the volume.
         m_impl->bgmVolume   = util::clamp (volume, 0.f, 1.f);
-        m_impl->bgm.setVolume (m_impl->bgmVolume);
+        m_impl->bgm.setVolume (100.f * m_impl->bgmVolume * m_impl->bgmMixer);
 
         // Adjust the offset.
         const auto cap      = m_impl->bgm.getDuration().asSeconds();
-        const auto position = util::clamp (volume, 0.f, cap);
+        const auto position = util::clamp (offset, 0.f, cap);
         m_impl->bgm.setPlayingOffset (sf::seconds (position));
 
         // And tell it to loop!
@@ -363,27 +361,30 @@ namespace water
     }
 
 
-    template <typename Function> void channelTraversal (Function function)
+    template <typename Function> PlaybackID AudioSFML::channelTraversal (Function function)
     {
         // Function should be a lambda function which will be called on each channel.
-        for (auto i = 0U; i < m_impl->soundLimit; ++i)
+        for (auto i = 0U; i < m_impl->channels.size(); ++i)
         {
-            function (m_impl->channels[i]);
-        }
-    }
-
-
-    PlaybackID AudioSFML::findInactiveChannel() const
-    {
-        for (PlaybackID i = 0; i < m_impl->soundLimit; ++i)
-        {
-            if (m_impl->channels[i].hasStopped())
+            if (function (m_impl->channels[i]))
             {
                 return i;
             }
         }
 
         return std::numeric_limits<PlaybackID>::max();
+    }
+
+
+    PlaybackID AudioSFML::findInactiveChannel()
+    {
+        // Make a function which will find an inactive channel.
+        auto inactiveFunction = [] (Sound& channel)
+        {
+            return channel.hasStopped();
+        };
+
+        return channelTraversal (inactiveFunction);
     }
 
 

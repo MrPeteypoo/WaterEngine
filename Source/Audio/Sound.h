@@ -53,7 +53,7 @@ namespace water
             bool isLooping() const                          { return m_sound.getLoop(); }
 
             /// <summary> Enable or disable looping functionality. </summary>
-            void setLooping (const bool loop)               { m_sound.setLoop (true); }
+            void setLooping (const bool loop)               { m_sound.setLoop (loop); }
 
             /// <summary> Sets the source that's played from the sound. </summary>SW
             void setBuffer (const sf::SoundBuffer& buffer)  { m_sound.setBuffer (buffer); }

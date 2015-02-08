@@ -23,7 +23,9 @@ namespace wt
     // Milestone related constants.
     const auto  backgroundLocation  = "../Images/background.tga", //!< The file location for the background image.
                 circleLocation      = "../Images/alphaThing.tga", //!< The file location for the circle image.
-                explosionLocation   = "../Images/explosion.png";  //!< The file location for the explosion spritesheet.
+                explosionLocation   = "../Images/explosion.png",  //!< The file location for the explosion spritesheet.
+                musicLocation       = "../Audio/music.flac",
+                soundLocation       = "../Audio/sound.ogg";
 
     const auto  circleSpeed         = 3.f;              //!< The number of pixels a second the circle can travel.
 
@@ -92,6 +94,12 @@ namespace wt
             m_renderer->scaleTexture (ids[0], { 8.f, 8.f }, false);
             m_renderer->scaleTexture (ids[1], { 1.9847f, 4.8785465f }, false);
             m_renderer->scaleTexture (ids[2], { 1280.f, 1280.f }, true);
+
+            m_audio = std::make_shared<water::AudioSFML>();
+            m_audio->initialise (128, 5.f, 2.f);
+
+            m_audio->loadMusic (musicLocation);
+            m_sounds.push_back (m_audio->loadSound (soundLocation));
                             
             return true;
         }
@@ -106,6 +114,7 @@ namespace wt
         {
             std::cerr << "Unknown error caught in Game::initialise()." << std::endl;
         }
+
         return false;
     }
 
@@ -174,6 +183,29 @@ namespace wt
             {
                 HAPI->SetControllerRumble (0, 0, 0);
             }
+    
+            if (m_controllerOn)
+            {
+                if (m_controller.digitalButtons[HK_DIGITAL_A])
+                {
+                    m_audio->playSound (m_sounds[0], 1.f, 0.f, false);
+                }
+
+                if (m_controller.digitalButtons[HK_DIGITAL_B])
+                {
+                    m_audio->pauseMusic();
+                }
+
+                if (m_controller.digitalButtons[HK_DIGITAL_Y])
+                {
+                    m_audio->resumeMusic();
+                }
+
+                if (m_controller.digitalButtons[HK_DIGITAL_X])
+                {
+                    m_audio->stopSound (0);
+                }
+            }
         }
     }
 
@@ -206,7 +238,7 @@ namespace wt
         {
             circlePosition.y += circleSpeed * m_deltaTime;
         }
-    
+
         for (auto& entity : m_entities)
         {
             if (entity)
