@@ -18,9 +18,9 @@
 
 
 // Milestone related constants.
-const auto  backgroundLocation  = "background.tga", //!< The file location for the background image.
-            circleLocation      = "alphaThing.tga", //!< The file location for the circle image.
-            explosionLocation   = "explosion.png";  //!< The file location for the explosion spritesheet.
+const auto  backgroundLocation  = "../Images/background.tga", //!< The file location for the background image.
+            circleLocation      = "../Images/alphaThing.tga", //!< The file location for the circle image.
+            explosionLocation   = "../Images/explosion.png";  //!< The file location for the explosion spritesheet.
 
 const auto  circleSpeed         = 3.f;              //!< The number of pixels a second the circle can travel.
 
