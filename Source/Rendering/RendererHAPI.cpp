@@ -30,7 +30,7 @@ struct RendererHAPI::Impl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
     Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-    Vector2<float>                         unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
+    Vector2<float>                          unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
     std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
     std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
 };
