@@ -40,7 +40,7 @@ void MilestoneEntity::update (const float deltaTime)
 }
 
 
-void MilestoneEntity::render (const std::shared_ptr<IRenderer>& renderer)
+void MilestoneEntity::render (const std::shared_ptr<water::IRenderer>& renderer)
 {
     if (renderer)
     {

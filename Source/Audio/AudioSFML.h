@@ -122,7 +122,7 @@ class AudioSFML final : public IAudio
         struct Impl;
 
 
-        Impl*   m_pImpl { nullptr };    //!< A pointer to the implementation data.
+        Impl*   m_impl  { nullptr };    //!< A pointer to the implementation data.
 };
 
 #endif // AUDIO_SYSTEM_SFML_INCLUDED

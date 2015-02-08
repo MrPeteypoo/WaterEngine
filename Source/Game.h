@@ -14,7 +14,7 @@
 
 // Forward declarations.
 class IEntity;
-class IRenderer;
+namespace water { class IRenderer; }
 
 using Controller    = HAPI_TControllerData;
 using Keyboard      = HAPI_TKeyboardData;
@@ -92,7 +92,7 @@ class Game final
 
         std::vector<std::unique_ptr<IEntity>>   m_entities          {  };           //!< A vector containing every entity in the game.
 
-        std::shared_ptr<IRenderer>            m_pRenderer         { nullptr };    //!< The renderer used to draw everything onto the screen.
+        std::shared_ptr<water::IRenderer>       m_renderer          { nullptr };    //!< The renderer used to draw everything onto the screen.
 
         #pragma endregion
 

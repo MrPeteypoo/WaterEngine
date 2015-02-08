@@ -39,20 +39,20 @@ bool Game::initialise()
         }
 
         // Set up the rendering engine.
-        m_pRenderer = std::make_shared<RendererHAPI>();
-        m_pRenderer->initialise (m_screenWidth, m_screenHeight, { 128, 128 });
+        m_renderer = std::make_shared<water::RendererHAPI>();
+        m_renderer->initialise (m_screenWidth, m_screenHeight, { 128, 128 });
 
         // Load the textures.
-        TextureID ids[3] = {    m_pRenderer->loadTexture (backgroundLocation, { 0, 0 }),
-                                m_pRenderer->loadTexture (circleLocation, { 0, 0 }),
-                                m_pRenderer->loadTexture (explosionLocation, { 5, 5 }) };
+        water::TextureID ids[3] = {    m_renderer->loadTexture (backgroundLocation, { 0, 0 }),
+                                m_renderer->loadTexture (circleLocation, { 0, 0 }),
+                                m_renderer->loadTexture (explosionLocation, { 5, 5 }) };
 
         // Make the entities.
         auto background = std::make_unique<MilestoneEntity>(), circle = std::make_unique<MilestoneEntity>();
 
         background->getPosition() = { 0.f, 0.f };
         background->setTextureID (ids[0]);
-        background->setBlendType (BlendType::Opaque);
+        background->setBlendType (water::BlendType::Opaque);
         background->setFrameSize ({ 0, 0 });
         background->setFrame ({ 0, 0 });
         
@@ -60,7 +60,7 @@ bool Game::initialise()
         circle->getPosition() = { 3, 3 };
 
         circle->setTextureID (ids[1]);
-        circle->setBlendType (BlendType::Transparent);
+        circle->setBlendType (water::BlendType::Transparent);
         circle->setFrameSize ({ 0, 0 });
         circle->setFrame ({ 0, 0 });
         
@@ -78,7 +78,7 @@ bool Game::initialise()
 
             explosion->getPosition() = { 8 * rngF() - 2.f, 8 * rngF() - 2.f };
             explosion->setTextureID (ids[2]);
-            explosion->setBlendType (BlendType::Transparent);
+            explosion->setBlendType (water::BlendType::Transparent);
             explosion->setFrameSize ({ 5, 5 });
             explosion->setFrame ({ rngU() % 5, rngU() % 5 });
 
@@ -86,9 +86,9 @@ bool Game::initialise()
         }
 
         m_centreZone    = { 3, 3, 5, 5 };
-        m_pRenderer->scaleTexture (ids[0], { 8.f, 8.f }, false);
-        m_pRenderer->scaleTexture (ids[1], { 1.9847f, 4.8785465f }, false);
-        m_pRenderer->scaleTexture (ids[2], { 1280.f, 1280.f }, true);
+        m_renderer->scaleTexture (ids[0], { 8.f, 8.f }, false);
+        m_renderer->scaleTexture (ids[1], { 1.9847f, 4.8785465f }, false);
+        m_renderer->scaleTexture (ids[2], { 1280.f, 1280.f }, true);
                             
         return true;
     }
@@ -217,13 +217,13 @@ void Game::updateMain()
 void Game::renderAll()
 {    
     // Render images.
-    m_pRenderer->clearToBlack();
+    m_renderer->clearToBlack();
 
     for (auto& entity : m_entities)
     {
         if (entity)
         {
-            entity->render (m_pRenderer);
+            entity->render (m_renderer);
         }
     }
 }

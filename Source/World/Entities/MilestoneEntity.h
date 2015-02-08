@@ -26,13 +26,13 @@ class MilestoneEntity final : public IEntity
         void update (const float deltaTime) final override;
 
         /// <summary> Renders the object on screen through the ScreenManager. </summary>
-        void render (const std::shared_ptr<IRenderer>& renderer) final override;
+        void render (const std::shared_ptr<water::IRenderer>& renderer) final override;
 
         /// <summary> Delete this after milestone 4. Milestone purposes only. </summary>
         Vector2<float>& getPosition() final override           { return m_position; }
 
-        void setTextureID (const TextureID id)                  { m_texture = id; }
-        void setBlendType (const BlendType blend)               { m_blend = blend; }
+        void setTextureID (const water::TextureID id)                  { m_texture = id; }
+        void setBlendType (const water::BlendType blend)               { m_blend = blend; }
         void setFrame (const Vector2<unsigned int>& frame)     { m_frame = frame; }
         void setFrameSize (const Vector2<unsigned int>& size)  { m_frameSize = size; }
 
@@ -40,8 +40,8 @@ class MilestoneEntity final : public IEntity
 
         Vector2<float>         m_position  {  };       //!< The position of the entity.
 
-        TextureID               m_texture   {  };       //!< The texture ID required for rendering the entity.
-        BlendType               m_blend     {  };       //!< The blending algorithm the texture should use.
+        water::TextureID               m_texture   {  };       //!< The texture ID required for rendering the entity.
+        water::BlendType               m_blend     {  };       //!< The blending algorithm the texture should use.
         Vector2<unsigned int>  m_frame     {  };       //!< The current animation frame to render.
         Vector2<unsigned int>  m_frameSize {  };       //!< The total number of frames in the animation.
 
