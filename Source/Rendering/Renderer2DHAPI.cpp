@@ -8,13 +8,15 @@
 
 
 // Engine headers.
-#include <HAPI_lib.h>
-#include <Maths/Vector2D.h>
 #include <Rendering/Texture.h>
 #include <Utility/Maths.h>
 
 
-// Forward declarations
+// Third party headers.
+#include <HAPI/HAPI_lib.h>
+
+
+// Forward declarations.
 using       Colour       = HAPI_TColour;
 const auto  channel      = 255U;
 const auto  sizeOfColour = sizeof (Colour);
@@ -23,7 +25,7 @@ const auto  sizeOfColour = sizeof (Colour);
 
 #pragma region Implmentation data
 
-/// <summary> A POD structure with all working data for the HAPI renderer. </summary>
+/// <summary> A POD structure with all working data for the Renderer2DHAPI class. </summary>
 struct Renderer2DHAPI::Impl final
 {
     BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.

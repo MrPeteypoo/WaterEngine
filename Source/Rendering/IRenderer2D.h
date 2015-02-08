@@ -13,7 +13,9 @@ using TextureID = size_t;
 
 
 
-/// <summary> Represents how an image should be blended when blit using the ScreenManager. </summary>
+/// <summary> 
+/// Represents how an image should be blended when blit using the ScreenManager. 
+/// </summary>
 enum class BlendType : int
 {
     Opaque = 0,         //!< Enables fast blitting by disregarding alpha values.
@@ -22,7 +24,9 @@ enum class BlendType : int
 
 
 
-/// <summary> An interface for 2D rendering systems, used for platform-independant drawing functionality. </summary>
+/// <summary> 
+/// An interface for 2D rendering systems, used for platform-independant drawing functionality. 
+/// </summary>
 class IRenderer2D
 {
     public:

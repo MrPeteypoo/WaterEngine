@@ -1,15 +1,11 @@
-#if !defined TEXTURE_INCLUDED
-#define TEXTURE_INCLUDED
-
-
-// STL headers.
-#include <string>
+#if !defined HAPI_TEXTURE_INCLUDED
+#define HAPI_TEXTURE_INCLUDED
 
 
 // Engine headers.
 #include <Maths/Rectangle.h>
 #include <Maths/Vector2D.h>
-#include <Rendering/IRenderer2D.h>
+#include <Rendering/Renderer2DHAPI.h>
 
 
 // Forward declarations.
@@ -20,8 +16,10 @@ using BYTE      = unsigned char;
 
 
 
-/// <summary> A texture is a self-managed wrapper for any texture to be used in the HAPI engine. </summary>
-class Texture final
+/// <summary> 
+/// A texture is a self-managed wrapper for any texture to be used in the HAPI engine. 
+/// </summary>
+class Renderer2DHAPI::Texture final
 {
     public:
         
@@ -38,14 +36,11 @@ class Texture final
 
         /// <summary> Create a texture with blank data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
         Texture (const Point& pixelDimensions, const Point& frameDimensions);
-        
-        Texture()                                   = default;
+
         Texture (Texture&& move);
         Texture& operator= (Texture&& move);
         ~Texture();
-
         
-        // Explicitly remove copy functionality.
         Texture (const Texture& copy)               = delete;
         Texture& operator= (const Texture& copy)    = delete;
         
@@ -61,10 +56,10 @@ class Texture final
         int getFrameCount() const           { return m_frames; }
 
         /// <summary> Sets the frame dimensions to the figures specified, (0, 0) disables spritesheet functionality and anything else enables it. </summary>
-        Texture& setFrameDimensions (const Point& dimensions);
+        void setFrameDimensions (const Point& dimensions);
 
         /// <summary> Resets frame information, effectively disabling spritesheet functionality. </summary>
-        Texture& resetFrameDimensions();
+        void resetFrameDimensions();
 
         #pragma endregion
 
@@ -78,7 +73,6 @@ class Texture final
         void cleanUp();
         
         /// <summary> Attempts to load a texture using the file location specified. </summary>
-        /// <returns> Returns whether it was possible or not. </returns>
         void loadTexture (const std::string& fileLocation);
 
         /// <summary> Fills the texture with blank data according to the dimensions specified. </summary>

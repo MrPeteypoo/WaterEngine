@@ -98,6 +98,7 @@ class Renderer2DHAPI final : public IRenderer2D
     private:
 
         // Forward declarations
+        class Texture;
         struct Impl;
 
 
