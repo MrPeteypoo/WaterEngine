@@ -99,5 +99,4 @@ class IRenderer2D
         #pragma endregion
 };
 
-
 #endif // INTERFACE_RENDERER_INCLUDED

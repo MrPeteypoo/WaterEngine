@@ -74,8 +74,8 @@ class Game final
 
         #pragma region Member variables
 
-        int                                     m_screenWidth       { 256 };        //!< The width of the screen in pixels.
-        int                                     m_screenHeight      { 256 };        //!< The height of the screen in pixels.
+        int                                     m_screenWidth       { 1024 };        //!< The width of the screen in pixels.
+        int                                     m_screenHeight      { 1024 };        //!< The height of the screen in pixels.
 
         DWORD                                   m_oldTime           { 0 };          //!< The previous time in milliseconds, used to calculate delta time.
         DWORD                                   m_currentTime       { 0 };          //!< The current time in milliseconds, used to calculate delta time.

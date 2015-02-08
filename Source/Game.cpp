@@ -14,6 +14,7 @@
 #include <Utility/Maths.h>
 #include <Utility/RNG.h>
 #include <Utility/Time.h>
+#include <Audio/IAudioSystem.h>
 
 
 // Milestone related constants.
@@ -21,7 +22,7 @@ const auto  backgroundLocation  = "background.tga", //!< The file location for t
             circleLocation      = "alphaThing.tga", //!< The file location for the circle image.
             explosionLocation   = "explosion.png";  //!< The file location for the explosion spritesheet.
 
-const auto  circleSpeed         = 3.f;            //!< The number of pixels a second the circle can travel.
+const auto  circleSpeed         = 3.f;              //!< The number of pixels a second the circle can travel.
 
 
 
@@ -39,7 +40,7 @@ bool Game::initialise()
 
         // Set up the rendering engine.
         m_pRenderer = std::make_shared<Renderer2DHAPI>();
-        m_pRenderer->initialise (m_screenWidth, m_screenHeight, { 32, 32 });
+        m_pRenderer->initialise (m_screenWidth, m_screenHeight, { 128, 128 });
 
         // Load the textures.
         TextureID ids[3] = {    m_pRenderer->loadTexture (backgroundLocation, { 0, 0 }),
@@ -63,7 +64,7 @@ bool Game::initialise()
         circle->setFrameSize ({ 0, 0 });
         circle->setFrame ({ 0, 0 });
         
-        //m_entities.push_back (std::move (background));
+        m_entities.push_back (std::move (background));
         m_entities.push_back (std::move (circle));
         
         
@@ -75,17 +76,19 @@ bool Game::initialise()
         {
             auto explosion = std::make_unique<MilestoneEntity>();
 
-            explosion->getPosition() = { 8 * rngF() - 1.90625f, 8 * rngF() - 1.90625f };
+            explosion->getPosition() = { 8 * rngF() - 2.f, 8 * rngF() - 2.f };
             explosion->setTextureID (ids[2]);
             explosion->setBlendType (BlendType::Transparent);
             explosion->setFrameSize ({ 5, 5 });
             explosion->setFrame ({ rngU() % 5, rngU() % 5 });
 
-            //m_entities.push_back (std::move (explosion));
+            m_entities.push_back (std::move (explosion));
         }
 
         m_centreZone    = { 3, 3, 5, 5 };
-        m_pRenderer->scaleTexture (ids[1], { 1.135f, 1.764f }, false);
+        m_pRenderer->scaleTexture (ids[0], { 8.f, 8.f }, false);
+        m_pRenderer->scaleTexture (ids[1], { 1.9847f, 4.8785465f }, false);
+        m_pRenderer->scaleTexture (ids[2], { 1280.f, 1280.f }, true);
                             
         return true;
     }
@@ -156,7 +159,7 @@ void Game::updateCapped()
 
     if (m_controllerOn)
     {
-        const auto& circlePosition = m_entities[0]->getPosition();
+        const auto& circlePosition = m_entities[1]->getPosition();
         const Rectangle<float> circleRect   { circlePosition.x, circlePosition.y, circlePosition.x + 2, circlePosition.y + 2 };
 
         if (circleRect.intersects (m_centreZone))
@@ -174,7 +177,7 @@ void Game::updateCapped()
 
 void Game::updateMain()
 {
-    auto& circlePosition = m_entities[0]->getPosition();
+    auto& circlePosition = m_entities[1]->getPosition();
 
     // Handle keyboard input.
     if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 

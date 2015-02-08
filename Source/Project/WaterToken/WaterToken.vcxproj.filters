@@ -13,8 +13,8 @@
     <Filter Include="World">
       <UniqueIdentifier>{26036865-a72b-497d-a2a0-78000373f020}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ThirdParty">
-      <UniqueIdentifier>{a4b12460-5c53-4ae4-8446-55454556b990}</UniqueIdentifier>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{cdc2c356-7001-4e63-a715-2c5be09351fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -23,9 +23,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Rendering\Texture.cpp">
       <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\ThirdParty\pugixml.cpp">
-      <Filter>ThirdParty</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Maths\Rectangle.cpp">
       <Filter>Maths</Filter>
@@ -57,12 +54,6 @@
     <ClInclude Include="..\..\Utility\Time.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\ThirdParty\pugiconfig.hpp">
-      <Filter>ThirdParty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ThirdParty\pugixml.hpp">
-      <Filter>ThirdParty</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Maths\Rectangle.h">
       <Filter>Maths</Filter>
     </ClInclude>
@@ -81,6 +72,9 @@
     </ClInclude>
     <ClInclude Include="..\..\World\Entities\MilestoneEntity.h">
       <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Audio\IAudioEngine.h">
+      <Filter>Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
