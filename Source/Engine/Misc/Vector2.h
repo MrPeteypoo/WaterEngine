@@ -1,5 +1,5 @@
-#if !defined VECTOR2_INCLUDED
-#define VECTOR2_INCLUDED
+#if !defined WATER_VECTOR2_INCLUDED
+#define WATER_VECTOR2_INCLUDED
 
 
 /// <summary>
@@ -135,4 +135,4 @@ template <typename T = float> struct Vector2 final
 // Aliases.
 using Point = Vector2<int>;
 
-#endif // VECTOR2_INCLUDED
+#endif // WATER_VECTOR2_INCLUDED

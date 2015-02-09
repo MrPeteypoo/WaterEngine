@@ -2,8 +2,7 @@
 
 
 // STL headers.
-#include <exception>
-#include <iostream>
+#include <memory>
 
 
 // Engine headers.

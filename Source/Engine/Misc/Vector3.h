@@ -1,5 +1,5 @@
-#if !defined VECTOR3_INCLUDED
-#define VECTOR3_INCLUDED
+#if !defined WATER_VECTOR3_INCLUDED
+#define WATER_VECTOR3_INCLUDED
 
 
 

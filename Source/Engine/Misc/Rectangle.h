@@ -1,5 +1,5 @@
-#if !defined RECTANGLE_INCLUDED
-#define RECTANGLE_INCLUDED
+#if !defined WATER_RECTANGLE_INCLUDED
+#define WATER_RECTANGLE_INCLUDED
 
 
 /// <summary>

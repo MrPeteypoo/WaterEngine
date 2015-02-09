@@ -3,13 +3,10 @@
 
 
 // STL headers.
-#include <memory>
-#include <vector>
 
 
 // Engine headers.
 #include <HAPI_lib.h>
-#include <Misc/Rectangle.h>
 
 
 // Forward declarations.

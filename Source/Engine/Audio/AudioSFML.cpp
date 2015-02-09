@@ -3,18 +3,19 @@
 
 // STL headers.
 #include <exception>
-#include <forward_list>
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 
 // Engine headers.
-#include <Audio/Sound.h>
+#include <Audio/SFMLSound.h>
 #include <Utility/Maths.h>
 
 
 // Third party headers.
-#include <SFML/Audio.hpp>
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 
 
 // Engine namespace.

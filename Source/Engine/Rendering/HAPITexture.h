@@ -3,9 +3,9 @@
 
 
 // Engine headers.
+#include <Rendering/RendererHAPI.h>
 #include <Misc/Rectangle.h>
 #include <Misc/Vector2.h>
-#include <Rendering/RendererHAPI.h>
 
 
 // Forward declarations.

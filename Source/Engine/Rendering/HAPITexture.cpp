@@ -1,4 +1,4 @@
-#include "Texture.h"
+#include "HAPITexture.h"
 
 
 // STL headers.

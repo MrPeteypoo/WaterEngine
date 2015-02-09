@@ -8,7 +8,7 @@
 
 
 // Engine headers.
-#include <Rendering/Texture.h>
+#include <Rendering/HAPITexture.h>
 #include <Utility/Maths.h>
 
 
