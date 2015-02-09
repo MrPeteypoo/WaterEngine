@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\Engine\Audio\Sound.cpp" />
     <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp" />
     <ClCompile Include="..\..\Engine\Rendering\Texture.cpp" />
+    <ClCompile Include="..\..\Engine\Systems.cpp" />
     <ClCompile Include="..\..\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Misc\Vector3.cpp" />
@@ -32,7 +33,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.h" />
     <ClInclude Include="..\..\Engine\Audio\Sound.h" />
-    <ClInclude Include="..\..\Engine\Engine.h" />
+    <ClInclude Include="..\..\Engine\Systems.h" />
     <ClInclude Include="..\..\Engine\EngineForward.h" />
     <ClInclude Include="..\..\Engine\IAudio.h" />
     <ClInclude Include="..\..\Engine\IGameObject.h" />

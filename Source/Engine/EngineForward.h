@@ -5,12 +5,14 @@
 // Engine namespace.
 namespace water
 {
-    class IRenderer;
     class IAudio;
     class IInput;
+    class ILogger;
+    class IRenderer;
     class ITime;
 
-    template <typename T> class Engine;
+    class Engine;
+    class Systems;
 }
 
 #endif // WATER_ENGINE_FORWARD_INCLUDED

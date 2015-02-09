@@ -25,6 +25,9 @@
     <Filter Include="Engine\Time">
       <UniqueIdentifier>{9acabd5e-c6f8-4801-9224-0d86b85f6931}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Logger">
+      <UniqueIdentifier>{741bbe7c-51c1-4028-803e-503435706b56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Misc\Rectangle.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="..\..\WaterToken.cpp" />
     <ClCompile Include="..\..\World\MilestoneEntity.cpp">
       <Filter>World</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems.cpp">
+      <Filter>Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -97,9 +103,6 @@
     <ClInclude Include="..\..\World\MilestoneEntity.h">
       <Filter>World</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Engine.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\EngineForward.h">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -110,6 +113,9 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\ITime.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems.h">
       <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>

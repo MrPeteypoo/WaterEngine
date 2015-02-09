@@ -7,15 +7,9 @@
 
 
 // Engine headers.
-//#include <World/Entities/MilestoneEntity.h>
-#include <Misc/Vector2.h>
-#include <Misc/Vector3.h>
 #include <Rendering/RendererHAPI.h>
-#include <Utility/Maths.h>
-#include <Utility/RNG.h>
-#include <Utility/Time.h>
 #include <Audio/AudioSFML.h>
-#include <Engine/Engine.h>
+#include <Engine/Systems.h>
 
 
 // Game namespace.
@@ -38,14 +32,13 @@ namespace wt
     {
         auto renderer = std::make_shared<water::RendererHAPI>();
         auto audio = std::make_shared<water::AudioSFML>();
+        
+        water::Systems::setAudio (audio.get());
+        water::Systems::setRenderer (renderer.get());
 
-        water::Engine<water::IRenderer>::set (renderer.get());
+        water::Systems::getAudio().initialise (32, 1, 1);
 
-        water::Engine<water::IAudio>::set (audio.get());
 
-        water::Engine<water::IRenderer>::get();
-
-        water::Engine<water::IAudio>::get()->initialise (20, 0.5f, -1.f);
         return false;
 
         /*try 
