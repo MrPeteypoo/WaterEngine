@@ -18,11 +18,11 @@ namespace water
     {
         public:
 
-            static IAudio&      getAudio()                              { return *m_audio; }
-            static IInput&      getInput()                              { return *m_input; }
-            static ILogger&     getLogger()                             { return *m_logger; }
-            static IRenderer&   getRenderer()                           { return *m_renderer; }
-            static ITime&       getTime()                               { return *m_time; }
+            static IAudio&      audio()                                 { return *m_audio; }
+            static IInput&      input()                                 { return *m_input; }
+            static ILogger&     logger()                                { return *m_logger; }
+            static IRenderer&   renderer()                              { return *m_renderer; }
+            static ITime&       time()                                  { return *m_time; }
 
             static void         setAudio (IAudio* const system)         { m_audio = system; }
             static void         setInput (IInput* const system)         { m_input = system; }
@@ -31,6 +31,9 @@ namespace water
             static void         setTime (ITime* const system)           { m_time = system; }
       
         private:
+
+            /// We let the water::Engine class be a friend so that it can set the systems.
+            friend class water::Engine;
 
             static IAudio*      m_audio;    //!< An audio system used for playing and manipulating sounds.
             static IInput*      m_input;    //!< An input system for obtaining abstracted input.

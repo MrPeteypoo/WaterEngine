@@ -147,7 +147,7 @@ namespace water
         }
 
         // Output an error message to inform the user or programmer of their stupidity.
-        Systems::getLogger().logError ("AudioSFML::loadSound(): Cannot load sound with filename \"" + fileLocation + "\".");
+        Systems::logger().logError ("AudioSFML::loadSound(): Cannot load sound with filename \"" + fileLocation + "\".");
 
         // Let the user cry due to lack of sounds.
         return 0;
@@ -213,7 +213,7 @@ namespace water
         }
 
         // Log the problem.
-        Systems::getLogger().logError ("AudioSFML::playSound(), Ran out of sound channels. Sound will not be played.");
+        Systems::logger().logError ("AudioSFML::playSound(), Ran out of sound channels. Sound will not be played.");
         
         // Return an invalid value.
         return std::numeric_limits<PlaybackID>::max();

@@ -151,7 +151,7 @@ namespace water
         }
 
         // We has an error captain!
-        Systems::getLogger().logError ("RendererHAPI::createBlankTexture(), unable to create a blank texture with dimensions " + 
+        Systems::logger().logError ("RendererHAPI::createBlankTexture(), unable to create a blank texture with dimensions " + 
                                         std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ".");
 
         return 0;
@@ -177,7 +177,7 @@ namespace water
                 return textureID;
             }
             
-            Systems::getLogger().logError ("RendererHAPI::loadTexture(), unable to initialise texture at \"" + fileLocation + "\".");
+            Systems::logger().logError ("RendererHAPI::loadTexture(), unable to initialise texture at \"" + fileLocation + "\".");
         }
 
         return (TextureID) 0;
@@ -198,7 +198,7 @@ namespace water
             if (!iterator->second.scaleToSize (size))
             {
                 // The texture will still be valid so just output an error.
-                Systems::getLogger().logWarning ("RendererHAPI::scaleTexture(), unable to scale texture to " +
+                Systems::logger().logWarning ("RendererHAPI::scaleTexture(), unable to scale texture to " +
                                                   std::to_string (size.x) + "x" + std::to_string (size.y) + ".");
             }
         }
@@ -260,7 +260,7 @@ namespace water
             if (!iterator->second.blit (m_impl->screen, m_impl->screenSpace, pixelSpace, blend, frame))
             {
                 // Output a silly error!
-                Systems::getLogger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
+                Systems::logger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
                                                 std::to_string (frame.x) + "x" + std::to_string (frame.y) + "\" is valid.");
             }
         }
@@ -268,7 +268,7 @@ namespace water
         else
         {
             // We have a problem, inform the logger!
-            Systems::getLogger().logWarning ("RendererHAPI::drawToScreen(), attempt to draw an invalid texture.");
+            Systems::logger().logWarning ("RendererHAPI::drawToScreen(), attempt to draw an invalid texture.");
         }
     }
 
@@ -295,14 +295,14 @@ namespace water
             if (!sourceIterator->second.blit (targetIterator->second, pixelSpace, blend, frame))
             {
                 // Output a silly error!
-                Systems::getLogger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
+                Systems::logger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
                                                 std::to_string (frame.x) + "x" + std::to_string (frame.y) + "\" is valid.");            
             }
         }
 
         else
         {
-            Systems::getLogger().logWarning ("RendererHAPI::drawToTexture(), invalid source or target texture IDs given.");
+            Systems::logger().logWarning ("RendererHAPI::drawToTexture(), invalid source or target texture IDs given.");
         }
     }
 

@@ -34,7 +34,7 @@ namespace wt
     {
         auto logger = std::make_shared<water::LoggerSTL>();
         water::Systems::setLogger (logger.get());
-        water::Systems::getLogger().initialise ("log");
+        water::Systems::logger().initialise ("log");
 
 
         try
@@ -50,15 +50,15 @@ namespace wt
             HAPI->Initialise(&m_width, &m_height);
         
         
-            water::Systems::getAudio().initialise (2, 1, 1);
-            water::Systems::getRenderer().initialise (0, m_height, { 64, 64 });
+            water::Systems::audio().initialise (2, 1, 1);
+            water::Systems::renderer().initialise (0, m_height, { 64, 64 });
 
             return true;
         }
 
         catch (const std::exception& error)
         {
-            water::Systems::getLogger().logError (error.what() + std::string ("\nThe application will now close."));
+            water::Systems::logger().logError (error.what() + std::string ("\nThe application will now close."));
         }
 
         return false;
