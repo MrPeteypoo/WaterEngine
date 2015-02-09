@@ -15,6 +15,7 @@
 #include <Utility/RNG.h>
 #include <Utility/Time.h>
 #include <Audio/AudioSFML.h>
+#include <Engine/Engine.h>
 
 
 // Game namespace.
@@ -33,8 +34,20 @@ namespace wt
 
     #pragma region Engine functionality
 
-    bool Game::initialise()
+    bool Game::initialise()    
     {
+        auto renderer = std::make_shared<water::RendererHAPI>();
+        auto audio = std::make_shared<water::AudioSFML>();
+
+        water::Engine<water::IRenderer>::set (renderer.get());
+
+        water::Engine<water::IAudio>::set (audio.get());
+
+        water::Engine<water::IRenderer>::get();
+
+        water::Engine<water::IAudio>::get()->initialise (20, 0.5f, -1.f);
+        return false;
+
         /*try 
         {
             // Initialise HAPI.

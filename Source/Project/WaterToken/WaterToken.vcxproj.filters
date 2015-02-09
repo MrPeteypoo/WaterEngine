@@ -97,5 +97,20 @@
     <ClInclude Include="..\..\World\MilestoneEntity.h">
       <Filter>World</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Engine\Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\EngineForward.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\IGameObject.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\IInput.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\ITime.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

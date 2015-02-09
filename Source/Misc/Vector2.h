@@ -2,7 +2,6 @@
 #define VECTOR2_INCLUDED
 
 
-
 /// <summary>
 /// A basic mathematical vector struct for a 2D vector.
 /// </summary>

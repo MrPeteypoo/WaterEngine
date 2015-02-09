@@ -32,8 +32,13 @@
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.h" />
     <ClInclude Include="..\..\Engine\Audio\Sound.h" />
+    <ClInclude Include="..\..\Engine\Engine.h" />
+    <ClInclude Include="..\..\Engine\EngineForward.h" />
     <ClInclude Include="..\..\Engine\IAudio.h" />
+    <ClInclude Include="..\..\Engine\IGameObject.h" />
+    <ClInclude Include="..\..\Engine\IInput.h" />
     <ClInclude Include="..\..\Engine\IRenderer.h" />
+    <ClInclude Include="..\..\Engine\ITime.h" />
     <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h" />
     <ClInclude Include="..\..\Engine\Rendering\Texture.h" />
     <ClInclude Include="..\..\Misc\Rectangle.h" />
