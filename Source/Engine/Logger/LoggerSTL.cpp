@@ -192,7 +192,7 @@ namespace water
     std::string LoggerSTL::getLogHeader() const
     {
         // Include the head and start the html and body tags.
-        return "<html>\n<head>\n<title>Water engine Log</title>\n</head>\n<body>\n<h1>Water engine log</h1>\n";
+        return "<html>\n<head>\n<title>Water Engine Log</title>\n</head>\n<body>\n<h1>Water Engine Log</h1>\n";
     }
 
 
