@@ -15,7 +15,7 @@ namespace water
 
 
     /// <summary> 
-    /// An interface to every audio system used in the engine. 
+    /// An interface to every audio system used in the engine. Useful for playing and manipulating sounds.
     /// </summary>
     class IAudio
     {
