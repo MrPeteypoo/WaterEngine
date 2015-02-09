@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "WaterToken.h"
 
 
 // STL headers.
@@ -7,7 +7,7 @@
 
 
 // Engine headers.
-#include <World/Entities/MilestoneEntity.h>
+//#include <World/Entities/MilestoneEntity.h>
 #include <Misc/Vector2.h>
 #include <Misc/Vector3.h>
 #include <Rendering/RendererHAPI.h>
@@ -35,7 +35,7 @@ namespace wt
 
     bool Game::initialise()
     {
-        try 
+        /*try 
         {
             // Initialise HAPI.
             if (!HAPI->Initialise (&m_screenWidth, &m_screenHeight))
@@ -115,13 +115,13 @@ namespace wt
             std::cerr << "Unknown error caught in Game::initialise()." << std::endl;
         }
 
-        return false;
+        return false;*/
     }
 
 
     void Game::run()
     {
-        if (initialise())
+        /*if (initialise())
         {
             const float sixtyFPS = static_cast<float> (1.0 / 60.0);
 
@@ -144,26 +144,26 @@ namespace wt
             
                 renderAll();
             }
-        }
+        }*/
     }
 
 
     void Game::updateDeltaTime()
     {
-        // Update the time figures.
+        /*// Update the time figures.
         m_oldTime = m_currentTime;
         m_currentTime = HAPI->GetTime();
 
         // Convert from milliseconds to seconds.
         m_deltaTime = (m_currentTime - m_oldTime) / 1000.f;
 
-        m_sixtyFPSDeltaTime += m_deltaTime;
+        m_sixtyFPSDeltaTime += m_deltaTime;*/
     }
 
 
     void Game::updateCapped()
     {
-        // Update keyboard data.
+        /*// Update keyboard data.
         HAPI->GetKeyboardData (&m_keyboard);
     
         // Update controller data.
@@ -206,13 +206,13 @@ namespace wt
                     m_audio->stopSound (0);
                 }
             }
-        }
+        }*/
     }
 
 
     void Game::updateMain()
     {
-        auto& circlePosition = m_entities[1]->getPosition();
+        /*auto& circlePosition = m_entities[1]->getPosition();
 
         // Handle keyboard input.
         if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 
@@ -245,13 +245,13 @@ namespace wt
             {
                 entity->update (m_deltaTime);
             }
-        }
+        }*/
     }
 
 
     void Game::renderAll()
     {    
-        // Render images.
+        /*// Render images.
         m_renderer->clearToBlack();
 
         for (auto& entity : m_entities)
@@ -260,7 +260,7 @@ namespace wt
             {
                 entity->render (m_renderer);
             }
-        }
+        }*/
     }
 
     #pragma endregion Engine functionality

@@ -1,5 +1,5 @@
-#if !defined GAME_INCLUDED
-#define GAME_INCLUDED
+#if !defined WATER_TOKEN_INCLUDED
+#define WATER_TOKEN_INCLUDED
 
 
 // STL headers.
@@ -81,7 +81,7 @@ namespace wt
 
             #pragma region Member variables
 
-            int                                     m_screenWidth       { 1024 };        //!< The width of the screen in pixels.
+            /*int                                     m_screenWidth       { 1024 };        //!< The width of the screen in pixels.
             int                                     m_screenHeight      { 1024 };        //!< The height of the screen in pixels.
 
             DWORD                                   m_oldTime           { 0 };          //!< The previous time in milliseconds, used to calculate delta time.
@@ -101,7 +101,7 @@ namespace wt
 
             std::shared_ptr<water::IRenderer>       m_renderer          { nullptr };    //!< The renderer used to draw everything onto the screen.
             std::shared_ptr<water::IAudio>          m_audio             { nullptr };    //!< CRAPPAPAPDWAKDWAJKJSEFJFSEJFS.
-            std::vector<water::SoundID>                    m_sounds            { };
+            std::vector<water::SoundID>                    m_sounds            { };*/
 
             #pragma endregion
 

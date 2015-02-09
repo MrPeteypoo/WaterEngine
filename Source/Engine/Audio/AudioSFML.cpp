@@ -32,8 +32,6 @@ namespace water
         sf::Music                                       bgm             { };        //!< The loaded background music.
         float                                           bgmVolume       { 1.f };    //!< The core volume of the music file.
 
-        size_t                                          previousChannel { 0 };      //!< Helps in speeding up the algorithm used to find unused tracks.
-
         std::hash<std::string>                          hasher          { };        //!< The hasher used to hash file names.
         std::unordered_map<SoundID, sf::SoundBuffer>    buffers         { };        //!< A collection of sound buffers containing loaded sound effects.
         std::vector<Sound>                              channels        { };        //!< A collection of sound channels to play audio clips back with.

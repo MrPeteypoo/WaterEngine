@@ -19,32 +19,24 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp" />
-    <ClCompile Include="..\..\Engine\Audio\Sound.cpp" />
-    <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp" />
-    <ClCompile Include="..\..\Engine\Rendering\Texture.cpp" />
+    <ClCompile Include="..\..\Game.cpp" />
     <ClCompile Include="..\..\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Misc\Vector3.cpp" />
-    <ClCompile Include="..\..\WaterToken.cpp" />
-    <ClCompile Include="..\..\World\MilestoneEntity.cpp" />
+    <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Engine\Audio\AudioSFML.h" />
-    <ClInclude Include="..\..\Engine\Audio\Sound.h" />
     <ClInclude Include="..\..\Engine\IAudio.h" />
     <ClInclude Include="..\..\Engine\IRenderer.h" />
-    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h" />
-    <ClInclude Include="..\..\Engine\Rendering\Texture.h" />
+    <ClInclude Include="..\..\Game.h" />
     <ClInclude Include="..\..\Misc\Rectangle.h" />
     <ClInclude Include="..\..\Misc\Vector2.h" />
     <ClInclude Include="..\..\Misc\Vector3.h" />
     <ClInclude Include="..\..\Utility\Maths.h" />
     <ClInclude Include="..\..\Utility\RNG.h" />
     <ClInclude Include="..\..\Utility\Time.h" />
-    <ClInclude Include="..\..\WaterToken.h" />
-    <ClInclude Include="..\..\World\IEntity.h" />
-    <ClInclude Include="..\..\World\MilestoneEntity.h" />
+    <ClInclude Include="..\..\World\Entities\IEntity.h" />
+    <ClInclude Include="..\..\World\Entities\MilestoneEntity.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>
@@ -134,7 +126,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -156,7 +148,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -180,7 +172,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -206,7 +198,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\; $(SolutionDir)..\$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
     </ClCompile>

@@ -1,39 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Rendering">
-      <UniqueIdentifier>{ace73b42-29cf-4df3-91d6-1b1686627e09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{fd504d1a-6741-4ae3-8953-628b57da58d8}</UniqueIdentifier>
     </Filter>
     <Filter Include="World">
       <UniqueIdentifier>{26036865-a72b-497d-a2a0-78000373f020}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Audio">
-      <UniqueIdentifier>{cdc2c356-7001-4e63-a715-2c5be09351fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Misc">
       <UniqueIdentifier>{53c3a0f5-1735-4f53-9599-29286071725a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{47d558f7-0222-452a-9e4d-9dcf27c57964}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Audio">
+      <UniqueIdentifier>{21eb1e79-13d9-4d22-a3f4-665da72361d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Renderer">
+      <UniqueIdentifier>{2ed1322b-1b62-473a-b6d7-66fc3c49079d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Input">
+      <UniqueIdentifier>{1bab7902-e338-433e-a8b9-c2bba5a9bc8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Time">
+      <UniqueIdentifier>{9acabd5e-c6f8-4801-9224-0d86b85f6931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Rendering\Texture.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Game.cpp" />
-    <ClCompile Include="..\..\World\Entities\MilestoneEntity.cpp">
-      <Filter>World</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Audio\Sound.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Audio\AudioSFML.cpp">
-      <Filter>Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Rendering\RendererHAPI.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Misc\Rectangle.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
@@ -43,11 +36,24 @@
     <ClCompile Include="..\..\Misc\Vector3.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Audio\Sound.cpp">
+      <Filter>Engine\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Rendering\Texture.cpp">
+      <Filter>Engine\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WaterToken.cpp" />
+    <ClCompile Include="..\..\World\MilestoneEntity.cpp">
+      <Filter>World</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Rendering\Texture.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Utility\Maths.h">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -57,28 +63,6 @@
     <ClInclude Include="..\..\Utility\Time.h">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Game.h" />
-    <ClInclude Include="..\..\World\Entities\IEntity.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\World\Entities\MilestoneEntity.h">
-      <Filter>World</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Audio\Sound.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Audio\IAudio.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Audio\AudioSFML.h">
-      <Filter>Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Rendering\IRenderer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Rendering\RendererHAPI.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Misc\Rectangle.h">
       <Filter>Misc</Filter>
     </ClInclude>
@@ -87,6 +71,31 @@
     </ClInclude>
     <ClInclude Include="..\..\Misc\Vector3.h">
       <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\IAudio.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\IRenderer.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Audio\AudioSFML.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Audio\Sound.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Rendering\Texture.h">
+      <Filter>Engine\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WaterToken.h" />
+    <ClInclude Include="..\..\World\IEntity.h">
+      <Filter>World</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\World\MilestoneEntity.h">
+      <Filter>World</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
