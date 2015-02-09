@@ -63,11 +63,6 @@ namespace water
             /// <returns> Whether the message was successfully logged to the desired file. </returns>
             bool logError (const std::string& message) override final;
 
-            /// <summary> Displays a message box to the user with the contained message. </summary>
-            /// <param name="message"> The desired message. </param>
-            /// <param name="title"> The title of the message. </param>
-            void displayMessage (const std::string& title, const std::string& message);
-
             #pragma endregion
 
         private:

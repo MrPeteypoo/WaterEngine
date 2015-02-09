@@ -53,11 +53,6 @@ namespace water
             /// <returns> Whether the message was successfully logged to the desired file. </returns>
             virtual bool logError (const std::string& message) = 0;
 
-            /// <summary> Displays a message box to the user with the contained message. </summary>
-            /// <param name="message"> The desired message. </param>
-            /// <param name="title"> The title of the message. </param>
-            virtual void displayMessage (const std::string& title, const std::string& message) = 0;
-
             #pragma endregion
     };   
 }

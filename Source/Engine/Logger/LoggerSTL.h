@@ -9,6 +9,10 @@
 // Engine namespace.
 namespace water
 {
+    /// <summary>
+    /// This logger uses STL implementation to provide logging functionality. This means it's cross-platform and
+    /// doesn't rely on any external library.
+    /// </summary>
     class LoggerSTL final : public ILogger
     {
         public:
@@ -59,11 +63,6 @@ namespace water
             /// <returns> Whether the message was successfully logged to the desired file. </returns>
             bool logError (const std::string& message) override final;
 
-            /// <summary> Displays a message box to the user with the contained message. </summary>
-            /// <param name="message"> The desired message. </param>
-            /// <param name="title"> The title of the message. </param>
-            void displayMessage (const std::string& title, const std::string& message);
-
             #pragma endregion
 
         private:
@@ -72,6 +71,27 @@ namespace water
             /// <param name="message"> The message to log. </param>
             /// <returns> Whether the log was successful or not. </returns>
             bool logMessage (const std::string& message);
+
+            #pragma region File handling
+
+            /// <summary> Clears a file of its contents, fresh for modification. </summary>
+            void clearFile (const std::string& name);
+
+            /// <summary> Attemps to open a new file stream with the given filename. </summary>
+            bool outputToStream (const std::string& name, const std::string& output);
+            
+            /// <summary> Closes the current file stream by injecting the footer.
+            void closeCurrentStream();
+
+            /// <summary> Get the log header used for the HTML document. </summary>
+            /// <returns> The header part of the HTML. </returns>
+            std::string getLogHeader() const;
+
+            /// <summary> Gets the HTML footer for the log file. </summary>
+            /// <returns> The footer part of the HTML. </returns>
+            std::string getLogFooter() const;
+
+            #pragma endregion
 
 
             // Forward declarations.

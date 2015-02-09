@@ -2,7 +2,7 @@
 
 
 // Third party headers.
-#include <HAPI_lib.h>
+#include <HAPI/HAPI_lib.h>
 
 
 // Engine namespace.
@@ -34,13 +34,6 @@ namespace water
         HAPI->DebugText (message + '\n');
 
         return true;
-    }
-
-
-    void LoggerHAPI::displayMessage (const std::string& title, const std::string& message)
-    {
-        // Let HAPI do the hard work.
-        HAPI->UserMessage (message, title);
     }
 
     #pragma endregion

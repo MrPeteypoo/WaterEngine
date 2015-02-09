@@ -32,9 +32,9 @@ namespace wt
 
     bool Game::initialise()    
     {
-        auto logger = std::make_shared<water::LoggerHAPI>();
+        auto logger = std::make_shared<water::LoggerSTL>();
         water::Systems::setLogger (logger.get());
-        water::Systems::getLogger().initialise ("log.txt");
+        water::Systems::getLogger().initialise ("log");
 
 
         try
@@ -58,8 +58,7 @@ namespace wt
 
         catch (const std::exception& error)
         {
-            water::Systems::getLogger().displayMessage ("Error", error.what() + 
-                                                        std::string ("\nThe application will now close."));
+            water::Systems::getLogger().logError (error.what() + std::string ("\nThe application will now close."));
         }
 
         return false;
