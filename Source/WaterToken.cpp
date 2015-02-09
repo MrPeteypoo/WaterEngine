@@ -9,6 +9,8 @@
 #include <Rendering/RendererHAPI.h>
 #include <Audio/AudioSFML.h>
 #include <Engine/Systems.h>
+#include <Engine/Logger/LoggerHAPI.h>
+#include <Engine/Logger/LoggerSTL.h>
 
 
 // Game namespace.

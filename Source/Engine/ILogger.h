@@ -60,4 +60,4 @@ namespace water
     };   
 }
 
-#endif // WATER_INTERFACE_LOGGER_INCLUDED
+#endif

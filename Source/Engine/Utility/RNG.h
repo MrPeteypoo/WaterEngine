@@ -1,12 +1,13 @@
-#if !defined RNG_INCLUDED
-#define RNG_INCLUDED
+#if !defined WATER_UTILITY_RNG_INCLUDED
+#define WATER_UTILITY_RNG_INCLUDED
+
 
 // STL headers.
 #include <random>
 #include <type_traits>
 
 
-
+// Utility namespace.
 namespace util
 {
     template <typename T, bool = std::is_integral<T>::value>
@@ -131,4 +132,4 @@ namespace util
     };
 }
 
-#endif // RNG_INCLUDED
+#endif

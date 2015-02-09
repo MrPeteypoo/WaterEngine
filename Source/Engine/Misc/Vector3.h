@@ -10,9 +10,9 @@ template <typename T = float> struct Vector3 final
 {
     #pragma region Member variables
 
-    T x { static_cast<T> (0) }; //!< The x component of the vector.
-    T y { static_cast<T> (0) }; //!< The y component of the vector.
-    T z { static_cast<T> (0) }; //!< The z component of the vector.
+    T   x   { (T) 0 },  //!< The x component of the vector.
+        y   { (T) 0 },  //!< The y component of the vector.
+        z   { (T) 0 };  //!< The z component of the vector.
 
     #pragma endregion
 
@@ -139,4 +139,4 @@ template <typename T = float> struct Vector3 final
     #pragma endregion
 };
 
-#endif // VECTOR3_INCLUDED
+#endif

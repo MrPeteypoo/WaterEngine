@@ -108,4 +108,4 @@ namespace water
     };
 }
 
-#endif // WATER_RENDERER_HAPI_INCLUDED
+#endif

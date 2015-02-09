@@ -1,9 +1,9 @@
-#if !defined WATER_AUDIO_SYSTEM_SFML_INCLUDED
-#define WATER_AUDIO_SYSTEM_SFML_INCLUDED
+#if !defined WATER_AUDIO_SFML_INCLUDED
+#define WATER_AUDIO_SFML_INCLUDED
 
 
 // Engine headers.
-#include <Engine/IAudio.h>
+#include <IAudio.h>
 
 
 // Engine namespace
@@ -157,4 +157,4 @@ namespace water
     };
 }
 
-#endif // AUDIO_SYSTEM_SFML_INCLUDED
+#endif

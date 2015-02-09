@@ -113,4 +113,4 @@ void HAPI_Main()
 }
 
 
-#endif // GAME_INCLUDED
+#endif

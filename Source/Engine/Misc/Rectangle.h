@@ -106,4 +106,4 @@ template <typename T> class Rectangle final
 };
 
 
-#endif // RECTANGLE_INCLUDED
+#endif

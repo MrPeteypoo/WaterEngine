@@ -1,5 +1,5 @@
-#if !defined UTILITY_TIME_INCLUDED
-#define UTILITY_TIME_INCLUDED
+#if !defined WATER_UTILITY_TIME_INCLUDED
+#define WATER_UTILITY_TIME_INCLUDED
 
 
 // STL headers.
@@ -7,8 +7,7 @@
 #include <type_traits>
 
 
-
-/// <summary> This namespace contains dedicated helper functions with various different purposes. </summary>
+// Utility namespace.
 namespace util
 {
     /// <summary> Obtains the current system time using the std::chrono library. </summary>
@@ -25,8 +24,8 @@ namespace util
     /// <summary> Returns the current system time cast to the arithmetic type specified. </summary>
     template <typename T>  typename std::enable_if<std::is_arithmetic<T>::value, T>::type getCurrentTime()
     {
-        return static_cast<T> (getCurrentTime());
+        return (T) getCurrentTime();
     }
 }
 
-#endif // UTILITY_TIME_INCLUDED
+#endif

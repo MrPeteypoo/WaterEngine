@@ -1,11 +1,13 @@
-#if !defined UTILITY_MATHS_INCLUDED
-#define UTILITY_MATHS_INCLUDED
+#if !defined WATER_UTILITY_MATHS_INCLUDED
+#define WATER_UTILITY_MATHS_INCLUDED
+
 
 // STL headers.
 #include <cmath>
 #include <type_traits>
 
 
+// Utility namespace.
 namespace util
 {
     #pragma region Miscellaneous
@@ -19,6 +21,7 @@ namespace util
     }
 
     #pragma endregion
+
 
     #pragma region Comparison functions
 
@@ -88,4 +91,4 @@ namespace util
     #pragma endregion
 }
 
-#endif // UTILITY_MATHS_INCLUDED
+#endif
