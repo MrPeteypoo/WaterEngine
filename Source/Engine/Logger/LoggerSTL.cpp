@@ -104,7 +104,7 @@ namespace water
     bool LoggerSTL::log (const std::string& message)
     {
         // Make information logs green.
-        const auto& output = "<font color=\"#00ff00\">" + message + "</font><br />";
+        const auto& output = "<font color=\"#00ff00\">Info: " + message + "</font><br />";
 
         return outputToStream (m_impl->m_filename, output);
     }
@@ -113,7 +113,7 @@ namespace water
     bool LoggerSTL::logWarning (const std::string& message)
     {
         // Make warnings amber.
-        const auto& output = "<font color=\"#ffbf00\">" + message + "</font><br />";
+        const auto& output = "<font color=\"#ffbf00\">Warning: " + message + "</font><br />";
 
         return outputToStream (m_impl->m_filename, output);
     }
@@ -123,7 +123,7 @@ namespace water
     bool LoggerSTL::logError (const std::string& message)
     {
         // Make errors red.
-        const auto& output = "<font color=\"#ff0000\">" + message + "</font><br />";
+        const auto& output = "<font color=\"#ff0000\">Error: " + message + "</font><br />";
 
         return outputToStream (m_impl->m_filename, output);
     }
