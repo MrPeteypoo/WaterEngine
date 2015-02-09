@@ -26,19 +26,8 @@ namespace water
         public:
         
             #pragma region Constructors and destructor
-        
-            /// <summary> Create a texture by loading image data. Assumes there are no individual frames. </summary>
-            Texture (const std::string& fileLocation);
 
-            /// <summary> Create a texture by loading image data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
-            Texture (const std::string& fileLocation, const Point& frameDimensions);
-
-            /// <summary> Create a texture with blank data. </summary>
-            Texture (const Point& pixelDimensions);
-
-            /// <summary> Create a texture with blank data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
-            Texture (const Point& pixelDimensions, const Point& frameDimensions);
-
+            Texture()                                   = default;
             Texture (Texture&& move);
             Texture& operator= (Texture&& move);
             ~Texture();
@@ -48,8 +37,27 @@ namespace water
         
             #pragma endregion
 
+            #pragma region Initialisation
+
+            /// <summary> Create a texture by loading image data. Assumes there are no individual frames. </summary>
+            bool initialise (const std::string& fileLocation);
+
+            /// <summary> Create a texture by loading image data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
+            bool initialise (const std::string& fileLocation, const Point& frameDimensions);
+
+            /// <summary> Create a texture with blank data. </summary>
+            bool initialise (const Point& pixelDimensions);
+
+            /// <summary> Create a texture with blank data, the frame dimensions specified cause the texture to act like a spritesheet. </summary>
+            bool initialise (const Point& pixelDimensions, const Point& frameDimensions);
+
+            #pragma endregion
+
 
             #pragma region Getters and setters
+
+            /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
+            bool hasLoaded() const              { return m_data != nullptr; }
 
             /// <summary> Returns the raw data, useful for accessing line-by-line. </summary>
             const BYTE* const getData() const   { return m_data; }
@@ -68,17 +76,16 @@ namespace water
 
             #pragma region Loading functionality
 
-            /// <summary> Checks to see if the texture has loaded any data from an image file. </summary>
-            bool hasLoaded() const              { return m_data != nullptr; }
-
             /// <summary> Cleans the currently held data. </summary>
             void cleanUp();
         
             /// <summary> Attempts to load a texture using the file location specified. </summary>
-            void loadTexture (const std::string& fileLocation);
+            /// <returns> Whether the texture could be loaded or not. </returns>
+            bool loadTexture (const std::string& fileLocation);
 
             /// <summary> Fills the texture with blank data according to the dimensions specified. </summary>
-            void fillWithBlankData (const Point& dimensions);
+            /// <returns> Whether the data could be allocated or not. </returns>
+            bool fillWithBlankData (const Point& dimensions);
     
             #pragma endregion
 
@@ -87,7 +94,7 @@ namespace water
 
             /// <summary> Scales the texture using bilinear filtering to the desired dimensions. </summary>
             /// <param name="dimensions"> The width and height to scale to. </param>
-            void scaleToSize (const Point& dimensions);
+            bool scaleToSize (const Point& dimensions);
 
             /// <summary> Calculates the bilinear filtered pixel of the given x and y values. </summary>
             /// <returns> The calculated filtered pixel. </returns>

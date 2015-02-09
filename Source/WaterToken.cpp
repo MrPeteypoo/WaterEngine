@@ -33,11 +33,14 @@ namespace wt
     {
         auto renderer = std::make_shared<water::RendererHAPI>();
         auto audio = std::make_shared<water::AudioSFML>();
+        auto logger = std::make_shared<water::LoggerHAPI>();
         
         water::Systems::setAudio (audio.get());
         water::Systems::setRenderer (renderer.get());
-
+        water::Systems::setLogger (logger.get());
+        
         water::Systems::getAudio().initialise (32, 1, 1);
+        water::Systems::getLogger().initialise ("log.txt");
 
 
         return false;

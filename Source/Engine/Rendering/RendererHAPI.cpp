@@ -8,6 +8,8 @@
 
 
 // Engine headers.
+#include <Systems.h>
+#include <ILogger.h>
 #include <Rendering/HAPITexture.h>
 #include <Utility/Maths.h>
 
@@ -129,82 +131,77 @@ namespace water
     {
         // We know that all valid string values will end in .* so we can just increment an integer value and guarantee we'll have a valid
         // hashed TextureID at the end of it!
-        static auto blankID         = 0U;
+        static TextureID blankID = 0;
 
         // Determine the correct dimensions.
-        const auto dimensions       = pixelDimensions ? (Point) textureDimensions : (Point) (textureDimensions * m_impl->unitToPixel);
+        const auto dimensions = pixelDimensions ? (Point) textureDimensions : (Point) (textureDimensions * m_impl->unitToPixel);
 
         // Determine the texture ID.
-        const TextureID textureID   = m_impl->hasher (std::to_string (blankID++));
+        const auto textureID = m_impl->hasher (std::to_string (blankID++));
     
-        // Check if we should enable sprite sheet funcitonality.
-        Texture texture             = frameDimensions.x > 0 && frameDimensions.y > 0 ?
-                                        Texture (dimensions, frameDimensions) :
-                                        Texture (dimensions);
+        // Attempt to creae the blank texture.
+        Texture texture { }; 
 
-        // Finally load the texture and return the ID.
-        m_impl->textures.emplace (textureID, std::move (texture));
+        if (texture.initialise (dimensions, frameDimensions))
+        {
+            // Finally load the texture and return the ID.
+            m_impl->textures.emplace (textureID, std::move (texture));
 
-        return textureID;
+            return textureID;
+        }
+
+        // We has an error captain!
+        Systems::getLogger().logError ("RendererHAPI::createBlankTexture(), unable to create a blank texture with dimensions " + 
+                                        std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ".");
+
+        return 0;
     }
 
 
     TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
     {
-        try
+        
+        // Determine the texture ID.
+        const auto textureID = m_impl->hasher (fileLocation);
+
+        // Check if it already exists.
+        if (m_impl->textures.find (textureID) == m_impl->textures.end())
         {
-            // Determine the texture ID.
-            const TextureID textureID = m_impl->hasher (fileLocation);
+            // Attempt to load the texture.
+            Texture texture { };
 
-            // Check if it exists first.
-            if (m_impl->textures.find (textureID) == m_impl->textures.end())
+            if (texture.initialise (fileLocation, frameDimensions))
             {
-                // Attempt to load the texture.
-                Texture texture (fileLocation, frameDimensions);
-
                 // Add it to the unordered map.
                 m_impl->textures.emplace (textureID, std::move (texture));
+            
+                return textureID;
             }
-
-            return textureID;
+            
+            Systems::getLogger().logError ("RendererHAPI::loadTexture(), unable to initialise texture at \"" + fileLocation + "\".");
         }
 
-        catch (const std::exception& error)
-        {
-            std::cerr << "Exception caught in RendererHAPI::loadTexture(): " << error.what() << std::endl;
-        }
-
-        catch (...)
-        {
-            std::cerr << "Unknown error caught in RendererHAPI::loadTexture()." << std::endl;
-        }
-    
         return (TextureID) 0;
     }
 
 
     void RendererHAPI::scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits)
     {
-        try
-        {
-            // Ensure the texture actually exists.
-            auto& texture       = m_impl->textures.at (target);
+        // Ensure the texture actually exists.
+        auto& iterator = m_impl->textures.find (target);
 
+        if (iterator != m_impl->textures.end())
+        {
             // Scale the dimensions if necessary.
-            const Point size    = pixelUnits ? dimensions : dimensions * m_impl->unitToPixel;
+            const Point size = pixelUnits ? dimensions : dimensions * m_impl->unitToPixel;
 
             // Inform the texture to change its dimensions.
-            texture.scaleToSize (size);
-        }
-
-        catch (const std::exception& error)
-        {
-            std::cerr << "Exception caught in RendererHAPI::scaleTexture(): " << error.what() << std::endl;
-        }
-
-        catch (...)
-        {
-            std::cerr << "Unknown error caught in RendererHAPI::scaleTexture()." << std::endl;
+            if (!iterator->second.scaleToSize (size))
+            {
+                // The texture will still be valid so just output an error.
+                Systems::getLogger().logWarning ("RendererHAPI::scaleTexture(), unable to scale texture to " +
+                                                  std::to_string (size.x) + "x" + std::to_string (size.y) + ".");
+            }
         }
     }
 

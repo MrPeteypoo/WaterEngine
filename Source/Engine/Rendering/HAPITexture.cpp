@@ -18,40 +18,6 @@ namespace water
 {
     #pragma region Constructors and destructor
 
-    RendererHAPI::Texture::Texture (const std::string& fileLocation)
-    {   
-        // Attempt to load the texture during construction.
-        loadTexture (fileLocation);
-    }
-
-
-    RendererHAPI::Texture::Texture (const std::string& fileLocation, const Point& frameDimensions)
-    {
-        // Attempt to load the texture during construction.
-        loadTexture (fileLocation);
-
-        // Attempt to set the frame dimensions.
-        setFrameDimensions (frameDimensions);
-    }
-
-
-    RendererHAPI::Texture::Texture (const Point& pixelDimensions)
-    {
-        // Load all the data captain!
-        fillWithBlankData (pixelDimensions);
-    }
-
-
-    RendererHAPI::Texture::Texture (const Point& pixelDimensions, const Point& frameDimensions)
-    {
-        // Load all the data captain!
-        fillWithBlankData (pixelDimensions);
-
-        // Set up the spritesheet!
-        setFrameDimensions (frameDimensions);
-    }
-
-
     RendererHAPI::Texture::Texture (Texture&& move)
     {
         // Just use the operator implementation.
@@ -83,6 +49,48 @@ namespace water
     RendererHAPI::Texture::~Texture()
     {
         cleanUp();
+    }
+
+    #pragma endregion
+
+
+    #pragma region Initialisation
+
+    bool RendererHAPI::Texture::initialise (const std::string& fileLocation)
+    {   
+        // Attempt to load the texture during construction.
+        return loadTexture (fileLocation);
+    }
+
+
+    bool RendererHAPI::Texture::initialise (const std::string& fileLocation, const Point& frameDimensions)
+    {
+        // Attempt to load the texture during construction.
+        const bool result = loadTexture (fileLocation);
+
+        // Attempt to set the frame dimensions.
+        setFrameDimensions (frameDimensions);
+
+        return result;
+    }
+
+
+    bool RendererHAPI::Texture::initialise (const Point& pixelDimensions)
+    {
+        // Load all the data captain!
+        return fillWithBlankData (pixelDimensions);
+    }
+
+
+    bool RendererHAPI::Texture::initialise (const Point& pixelDimensions, const Point& frameDimensions)
+    {
+        // Load all the data captain!
+        const bool result = fillWithBlankData (pixelDimensions);
+
+        // Set up the spritesheet!
+        setFrameDimensions (frameDimensions);
+
+        return result;
     }
 
     #pragma endregion
@@ -130,7 +138,7 @@ namespace water
     }
 
 
-    void RendererHAPI::Texture::loadTexture (const std::string& fileLocation)
+    bool RendererHAPI::Texture::loadTexture (const std::string& fileLocation)
     {
         // Make sure we don't leak memory.
         cleanUp();
@@ -145,22 +153,20 @@ namespace water
         
             // Initialise the texture space.
             m_textureSpace = { 0, 0, width - 1, height - 1 };
+
+            return true;
         }
     
-        else
-        {   
-            throw std::runtime_error ("Texture::loadTexture(): Unable to initialise Texture with file \"" + fileLocation + "\"");
-        }
+        return false;
     }
 
 
-    void RendererHAPI::Texture::fillWithBlankData (const Point& dimensions)
+    bool RendererHAPI::Texture::fillWithBlankData (const Point& dimensions)
     {
         // Pre-condition: Ensure the dimensions are valid.
         if (dimensions.x <= 0 || dimensions.y <= 0)
         {
-            throw std::invalid_argument ("Texture::fillWithBlankData(): Invalid texture dimensions given (" + 
-                                          std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ").");     
+            return false;
         }
 
         // Make sure we don't leak memory.
@@ -168,18 +174,26 @@ namespace water
 
         // Allocate enough data.
         const auto size = dimensions.x * dimensions.y;
-        m_data         = new BYTE[size];
+        m_data = new BYTE[size];
+
+        // Check whether the allocation was successful.
+        if (!m_data)
+        {
+            return false;
+        }
 
         // Prepare the texture.
         resetFrameDimensions();
 
-        m_textureSpace  = { 0, 0, dimensions.x, dimensions.y };
+        m_textureSpace = { 0, 0, dimensions.x, dimensions.y };
 
         // Ensure all data is black.
-        for (int i = 0; i < size; ++i)
+        for (auto i = 0; i < size; ++i)
         {
             m_data[i] = 0;
         }
+
+        return true;
     }
 
     #pragma endregion
@@ -187,18 +201,17 @@ namespace water
 
     #pragma region Scaling
 
-    void RendererHAPI::Texture::scaleToSize (const Point& dimensions)
+    bool RendererHAPI::Texture::scaleToSize (const Point& dimensions)
     {
         // Pre-condition: Ensure the dimensions are valid.
         if (dimensions.x <= 0 || dimensions.y <= 0)
         {
-            throw std::invalid_argument ("Texture::fillWithBlankData(): Invalid texture dimensions given (" + 
-                                          std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ").");
+            return false;
         }
 
         // Work on the basis of colours instead of bytes for the scaling.
-        const auto  width       = m_textureSpace.width(),
-                    height      = m_textureSpace.height();
+        const auto  width   = m_textureSpace.width(),
+                    height  = m_textureSpace.height();
 
         // Don't do anything if no scaling is to be performed.
         if (dimensions.x != width || dimensions.y != height)
@@ -208,6 +221,12 @@ namespace water
 
             // Allocate the required data.
             Colour* scaledData      = new Colour[dimensions.x * dimensions.y];
+
+            // Ensure the allocation is valid.
+            if (!scaledData)
+            {
+                return false;
+            }
 
             // Filter each pixel.
             for (int y = 0; y < dimensions.y; ++y)
@@ -225,10 +244,14 @@ namespace water
 
             // Clean up the old texture data and replace it with the new data.
             cleanUp();
-            m_data         = (BYTE*) scaledData;
+            m_data          = (BYTE*) scaledData;
             m_textureSpace  = { 0, 0, dimensions.x - 1, dimensions.y - 1 };
+
+            // Reset the frame calculations.
             setFrameDimensions (m_frameDimensions);
         }
+
+        return true;
     }
 
 

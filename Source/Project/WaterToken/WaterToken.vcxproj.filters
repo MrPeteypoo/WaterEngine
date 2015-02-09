@@ -55,6 +55,12 @@
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp">
       <Filter>Engine\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\Logger\LoggerHAPI.cpp">
+      <Filter>Engine\Logger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Logger\LoggerSTL.cpp">
+      <Filter>Engine\Logger</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\IAudio.h">
@@ -111,6 +117,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Misc\Vector3.h">
       <Filter>Engine\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logger\LoggerHAPI.h">
+      <Filter>Engine\Logger</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logger\LoggerSTL.h">
+      <Filter>Engine\Logger</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

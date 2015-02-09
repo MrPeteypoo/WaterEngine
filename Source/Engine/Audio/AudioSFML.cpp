@@ -9,6 +9,8 @@
 
 
 // Engine headers.
+#include <Systems.h>
+#include <ILogger.h>
 #include <Audio/SFMLSound.h>
 #include <Utility/Maths.h>
 
@@ -189,42 +191,31 @@ namespace water
 
     PlaybackID AudioSFML::playSound (const SoundID sound, const float volume, const float offset, const bool loop)
     {
-        try
+        // If the buffer doesn't exist an out-of-range error will be thrown.
+        const auto& buffer  = m_impl->buffers.at (sound);
+
+        // We need to check if we have a valid channel to play the buffer from.
+        const auto channel  = findInactiveChannel();
+
+        if (channel != std::numeric_limits<PlaybackID>::max())
         {
-            // If the buffer doesn't exist an out-of-range error will be thrown.
-            const auto& buffer  = m_impl->buffers.at (sound);
-
-            // We need to check if we have a valid channel to play the buffer from.
-            const auto channel  = findInactiveChannel();
-
-            if (channel != std::numeric_limits<PlaybackID>::max())
-            {
-                // Cache the current channel.
-                auto& currentChannel = m_impl->channels[channel];
+            // Cache the current channel.
+            auto& currentChannel = m_impl->channels[channel];
                 
-                // We need to change swap the buffer currently in use and play the sound.
-                currentChannel.stop();
-                currentChannel.setBuffer (buffer);
-                currentChannel.play();
-                adjustSoundProperties (channel, volume, offset, loop);
+            // We need to change swap the buffer currently in use and play the sound.
+            currentChannel.stop();
+            currentChannel.setBuffer (buffer);
+            currentChannel.play();
+            adjustSoundProperties (channel, volume, offset, loop);
 
-                // Allow the sound to be managed externally if desired.
-                return channel;
-            }
-
-            throw std::runtime_error ("Ran out of sound channels. Sound will not be played.");
+            // Allow the sound to be managed externally if desired.
+            return channel;
         }
 
-        catch (const std::exception& error)
-        {
-            std::cerr << "Exception caught in AudioSFML::playSound(): " << error.what() << std::endl;
-        }
-
-        catch (...) 
-        {
-            std::cerr << "Unknown error caught in AudioSFML::playSound()." << std::endl;    
-        }
-
+        // Log the problem.
+        Systems::getLogger().logError ("AudioSFML::playSound(), Ran out of sound channels. Sound will not be played.");
+        
+        // Return an invalid value.
         return std::numeric_limits<PlaybackID>::max();
     }
 
