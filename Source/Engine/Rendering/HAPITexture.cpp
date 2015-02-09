@@ -1,12 +1,8 @@
 #include "HAPITexture.h"
 
 
-// STL headers.
-#include <exception>
-
-
-// Engine headers.
-#include <HAPI_lib.h>
+// Third party headers.
+#include <HAPI/HAPI_lib.h>
 
 
 // Forward declarations.

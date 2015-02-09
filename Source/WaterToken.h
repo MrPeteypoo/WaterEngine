@@ -6,7 +6,7 @@
 
 
 // Engine headers.
-#include <HAPI_lib.h>
+#include <HAPI/HAPI_lib.h>
 
 
 // Forward declarations.
