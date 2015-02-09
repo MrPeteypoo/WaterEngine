@@ -21,7 +21,7 @@ namespace water
             virtual ~ILogger() {}
 
 
-            #pragma region initialisation 
+            #pragma region Initialisation 
             
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>
