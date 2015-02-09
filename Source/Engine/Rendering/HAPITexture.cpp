@@ -301,12 +301,12 @@ namespace water
 
     #pragma region Blitting
 
-    void RendererHAPI::Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
+    bool RendererHAPI::Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
     {
-        // Pre-conditions: target is a valid pointer.
+        // Pre-condition: target is a valid pointer.
         if (!target)
         {
-            throw std::invalid_argument ("Texture::blit(): Invalid pointer to the target was given.");
+            return false;
         }
 
         // Pre-condition: frame is valid.
@@ -314,11 +314,7 @@ namespace water
            (frame.x >= m_frameDimensions.x || frame.x < 0 ||
             frame.y >= m_frameDimensions.y || frame.y < 0))
         {
-            throw std::invalid_argument ("Texture::blit(): Invalid frame number given (" + 
-                                         std::to_string (frame.x) + ", " + std::to_string (frame.y) + "). " +
-
-                                         "Texture frame count is (" + 
-                                         std::to_string (m_frameDimensions.x) + ", " + std::to_string (m_frameDimensions.y) + ").");
+            return false;
         }
 
         const auto  textureWidth = m_textureSpace.width(), 
@@ -375,13 +371,15 @@ namespace water
         }
 
         // Do nothing if it doesn't intersect.
+
+        return true;
     }
 
 
-    void RendererHAPI::Texture::blit (Texture& target, const Point& point, const BlendType blend, const Point& frame)
+    bool RendererHAPI::Texture::blit (Texture& target, const Point& point, const BlendType blend, const Point& frame)
     {
         // Forward onto the normal blitting function.
-        blit (target.m_data, target.m_textureSpace, point, blend, frame);
+        return blit (target.m_data, target.m_textureSpace, point, blend, frame);
     }
 
 

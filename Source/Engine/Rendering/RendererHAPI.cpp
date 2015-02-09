@@ -160,12 +160,11 @@ namespace water
 
     TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
     {
-        
         // Determine the texture ID.
         const auto textureID = m_impl->hasher (fileLocation);
 
         // Check if it already exists.
-        if (m_impl->textures.find (textureID) == m_impl->textures.end())
+        if (m_impl->textures.count (textureID) == 0)
         {
             // Attempt to load the texture.
             Texture texture { };
@@ -249,25 +248,27 @@ namespace water
 
     void RendererHAPI::drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend, const Point& frame)
     {
-        try
-        {
-            // If the texture doesn't exist an out-of-range error will be thrown.
-            auto& texture           = m_impl->textures.at (id);
+        // Check if the texture exists.
+        auto& iterator = m_impl->textures.find (id);
 
-            const auto pixelSpace   = (Point) (point * m_impl->unitToPixel);
+        if (iterator != m_impl->textures.end())
+        {
+            // Convert the world-space units to pixel-space.
+            const auto pixelSpace = (Point) (point * m_impl->unitToPixel);
 
             // Blit the valid texture.
-            texture.blit (m_impl->screen, m_impl->screenSpace, pixelSpace, blend, frame);
+            if (!iterator->second.blit (m_impl->screen, m_impl->screenSpace, pixelSpace, blend, frame))
+            {
+                // Output a silly error!
+                Systems::getLogger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
+                                                std::to_string (frame.x) + "x" + std::to_string (frame.y) + "\" is valid.");
+            }
         }
 
-        catch (const std::exception& error)
+        else
         {
-            std::cerr << "Exception caught in RendererHAPI::drawToScreen(): " << error.what() << std::endl;
-        }
-
-        catch (...) 
-        {
-            std::cerr << "Unknown error caught in RendererHAPI::drawToScreen()." << std::endl;    
+            // We have a problem, inform the logger!
+            Systems::getLogger().logWarning ("RendererHAPI::drawToScreen(), attempt to draw an invalid texture.");
         }
     }
 
@@ -280,26 +281,28 @@ namespace water
 
     void RendererHAPI::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
     {
-        try
+        // Obtain the iterators to both textures.
+        auto& sourceIterator = m_impl->textures.find (source);
+        auto& targetIterator = m_impl->textures.find (target);
+
+        // Ensure that both textures exist.
+        if (sourceIterator != m_impl->textures.end() && targetIterator != m_impl->textures.end())
         {
-            // If the texture doesn't exist an out-of-range error will be thrown.
-            auto& sourceTexture     = m_impl->textures.at (source);
-            auto& targetTexture     = m_impl->textures.at (target);
+            // Convert the point into pixel space.
+            const auto pixelSpace = (Point) (point * m_impl->unitToPixel);
 
-            const auto pixelSpace   = (Point) (point * m_impl->unitToPixel);
-
-            // Blit the valid texture.
-            sourceTexture.blit (targetTexture, pixelSpace, blend, frame);
+            // Blit the source texture onto the target.
+            if (!sourceIterator->second.blit (targetIterator->second, pixelSpace, blend, frame))
+            {
+                // Output a silly error!
+                Systems::getLogger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
+                                                std::to_string (frame.x) + "x" + std::to_string (frame.y) + "\" is valid.");            
+            }
         }
 
-        catch (const std::exception& error)
+        else
         {
-            std::cerr << "Exception caught in RendererHAPI::drawToTexture(): " << error.what() << std::endl;
-        }
-
-        catch (...) 
-        {
-            std::cerr << "Unknown error caught in RendererHAPI::drawToTexture()." << std::endl;
+            Systems::getLogger().logWarning ("RendererHAPI::drawToTexture(), invalid source or target texture IDs given.");
         }
     }
 

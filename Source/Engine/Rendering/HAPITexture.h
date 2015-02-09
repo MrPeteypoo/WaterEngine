@@ -111,14 +111,16 @@ namespace water
             /// <param name="point"> Where the blitting should begin, if this is out-of-bounds then the texture will be clipped. </param>
             /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
             /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
-            void blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame);
+            /// <returns> Whether the blitting was successful. </returns>
+            bool blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame);
 
             /// <summary> An overload which blits the current texture onto the target texture. </summary>
             /// <param name="target"> The target texture to be altered. </param>
             /// <param name="point"> Where the blitting should begin, if this is out-of-bounds then the texture will be clipped. </param>
             /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
             /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
-            void blit (Texture& target, const Point& point, const BlendType blend, const Point& frame);
+            /// <returns> Whether the blitting was successful. </returns>
+            bool blit (Texture& target, const Point& point, const BlendType blend, const Point& frame);
 
             #pragma endregion
         

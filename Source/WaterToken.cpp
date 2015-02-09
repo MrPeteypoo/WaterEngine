@@ -11,6 +11,7 @@
 #include <Engine/Systems.h>
 #include <Engine/Logger/LoggerHAPI.h>
 #include <Engine/Logger/LoggerSTL.h>
+#include <Misc/Vector2.h>
 
 
 // Game namespace.
@@ -31,119 +32,55 @@ namespace wt
 
     bool Game::initialise()    
     {
-        auto renderer = std::make_shared<water::RendererHAPI>();
-        auto audio = std::make_shared<water::AudioSFML>();
         auto logger = std::make_shared<water::LoggerHAPI>();
-        
-        water::Systems::setAudio (audio.get());
-        water::Systems::setRenderer (renderer.get());
         water::Systems::setLogger (logger.get());
-        
-        water::Systems::getAudio().initialise (32, 1, 1);
         water::Systems::getLogger().initialise ("log.txt");
 
 
-        return false;
-
-        /*try 
+        try
         {
-            // Initialise HAPI.
-            if (!HAPI->Initialise (&m_screenWidth, &m_screenHeight))
-            {
-                throw std::runtime_error ("Game::initialise(): HAPI couldn't initialise.");
-            }
-
-            // Set up the rendering engine.
-            m_renderer = std::make_shared<water::RendererHAPI>();
-            m_renderer->initialise (m_screenWidth, m_screenHeight, { 128, 128 });
-
-            // Load the textures.
-            water::TextureID ids[3] = {    m_renderer->loadTexture (backgroundLocation, { 0, 0 }),
-                                    m_renderer->loadTexture (circleLocation, { 0, 0 }),
-                                    m_renderer->loadTexture (explosionLocation, { 5, 5 }) };
-
-            // Make the entities.
-            auto background = std::make_unique<MilestoneEntity>(), circle = std::make_unique<MilestoneEntity>();
-
-            background->getPosition() = { 0.f, 0.f };
-            background->setTextureID (ids[0]);
-            background->setBlendType (water::BlendType::Opaque);
-            background->setFrameSize ({ 0, 0 });
-            background->setFrame ({ 0, 0 });
         
-            // Centre the circle.
-            circle->getPosition() = { 3, 3 };
-
-            circle->setTextureID (ids[1]);
-            circle->setBlendType (water::BlendType::Transparent);
-            circle->setFrameSize ({ 0, 0 });
-            circle->setFrame ({ 0, 0 });
+            auto renderer = std::make_shared<water::RendererHAPI>();
+            auto audio = std::make_shared<water::AudioSFML>();
         
-            m_entities.push_back (std::move (background));
-            m_entities.push_back (std::move (circle));
+            water::Systems::setAudio (audio.get());
+            water::Systems::setRenderer (renderer.get());
+
+            int m_width = 256, m_height = 256;
+            HAPI->Initialise(&m_width, &m_height);
         
         
-            // Randomise explosions everywhere.
-            util::RNG<float>        rngF    { util::getCurrentTime<unsigned int>() };
-            util::RNG<unsigned int> rngU    { util::getCurrentTime<unsigned int>() };
-                
-            for (int i = 0; i < 10; ++i)
-            {
-                auto explosion = std::make_unique<MilestoneEntity>();
+            water::Systems::getAudio().initialise (2, 1, 1);
+            water::Systems::getRenderer().initialise (0, m_height, { 64, 64 });
 
-                explosion->getPosition() = { 8 * rngF() - 2.f, 8 * rngF() - 2.f };
-                explosion->setTextureID (ids[2]);
-                explosion->setBlendType (water::BlendType::Transparent);
-                explosion->setFrameSize ({ 5, 5 });
-                explosion->setFrame ({ rngU() % 5, rngU() % 5 });
-
-                m_entities.push_back (std::move (explosion));
-            }
-
-            m_centreZone    = { 3, 3, 5, 5 };
-            m_renderer->scaleTexture (ids[0], { 8.f, 8.f }, false);
-            m_renderer->scaleTexture (ids[1], { 1.9847f, 4.8785465f }, false);
-            m_renderer->scaleTexture (ids[2], { 1280.f, 1280.f }, true);
-
-            m_audio = std::make_shared<water::AudioSFML>();
-            m_audio->initialise (128, 5.f, 2.f);
-
-            m_audio->loadMusic (musicLocation);
-            m_sounds.push_back (m_audio->loadSound (soundLocation));
-                            
             return true;
         }
 
-        // Initialisation failed so just exit.
         catch (const std::exception& error)
         {
-            std::cerr << "Exception caught in Game::initialise(): " << error.what() << std::endl;
+            water::Systems::getLogger().displayMessage ("Error", error.what() + 
+                                                        std::string ("\nThe application will now close."));
         }
 
-        catch (...)
-        {
-            std::cerr << "Unknown error caught in Game::initialise()." << std::endl;
-        }
-
-        return false;*/
+        return false;
     }
 
 
     void Game::run()
     {
-        /*if (initialise())
+        if (initialise())
         {
-            const float sixtyFPS = static_cast<float> (1.0 / 60.0);
+            //const float sixtyFPS = static_cast<float> (1.0 / 60.0);
 
             HAPI->SetShowFPS (true);
 
             // Update each system.
             while (HAPI->Update())
             {
-                updateDeltaTime();
+                //updateDeltaTime();
 
                 // Check whether to perform the capped update.
-                if (m_sixtyFPSDeltaTime >= sixtyFPS)
+                /*if (m_sixtyFPSDeltaTime >= sixtyFPS)
                 {
                     updateCapped();
                     m_sixtyFPSDeltaTime = 0.f;
@@ -152,9 +89,9 @@ namespace wt
                 // Perform the uncapped update.
                 updateMain();
             
-                renderAll();
+                renderAll();*/
             }
-        }*/
+        }
     }
 
 

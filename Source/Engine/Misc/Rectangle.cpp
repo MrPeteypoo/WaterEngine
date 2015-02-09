@@ -1,11 +1,6 @@
 #include "Rectangle.h"
 
 
-/// STL headers.
-#include <stdexcept>
-#include <string>
-
-
 // Engine headers.
 #include <Utility/Maths.h>
 
@@ -24,20 +19,8 @@ template Rectangle<double>;
 #pragma region Constructors
 
 template <typename T> Rectangle<T>::Rectangle (const T left, const T top, const T right, const T bottom)
+    : m_left (left), m_top (top), m_right (right), m_bottom (bottom)
 {
-    // Test each component to check if it's valid.
-    if (left > right || right < left || top > bottom || bottom < top)
-    {
-        throw std::runtime_error ("Rectangle::Rectangle(): Invalid parameters given (" +    std::to_string (left) + ", " + 
-                                                                                            std::to_string (top) + ", " +
-                                                                                            std::to_string (right) + ", " + 
-                                                                                            std::to_string (bottom) + ")."  );
-    }
-
-    m_left = left;
-    m_top = top;
-    m_right = right;
-    m_bottom = bottom;
 }
 
 
@@ -96,44 +79,24 @@ template <typename T> bool Rectangle<T>::operator!= (const Rectangle& rhs) const
 
 template <typename T> void Rectangle<T>::setLeft (const T left)
 {
-    if (left > m_right)
-    {
-        throw std::runtime_error ("Rectangle::setLeft(): Attempt to set the left co-ordinate with a value larger than m_right.");
-    }
-
     m_left = left;
 }
 
 
 template <typename T> void Rectangle<T>::setTop (const T top)
 {
-    if (top > m_bottom)
-    {
-        throw std::runtime_error ("Rectangle::setTop(): Attempt to set the top co-ordinate with a value larger than m_bottom.");
-    }
-
     m_top = top;
 }
 
 
 template <typename T> void Rectangle<T>::setRight (const T right)
 {
-    if (m_right < m_left)
-    {
-        throw std::runtime_error ("Rectangle::setRight(): Attempt to set the right co-ordinate with a value smaller than m_left.");
-    }
-
     m_right = right;
 }
 
 
 template <typename T> void Rectangle<T>::setBottom (const T bottom)
 {
-    if (bottom < m_top)
-    {
-        throw std::runtime_error ("Rectangle::setBottom(): Attempt to set the bottom co-ordinate with a value smaller than m_top.");
-    }
-
     m_bottom = bottom;
 }
 

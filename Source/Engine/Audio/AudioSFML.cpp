@@ -146,8 +146,8 @@ namespace water
             return id;
         }
 
-        // Output an error message to inform the user or programmer or their stupidity.
-        std::cerr << "AudioSFML::loadSound(): Cannot load sound with filename \"" + fileLocation + "\"." << std::endl;
+        // Output an error message to inform the user or programmer of their stupidity.
+        Systems::getLogger().logError ("AudioSFML::loadSound(): Cannot load sound with filename \"" + fileLocation + "\".");
 
         // Let the user cry due to lack of sounds.
         return 0;
