@@ -1,8 +1,8 @@
-#include "Rectangle.h"
+#include "Rectangle.hpp"
 
 
 // Engine headers.
-#include <Utility/Maths.h>
+#include <Utility/Maths.hpp>
 
 
 

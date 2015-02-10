@@ -1,4 +1,4 @@
-#include "WaterToken.h"
+#include "WaterToken.hpp"
 
 
 // STL headers.
@@ -6,12 +6,12 @@
 
 
 // Engine headers.
-#include <Rendering/RendererHAPI.h>
-#include <Audio/AudioSFML.h>
-#include <Engine/Systems.h>
-#include <Engine/Logging/LoggerHAPI.h>
-#include <Engine/Logging/LoggerSTL.h>
-#include <Misc/Vector2.h>
+#include <Rendering/RendererHAPI.hpp>
+#include <Audio/AudioSFML.hpp>
+#include <Engine/Systems.hpp>
+#include <Engine/Logging/LoggerHAPI.hpp>
+#include <Engine/Logging/LoggerSTL.hpp>
+#include <Misc/Vector2.hpp>
 
 
 // Game namespace.

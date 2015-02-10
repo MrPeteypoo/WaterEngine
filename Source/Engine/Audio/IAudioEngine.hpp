@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <IAudio.h>
+#include <IAudio.hpp>
 
 
 // Engine namespace.

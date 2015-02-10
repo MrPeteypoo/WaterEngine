@@ -1,4 +1,4 @@
-#include <Rendering/RendererHAPI.h>
+#include <Rendering/RendererHAPI.hpp>
 
 
 // STL headers.
@@ -8,10 +8,10 @@
 
 
 // Engine headers.
-#include <Systems.h>
-#include <ILogger.h>
-#include <Rendering/HAPITexture.h>
-#include <Utility/Maths.h>
+#include <Systems.hpp>
+#include <ILogger.hpp>
+#include <Rendering/HAPITexture.hpp>
+#include <Utility/Maths.hpp>
 
 
 // Third party headers.

@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Rendering/IRendererEngine.h>
+#include <Rendering/IRendererEngine.hpp>
 
 
 // Engine namespace

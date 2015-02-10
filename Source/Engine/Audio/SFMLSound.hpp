@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Audio/AudioSFML.h>
+#include <Audio/AudioSFML.hpp>
 
 
 // Third party headers.

@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Engine/EngineForward.h>
+#include <Engine/EngineForward.hpp>
 
 
 // Engine namespace.

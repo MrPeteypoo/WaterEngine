@@ -1,4 +1,4 @@
-#include "HAPITexture.h"
+#include "HAPITexture.hpp"
 
 
 // Third party headers.

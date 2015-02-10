@@ -1,4 +1,4 @@
-#include "AudioSFML.h"
+#include "AudioSFML.hpp"
 
 
 // STL headers.
@@ -9,10 +9,10 @@
 
 
 // Engine headers.
-#include <Systems.h>
-#include <ILogger.h>
-#include <Audio/SFMLSound.h>
-#include <Utility/Maths.h>
+#include <Systems.hpp>
+#include <ILogger.hpp>
+#include <Audio/SFMLSound.hpp>
+#include <Utility/Maths.hpp>
 
 
 // Third party headers.

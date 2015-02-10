@@ -63,78 +63,78 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Engine\IAudio.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IRenderer.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Audio\AudioSFML.h">
+    <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp">
       <Filter>Engine\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h">
+    <ClInclude Include="..\..\Engine\Audio\SFMLSound.hpp">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.hpp">
+      <Filter>Engine\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.hpp">
+      <Filter>Engine\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.hpp">
+      <Filter>Engine\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
+      <Filter>Engine\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Misc\Vector2.hpp">
+      <Filter>Engine\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Misc\Vector3.hpp">
+      <Filter>Engine\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Rendering\HAPITexture.hpp">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\WaterToken.h" />
-    <ClInclude Include="..\..\Engine\EngineForward.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IGameObject.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IInput.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\ITime.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Systems.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Rendering\HAPITexture.h">
+    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.hpp">
       <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Audio\SFMLSound.h">
-      <Filter>Engine\Audio</Filter>
+    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.hpp">
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\ILogger.h">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Utility\Maths.h">
-      <Filter>Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Utility\RNG.h">
-      <Filter>Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Utility\Time.h">
-      <Filter>Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Misc\Rectangle.h">
-      <Filter>Engine\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Misc\Vector2.h">
-      <Filter>Engine\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Misc\Vector3.h">
-      <Filter>Engine\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.h">
-      <Filter>Engine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Time\ITimeEngine.h">
+    <ClInclude Include="..\..\Engine\Time\ITimeEngine.hpp">
       <Filter>Engine\Time</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.h">
-      <Filter>Engine\Rendering</Filter>
+    <ClInclude Include="..\..\Engine\EngineForward.hpp">
+      <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.h">
-      <Filter>Engine\Logging</Filter>
+    <ClInclude Include="..\..\Engine\IAudio.hpp">
+      <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.h">
-      <Filter>Engine\Logging</Filter>
+    <ClInclude Include="..\..\Engine\IGameObject.hpp">
+      <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.h">
-      <Filter>Engine\Logging</Filter>
+    <ClInclude Include="..\..\Engine\IInput.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\ILogger.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\IRenderer.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\ITime.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WaterToken.hpp" />
+    <ClInclude Include="..\..\Engine\Utility\Maths.hpp">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Utility\RNG.hpp">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Utility\Time.hpp">
+      <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.hpp">
+      <Filter>Engine\Audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

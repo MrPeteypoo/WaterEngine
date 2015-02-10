@@ -1,8 +1,8 @@
-#include "SFMLSound.h"
+#include "SFMLSound.hpp"
 
 
 // Engine headers.
-#include <Utility/Maths.h>
+#include <Utility/Maths.hpp>
 
 
 // Third party headers.

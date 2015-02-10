@@ -32,31 +32,31 @@
     <ClCompile Include="..\..\WaterToken.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Engine\Audio\AudioSFML.h" />
-    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.h" />
-    <ClInclude Include="..\..\Engine\Audio\SFMLSound.h" />
-    <ClInclude Include="..\..\Engine\ILogger.h" />
-    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.h" />
-    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.h" />
-    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.h" />
-    <ClInclude Include="..\..\Engine\Misc\Rectangle.h" />
-    <ClInclude Include="..\..\Engine\Misc\Vector2.h" />
-    <ClInclude Include="..\..\Engine\Misc\Vector3.h" />
-    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.h" />
-    <ClInclude Include="..\..\Engine\Systems.h" />
-    <ClInclude Include="..\..\Engine\EngineForward.h" />
-    <ClInclude Include="..\..\Engine\IAudio.h" />
-    <ClInclude Include="..\..\Engine\IGameObject.h" />
-    <ClInclude Include="..\..\Engine\IInput.h" />
-    <ClInclude Include="..\..\Engine\IRenderer.h" />
-    <ClInclude Include="..\..\Engine\ITime.h" />
-    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h" />
-    <ClInclude Include="..\..\Engine\Rendering\HAPITexture.h" />
-    <ClInclude Include="..\..\Engine\Time\ITimeEngine.h" />
-    <ClInclude Include="..\..\Engine\Utility\Maths.h" />
-    <ClInclude Include="..\..\Engine\Utility\RNG.h" />
-    <ClInclude Include="..\..\Engine\Utility\Time.h" />
-    <ClInclude Include="..\..\WaterToken.h" />
+    <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp" />
+    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.hpp" />
+    <ClInclude Include="..\..\Engine\Audio\SFMLSound.hpp" />
+    <ClInclude Include="..\..\Engine\ILogger.hpp" />
+    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.hpp" />
+    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.hpp" />
+    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.hpp" />
+    <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp" />
+    <ClInclude Include="..\..\Engine\Misc\Vector2.hpp" />
+    <ClInclude Include="..\..\Engine\Misc\Vector3.hpp" />
+    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.hpp" />
+    <ClInclude Include="..\..\Engine\Systems.hpp" />
+    <ClInclude Include="..\..\Engine\EngineForward.hpp" />
+    <ClInclude Include="..\..\Engine\IAudio.hpp" />
+    <ClInclude Include="..\..\Engine\IGameObject.hpp" />
+    <ClInclude Include="..\..\Engine\IInput.hpp" />
+    <ClInclude Include="..\..\Engine\IRenderer.hpp" />
+    <ClInclude Include="..\..\Engine\ITime.hpp" />
+    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.hpp" />
+    <ClInclude Include="..\..\Engine\Rendering\HAPITexture.hpp" />
+    <ClInclude Include="..\..\Engine\Time\ITimeEngine.hpp" />
+    <ClInclude Include="..\..\Engine\Utility\Maths.hpp" />
+    <ClInclude Include="..\..\Engine\Utility\RNG.hpp" />
+    <ClInclude Include="..\..\Engine\Utility\Time.hpp" />
+    <ClInclude Include="..\..\WaterToken.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>
