@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Engine/EngineForward.hpp>
+#include <Engine/WaterEngineForward.hpp>
 
 
 // Engine namespace.
@@ -23,17 +23,17 @@ namespace water
             static ILogger&     logger()                                { return *m_logger; }
             static IRenderer&   renderer()                              { return *m_renderer; }
             static ITime&       time()                                  { return *m_time; }
+      
+        private:
+
+            /// We let the water::Engine class be a friend so that it can set the systems.
+            friend class water::Engine;
 
             static void         setAudio (IAudio* const system)         { m_audio = system; }
             static void         setInput (IInput* const system)         { m_input = system; }
             static void         setLogger (ILogger* const system)       { m_logger = system; }
             static void         setRenderer (IRenderer* const system)   { m_renderer = system; }
             static void         setTime (ITime* const system)           { m_time = system; }
-      
-        private:
-
-            /// We let the water::Engine class be a friend so that it can set the systems.
-            friend class water::Engine;
 
             static IAudio*      m_audio;    //!< An audio system used for playing and manipulating sounds.
             static IInput*      m_input;    //!< An input system for obtaining abstracted input.

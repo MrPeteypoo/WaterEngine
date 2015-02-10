@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Engine\Audio\SFMLSound.cpp" />
+    <ClCompile Include="..\..\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Engine\Logging\LoggerHAPI.cpp" />
     <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
@@ -46,7 +47,7 @@
     <ClInclude Include="..\..\Engine\Misc\Vector3.hpp" />
     <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.hpp" />
     <ClInclude Include="..\..\Engine\Systems.hpp" />
-    <ClInclude Include="..\..\Engine\EngineForward.hpp" />
+    <ClInclude Include="..\..\Engine\WaterEngineForward.hpp" />
     <ClInclude Include="..\..\Engine\IAudio.hpp" />
     <ClInclude Include="..\..\Engine\IGameObject.hpp" />
     <ClInclude Include="..\..\Engine\IInput.hpp" />
@@ -59,6 +60,8 @@
     <ClInclude Include="..\..\Engine\Utility\Maths.hpp" />
     <ClInclude Include="..\..\Engine\Utility\RNG.hpp" />
     <ClInclude Include="..\..\Engine\Utility\Time.hpp" />
+    <ClInclude Include="..\..\Engine\Engine.hpp" />
+    <ClInclude Include="..\..\Engine\WaterEngine.hpp" />
     <ClInclude Include="..\..\WaterToken.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

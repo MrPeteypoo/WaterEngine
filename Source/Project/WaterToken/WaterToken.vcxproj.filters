@@ -67,6 +67,9 @@
     <ClCompile Include="..\..\Engine\Utility\Time.cpp">
       <Filter>Engine\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp">
@@ -105,9 +108,6 @@
     <ClInclude Include="..\..\Engine\Time\ITimeEngine.hpp">
       <Filter>Engine\Time</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\EngineForward.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\IAudio.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -144,6 +144,15 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Time\TimeSTL.hpp">
       <Filter>Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Engine.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\WaterEngine.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\WaterEngineForward.hpp">
+      <Filter>Engine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
