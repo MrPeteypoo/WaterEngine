@@ -11,6 +11,7 @@
 #include <Engine/Systems.hpp>
 #include <Engine/Logging/LoggerHAPI.hpp>
 #include <Engine/Logging/LoggerSTL.hpp>
+#include <Engine/Time/TimeSTL.hpp>
 #include <Misc/Vector2.hpp>
 
 
@@ -41,19 +42,21 @@ namespace wt
 
         try
         {
-        
-            auto renderer = std::make_shared<water::RendererHAPI>();
             auto audio = std::make_shared<water::AudioSFML>();
+            auto renderer = std::make_shared<water::RendererHAPI>();
+            auto time = std::make_shared<water::TimeSTL>();
         
             water::Systems::setAudio (audio.get());
             water::Systems::setRenderer (renderer.get());
+            water::Systems::setTime (time.get());
 
             int m_width = 256, m_height = 256;
             HAPI->Initialise(&m_width, &m_height);
         
         
             audio->initialise (2, 1, 1);
-            renderer->initialise (0, m_height, { 64, 64 });
+            renderer->initialise (m_width, m_height, { 64, 64 });
+            time->initialise (30, 60, 10);
 
             return true;
         }

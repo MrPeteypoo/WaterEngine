@@ -214,7 +214,7 @@ namespace water
         if (m_impl->timestamp)
         {
             // Use YYYY/MM/DD HH:MM:SS format.
-            const auto& format = "%Y/%m/%d %H:%M:%S. ";
+            const auto& format = "(%Y/%m/%d %H:%M:%S) ";
             finalMessage += util::getCurrentTimeAsString (format);
         }
 

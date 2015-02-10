@@ -6,6 +6,10 @@
 #include <string>
 
 
+// Aliases.
+using real = double;
+
+
 // Engine namespace.
 namespace water
 {
@@ -27,22 +31,16 @@ namespace water
 
             /// <summary> Get the delta time value of the current update loop. </summary>
             /// <returns> The physics update time during physicsUpdate() or the update time during update(). </returns>
-            virtual float deltaTime() const = 0;
-
-            /// <summary> Gets the delta time for the most recent physics loop. </summary>
-            virtual float physicsTime() const = 0;
-
-            /// <summary> Gets the delta time for the most recent update loop. </summary>
-            virtual float updateTime() const = 0;
+            virtual float getDelta() const = 0;
 
             /// <summary> Obtains the time in seconds since the game start. </summary>
             virtual float timeSinceStart() const = 0;
 
             /// <summary> Obtains the time scale currently being applied each frame. </summary>
-            virtual float getTimeScale() const = 0;
+            virtual float timescale() const = 0;
 
             /// <summary> This sets the time scale applied to the real world frame times. This will not go below zero. </summary>
-            virtual void setTimeScale (const float timeScale) = 0;
+            virtual void setTimescale (const real timeScale) = 0;
 
             #pragma endregion
     };   

@@ -2,9 +2,6 @@
 #define WATER_TOKEN_INCLUDED
 
 
-// STL headers.
-
-
 // Engine headers.
 #include <HAPI/HAPI_lib.h>
 
