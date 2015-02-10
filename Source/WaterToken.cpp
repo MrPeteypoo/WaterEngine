@@ -2,6 +2,7 @@
 
 
 // STL headers.
+#include <chrono>
 #include <memory>
 
 
@@ -33,37 +34,40 @@ namespace wt
 
     bool Game::initialise()    
     {
-        auto logger = std::make_shared<water::LoggerSTL>();
-        auto loggerHAPI = std::make_shared<water::LoggerHAPI>();
-        logger->initialise ("log", true);
-        loggerHAPI->initialise ("", true);
-        water::Systems::setLogger (logger.get());
-
-
-        try
+        // Initialise the logger first.
+        m_logger = std::make_shared<water::LoggerHAPI>();
+        
+        if (m_logger->initialise ("log", true))
         {
-            auto audio = std::make_shared<water::AudioSFML>();
-            auto renderer = std::make_shared<water::RendererHAPI>();
-            auto time = std::make_shared<water::TimeSTL>();
-        
-            water::Systems::setAudio (audio.get());
-            water::Systems::setRenderer (renderer.get());
-            water::Systems::setTime (time.get());
+            try
+            {
+                // Set the logger to be used by the other systems and the game.
+                water::Systems::setLogger (m_logger.get());
 
-            int m_width = 256, m_height = 256;
-            HAPI->Initialise(&m_width, &m_height);
+                // Create the systems.
+                m_audio = std::make_shared<water::AudioSFML>();
+                m_renderer = std::make_shared<water::RendererHAPI>();
+                m_time = std::make_shared<water::TimeSTL>();
         
+                // Initialise the systems.
+                HAPI->Initialise (&m_width, &m_height);        
         
-            audio->initialise (2, 1, 1);
-            renderer->initialise (m_width, m_height, { 64, 64 });
-            time->initialise (30, 60, 10);
+                m_audio->initialise (2, 1, 1);
+                m_renderer->initialise (m_width, m_height, { 64, 64 });
+                m_time->initialise (30, 60, 10);
 
-            return true;
-        }
+                // Set the systems for global access.
+                water::Systems::setAudio (m_audio.get());
+                water::Systems::setRenderer (m_renderer.get());
+                water::Systems::setTime (m_time.get());
 
-        catch (const std::exception& error)
-        {
-            water::Systems::logger().logError (error.what() + std::string ("\nThe application will now close."));
+                return true;
+            }
+
+            catch (const std::exception& error)
+            {
+                water::Systems::logger().logError (error.what() + std::string ("\nThe application will now close."));
+            }
         }
 
         return false;
@@ -74,45 +78,57 @@ namespace wt
     {
         if (initialise())
         {
-            //const float sixtyFPS = static_cast<float> (1.0 / 60.0);
-
-            HAPI->SetShowFPS (true);
-
-            // Update each system.
-            while (HAPI->Update())
+            try
             {
-                //updateDeltaTime();
+                // Show the FPS on screen and reset the time class.
+                HAPI->SetShowFPS (true);
 
-                // Check whether to perform the capped update.
-                /*if (m_sixtyFPSDeltaTime >= sixtyFPS)
+                m_time->resetTime();
+
+                // Update each system.
+                while (HAPI->Update())
                 {
-                    updateCapped();
-                    m_sixtyFPSDeltaTime = 0.f;
+                    // Only perform a physics update if the time specifies so.
+                    if (m_time->physicsUpdate())
+                    {
+                        physicsUpdate();
+                    }
+
+                    // Only perform an update if the time specifies so.
+                    if (m_time->update())
+                    {
+                        update();
+                    }
+
+                    // Render the beautiful imagery all over the screen!
+                    render();
+
+                    // Ensure the time values are accurate for the next frame.
+                    m_time->endFrame();
                 }
-            
-                // Perform the uncapped update.
-                updateMain();
-            
-                renderAll();*/
+            }
+
+            catch (const std::exception& error)
+            {
+                m_logger->logError (error.what() + std::string ("Application will now close."));
             }
         }
     }
 
 
-    void Game::updateDeltaTime()
+    void Game::physicsUpdate()
     {
-        /*// Update the time figures.
-        m_oldTime = m_currentTime;
-        m_currentTime = HAPI->GetTime();
+        static auto previous = std::chrono::high_resolution_clock::now();
+        const auto now = std::chrono::high_resolution_clock::now();
 
-        // Convert from milliseconds to seconds.
-        m_deltaTime = (m_currentTime - m_oldTime) / 1000.f;
+        const auto time = std::chrono::duration<double> (now - previous).count();
+        previous = now;
 
-        m_sixtyFPSDeltaTime += m_deltaTime;*/
+        m_logger->log ("Physics: " + std::to_string (time));
     }
 
 
-    void Game::updateCapped()
+    void Game::update()
     {
         /*// Update keyboard data.
         HAPI->GetKeyboardData (&m_keyboard);
@@ -161,9 +177,9 @@ namespace wt
     }
 
 
-    void Game::updateMain()
+    /*void Game::updateMain()
     {
-        /*auto& circlePosition = m_entities[1]->getPosition();
+        auto& circlePosition = m_entities[1]->getPosition();
 
         // Handle keyboard input.
         if (m_keyboard.scanCode[HK_LEFT] || m_keyboard.scanCode['A'] || 
@@ -196,11 +212,11 @@ namespace wt
             {
                 entity->update (m_deltaTime);
             }
-        }*/
-    }
+        }
+    }*/
 
 
-    void Game::renderAll()
+    void Game::render()
     {    
         /*// Render images.
         m_renderer->clearToBlack();

@@ -171,7 +171,12 @@ namespace water
         auto& impl = *m_impl;
 
         // Decrement the physics delta.
-        if (impl.physicsDelta >= impl.targetPhysics)
+        if (impl.physicsDelta >= impl.maxDelta)
+        {
+            impl.physicsDelta = 0;
+        }
+        
+        else if (impl.physicsDelta >= impl.targetPhysics)
         {
             impl.physicsDelta -= impl.targetPhysics;
         }
@@ -179,7 +184,7 @@ namespace water
         // Decrement the update delta.
         if (impl.updateDelta > impl.maxDelta)
         {
-            impl.updateDelta -= impl.maxDelta;
+            impl.updateDelta = 0;
         }
 
         else if (impl.targetUpdate > 0)

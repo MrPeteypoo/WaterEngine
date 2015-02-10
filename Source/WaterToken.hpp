@@ -2,7 +2,19 @@
 #define WATER_TOKEN_INCLUDED
 
 
+// STL headers.
+#include <memory>
+
+
 // Engine headers.
+#include <EngineForward.hpp>
+#include <Audio/IAudioEngine.hpp>
+#include <Logging/ILoggerEngine.hpp>
+#include <Rendering/IRendererEngine.hpp>
+#include <Time/ITimeEngine.hpp>
+
+
+// Third party headers.
 #include <HAPI/HAPI_lib.h>
 
 
@@ -52,50 +64,37 @@ namespace wt
 
             #pragma region Engine functionality
 
-            /// <summary> 
-            /// Sets up HAPI and the various different systems, ready for use.
+            /// <summary> Sets up HAPI and the various different systems, ready for use. </summary>
             /// <returns> Whether the initialisation was successful or not. </returns>
-            /// </summary>
             bool initialise();
 
-            /// <summary> Will update each deltaTime value, ready for usage by the different aspects of the game. </summary>
-            void updateDeltaTime();
-
             /// <summary> The update function which handles all systems limited to 60FPS. </summary>
-            void updateCapped();
+            void physicsUpdate();
 
             /// <summary> The main update function which gets called each frame. </summary>
-            void updateMain();
+            void update();
 
             /// <summary> Renders each object to the screen. </summary>
-            void renderAll();
+            void render();
 
             #pragma endregion
 
 
             #pragma region Member variables
 
-            /*int                                     m_screenWidth       { 1024 };        //!< The width of the screen in pixels.
-            int                                     m_screenHeight      { 1024 };        //!< The height of the screen in pixels.
+            int                                     m_width         { 1024 };       //!< The width of the screen in pixels.
+            int                                     m_height        { 1024 };       //!< The height of the screen in pixels.
 
-            DWORD                                   m_oldTime           { 0 };          //!< The previous time in milliseconds, used to calculate delta time.
-            DWORD                                   m_currentTime       { 0 };          //!< The current time in milliseconds, used to calculate delta time.
+            bool                                    m_controllerOn  { false };      //!< Indicates whether a controller is plugged in and turned on.
 
-            float                                   m_deltaTime         { 0.f };        //!< The deltaTime calculated each frame.
-            float                                   m_sixtyFPSDeltaTime { 0.f };        //!< The deltaTime used to limit certain actions such as input to 60FPS.
+            Controller                              m_controller    {  };           //!< A cache of controller input, updated every 60 FPS.
+            Keyboard                                m_keyboard      {  };           //!< A cache of keyboard input, updated every 60 FPS.
+            
+            std::shared_ptr<water::IAudioEngine>    m_audio         { nullptr };
+            std::shared_ptr<water::ILoggerEngine>   m_logger        { nullptr };
+            std::shared_ptr<water::IRendererEngine> m_renderer      { nullptr };
+            std::shared_ptr<water::ITimeEngine>     m_time          { nullptr };
 
-            bool                                    m_controllerOn      { false };      //!< Indicates whether a controller is plugged in and turned on.
-
-            Controller                              m_controller        {  };           //!< A cache of controller input, updated every 60 FPS.
-            Keyboard                                m_keyboard          {  };           //!< A cache of keyboard input, updated every 60 FPS.
-
-            Rectangle<float>                        m_centreZone        {  };           //!< The centre point of the screen.
-
-            std::vector<std::unique_ptr<IEntity>>   m_entities          {  };           //!< A vector containing every entity in the game.
-
-            std::shared_ptr<water::IRenderer>       m_renderer          { nullptr };    //!< The renderer used to draw everything onto the screen.
-            std::shared_ptr<water::IAudio>          m_audio             { nullptr };    //!< CRAPPAPAPDWAKDWAJKJSEFJFSEJFS.
-            std::vector<water::SoundID>                    m_sounds            { };*/
 
             #pragma endregion
 
