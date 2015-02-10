@@ -24,17 +24,8 @@ namespace water
             // Ensure destructor is virtual since this is an interface.
             virtual ~IAudio() { }
 
-        
-            #pragma region Initialisation
 
-            /// <summary> Initialises the audio engine with the maximum number of sound channels specified. </summary>
-            /// <param name="soundLimit"> The total number of sounds available at one time. </param>
-            /// <param name="bgmMixer"> The mixer volume for background music, 0 to 1. </param>
-            /// <param name="sfxMixer"> The mixer volume for sound effects, 0 to 1. </param>
-            virtual void initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer) = 0;
-
-            /// <summary> Causes all loaded sound data to be deleted, invaliding all current keys. </summary>
-            virtual void clearSoundData() = 0;
+            #pragma region Data management
 
             /// <summary> Prepares a music track to be streamed. </summary>
             /// <returns> Whether the music track was loaded successfully. </returns>
@@ -44,13 +35,17 @@ namespace water
             /// <returns> The SoundID used to play the sound buffer. </returns>
             virtual SoundID loadSound (const std::string& fileLocation) = 0;
 
+            /// <summary> Deletes a loaded sound from the system. </summary>
+            /// <param name="sound"> The ID of the sound to delete. </param>
+            virtual void removeSound (const SoundID sound) = 0;
+
+            /// <summary> Causes all loaded sound data to be deleted, invaliding all current keys. </summary>
+            virtual void clearSoundData() = 0;
+
             #pragma endregion
 
 
             #pragma region Playback
-
-            /// <summary> Updates the audio system. </summary>
-            virtual void update() = 0;
 
             /// <summary> Plays the currently loaded music file. </summary>
             /// <param name="volume"> The core volume of the music track. </param>

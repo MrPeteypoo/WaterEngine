@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <IAudio.h>
+#include <Audio/IAudioEngine.h>
 
 
 // Engine namespace
@@ -12,7 +12,7 @@ namespace water
     /// <summary> 
     /// An audio engine which uses SFML to concurrently play multiple sounds.
     /// </summary>
-    class AudioSFML final : public IAudio
+    class AudioSFML final : public IAudioEngine
     {
         public:
 
@@ -30,7 +30,7 @@ namespace water
             #pragma endregion
 
 
-            #pragma region Initialisation
+            #pragma region System management
 
             /// <summary> Initialises the audio engine with the maximum number of sound channels specified. </summary>
             /// <param name="soundLimit"> The total number of sounds available at one time. </param>
@@ -38,8 +38,13 @@ namespace water
             /// <param name="sfxMixer"> The mixer volume for sound effects, 0 to 1. </param>
             void initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer) override final;
 
-            /// <summary> Causes all loaded sound data to be deleted, invaliding all current keys. </summary>
-            void clearSoundData() override final;
+            /// <summary> Updates the audio system. </summary>
+            void update() override final;
+
+            #pragma endregion
+
+
+            #pragma region Data managment
             
             /// <summary> Prepares a music track to be streamed. </summary>
             /// <returns> Whether the music track was loaded successfully. </returns>
@@ -49,13 +54,17 @@ namespace water
             /// <returns> The SoundID used to play the sound buffer. </returns>
             SoundID loadSound (const std::string& fileLocation) override final;
 
+            /// <summary> Deletes a loaded sound from the system. </summary>
+            /// <param name="sound"> The ID of the sound to delete. </param>
+            void removeSound (const SoundID sound) override final;
+
+            /// <summary> Causes all loaded sound data to be deleted, invaliding all current keys. </summary>
+            void clearSoundData() override final;
+
             #pragma endregion
 
 
             #pragma region Playback
-
-            /// <summary> Updates the audio system. </summary>
-            void update() override final;
 
             /// <summary> Plays the currently loaded music file. </summary>
             /// <param name="volume"> The core volume of the music track. </param>

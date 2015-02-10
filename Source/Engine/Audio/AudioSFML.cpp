@@ -89,7 +89,7 @@ namespace water
     #pragma endregion
 
 
-    #pragma region Initialisation
+    #pragma region System management
 
     void AudioSFML::initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer)
     {
@@ -111,18 +111,17 @@ namespace water
         adjustEffectsMixer (sfxMixer);
     }
 
-    
-    void AudioSFML::clearSoundData()
+
+    void AudioSFML::update()
     {
-        cleanUp();
-
-        // Reset to defaults.
-        m_impl->bgm.openFromFile ("");
-        adjustMusicProperties (1.f, 0.f, true);
-        m_impl->channels.resize (m_impl->soundLimit);
+        // TODO: Implement me bruv!
     }
-    
 
+    #pragma endregion
+
+
+    #pragma region Data management
+    
     bool AudioSFML::loadMusic (const std::string& fileLocation)
     {
         // Let SFML tell us whether the loading was successful or not.
@@ -153,16 +152,27 @@ namespace water
         return 0;
     }
 
+
+    void AudioSFML::removeSound (const SoundID sound)
+    {
+    
+    }
+
+    
+    void AudioSFML::clearSoundData()
+    {
+        cleanUp();
+
+        // Reset to defaults.
+        m_impl->bgm.openFromFile ("");
+        adjustMusicProperties (1.f, 0.f, true);
+        m_impl->channels.resize (m_impl->soundLimit);
+    }
+
     #pragma endregion
 
 
     #pragma region Playback
-
-    void AudioSFML::update()
-    {
-        // TODO: Implement me bruv!
-    }
-
 
     void AudioSFML::playMusic (const float volume, const float offset, const bool loop)
     {

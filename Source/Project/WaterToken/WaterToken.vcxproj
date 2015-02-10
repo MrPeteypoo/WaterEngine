@@ -33,6 +33,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.h" />
+    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.h" />
     <ClInclude Include="..\..\Engine\Audio\SFMLSound.h" />
     <ClInclude Include="..\..\Engine\ILogger.h" />
     <ClInclude Include="..\..\Engine\Logger\LoggerHAPI.h" />
@@ -49,6 +50,7 @@
     <ClInclude Include="..\..\Engine\ITime.h" />
     <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h" />
     <ClInclude Include="..\..\Engine\Rendering\HAPITexture.h" />
+    <ClInclude Include="..\..\Engine\Time\ITimeEngine.h" />
     <ClInclude Include="..\..\Engine\Utility\Maths.h" />
     <ClInclude Include="..\..\Engine\Utility\RNG.h" />
     <ClInclude Include="..\..\Engine\Utility\Time.h" />

@@ -124,5 +124,11 @@
     <ClInclude Include="..\..\Engine\Logger\LoggerSTL.h">
       <Filter>Engine\Logger</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.h">
+      <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Time\ITimeEngine.h">
+      <Filter>Engine\Time</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

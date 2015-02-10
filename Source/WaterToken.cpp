@@ -50,8 +50,8 @@ namespace wt
             HAPI->Initialise(&m_width, &m_height);
         
         
-            water::Systems::audio().initialise (2, 1, 1);
-            water::Systems::renderer().initialise (0, m_height, { 64, 64 });
+            audio->initialise (2, 1, 1);
+            renderer->initialise (0, m_height, { 64, 64 });
 
             return true;
         }
