@@ -29,6 +29,11 @@ namespace water
 
         public:
 
+            // Forward declarations.
+            class StateManager;
+            
+            #pragma region Public access
+
             /// <summary> 
             /// Attempt to load the engine from a file. This should be a .xml file. This will configure all of the systems
             /// and prepare the engine for usage by the game. 
@@ -37,8 +42,18 @@ namespace water
             /// <returns> Whether the initialisation was successful or not. If false then the game should close. </returns>
             bool initialiseFromFile (const std::string& file);
 
+            /// <summary>
+            /// Run the engine, this will start the game loop and run the game.
+            /// </summary>
+            void run();
 
+            /// <summary> 
+            /// Obtains a reference to the state manager. This allows games to add states to the engine so the game can run.
+            /// </summary>
+            /// <returns> The state manager. </returns>
+            StateManager& getStateManager() const;
 
+            #pragma endregion
 
         private:
 
@@ -48,6 +63,7 @@ namespace water
             ILoggerEngine*      m_logger    { nullptr };    //!< The logging system used for logging messages throughout the engine and game.
             IRendererEngine*    m_renderer  { nullptr };    //!< The renderering system used for drawing onto the screen.
             ITimeEngine*        m_time      { nullptr };    //!< The time system used for maintaining the game loop and delta time.
+            StateManager*       m_states    { nullptr };    //!< A state manager to control the flow of the game.
 
             #pragma endregion
     };
