@@ -83,7 +83,7 @@ namespace wt
             #pragma region Member variables
 
             int                                     m_width         { 1024 };       //!< The width of the screen in pixels.
-            int                                     m_height        { 1024 };       //!< The height of the screen in pixels.
+            int                                     m_height        { 768 };       //!< The height of the screen in pixels.
 
             bool                                    m_controllerOn  { false };      //!< Indicates whether a controller is plugged in and turned on.
 

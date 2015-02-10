@@ -170,8 +170,8 @@ namespace water
         // Cache the implementation data.
         auto& impl = *m_impl;
 
-        // Decrement the physics delta.
-        if (impl.physicsDelta >= impl.maxDelta)
+        // Decrement the physics delta. 
+        if (impl.physicsDelta > impl.maxDelta)
         {
             impl.physicsDelta = 0;
         }
@@ -189,7 +189,10 @@ namespace water
 
         else if (impl.targetUpdate > 0)
         {
-            impl.updateDelta -= impl.targetUpdate;
+            if (impl.updateDelta > impl.targetUpdate)
+            {
+                impl.updateDelta -= impl.targetUpdate;
+            }
         }
 
         else

@@ -35,7 +35,7 @@ namespace wt
     bool Game::initialise()    
     {
         // Initialise the logger first.
-        m_logger = std::make_shared<water::LoggerHAPI>();
+        m_logger = std::make_shared<water::LoggerSTL>();
         
         if (m_logger->initialise ("log", true))
         {
@@ -54,7 +54,7 @@ namespace wt
         
                 m_audio->initialise (2, 1, 1);
                 m_renderer->initialise (m_width, m_height, { 64, 64 });
-                m_time->initialise (30, 60, 10);
+                m_time->initialise (60, 0, 10);
 
                 // Set the systems for global access.
                 water::Systems::setAudio (m_audio.get());
@@ -118,18 +118,25 @@ namespace wt
 
     void Game::physicsUpdate()
     {
-        static auto previous = std::chrono::high_resolution_clock::now();
+        /*static auto previous = std::chrono::high_resolution_clock::now();
         const auto now = std::chrono::high_resolution_clock::now();
 
         const auto time = std::chrono::duration<double> (now - previous).count();
         previous = now;
 
-        m_logger->log ("Physics: " + std::to_string (time));
+        m_logger->logWarning ("Physics: " + std::to_string (time) + ", delta: " + std::to_string (m_time->getDelta()));*/
     }
 
 
     void Game::update()
     {
+        /*static auto previous = std::chrono::high_resolution_clock::now();
+        const auto now = std::chrono::high_resolution_clock::now();
+
+        const auto time = std::chrono::duration<double> (now - previous).count();
+        previous = now;
+
+        m_logger->log ("Normal: " + std::to_string (time) + ", delta: " + std::to_string (m_time->getDelta()));*/
         /*// Update keyboard data.
         HAPI->GetKeyboardData (&m_keyboard);
     
