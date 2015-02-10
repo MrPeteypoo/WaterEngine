@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Engine\Audio\SFMLSound.cpp" />
-    <ClCompile Include="..\..\Engine\Logger\LoggerHAPI.cpp" />
-    <ClCompile Include="..\..\Engine\Logger\LoggerSTL.cpp" />
+    <ClCompile Include="..\..\Engine\Logging\LoggerHAPI.cpp" />
+    <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
@@ -36,11 +36,13 @@
     <ClInclude Include="..\..\Engine\Audio\IAudioEngine.h" />
     <ClInclude Include="..\..\Engine\Audio\SFMLSound.h" />
     <ClInclude Include="..\..\Engine\ILogger.h" />
-    <ClInclude Include="..\..\Engine\Logger\LoggerHAPI.h" />
-    <ClInclude Include="..\..\Engine\Logger\LoggerSTL.h" />
+    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.h" />
+    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.h" />
+    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.h" />
     <ClInclude Include="..\..\Engine\Misc\Rectangle.h" />
     <ClInclude Include="..\..\Engine\Misc\Vector2.h" />
     <ClInclude Include="..\..\Engine\Misc\Vector3.h" />
+    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.h" />
     <ClInclude Include="..\..\Engine\Systems.h" />
     <ClInclude Include="..\..\Engine\EngineForward.h" />
     <ClInclude Include="..\..\Engine\IAudio.h" />

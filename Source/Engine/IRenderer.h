@@ -16,8 +16,7 @@ namespace water
 {
     // Aliases.
     using TextureID = size_t;
-
-
+    
 
     /// <summary> 
     /// Represents how an image should be blended when blit using the ScreenManager. 
@@ -28,8 +27,7 @@ namespace water
         Transparent = 1     //!< Enables alpha blending when blitting, slower but allows for transparency.
     };
 
-
-
+    
     /// <summary> 
     /// An interface for 2D rendering systems, used for platform-independant drawing functionality. 
     /// </summary>
@@ -41,16 +39,11 @@ namespace water
             virtual ~IRenderer() {}
 
 
-            #pragma region Initialisation
-    
-            /// <summary> Initialise all data and prepare for rendering. </summary>
-            /// <param name="screenWidth"> The width of the screen resolution. </param>
-            /// <param name="screenHeight"> The height of the screen resolution. </param>
-            /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
-            virtual void initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale) = 0;
+            #pragma region Data management
 
-            /// <summary> Causes all loaded texture data to be deleted, invalidating all current keys. </summary>
-            virtual void clearTextureData() = 0;
+            /// <summary> Loads a texture from local storage, ready for rendering. </summary>
+            /// <returns> Returns the ID for the loaded texture. </returns>
+            virtual TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) = 0;
 
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
             /// <param name="textureDimensions"> The width and height of the blank texture. Can represent world units or pixels. </param>
@@ -59,15 +52,18 @@ namespace water
             /// <returns> The ID of the newly created texture. </returns>
             virtual TextureID createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) = 0;
 
-            /// <summary> Loads a texture from local storage, ready for rendering. </summary>
-            /// <returns> Returns the ID for the loaded texture. </returns>
-            virtual TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) = 0;
-
             /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
             /// <param name="target"> The texture to modify. </param>
             /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
             /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
             virtual void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) = 0;
+
+            /// <summary> Deletes a loaded texture from the system. </summary>
+            /// <param name="texture"> The ID of the texture to delete. </param>
+            virtual void removeTexture (const TextureID texture) = 0;
+
+            /// <summary> Causes all loaded texture data to be deleted, invalidating all current keys. </summary>
+            virtual void clearTextureData() = 0;
 
             #pragma endregion
 

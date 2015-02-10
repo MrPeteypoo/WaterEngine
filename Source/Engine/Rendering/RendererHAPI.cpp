@@ -90,7 +90,7 @@ namespace water
     #pragma endregion
 
 
-    #pragma region Initialisation
+    #pragma region System management
 
     void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale)
     {
@@ -121,11 +121,41 @@ namespace water
     }
 
 
-    void RendererHAPI::clearTextureData()
+    void RendererHAPI::update()
     {
-        m_impl->textures.clear();
+        // TODO: Implement me bruv!
     }
 
+    #pragma endregion
+
+
+    #pragma region Data management
+
+    TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
+    {
+        // Determine the texture ID.
+        const auto textureID = m_impl->hasher (fileLocation);
+
+        // Check if it already exists.
+        if (m_impl->textures.count (textureID) == 0)
+        {
+            // Attempt to load the texture.
+            Texture texture { };
+
+            if (texture.initialise (fileLocation, frameDimensions))
+            {
+                // Add it to the unordered map.
+                m_impl->textures.emplace (textureID, std::move (texture));
+            
+                return textureID;
+            }
+            
+            Systems::logger().logError ("RendererHAPI::loadTexture(), unable to initialise texture at \"" + fileLocation + "\".");
+        }
+
+        return (TextureID) 0;
+    }
+    
 
     TextureID RendererHAPI::createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
     {
@@ -158,32 +188,6 @@ namespace water
     }
 
 
-    TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
-    {
-        // Determine the texture ID.
-        const auto textureID = m_impl->hasher (fileLocation);
-
-        // Check if it already exists.
-        if (m_impl->textures.count (textureID) == 0)
-        {
-            // Attempt to load the texture.
-            Texture texture { };
-
-            if (texture.initialise (fileLocation, frameDimensions))
-            {
-                // Add it to the unordered map.
-                m_impl->textures.emplace (textureID, std::move (texture));
-            
-                return textureID;
-            }
-            
-            Systems::logger().logError ("RendererHAPI::loadTexture(), unable to initialise texture at \"" + fileLocation + "\".");
-        }
-
-        return (TextureID) 0;
-    }
-
-
     void RendererHAPI::scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits)
     {
         // Ensure the texture actually exists.
@@ -202,6 +206,18 @@ namespace water
                                                   std::to_string (size.x) + "x" + std::to_string (size.y) + ".");
             }
         }
+    }
+
+
+    void RendererHAPI::removeTexture (const TextureID texture)
+    {
+        // TODO: Implement me bruv.
+    }
+
+
+    void RendererHAPI::clearTextureData()
+    {
+        m_impl->textures.clear();
     }
 
 

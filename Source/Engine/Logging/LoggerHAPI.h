@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <ILogger.h>
+#include <Logging/ILoggerEngine.h>
 
 
 // Engine namespace.
@@ -13,7 +13,7 @@ namespace water
     /// A simple wrapper for the HAPI libraries logging features. Unfortunately the output location for logging
     /// can't be changed so that functionality is redundant. 
     /// </summary>
-    class LoggerHAPI final : public ILogger
+    class LoggerHAPI final : public ILoggerEngine
     {
         public:
 
@@ -29,14 +29,17 @@ namespace water
         
 
             #pragma endregion
+            
 
-
-            #pragma region Initialisation 
+            #pragma region System management
             
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>
             /// <returns> Whether the file and logger was successfully initialised. </returns>
             bool initialise (const std::string& file) override final { return true; }
+
+            /// <summary> Doesn't do anything. </summary>
+            void update() override final { }
 
             /// <summary> Changes the location the logger will write to. </summary>
             /// <param name="newFile"> The destination of the file to log messages to from now on. </param>

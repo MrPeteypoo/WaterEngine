@@ -65,7 +65,7 @@ namespace water
     #pragma endregion
 
             
-    #pragma region Initialisation 
+    #pragma region System management 
 
     bool LoggerSTL::initialise (const std::string& file)
     {

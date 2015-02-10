@@ -38,7 +38,7 @@ namespace water
             /// <param name="sfxMixer"> The mixer volume for sound effects, 0 to 1. </param>
             void initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer) override final;
 
-            /// <summary> Updates the audio system. </summary>
+            /// <summary> Doesn't actually do anything. </summary>
             void update() override final;
 
             #pragma endregion

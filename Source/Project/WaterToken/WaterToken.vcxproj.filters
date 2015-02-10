@@ -16,16 +16,16 @@
     <Filter Include="Engine\Time">
       <UniqueIdentifier>{9acabd5e-c6f8-4801-9224-0d86b85f6931}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Logger">
-      <UniqueIdentifier>{741bbe7c-51c1-4028-803e-503435706b56}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Misc">
       <UniqueIdentifier>{53c3a0f5-1735-4f53-9599-29286071725a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility">
       <UniqueIdentifier>{fd504d1a-6741-4ae3-8953-628b57da58d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Renderer">
+    <Filter Include="Engine\Logging">
+      <UniqueIdentifier>{741bbe7c-51c1-4028-803e-503435706b56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Rendering">
       <UniqueIdentifier>{2ed1322b-1b62-473a-b6d7-66fc3c49079d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -34,14 +34,14 @@
       <Filter>Engine\Audio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp">
-      <Filter>Engine\Renderer</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\WaterToken.cpp" />
     <ClCompile Include="..\..\Engine\Systems.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Engine\Rendering\HAPITexture.cpp">
-      <Filter>Engine\Renderer</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Engine\Audio\SFMLSound.cpp">
       <Filter>Engine\Audio</Filter>
@@ -55,11 +55,11 @@
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp">
       <Filter>Engine\Misc</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\Logger\LoggerHAPI.cpp">
-      <Filter>Engine\Logger</Filter>
+    <ClCompile Include="..\..\Engine\Logging\LoggerHAPI.cpp">
+      <Filter>Engine\Logging</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\Logger\LoggerSTL.cpp">
-      <Filter>Engine\Logger</Filter>
+    <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp">
+      <Filter>Engine\Logging</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +73,7 @@
       <Filter>Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.h">
-      <Filter>Engine\Renderer</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\WaterToken.h" />
     <ClInclude Include="..\..\Engine\EngineForward.h">
@@ -92,7 +92,7 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\Rendering\HAPITexture.h">
-      <Filter>Engine\Renderer</Filter>
+      <Filter>Engine\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\Audio\SFMLSound.h">
       <Filter>Engine\Audio</Filter>
@@ -118,17 +118,23 @@
     <ClInclude Include="..\..\Engine\Misc\Vector3.h">
       <Filter>Engine\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Logger\LoggerHAPI.h">
-      <Filter>Engine\Logger</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Logger\LoggerSTL.h">
-      <Filter>Engine\Logger</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\Audio\IAudioEngine.h">
       <Filter>Engine\Audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\Time\ITimeEngine.h">
       <Filter>Engine\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.h">
+      <Filter>Engine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.h">
+      <Filter>Engine\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.h">
+      <Filter>Engine\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.h">
+      <Filter>Engine\Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

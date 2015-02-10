@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Engine/IRenderer.h>
+#include <Rendering/IRendererEngine.h>
 
 
 // Engine namespace
@@ -12,7 +12,7 @@ namespace water
     /// <summary>
     /// A 2D rendering engine which uses the HAPI library for all drawing requirements.
     /// </summary>
-    class RendererHAPI final : public IRenderer
+    class RendererHAPI final : public IRendererEngine
     {
         public:
 
@@ -30,7 +30,7 @@ namespace water
             #pragma endregion
 
             
-            #pragma region Initialisation
+            #pragma region System management
     
             /// <summary> Initialise all data and prepare for rendering. </summary>
             /// <param name="screenWidth"> The width of the screen resolution. </param>
@@ -38,8 +38,17 @@ namespace water
             /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
             void initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale) override final;
 
-            /// <summary> Causes all loaded texture data to be wiped. </summary>
-            void clearTextureData() override final;
+            /// <summary> Doesn't do anything for this system. </summary>
+            void update() override final;
+
+            #pragma endregion
+
+
+            #pragma region Data management
+
+            /// <summary> Loads a texture from local storage, ready for rendering. </summary>
+            /// <returns> Returns the ID for the loaded texture. </returns>
+            TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) override final;
 
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
             /// <param name="textureDimensions"> The width and height of the blank texture. Can represent world units or pixels. </param>
@@ -48,15 +57,18 @@ namespace water
             /// <returns> The ID of the newly created texture. </returns>
             TextureID createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) override final;
 
-            /// <summary> Loads a texture from local storage, ready for rendering. </summary>
-            /// <returns> Returns the ID for the loaded texture. </returns>
-            TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) override final;
-
             /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
             /// <param name="target"> The texture to modify. </param>
             /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
             /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
             void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) override final;
+
+            /// <summary> Deletes a loaded texture from the system. </summary>
+            /// <param name="texture"> The ID of the texture to delete. </param>
+            void removeTexture (const TextureID texture) override final;
+
+            /// <summary> Causes all loaded texture data to be wiped. </summary>
+            void clearTextureData() override final;
         
             #pragma endregion
 

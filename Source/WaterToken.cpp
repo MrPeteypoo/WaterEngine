@@ -9,8 +9,8 @@
 #include <Rendering/RendererHAPI.h>
 #include <Audio/AudioSFML.h>
 #include <Engine/Systems.h>
-#include <Engine/Logger/LoggerHAPI.h>
-#include <Engine/Logger/LoggerSTL.h>
+#include <Engine/Logging/LoggerHAPI.h>
+#include <Engine/Logging/LoggerSTL.h>
 #include <Misc/Vector2.h>
 
 
@@ -33,8 +33,10 @@ namespace wt
     bool Game::initialise()    
     {
         auto logger = std::make_shared<water::LoggerSTL>();
+        auto loggerHAPI = std::make_shared<water::LoggerHAPI>();
+        logger->initialise ("log");
+        logger->initialise ("");
         water::Systems::setLogger (logger.get());
-        water::Systems::logger().initialise ("log");
 
 
         try
