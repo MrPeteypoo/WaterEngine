@@ -16,9 +16,9 @@ namespace water
 
     struct LoggerSTL::Impl final
     {
-        std::fstream    m_file      { };        //!< The file stream used for logging messages.
-        std::string     m_filename  { };        //!< The file name used for in the file stream.
-        bool            m_timestamp { false };  //!< Determines whether a timestamp should be displayed before each logged message.
+        std::fstream    file        { };        //!< The file stream used for logging messages.
+        std::string     filename    { };        //!< The file name used for in the file stream.
+        bool            timestamp   { false };  //!< Determines whether a timestamp should be displayed before each logged message.
     };
 
     #pragma endregion
@@ -75,13 +75,13 @@ namespace water
     bool LoggerSTL::initialise (const std::string& file, const bool timestamp)
     {
         // Enable the timestamp functionality.
-        m_impl->m_timestamp = timestamp;
+        m_impl->timestamp = timestamp;
 
         // Let the openNewStream function handle it.
         clearFile (file);
         if (outputToStream (file, getLogHeader()))
         {
-            m_impl->m_filename = file;
+            m_impl->filename = file;
             return true;
         }
 
@@ -103,7 +103,7 @@ namespace water
         clearFile (newFile);
         if (outputToStream (newFile, getLogHeader()))
         {
-            m_impl->m_filename = newFile;
+            m_impl->filename = newFile;
             return true;
         }
 
@@ -121,9 +121,9 @@ namespace water
         const auto& output = "<font color=\"#00ff00\">Info: " + message + "</font><br />";
 
         // Add the timestamp if necessary.
-        return m_impl->m_timestamp ? 
-                                    outputToStream (m_impl->m_filename, timestampMessage (output)) :
-                                    outputToStream (m_impl->m_filename, output);
+        return m_impl->timestamp ? 
+                                    outputToStream (m_impl->filename, timestampMessage (output)) :
+                                    outputToStream (m_impl->filename, output);
     }
 
 
@@ -133,9 +133,9 @@ namespace water
         const auto& output = "<font color=\"#ffbf00\">Warning: " + message + "</font><br />";
 
         // Add the timestamp if necessary.
-        return m_impl->m_timestamp ? 
-                                    outputToStream (m_impl->m_filename, timestampMessage (output)) :
-                                    outputToStream (m_impl->m_filename, output);
+        return m_impl->timestamp ? 
+                                    outputToStream (m_impl->filename, timestampMessage (output)) :
+                                    outputToStream (m_impl->filename, output);
     }
 
     
@@ -146,9 +146,9 @@ namespace water
         const auto& output = "<font color=\"#ff0000\">Error: " + message + "</font><br />";
 
         // Add the timestamp if necessary.
-        return m_impl->m_timestamp ? 
-                                    outputToStream (m_impl->m_filename, timestampMessage (output)) :
-                                    outputToStream (m_impl->m_filename, output);
+        return m_impl->timestamp ? 
+                                    outputToStream (m_impl->filename, timestampMessage (output)) :
+                                    outputToStream (m_impl->filename, output);
     }
 
     #pragma endregion
@@ -162,8 +162,8 @@ namespace water
         try
         {
             // Clear by using the truncate flag.
-            m_impl->m_file.open (name + ".html", std::ios::out | std::ios::trunc);
-            m_impl->m_file.close();
+            m_impl->file.open (name + ".html", std::ios::out | std::ios::trunc);
+            m_impl->file.close();
         }
 
         // Nothing to do.
@@ -178,13 +178,13 @@ namespace water
         try
         {
             // We need to test if the file is actually a valid filename.
-            m_impl->m_file.open (name + ".html", std::ios::out | std::ios::app);
+            m_impl->file.open (name + ".html", std::ios::out | std::ios::app);
         
-            if (m_impl->m_file.is_open())
+            if (m_impl->file.is_open())
             {
                 // Start by preparing the file.
-                m_impl->m_file << output << std::endl;
-                m_impl->m_file.close();
+                m_impl->file << output << std::endl;
+                m_impl->file.close();
 
                 return true;
             }
@@ -202,7 +202,7 @@ namespace water
     void LoggerSTL::closeCurrentStream()
     {
         // Inject the HTML footer into the current file.
-        outputToStream (m_impl->m_filename, getLogFooter());
+        outputToStream (m_impl->filename, getLogFooter());
     }
 
 
@@ -211,7 +211,7 @@ namespace water
         // We need to check if we need the timestamp.
         std::string finalMessage;
 
-        if (m_impl->m_timestamp)
+        if (m_impl->timestamp)
         {
             // Use YYYY/MM/DD HH:MM:SS format.
             const auto& format = "%Y/%m/%d %H:%M:%S. ";
