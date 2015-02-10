@@ -61,6 +61,12 @@
     <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp">
       <Filter>Engine\Logging</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\Time\TimeSTL.cpp">
+      <Filter>Engine\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Utility\Time.cpp">
+      <Filter>Engine\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp">
@@ -135,6 +141,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Audio\IAudioEngine.hpp">
       <Filter>Engine\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Time\TimeSTL.hpp">
+      <Filter>Engine\Time</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

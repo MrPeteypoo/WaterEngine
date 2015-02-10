@@ -23,10 +23,9 @@ namespace water
             LoggerHAPI (const LoggerHAPI& copy)             = default;
             LoggerHAPI& operator= (const LoggerHAPI& copy)  = default;
 
-            LoggerHAPI (LoggerHAPI&& move) { }
-            LoggerHAPI& operator= (LoggerHAPI&& move) { return *this;}
-            ~LoggerHAPI() override final { }
-        
+            LoggerHAPI (LoggerHAPI&& move);
+            LoggerHAPI& operator= (LoggerHAPI&& move);
+            ~LoggerHAPI() override final { }        
 
             #pragma endregion
             
@@ -35,11 +34,12 @@ namespace water
             
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>
+            /// <param name="timestamp"> Whether message output should show a timestamp or not. </param>
             /// <returns> Whether the file and logger was successfully initialised. </returns>
-            bool initialise (const std::string& file) override final { return true; }
+            bool initialise (const std::string& file, const bool timestamp) override final;
 
             /// <summary> Doesn't do anything. </summary>
-            void update() override final { }
+            void update() override final;
 
             /// <summary> Changes the location the logger will write to. </summary>
             /// <param name="newFile"> The destination of the file to log messages to from now on. </param>
@@ -74,6 +74,9 @@ namespace water
             /// <param name="message"> The message to log. </param>
             /// <returns> Whether the log was successful or not. </returns>
             bool logMessage (const std::string& message);
+
+
+            bool m_timestamp { false }; //!< Whether the logger should feature a timestamp next to logs.
     };
 }
 

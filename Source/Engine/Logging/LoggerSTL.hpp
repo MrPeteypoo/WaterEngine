@@ -35,11 +35,12 @@ namespace water
             
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>
+            /// <param name="timestamp"> Whether message output should show a timestamp or not. </param>
             /// <returns> Whether the file and logger was successfully initialised. </returns>
-            bool initialise (const std::string& file) override final;
+            bool initialise (const std::string& file, const bool timestamp) override final;
 
             /// <summary> Doesn't do anything. </summary>
-            void update() override final { }
+            void update() override final;
 
             /// <summary> Changes the location the logger will write to. </summary>
             /// <param name="newFile"> The destination of the file to log messages to from now on. </param>
@@ -70,11 +71,6 @@ namespace water
 
         private:
 
-            /// <summary> Performs the actual logging action with the given message. </summary>
-            /// <param name="message"> The message to log. </param>
-            /// <returns> Whether the log was successful or not. </returns>
-            bool logMessage (const std::string& message);
-
             #pragma region File handling
 
             /// <summary> Clears a file of its contents, fresh for modification. </summary>
@@ -85,6 +81,9 @@ namespace water
             
             /// <summary> Closes the current file stream by injecting the footer.
             void closeCurrentStream();
+
+            /// <summary> Returns a timestamped message, ready for outputting. </summary>
+            std::string timestampMessage (const std::string& message);
 
             /// <summary> Get the log header used for the HTML document. </summary>
             /// <returns> The header part of the HTML. </returns>

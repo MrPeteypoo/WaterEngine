@@ -34,8 +34,8 @@ namespace wt
     {
         auto logger = std::make_shared<water::LoggerSTL>();
         auto loggerHAPI = std::make_shared<water::LoggerHAPI>();
-        logger->initialise ("log");
-        logger->initialise ("");
+        logger->initialise ("log", true);
+        loggerHAPI->initialise ("", true);
         water::Systems::setLogger (logger.get());
 
 

@@ -5,6 +5,10 @@
 #include <fstream>
 
 
+// Engine headers.
+#include <Utility/Time.hpp>
+
+
 // Engine namespace.
 namespace water
 {
@@ -12,8 +16,9 @@ namespace water
 
     struct LoggerSTL::Impl final
     {
-        std::fstream    m_file      { };    //!< The file stream used for logging messages.
-        std::string     m_filename  { };    //!< The file name used for in the file stream.
+        std::fstream    m_file      { };        //!< The file stream used for logging messages.
+        std::string     m_filename  { };        //!< The file name used for in the file stream.
+        bool            m_timestamp { false };  //!< Determines whether a timestamp should be displayed before each logged message.
     };
 
     #pragma endregion
@@ -67,8 +72,11 @@ namespace water
             
     #pragma region System management 
 
-    bool LoggerSTL::initialise (const std::string& file)
+    bool LoggerSTL::initialise (const std::string& file, const bool timestamp)
     {
+        // Enable the timestamp functionality.
+        m_impl->m_timestamp = timestamp;
+
         // Let the openNewStream function handle it.
         clearFile (file);
         if (outputToStream (file, getLogHeader()))
@@ -78,6 +86,12 @@ namespace water
         }
 
         return false;
+    }
+
+
+    void LoggerSTL::update()
+    {
+        // TODO: Implement me bruv!
     }
 
 
@@ -106,7 +120,10 @@ namespace water
         // Make information logs green.
         const auto& output = "<font color=\"#00ff00\">Info: " + message + "</font><br />";
 
-        return outputToStream (m_impl->m_filename, output);
+        // Add the timestamp if necessary.
+        return m_impl->m_timestamp ? 
+                                    outputToStream (m_impl->m_filename, timestampMessage (output)) :
+                                    outputToStream (m_impl->m_filename, output);
     }
 
 
@@ -115,7 +132,10 @@ namespace water
         // Make warnings amber.
         const auto& output = "<font color=\"#ffbf00\">Warning: " + message + "</font><br />";
 
-        return outputToStream (m_impl->m_filename, output);
+        // Add the timestamp if necessary.
+        return m_impl->m_timestamp ? 
+                                    outputToStream (m_impl->m_filename, timestampMessage (output)) :
+                                    outputToStream (m_impl->m_filename, output);
     }
 
     
@@ -125,13 +145,10 @@ namespace water
         // Make errors red.
         const auto& output = "<font color=\"#ff0000\">Error: " + message + "</font><br />";
 
-        return outputToStream (m_impl->m_filename, output);
-    }
-
-
-    bool LoggerSTL::logMessage (const std::string& message)
-    {
-        return false;
+        // Add the timestamp if necessary.
+        return m_impl->m_timestamp ? 
+                                    outputToStream (m_impl->m_filename, timestampMessage (output)) :
+                                    outputToStream (m_impl->m_filename, output);
     }
 
     #pragma endregion
@@ -186,6 +203,22 @@ namespace water
     {
         // Inject the HTML footer into the current file.
         outputToStream (m_impl->m_filename, getLogFooter());
+    }
+
+
+    std::string LoggerSTL::timestampMessage (const std::string& message)
+    {
+        // We need to check if we need the timestamp.
+        std::string finalMessage;
+
+        if (m_impl->m_timestamp)
+        {
+            // Use YYYY/MM/DD HH:MM:SS format.
+            const auto& format = "%Y/%m/%d %H:%M:%S. ";
+            finalMessage += util::getCurrentTimeAsString (format);
+        }
+
+        return finalMessage + message;
     }
 
 

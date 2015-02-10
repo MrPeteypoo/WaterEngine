@@ -29,6 +29,8 @@
     <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp" />
     <ClCompile Include="..\..\Engine\Rendering\HAPITexture.cpp" />
     <ClCompile Include="..\..\Engine\Systems.cpp" />
+    <ClCompile Include="..\..\Engine\Time\TimeSTL.cpp" />
+    <ClCompile Include="..\..\Engine\Utility\Time.cpp" />
     <ClCompile Include="..\..\WaterToken.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +55,7 @@
     <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.hpp" />
     <ClInclude Include="..\..\Engine\Rendering\HAPITexture.hpp" />
     <ClInclude Include="..\..\Engine\Time\ITimeEngine.hpp" />
+    <ClInclude Include="..\..\Engine\Time\TimeSTL.hpp" />
     <ClInclude Include="..\..\Engine\Utility\Maths.hpp" />
     <ClInclude Include="..\..\Engine\Utility\RNG.hpp" />
     <ClInclude Include="..\..\Engine\Utility\Time.hpp" />

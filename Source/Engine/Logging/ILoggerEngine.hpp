@@ -24,8 +24,9 @@ namespace water
             
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>
+            /// <param name="timestamp"> Whether message output should show a timestamp or not. </param>
             /// <returns> Whether the file and logger was successfully initialised. </returns>
-            virtual bool initialise (const std::string& file) = 0;
+            virtual bool initialise (const std::string& file, const bool timestamp) = 0;
 
             /// <summary> Updates the logger system. </summary>
             virtual void update() = 0;
