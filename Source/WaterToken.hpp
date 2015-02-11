@@ -7,28 +7,11 @@
 
 
 // Engine headers.
-#include <WaterEngineForward.hpp>
-#include <Audio/IAudioEngine.hpp>
-#include <Logging/ILoggerEngine.hpp>
-#include <Rendering/IRendererEngine.hpp>
-#include <Time/ITimeEngine.hpp>
+#include <Engine/WaterEngineForward.hpp>
 
 
 // Third party headers.
 #include <HAPI/HAPI_lib.h>
-
-
-// Forward declarations.
-class IEntity;
-namespace water 
-{ 
-    class IAudio;
-    class IRenderer;
-    using SoundID = size_t;
-}
-
-using Controller    = HAPI_TControllerData;
-using Keyboard      = HAPI_TKeyboardData;
 
 
 // Game namespace.
@@ -62,39 +45,9 @@ namespace wt
 
         private:
 
-            #pragma region Engine functionality
-
-            /// <summary> Sets up HAPI and the various different systems, ready for use. </summary>
-            /// <returns> Whether the initialisation was successful or not. </returns>
-            bool initialise();
-
-            /// <summary> The update function which handles all systems limited to 60FPS. </summary>
-            void physicsUpdate();
-
-            /// <summary> The main update function which gets called each frame. </summary>
-            void update();
-
-            /// <summary> Renders each object to the screen. </summary>
-            void render();
-
-            #pragma endregion
-
-
             #pragma region Member variables
 
-            int                                     m_width         { 1024 };       //!< The width of the screen in pixels.
-            int                                     m_height        { 768 };       //!< The height of the screen in pixels.
-
-            bool                                    m_controllerOn  { false };      //!< Indicates whether a controller is plugged in and turned on.
-
-            Controller                              m_controller    {  };           //!< A cache of controller input, updated every 60 FPS.
-            Keyboard                                m_keyboard      {  };           //!< A cache of keyboard input, updated every 60 FPS.
-            
-            std::shared_ptr<water::IAudioEngine>    m_audio         { nullptr };
-            std::shared_ptr<water::ILoggerEngine>   m_logger        { nullptr };
-            std::shared_ptr<water::IRendererEngine> m_renderer      { nullptr };
-            std::shared_ptr<water::ITimeEngine>     m_time          { nullptr };
-
+            std::unique_ptr<water::Engine>  m_engine    { nullptr };    //!< The engine used in the game.
 
             #pragma endregion
 

@@ -34,7 +34,7 @@ namespace water
     {
         BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
         Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-        Vector2<float>                          unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
+        float                                   unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
         std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
         std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
     };
@@ -92,7 +92,7 @@ namespace water
 
     #pragma region System management
 
-    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale)
+    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const float unitToPixelScale)
     {
         // Pre-condition: Width and height are valid.
         if (screenWidth <= 0 || screenHeight <= 0)
@@ -102,15 +102,23 @@ namespace water
         }
 
         // Pre-condition: Pixel scale is valid.
-        if (unitToPixelScale.x <= 0 || unitToPixelScale.y <= 0)
+        if (unitToPixelScale <= 0)
         {
             throw std::invalid_argument ("RendererHAPI::initialise(): Invalid scale values given (" +
-                                          std::to_string (unitToPixelScale.x) + "x" + std::to_string (unitToPixelScale.y) + ").");
-       }
+                                          std::to_string (unitToPixelScale) + ").");
+        }
+
+
+        // Initialise HAPI.
+        int width = screenWidth, height = screenHeight;
+        if (!HAPI->Initialise (&width, &height))
+        {
+            throw std::runtime_error ("RendererHAPI::initialise(), unable to initialise HAPI.");
+        }
 
         // Initialise data.
         m_impl->screen = HAPI->GetScreenPointer();
-        m_impl->screenSpace = { 0, 0, screenWidth - 1, screenHeight - 1 };
+        m_impl->screenSpace = { 0, 0, width - 1, height - 1 };
         m_impl->unitToPixel = unitToPixelScale;
 
         // Ensure the screen pointer is valid.
@@ -121,9 +129,9 @@ namespace water
     }
 
 
-    void RendererHAPI::update()
+    bool RendererHAPI::update()
     {
-        // TODO: Implement me bruv!
+        return HAPI->Update();
     }
 
     #pragma endregion

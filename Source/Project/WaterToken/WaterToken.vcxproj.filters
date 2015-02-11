@@ -28,6 +28,9 @@
     <Filter Include="Engine\Rendering">
       <UniqueIdentifier>{2ed1322b-1b62-473a-b6d7-66fc3c49079d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Construction">
+      <UniqueIdentifier>{f77f388a-eee8-4d40-8b82-bb86539009f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp">
@@ -69,6 +72,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Engine\Engine.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Construction\EngineBuilder.cpp">
+      <Filter>Engine\Construction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\WaterEngineForward.hpp">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Construction\EngineBuilder.hpp">
+      <Filter>Engine\Construction</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

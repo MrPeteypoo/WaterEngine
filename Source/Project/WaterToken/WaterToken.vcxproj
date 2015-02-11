@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Engine\Audio\SFMLSound.cpp" />
+    <ClCompile Include="..\..\Engine\Construction\EngineBuilder.cpp" />
     <ClCompile Include="..\..\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Engine\Logging\LoggerHAPI.cpp" />
     <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp" />
     <ClInclude Include="..\..\Engine\Audio\IAudioEngine.hpp" />
     <ClInclude Include="..\..\Engine\Audio\SFMLSound.hpp" />
+    <ClInclude Include="..\..\Engine\Construction\EngineBuilder.hpp" />
     <ClInclude Include="..\..\Engine\ILogger.hpp" />
     <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.hpp" />
     <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.hpp" />

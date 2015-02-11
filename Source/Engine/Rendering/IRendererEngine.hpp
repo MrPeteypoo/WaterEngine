@@ -26,10 +26,11 @@ namespace water
             /// <param name="screenWidth"> The width of the screen resolution. </param>
             /// <param name="screenHeight"> The height of the screen resolution. </param>
             /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
-            virtual void initialise (const int screenWidth, const int screenHeight, const Vector2<float>& unitToPixelScale) = 0;
+            virtual void initialise (const int screenWidth, const int screenHeight, const float unitToPixelScale) = 0;
 
             /// <summary> Updates the IRenderer system. </summary>
-            virtual void update() = 0;
+            /// <returns> Whether the update was successful. </returns>
+            virtual bool update() = 0;
 
             #pragma endregion
     };   

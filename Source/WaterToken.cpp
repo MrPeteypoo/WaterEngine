@@ -1,38 +1,14 @@
 #include "WaterToken.hpp"
 
 
-// STL headers.
-#include <chrono>
-#include <memory>
-
-
 // Engine headers.
-#include <Rendering/RendererHAPI.hpp>
-#include <Audio/AudioSFML.hpp>
-#include <Engine/Systems.hpp>
-#include <Engine/Logging/LoggerHAPI.hpp>
-#include <Engine/Logging/LoggerSTL.hpp>
-#include <Engine/Time/TimeSTL.hpp>
-#include <Misc/Vector2.hpp>
+#include <Engine/WaterEngine.hpp>
 
 
 // Game namespace.
 namespace wt
 {
-    // Milestone related constants.
-    const auto  backgroundLocation  = "../Images/background.tga", //!< The file location for the background image.
-                circleLocation      = "../Images/alphaThing.tga", //!< The file location for the circle image.
-                explosionLocation   = "../Images/explosion.png",  //!< The file location for the explosion spritesheet.
-                musicLocation       = "../Audio/music.flac",
-                soundLocation       = "../Audio/sound.ogg";
-
-    const auto  circleSpeed         = 3.f;              //!< The number of pixels a second the circle can travel.
-
-
-
-    #pragma region Engine functionality
-
-    bool Game::initialise()    
+    /*bool Game::initialise()    
     {
         // Initialise the logger first.
         m_logger = std::make_shared<water::LoggerSTL>();
@@ -71,53 +47,21 @@ namespace wt
         }
 
         return false;
-    }
+    }*/
 
 
     void Game::run()
     {
-        if (initialise())
+        m_engine = std::make_unique<water::Engine>();
+
+        if (m_engine->initialiseFromFile ("engine.xml"))
         {
-            try
-            {
-                // Show the FPS on screen and reset the time class.
-                HAPI->SetShowFPS (true);
-
-                m_time->resetTime();
-
-                while (HAPI->Update())
-                {
-                    // 
-
-                    // Only perform a physics update if the time specifies so.
-                    if (m_time->physicsUpdate())
-                    {
-                        physicsUpdate();
-                    }
-
-                    // Only perform an update if the time specifies so.
-                    if (m_time->update())
-                    {
-                        update();
-                    }
-
-                    // Render the beautiful imagery all over the screen!
-                    render();
-
-                    // Ensure the time values are accurate for the next frame.
-                    m_time->endFrame();
-                }
-            }
-
-            catch (const std::exception& error)
-            {
-                m_logger->logError (error.what() + std::string ("Application will now close."));
-            }
+            m_engine->run();
         }
     }
 
 
-    void Game::physicsUpdate()
+    /*void Game::physicsUpdate()
     {
         static auto previous = std::chrono::high_resolution_clock::now();
         const auto now = std::chrono::high_resolution_clock::now();
@@ -138,7 +82,7 @@ namespace wt
         previous = now;
 
         m_logger->log ("Normal: " + std::to_string (time) + ", delta: " + std::to_string (m_time->getDelta()));
-        /*// Update keyboard data.
+        // Update keyboard data.
         HAPI->GetKeyboardData (&m_keyboard);
     
         // Update controller data.
@@ -181,11 +125,11 @@ namespace wt
                     m_audio->stopSound (0);
                 }
             }
-        }*/
+        }
     }
 
 
-    /*void Game::updateMain()
+    void Game::updateMain()
     {
         auto& circlePosition = m_entities[1]->getPosition();
 
@@ -221,12 +165,12 @@ namespace wt
                 entity->update (m_deltaTime);
             }
         }
-    }*/
+    }
 
 
     void Game::render()
     {    
-        /*// Render images.
+        // Render images.
         m_renderer->clearToBlack();
 
         for (auto& entity : m_entities)
@@ -235,8 +179,6 @@ namespace wt
             {
                 entity->render (m_renderer);
             }
-        }*/
-    }
-
-    #pragma endregion Engine functionality
+        }
+    }*/
 }
