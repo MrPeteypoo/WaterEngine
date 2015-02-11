@@ -26,7 +26,7 @@ namespace water
             /// <param name="soundLimit"> The total number of sounds available at one time. </param>
             /// <param name="bgmMixer"> The mixer volume for background music, 0 to 1. </param>
             /// <param name="sfxMixer"> The mixer volume for sound effects, 0 to 1. </param>
-            virtual void initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer) = 0;
+            virtual void initialise (const unsigned int soundLimit, const float bgmMixer, const float sfxMixer) = 0;
 
             /// <summary> Updates the audio system. </summary>
             virtual void update() = 0;

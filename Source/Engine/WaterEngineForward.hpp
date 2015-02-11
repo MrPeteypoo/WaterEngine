@@ -5,14 +5,15 @@
 // Engine namespace.
 namespace water
 {
+    class Engine;
+    struct Configuration;
+
+    class Systems;
     class IAudio;
     class IInput;
     class ILogger;
     class IRenderer;
     class ITime;
-
-    class Engine;
-    class Systems;
 }
 
 #endif

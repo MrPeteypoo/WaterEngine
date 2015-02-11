@@ -3,17 +3,19 @@
 
 // STL headers.
 #include <exception>
+#include <iostream>
 
 
 // Engine headers.
 #include <Systems.hpp>
 
-#include <Audio/IAudioEngine.hpp>
-#include <Logging/ILoggerEngine.hpp>
-#include <Rendering/IRendererEngine.hpp>
-#include <Time/ITimeEngine.hpp>
+#include <Audio/AudioSFML.hpp>
+#include <Logging/LoggerHAPI.hpp>
+#include <Logging/LoggerSTL.hpp>
+#include <Rendering/RendererHAPI.hpp>
+#include <Time/TimeSTL.hpp>
 
-#include <Construction/EngineBuilder.hpp>
+#include <Configuration.hpp>
 
 
 namespace water
@@ -75,12 +77,63 @@ namespace water
 
     #pragma region Engine management
 
-    bool Engine::initialiseFromFile (const std::string& file)
+    bool Engine::initialise()
     {
-        // Request the EngineBuilder initialise the engine from the given configuration file.
-        EngineBuilder::build (*this, file);
+        // Just create a default Configuration object.
+        return initialise (Configuration());
+    }
 
-        return m_ready;
+
+    bool Engine::initialise (const std::string& file)
+    {
+        // Obtain a configuration from the Configuration class and pass it to the standard initialsation process.
+        return initialise (Configuration::fromXML (file));
+    }
+
+
+    bool Engine::initialise (const Configuration& config)
+    {
+        // Start by attempting to create each system.
+        if (createSystems (config) && initialiseLogger (config))
+        {
+            // We have the guarantee that we are using the specified systems and we have a working logger. Now it's time to 
+            // initialise the rest of the engine. Be careful of systems throwing exceptions during initialsation.
+            try
+            {
+                initialiseSystems (config);
+                setSystems();
+
+                // Set the system as ready!
+                return m_ready = true;
+            }
+
+            catch (const std::exception& error)
+            {
+                m_logger->logError ("Unable to load engine. " + std::string (error.what()));
+            }
+
+            catch (...)
+            {
+                m_logger->logError ("Unknown error occurred whilst initialising the engine. The computer may explode.");
+            }
+        }
+
+        else
+        {
+            // We may have a working logger so we can output error messages.
+            if (initialiseLogger (config))
+            {
+                m_logger->logError ("Engine::initialise(), system configuration is invalid. Ensure valid values are present.");
+            }
+
+            // Fall back to std::cerr in hopes that it will reach the user.
+            else
+            {
+                std::cerr << "Error: Engine::initialise(), system configuration is invalid. Ensure valid values are present." << std::endl;
+            }
+        }
+
+        return false;
     }
 
 
@@ -144,6 +197,71 @@ namespace water
         if (m_renderer) { delete m_renderer; }
         if (m_time)     { delete m_time; }
         if (m_states)   { delete m_states; }
+    }
+
+
+    bool Engine::createSystems (const Configuration& config)
+    {
+        // This WILL be messy, we need to check the string value and load the correct system. Start with the logger first.
+        if (config.systems.logger == "stl" || config.systems.logger == "")
+        {
+            m_logger = new LoggerSTL();
+        }
+
+        else if (config.systems.logger == "hapi")
+        {
+            m_logger = new LoggerHAPI();
+        }
+
+        else { return false; }
+
+        // Audio!
+        if (config.systems.audio == "sfml" || config.systems.audio == "")
+        {
+            m_audio = new AudioSFML();
+        }
+
+        else { return false; }
+
+        // Graphics!
+        if (config.systems.renderer == "hapi" || config.systems.renderer == "")
+        {
+            m_renderer = new RendererHAPI();
+        }
+
+        else { return false; }
+
+        // Time!
+        if (config.systems.time == "stl" || config.systems.time == "")
+        {
+            m_time = new TimeSTL();
+        }
+
+        else { return false; }
+
+        // We made it!
+        return true;
+    }
+
+
+    bool Engine::initialiseLogger (const Configuration& config)
+    {
+        // Ensure we have a valid pointer.
+        if (m_logger)
+        {
+            return m_logger->initialise (config.logging.file, config.logging.timestamp);
+        }
+
+        return false;
+    }
+
+
+    void Engine::initialiseSystems (const Configuration& config)
+    {
+        // We can assume all pointers from here on are valid.
+        m_audio->initialise (config.audio.soundLimit, config.audio.bgmMixer, config.audio.sfxMixer);
+        m_renderer->initialise (config.rendering.screenWidth, config.rendering.screenHeight, config.rendering.unitToPixel);
+        m_time->initialise (config.time.physicsFPS, config.time.updateFPS, config.time.minFPS);
     }
 
 

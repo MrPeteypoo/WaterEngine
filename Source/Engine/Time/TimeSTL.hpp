@@ -37,7 +37,7 @@ namespace water
             /// <param name="updateFPS"> The FPS other systems should update at. 0 means unlimited. </param>
             /// <param name="minFPS"> The minimum FPS before slowdown occurs. This effectively caps the max tick rate of the engine. </param>
             /// <returns> Whether the initialisation was successful. </returns>
-            void initialise (const int physicsFPS, const int updateFPS, const int minFPS) override final;
+            void initialise (const unsigned int physicsFPS, const unsigned int updateFPS, const unsigned int minFPS) override final;
 
             /// <summary> Causes physics update to become the active context and updates the physics delta time. </summary>
             bool physicsUpdate() override final;

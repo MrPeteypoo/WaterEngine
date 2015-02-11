@@ -92,10 +92,10 @@ namespace water
 
     #pragma region System management
 
-    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const float unitToPixelScale)
+    void RendererHAPI::initialise (const unsigned int screenWidth, const unsigned int screenHeight, const float unitToPixelScale)
     {
         // Pre-condition: Width and height are valid.
-        if (screenWidth <= 0 || screenHeight <= 0)
+        if (screenWidth == 0 || screenHeight == 0)
         {
             throw std::invalid_argument ("RendererHAPI::initialise(): Invalid screen resolution given (" + 
                                           std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
@@ -110,7 +110,8 @@ namespace water
 
 
         // Initialise HAPI.
-        int width = screenWidth, height = screenHeight;
+        int width = (int) screenWidth, height = (int) screenHeight;
+
         if (!HAPI->Initialise (&width, &height))
         {
             throw std::runtime_error ("RendererHAPI::initialise(), unable to initialise HAPI.");

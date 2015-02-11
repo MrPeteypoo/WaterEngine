@@ -28,7 +28,7 @@ namespace water
     /// <summary> Contains the implementation data for the AudioSystemSFML class. </summary>
     struct AudioSFML::Impl final
     {
-        size_t                                          soundLimit      { 31 };     //!< The number of sound effect channels available concurrently.
+        unsigned int                                    soundLimit      { 31 };     //!< The number of sound effect channels available concurrently.
         float                                           bgmMixer        { 1.f };    //!< The background music mixer, this is how loud the music is.
         float                                           sfxMixer        { 1.f };    //!< The effects mixer, this is the volume applied to every sound effect.
 
@@ -91,7 +91,7 @@ namespace water
 
     #pragma region System management
 
-    void AudioSFML::initialise (const size_t soundLimit, const float bgmMixer, const float sfxMixer)
+    void AudioSFML::initialise (const unsigned int soundLimit, const float bgmMixer, const float sfxMixer)
     {
         // Pre-condition: We have a valid limit.
         if (soundLimit <= 1)

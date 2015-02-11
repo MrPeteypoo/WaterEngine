@@ -13,6 +13,7 @@
 namespace water
 {
     // Forward declarations.
+    struct Configuration;
     class IAudioEngine;
     class ILoggerEngine;
     class IRendererEngine;
@@ -57,13 +58,27 @@ namespace water
             
             #pragma region Engine management
 
-            /// <summary> 
-            /// Attempt to load the engine from a file. This should be a .xml file. This will configure all of the systems
-            /// and prepare the engine for usage by the game. 
+            /// <summary>
+            /// Attempt to load the engine from the default configuration. This may not provide suitable results but it is great for getting
+            /// to grips with the engine.
             /// </summary>
-            /// <param name="file"> The XML file to load from. </param>
             /// <returns> Whether the initialisation was successful or not. If false then the game should close. </returns>
-            bool initialiseFromFile (const std::string& file);
+            bool initialise();
+
+            /// <summary>
+            /// Attempt to load the engine from a XML file. If this is unsuccesful then the engine will load from a default configuration.
+            /// </summary>
+            /// <param name="file"> The location of the .xml file to load from. </param>
+            /// <returns> Whether the initialisation was successful or not. If false then the game should close. </returns>
+            bool initialise (const std::string& file);
+
+            /// <summary> 
+            /// Attempt to load the engine from a given configuration. This will configure all of the systems and prepare the 
+            /// engine for usage by the game. 
+            /// </summary>
+            /// <param name="config"> The configuration to load. </param>
+            /// <returns> Whether the initialisation was successful or not. If false then the game should close. </returns>
+            bool initialise (const Configuration& config);
 
             /// <summary>
             /// Run the engine, this will start the game loop and run the game.
@@ -84,6 +99,20 @@ namespace water
             /// <summary> Stops and deletes all systems. </summary>
             void clean();
 
+            /// <summary> Checks the validity of the systems data in the given config file and attempts to load the specified systems. </summary>
+            /// <param name="config"> The configuration data to create the systems with. </param>
+            /// <returns> Whether the systems could be determined and created. </returns>
+            bool createSystems (const Configuration& config);
+
+            /// <summary> Attempts to initialise the logger so that we can log any errors that occur during the initialisation of other systems. </summary>
+            /// <param name="config"> The configuration containing initialisation data for the logger. </param>
+            /// <returns> Whether the initialisation was successful or not.
+            bool initialiseLogger (const Configuration& config);
+
+            /// <summary> This will initialise every system in the engine excluding the logger. That should be initialised separately. </summary>
+            /// <param name="config"> The configuration containing initialisation data for every system. </param>
+            void initialiseSystems (const Configuration& config);
+
             /// <summary> Sets each system in the Systems service locator. </summary>
             void setSystems();
 
@@ -91,9 +120,6 @@ namespace water
 
 
             #pragma region Implementation data
-
-            // Allow the EngineBuilder to be a friend for easy modification of the engine.
-            friend class EngineBuilder;
 
             IAudioEngine*       m_audio     { nullptr };    //!< The audio system used for playing audio.
             ILoggerEngine*      m_logger    { nullptr };    //!< The logging system used for logging messages throughout the engine and game.

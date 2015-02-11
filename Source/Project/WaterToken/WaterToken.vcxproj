@@ -21,8 +21,8 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Engine\Audio\SFMLSound.cpp" />
-    <ClCompile Include="..\..\Engine\Construction\EngineBuilder.cpp" />
     <ClCompile Include="..\..\Engine\Engine.cpp" />
+    <ClCompile Include="..\..\Engine\Configuration.cpp" />
     <ClCompile Include="..\..\Engine\Logging\LoggerHAPI.cpp" />
     <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
@@ -31,7 +31,9 @@
     <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp" />
     <ClCompile Include="..\..\Engine\Rendering\HAPITexture.cpp" />
     <ClCompile Include="..\..\Engine\Systems.cpp" />
+    <ClCompile Include="..\..\Engine\ThirdParty\pugixml.cpp" />
     <ClCompile Include="..\..\Engine\Time\TimeSTL.cpp" />
+    <ClCompile Include="..\..\Engine\Utility\String.cpp" />
     <ClCompile Include="..\..\Engine\Utility\Time.cpp" />
     <ClCompile Include="..\..\WaterToken.cpp" />
   </ItemGroup>
@@ -39,7 +41,7 @@
     <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp" />
     <ClInclude Include="..\..\Engine\Audio\IAudioEngine.hpp" />
     <ClInclude Include="..\..\Engine\Audio\SFMLSound.hpp" />
-    <ClInclude Include="..\..\Engine\Construction\EngineBuilder.hpp" />
+    <ClInclude Include="..\..\Engine\Configuration.hpp" />
     <ClInclude Include="..\..\Engine\ILogger.hpp" />
     <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.hpp" />
     <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.hpp" />
@@ -49,6 +51,9 @@
     <ClInclude Include="..\..\Engine\Misc\Vector3.hpp" />
     <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.hpp" />
     <ClInclude Include="..\..\Engine\Systems.hpp" />
+    <ClInclude Include="..\..\Engine\ThirdParty\pugiconfig.hpp" />
+    <ClInclude Include="..\..\Engine\ThirdParty\pugixml.hpp" />
+    <ClInclude Include="..\..\Engine\Utility\String.hpp" />
     <ClInclude Include="..\..\Engine\WaterEngineForward.hpp" />
     <ClInclude Include="..\..\Engine\IAudio.hpp" />
     <ClInclude Include="..\..\Engine\IGameObject.hpp" />

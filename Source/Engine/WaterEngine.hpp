@@ -4,6 +4,8 @@
 
 // Include the engine headers captain!
 #include <Engine.hpp>
+#include <Configuration.hpp>
+
 #include <Systems.hpp>
 #include <IAudio.hpp>
 #include <ILogger.hpp>

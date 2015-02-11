@@ -36,7 +36,7 @@ namespace water
             /// <param name="screenWidth"> The width of the screen resolution. </param>
             /// <param name="screenHeight"> The height of the screen resolution. </param>
             /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
-            void initialise (const int screenWidth, const int screenHeight, const float unitToPixelScale) override final;
+            void initialise (const unsigned int screenWidth, const unsigned int screenHeight, const float unitToPixelScale) override final;
 
             /// <summary> Updates HAPI and reports whether HAPI has requested to close. </summary>
             /// <returns> Whether HAPI is closing. </returns>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WaterEngine>
+    <!-- Systems can be left blank, the engine will use defaults. -->
+    <Systems>
+        <Audio>SFML</Audio>         <!-- SFML -->
+        <Logger>STL</Logger>        <!-- STL, HAPI -->
+        <Renderer>HAPI</Renderer>   <!-- HAPI -->
+        <Time>STL</Time>            <!-- STL -->
+    </Systems>
+    
+    <!-- Be warned that giving invalid data here may or may not stop the engine from loading. -->
+    <Settings>
+        <Audio SoundLimit="256" BGMVolume="1" SFXVolume="0.85" />
+        <Logger Output="WaterLog" Timestamp="true" />
+        <Renderer ScreenWidth="600" ScreenHeight="768" UnitToPixelScale="64" />
+        <Time PhysicsFPS="60" UpdateFPS="0" MinFPS="10" />
+    </Settings>
+</WaterEngine>

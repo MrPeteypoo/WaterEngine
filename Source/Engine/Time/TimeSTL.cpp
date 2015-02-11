@@ -84,18 +84,18 @@ namespace water
 
     #pragma region System management
 
-    void TimeSTL::initialise (const int physicsFPS, const int updateFPS, const int minFPS)
+    void TimeSTL::initialise (const unsigned int physicsFPS, const unsigned int updateFPS, const unsigned int minFPS)
     {
         // Pre-condition: Physics FPS is higher than 0.
-        if (physicsFPS <= 0)
+        if (physicsFPS == 0)
         {
-            throw std::invalid_argument ("TimeSTL::initialise(), invalid physics FPS value given, must be higher than zero. Physics-" + std::to_string (physicsFPS) + ".");
+            throw std::invalid_argument ("TimeSTL::initialise(), physics FPS value must be higher than zero.");
         }
 
         // Pre-condition: Min FPS is the lowest FPS value. Allowing updateFPS to be 0.
         if (minFPS == 0 || minFPS > physicsFPS || (updateFPS != 0 && minFPS > updateFPS))
         {
-            throw std::invalid_argument ("TimeSTL::initialise(), minFPS can not be zero and must be higher than physics or update (update can be zero).");
+            throw std::invalid_argument ("TimeSTL::initialise(), minFPS can not be zero and must be higher than physics and update (update can be zero).");
         }
 
         // Update the target values.
