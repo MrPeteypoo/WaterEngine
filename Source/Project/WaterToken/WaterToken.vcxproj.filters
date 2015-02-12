@@ -94,6 +94,12 @@
     <ClCompile Include="..\..\Engine\GameComponents\AGameState.cpp">
       <Filter>Engine\GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\GameComponents\AGameObject.cpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\GameComponents\APhysicsObject.cpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
@@ -196,13 +202,19 @@
     <ClInclude Include="..\..\Engine\Systems\GameWorld\GameWorld.hpp">
       <Filter>Engine\Systems\GameWorld</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\GameComponents\IGameObject.hpp">
-      <Filter>Engine\GameComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\GameComponents\IPhysicsObject.hpp">
-      <Filter>Engine\GameComponents</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\GameComponents\AGameState.hpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IGameObject.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IPhysicsObject.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\GameComponents\AGameObject.hpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\GameComponents\APhysicsObject.hpp">
       <Filter>Engine\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
