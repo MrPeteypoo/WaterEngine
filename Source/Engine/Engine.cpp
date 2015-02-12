@@ -166,22 +166,27 @@ namespace water
             // If the renderer fails we must close.
             while (!m_gameWorld->isStackEmpty() && m_renderer->update())
             {
+                // Update systems regardless of frame time.
+                m_audio->update();
+                m_renderer->update();
+
                 // Only perform a physics update if the time specifies so.
                 if (m_time->updatePhysics())
                 {
-                    // TODO: Implement me bruv!
+                    m_gameWorld->updatePhysics();
                 }
 
                 // Only perform an update if the time specifies so.
                 if (m_time->update())
                 {
-                   // TODO: Implement me bruv!
+                   m_gameWorld->update();
                 }
 
                 // Render the beautiful imagery all over the screen!
-                // TODO: Implement me bruv!
+                m_gameWorld->render();
 
-                // Ensure the time values are accurate for the next frame.
+                // End frame-sensitive systems.
+                m_gameWorld->endFrame();
                 m_time->endFrame();
             }
         }

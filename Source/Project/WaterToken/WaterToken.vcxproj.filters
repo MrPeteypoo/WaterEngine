@@ -19,9 +19,6 @@
     <Filter Include="Engine\Interfaces">
       <UniqueIdentifier>{dd1dffd5-4d82-45eb-8556-f178ad21d270}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\GameObjects">
-      <UniqueIdentifier>{cec6eefd-78ca-4d1e-a5cc-c08b58bd0da8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Systems">
       <UniqueIdentifier>{188c91ba-0f09-4591-bdb1-08b5a4ea68d7}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,9 @@
     </Filter>
     <Filter Include="Engine\Systems\GameWorld">
       <UniqueIdentifier>{acbf9491-53ae-4db8-86dd-4521a26547a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameComponents">
+      <UniqueIdentifier>{cec6eefd-78ca-4d1e-a5cc-c08b58bd0da8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,11 +88,11 @@
     <ClCompile Include="..\..\Engine\Systems\Rendering\RendererHAPI.cpp">
       <Filter>Engine\Systems\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\StateManager.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Engine\Systems\GameWorld\GameWorld.cpp">
       <Filter>Engine\Systems\GameWorld</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp">
+      <Filter>Engine\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,9 +151,6 @@
     <ClInclude Include="..\..\Engine\Interfaces\ITime.hpp">
       <Filter>Engine\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\Interfaces\IGameObject.hpp">
-      <Filter>Engine\GameObjects</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\Systems.hpp">
       <Filter>Engine</Filter>
     </ClInclude>
@@ -190,9 +187,6 @@
     <ClInclude Include="..\..\Engine\Systems\IEngineTime.hpp">
       <Filter>Engine\Systems</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\StateManager.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\Interfaces\IGameWorld.hpp">
       <Filter>Engine\Interfaces</Filter>
     </ClInclude>
@@ -201,6 +195,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Systems\GameWorld\GameWorld.hpp">
       <Filter>Engine\Systems\GameWorld</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\GameComponents\IGameObject.hpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\GameComponents\GameState.hpp">
+      <Filter>Engine\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

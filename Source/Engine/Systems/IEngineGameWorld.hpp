@@ -39,6 +39,9 @@ namespace water
             /// <summary> Render the active state. </summary>
             virtual void render() = 0;
 
+            /// <summary> Allow the game world to proceed with any queued tasks at the end of a frame. </summary>
+            virtual void endFrame() = 0;
+
             #pragma endregion
 
 
@@ -50,7 +53,7 @@ namespace water
 
             /// <summary> Obtain the collection of physics objects in the active state. </summary>
             /// <returns> The vector of objects. </returns>
-            virtual std::vector<PhysicsObject>& getPhysicsObjects() const = 0;
+            virtual const std::vector<PhysicsObject*>& getPhysicsObjects() const = 0;
 
             #pragma endregion
     };

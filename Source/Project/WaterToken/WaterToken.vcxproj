@@ -21,10 +21,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Engine\Configuration.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
-    <ClCompile Include="..\..\Engine\StateManager.cpp" />
     <ClCompile Include="..\..\Engine\Systems\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Engine\Systems\Audio\SFMLSound.cpp" />
     <ClCompile Include="..\..\Engine\Systems\GameWorld\GameWorld.cpp" />
@@ -40,8 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Configuration.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\GameState.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\IGameObject.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IAudio.hpp" />
-    <ClInclude Include="..\..\Engine\Interfaces\IGameObject.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IInput.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\ILogger.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IRenderer.hpp" />
@@ -50,7 +51,6 @@
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp" />
     <ClInclude Include="..\..\Engine\Misc\Vector2.hpp" />
     <ClInclude Include="..\..\Engine\Misc\Vector3.hpp" />
-    <ClInclude Include="..\..\Engine\StateManager.hpp" />
     <ClInclude Include="..\..\Engine\Systems.hpp" />
     <ClInclude Include="..\..\Engine\Systems\Audio\AudioSFML.hpp" />
     <ClInclude Include="..\..\Engine\Systems\Audio\SFMLSound.hpp" />
