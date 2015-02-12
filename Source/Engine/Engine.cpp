@@ -163,6 +163,9 @@ namespace water
             // Reset the time as we're ready to start the game loop.
             m_time->resetTime();
 
+            // Enable the requested GameWorld state.
+            m_gameWorld->processQueue();
+
             // If the renderer fails we must close.
             while (!m_gameWorld->isStackEmpty() && m_renderer->update())
             {
@@ -186,7 +189,7 @@ namespace water
                 m_gameWorld->render();
 
                 // End frame-sensitive systems.
-                m_gameWorld->endFrame();
+                m_gameWorld->processQueue();
                 m_time->endFrame();
             }
         }

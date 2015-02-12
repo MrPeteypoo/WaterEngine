@@ -40,7 +40,7 @@ namespace water
             virtual void render() = 0;
 
             /// <summary> Allow the game world to proceed with any queued tasks at the end of a frame. </summary>
-            virtual void endFrame() = 0;
+            virtual void processQueue() = 0;
 
             #pragma endregion
 

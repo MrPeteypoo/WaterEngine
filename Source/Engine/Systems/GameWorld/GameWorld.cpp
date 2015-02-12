@@ -22,7 +22,7 @@ namespace water
         if (this != &move)
         {
             // Ensure our states are cleaned before moving data.
-            clearWorld();
+            clear();
 
             // Obtain ownership.
             m_states = std::move (move.m_states);
@@ -36,7 +36,7 @@ namespace water
     GameWorld::~GameWorld()
     {
         // Ensure the stack and map are clean.
-        clearWorld();
+        clear();
     }
 
     #pragma endregion
@@ -71,12 +71,14 @@ namespace water
     }
 
 
-    void GameWorld::endFrame()
+    void GameWorld::processQueue()
     {
-        // Clean up after ourselves if we've been requested to exit.
-        if (m_exit)
+        // Iterate through the queue performing the specified task.
+        while (!m_tasks.empty())
         {
-            clearWorld();
+            // Each task is a function!
+            auto& function = m_tasks.front();
+            function();
         }
     }
 
@@ -153,22 +155,75 @@ namespace water
     }
 
 
-    bool GameWorld::push (const int id)
+    void GameWorld::requestPush (const int id)
     {
+        // Add to the task list!
+        const auto function = [=] () { push (id); };
+        m_tasks.push (function);
+    }
+
+
+    void GameWorld::requestPop()
+    {
+        // Add to the task list!
+        const auto function = [=] () { pop(); };
+        m_tasks.push (function);
+    }
+
+
+    void GameWorld::requestSwap (const int id)
+    {
+        // Add to the task list!
+        const auto function = [=] () { swap (id); };
+        m_tasks.push (function);
+    }
+
+
+    void GameWorld::requestExit()
+    {
+        // Add to the task list!
+        const auto function = [=] () { clear(); };
+        m_tasks.push (function);
+    }
+
+    #pragma endregion
+
+
+    #pragma region Internal workings
+
+    void GameWorld::push (const int id)
+    {        
         // Pre-condition: The ID is valid.
         auto& iterator = m_states.find (id);
 
         if (iterator == m_states.end())
         {
             Systems::logger().logError ("GameWorld::push(), attempt to push non-existent state " + std::to_string (id) + ".");
-            return false;
         }
 
-        // Push it to the top of the stack.
-        iterator->second->onEntry();
-        m_stack.push (iterator->second);
+        else 
+        {
+            // Inform the programmer if they're pushing a state on top of itself. This should be handled carefully as it may be intentional.
+            if (!m_stack.empty() && iterator->second == m_stack.top())
+            {
+                Systems::logger().logWarning ("GameWorld::push(), pushing state " + std::to_string (id) + " on top of itself.");
+            }
 
-        return true;
+            // Push it onto the stack.
+            iterator->second->onEntry();
+            m_stack.push (iterator->second);
+        }
+    }
+
+
+    void GameWorld::push (const std::shared_ptr<GameState>& state)
+    {
+        // Pre-condition: We have a valid pointer.
+        if (state)
+        {
+            state->onEntry();
+            m_stack.push (state);
+        }
     }
 
 
@@ -183,16 +238,13 @@ namespace water
                 requestExit();
             }
 
-            else
-            {
-                m_stack.top()->onExit();
-                m_stack.pop();
-            }
-        }
+            m_stack.top()->onExit();
+            m_stack.pop();
+        }    
     }
 
 
-    bool GameWorld::swap (const int id)
+    void GameWorld::swap (const int id)
     {
         // Pre-condition: The ID is valid.
         auto& iterator = m_states.find (id);
@@ -200,25 +252,20 @@ namespace water
         if (iterator == m_states.end())
         {
             Systems::logger().logError ("GameWorld::swap(), attempt to swap to non-existent state " + std::to_string (id) + ".");
-            return false;
         }
 
-        // Pop the stack!
-        pop();
+        else
+        {
+            // Pop the stack!
+            pop();
 
-        // Push to the stack!
-        iterator->second->onEntry();
-        m_stack.push (iterator->second);
-
-        return true;
+            // Push to the stack!
+            push (iterator->second);        
+        }        
     }
 
-    #pragma endregion
 
-
-    #pragma region Internal workings
-
-    void GameWorld::clearWorld()
+    void GameWorld::clear()
     {
         // Exit all states.
         while (!m_stack.empty())
