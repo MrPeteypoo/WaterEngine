@@ -10,6 +10,7 @@
 #include <Systems.hpp>
 
 #include <Systems/Audio/AudioSFML.hpp>
+#include <Systems/GameWorld/GameWorld.hpp>
 #include <Systems/Logging/LoggerHAPI.hpp>
 #include <Systems/Logging/LoggerSTL.hpp>
 #include <Systems/Rendering/RendererHAPI.hpp>
@@ -18,15 +19,17 @@
 #include <Configuration.hpp>
 
 
+// Engine namespace.
 namespace water
 {
     #pragma region Systems initial values
 
-    IAudio*     Systems::m_audio    = nullptr;
-    //IInput*     Systems::m_input    = nullptr;
-    ILogger*    Systems::m_logger   = nullptr;
-    IRenderer*  Systems::m_renderer = nullptr;
-    ITime*      Systems::m_time     = nullptr;
+    IAudio*     Systems::m_audio        = nullptr;
+    IGameWorld* Systems::m_gameWorld    = nullptr;
+    //IInput*     Systems::m_input        = nullptr;
+    ILogger*    Systems::m_logger       = nullptr;
+    IRenderer*  Systems::m_renderer     = nullptr;
+    ITime*      Systems::m_time         = nullptr;
 
     #pragma endregion
 
@@ -35,7 +38,7 @@ namespace water
 
     Engine::Engine()
     {
-        //m_states = new StateManager();
+        m_gameWorld = new GameWorld();
     }
 
 
@@ -53,22 +56,21 @@ namespace water
             clean();
 
             // Obtain ownership.
-            m_audio = move.m_audio;
-            m_logger = move.m_logger;
-            m_renderer = move.m_renderer;
-            m_time = move.m_time;
-            m_states = move.m_states;
-            m_ready = move.m_ready;
-            m_close = move.m_close;
+            m_audio             = move.m_audio;
+            m_gameWorld         = move.m_gameWorld;
+            m_input             = move.m_input;
+            m_renderer          = move.m_renderer;
+            m_time              = move.m_time;
+            m_ready             = move.m_ready;
 
             // Reset the dangling pointers.
-            move.m_audio = nullptr;
-            move.m_logger = nullptr;
-            move.m_renderer = nullptr;
-            move.m_time = nullptr;
-            move.m_states = nullptr;
-            move.m_ready = false;
-            move.m_close = false;
+            move.m_audio        = nullptr;
+            move.m_gameWorld    = nullptr;
+            move.m_input        = nullptr;
+            move.m_logger       = nullptr;
+            move.m_renderer     = nullptr;
+            move.m_time         = nullptr;
+            move.m_ready        = false;
 
             // Reset the systems.
             setSystems();
@@ -162,7 +164,7 @@ namespace water
             m_time->resetTime();
 
             // If the renderer fails we must close.
-            while (!m_close && m_renderer->update())
+            while (!m_gameWorld->isStackEmpty() && m_renderer->update())
             {
                 // Only perform a physics update if the time specifies so.
                 if (m_time->updatePhysics())
@@ -198,16 +200,27 @@ namespace water
     #pragma endregion
 
 
+    #pragma region Getters
+
+    IGameWorld& Engine::getGameWorld() const
+    {
+        return *m_gameWorld;
+    }
+
+    #pragma endregion
+
+
     #pragma region Internal workings
 
     void Engine::clean()
     {
         // We need to test each pointer because not all compilers will ignore the deletion of a nullptr.
-        if (m_audio)    { delete m_audio; }
-        if (m_logger)   { delete m_logger; }
-        if (m_renderer) { delete m_renderer; }
-        if (m_time)     { delete m_time; }
-        if (m_states)   { delete m_states; }
+        if (m_audio)        { delete m_audio; }
+        if (m_gameWorld)    { delete m_gameWorld; }
+        if (m_input)        { delete m_input; }
+        if (m_logger)       { delete m_logger; }
+        if (m_renderer)     { delete m_renderer; }
+        if (m_time)         { delete m_time; }
     }
 
 
@@ -280,6 +293,7 @@ namespace water
     {
         // Set each system in the Systems class so that every game object gains access.
         Systems::setAudio (m_audio);
+        Systems::setGameWorld (m_gameWorld);
         Systems::setLogger (m_logger);
         Systems::setRenderer (m_renderer);
         Systems::setTime (m_time);

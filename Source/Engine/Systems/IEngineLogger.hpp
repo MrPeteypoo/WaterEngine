@@ -12,12 +12,12 @@ namespace water
     /// <summary>
     /// An interface for the engine to perform system-critical functions to ILogger systems.
     /// </summary>
-    class ILoggerEngine : public ILogger
+    class IEngineLogger : public ILogger
     {
         public:
 
             // Ensure destructor is virtual since this is an interface.
-            virtual ~ILoggerEngine() {}
+            virtual ~IEngineLogger() {}
 
 
             #pragma region System management

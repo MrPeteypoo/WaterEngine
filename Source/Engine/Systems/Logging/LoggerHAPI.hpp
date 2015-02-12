@@ -13,7 +13,7 @@ namespace water
     /// A simple wrapper for the HAPI libraries logging features. Unfortunately the output location for logging
     /// can't be changed so that functionality is redundant. 
     /// </summary>
-    class LoggerHAPI final : public ILoggerEngine
+    class LoggerHAPI final : public IEngineLogger
     {
         public:
 

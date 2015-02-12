@@ -13,7 +13,7 @@ namespace water
     /// This logger uses STL implementation to provide logging functionality. This means it's cross-platform and
     /// doesn't rely on any external library.
     /// </summary>
-    class LoggerSTL final : public ILoggerEngine
+    class LoggerSTL final : public IEngineLogger
     {
         public:
 

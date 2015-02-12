@@ -12,7 +12,7 @@ namespace water
     /// <summary>
     /// A 2D rendering engine which uses the HAPI library for all drawing requirements.
     /// </summary>
-    class RendererHAPI final : public IRendererEngine
+    class RendererHAPI final : public IEngineRenderer
     {
         public:
 

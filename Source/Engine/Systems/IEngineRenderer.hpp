@@ -12,12 +12,12 @@ namespace water
     /// <summary>
     /// An interface for the engine to perform system-critical functions to IRenderer systems.
     /// </summary>
-    class IRendererEngine : public IRenderer
+    class IEngineRenderer : public IRenderer
     {
         public:
 
             // Ensure destructor is virtual since this is an interface.
-            virtual ~IRendererEngine() {}
+            virtual ~IEngineRenderer() {}
 
 
             #pragma region System management

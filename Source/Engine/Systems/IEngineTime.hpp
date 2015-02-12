@@ -14,12 +14,12 @@ namespace water
     /// will not throw exceptions on initialisation, instead they will use a boolean flag to inform the application
     /// that something has gone wrong, therefore, it should be closed.
     /// </summary>
-    class ITimeEngine : public ITime
+    class IEngineTime : public ITime
     {
         public:
 
             // Ensure destructor is virtual since this is an interface.
-            virtual ~ITimeEngine() {}
+            virtual ~IEngineTime() {}
 
 
             #pragma region System management

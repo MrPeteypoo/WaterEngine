@@ -12,7 +12,7 @@ namespace water
     /// <summary> 
     /// An audio engine which uses SFML to concurrently play multiple sounds.
     /// </summary>
-    class AudioSFML final : public IAudioEngine
+    class AudioSFML final : public IEngineAudio
     {
         public:
 

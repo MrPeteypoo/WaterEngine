@@ -12,12 +12,12 @@ namespace water
     /// <summary>
     /// An interface for the engine to perform system-critical functions to IAudio systems.
     /// </summary>
-    class IAudioEngine : public IAudio
+    class IEngineAudio : public IAudio
     {
         public:
 
             // Ensure destructor is virtual since this is an interface.
-            virtual ~IAudioEngine() {}
+            virtual ~IEngineAudio() {}
 
 
             #pragma region System management

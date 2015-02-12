@@ -12,7 +12,7 @@ namespace water
     /// <summary>
     /// A time keeping engine which uses the chrono library to track time.
     /// </summary>
-    class TimeSTL final : public ITimeEngine
+    class TimeSTL final : public IEngineTime
     {
         public:
 

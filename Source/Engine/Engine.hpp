@@ -14,10 +14,13 @@ namespace water
 {
     // Forward declarations.
     struct Configuration;
-    class IAudioEngine;
-    class ILoggerEngine;
-    class IRendererEngine;
-    class ITimeEngine;
+    class IEngineAudio;
+    class IEngineGameWorld;
+    class IEngineInput;
+    class IEngineLogger;
+    class IEngineRenderer;
+    class IEngineTime;
+    class IGameWorld;
 
 
     /// <summary>
@@ -29,9 +32,6 @@ namespace water
     {
         public:
 
-            // Forward declarations.
-            class StateManager;
-
             #pragma region Constructors and destructor
 
             Engine();            
@@ -41,17 +41,6 @@ namespace water
 
             Engine (const Engine& copy)             = delete;
             Engine& operator= (const Engine& copy)  = delete;
-
-            #pragma endregion
-
-            
-            #pragma region Getters and setters
-
-            /// <summary> 
-            /// Obtains a reference to the state manager. This allows games to add states to the engine so the game can run.
-            /// </summary>
-            /// <returns> The state manager. </returns>
-            StateManager& getStateManager() const   { return *m_states; }
 
             #pragma endregion
 
@@ -80,15 +69,19 @@ namespace water
             /// <returns> Whether the initialisation was successful or not. If false then the game should close. </returns>
             bool initialise (const Configuration& config);
 
-            /// <summary>
-            /// Run the engine, this will start the game loop and run the game.
+            /// <summary> 
+            /// Run the engine, this will start the game loop and run the game world.
             /// </summary>
             void run();
 
-            /// <summary>
-            /// Forcibly closes the engine which will close the active application.
-            /// </summary>
-            void close()    { m_close = true; }
+            #pragma endregion
+
+
+            #pragma region Getters
+
+            /// <summary> Obtains a reference to the game world so that the game may prepare before running the engine. </summary>
+            /// <returns> The game world. </returns>
+            IGameWorld& getGameWorld() const;
 
             #pragma endregion
 
@@ -121,14 +114,14 @@ namespace water
 
             #pragma region Implementation data
 
-            IAudioEngine*       m_audio     { nullptr };    //!< The audio system used for playing audio.
-            ILoggerEngine*      m_logger    { nullptr };    //!< The logging system used for logging messages throughout the engine and game.
-            IRendererEngine*    m_renderer  { nullptr };    //!< The renderering system used for drawing onto the screen.
-            ITimeEngine*        m_time      { nullptr };    //!< The time system used for maintaining the game loop and delta time.
-            StateManager*       m_states    { nullptr };    //!< A state manager to control the flow of the game.
+            IEngineAudio*       m_audio     { nullptr };    //!< The audio system used for playing audio.
+            IEngineGameWorld*   m_gameWorld { nullptr };    //!< A state manager used to control the flow of the game.
+            IEngineInput*       m_input     { nullptr };    //!< An input system, the main port of call for user interaction.
+            IEngineLogger*      m_logger    { nullptr };    //!< The logging system used for logging messages throughout the engine and game.
+            IEngineRenderer*    m_renderer  { nullptr };    //!< The renderering system used for drawing onto the screen.
+            IEngineTime*        m_time      { nullptr };    //!< The time system used for maintaining the game loop and delta time.
 
             bool                m_ready     { false };      //!< A flag to indicate whether the engine is ready to run or not.
-            bool                m_close     { false };      //!< Used to externally close the engine.
 
             #pragma endregion
     };

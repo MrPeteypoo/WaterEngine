@@ -37,6 +37,9 @@
     <Filter Include="Engine\Systems\Time">
       <UniqueIdentifier>{485d392d-7116-4a1e-85c7-6f90a2a2ea69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Systems\GameWorld">
+      <UniqueIdentifier>{acbf9491-53ae-4db8-86dd-4521a26547a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\WaterToken.cpp" />
@@ -84,6 +87,12 @@
     </ClCompile>
     <ClCompile Include="..\..\Engine\Systems\Rendering\RendererHAPI.cpp">
       <Filter>Engine\Systems\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\StateManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\GameWorld\GameWorld.cpp">
+      <Filter>Engine\Systems\GameWorld</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +189,18 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Systems\IEngineTime.hpp">
       <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\StateManager.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IGameWorld.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEngineGameWorld.hpp">
+      <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\GameWorld\GameWorld.hpp">
+      <Filter>Engine\Systems\GameWorld</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
