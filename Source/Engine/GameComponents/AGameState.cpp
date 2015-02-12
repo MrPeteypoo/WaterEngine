@@ -1,4 +1,4 @@
-#include "GameState.hpp"
+#include "AGameState.hpp"
 
 
 // STL headers.
@@ -14,7 +14,7 @@ namespace water
 {
     #pragma region Constructor
 
-    GameState::GameState (const unsigned int elementCount)
+    AGameState::AGameState (const unsigned int elementCount)
     {
         m_objects.reserve (elementCount);
     }
@@ -24,12 +24,12 @@ namespace water
 
     #pragma region Physics management
 
-    void GameState::addPhysicsObject (PhysicsObject* const object)
+    void AGameState::addPhysicsObject (IPhysicsObject* const object)
     {
         // Pre-condition: The object isn't a nullptr.
         if (!object)
         {
-            Systems::logger().logWarning ("GameState::addPhysicsObject(), attempt to add a nullptr.");
+            Systems::logger().logWarning ("AGameState::addPhysicsObject(), attempt to add a nullptr.");
         }
         
         else
@@ -39,12 +39,12 @@ namespace water
     }
 
 
-    void GameState::addUniquePhysicsObject (PhysicsObject* const object)
+    void AGameState::addUniquePhysicsObject (IPhysicsObject* const object)
     {
-        // Pre-condition: The object isn't a nullptr
+        // Pre-condition: The object isn't a nullptr.
         if (!object)
         {
-            Systems::logger().logWarning ("GameState::addUniquePhysicsObject(), attempt to add a nullptr.");
+            Systems::logger().logWarning ("AGameState::addUniquePhysicsObject(), attempt to add a nullptr.");
         }
 
         else
@@ -60,18 +60,18 @@ namespace water
 
             else
             {
-                Systems::logger().logWarning ("GameState::addUniquePhysicsObject(), attempt to add an object that has already been added.");
+                Systems::logger().logWarning ("AGameState::addUniquePhysicsObject(), attempt to add an object that has already been added.");
             }
         }
     }
 
 
-    void GameState::removePhysicsObject (PhysicsObject* const object)
+    void AGameState::removePhysicsObject (IPhysicsObject* const object)
     {
         // Pre-condition: The object isn't a nullptr.
         if (!object)
         {
-            Systems::logger().logWarning ("GameState::removePhysicsObject(), attempt to remove a nullptr.");   
+            Systems::logger().logWarning ("AGameState::removePhysicsObject(), attempt to remove a nullptr.");   
         }
 
         else
@@ -89,13 +89,13 @@ namespace water
 
             else
             {
-                Systems::logger().logWarning ("GameState::removePhysicsObject(), attempt to remove a non-existent object.");
+                Systems::logger().logWarning ("AGameState::removePhysicsObject(), attempt to remove a non-existent object.");
             }
         }
     }
 
 
-    void GameState::removePhysicsObjects()
+    void AGameState::removePhysicsObjects()
     {
         // Pop until empty to ensure we keep our reserved capacity.
         while (!m_objects.empty())
@@ -109,10 +109,10 @@ namespace water
 
     #pragma region Physics intergration
 
-    std::vector<PhysicsObject*>::iterator GameState::findObject (const PhysicsObject* const object)
+    std::vector<IPhysicsObject*>::iterator AGameState::findObject (const IPhysicsObject* const object)
     {
         // Construct a function to find where the object is.
-        const auto equal = [=] (const PhysicsObject* const test)
+        const auto equal = [=] (const IPhysicsObject* const test)
         {
             return test == object;  
         };
@@ -128,7 +128,7 @@ namespace water
 
     #pragma region Utility functions
 
-    IGameWorld& GameState::gameWorld() const
+    IGameWorld& AGameState::gameWorld() const
     {
         return Systems::gameWorld();
     }

@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Engine\Configuration.cpp" />
-    <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\AGameState.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
@@ -40,8 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Configuration.hpp" />
-    <ClInclude Include="..\..\Engine\GameComponents\GameState.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\AGameState.hpp" />
     <ClInclude Include="..\..\Engine\GameComponents\IGameObject.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\IPhysicsObject.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IAudio.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IInput.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\ILogger.hpp" />

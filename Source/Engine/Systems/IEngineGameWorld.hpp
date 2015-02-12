@@ -14,7 +14,7 @@
 namespace water
 {
     // Forward declarations.
-    class PhysicsObject;
+    class IPhysicsObject;
 
 
     /// <summary>
@@ -53,7 +53,7 @@ namespace water
 
             /// <summary> Obtain the collection of physics objects in the active state. </summary>
             /// <returns> The vector of objects. </returns>
-            virtual const std::vector<PhysicsObject*>& getPhysicsObjects() const = 0;
+            virtual const std::vector<IPhysicsObject*>& getPhysicsObjects() const = 0;
 
             #pragma endregion
     };

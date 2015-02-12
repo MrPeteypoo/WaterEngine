@@ -62,7 +62,7 @@ namespace water
 
             /// <summary> Obtain the collection of physics objects in the active state. </summary>
             /// <returns> The vector of objects. </returns>
-            const std::vector<PhysicsObject*>& getPhysicsObjects() const override final;
+            const std::vector<IPhysicsObject*>& getPhysicsObjects() const override final;
 
             #pragma endregion
 
@@ -73,7 +73,7 @@ namespace water
             /// <param name="id"> The unique identifier of the state. If a state with this ID already exists it will be ignored. </param>
             /// <param name="state"> The state to add. </param>
             /// <returns> True if successful, false if the ID is already in use or the state doesn't exist. </returns>
-            bool addState (const int id, const std::shared_ptr<GameState>& state) override final;
+            bool addState (const int id, const std::shared_ptr<AGameState>& state) override final;
 
             /// <summary> Removes a state from the game world, this will cause it to be inaccessible from now on. </summary>
             /// <param name="id"> The unique identifier of the state to remove. </param>
@@ -109,7 +109,7 @@ namespace water
 
             /// <summary> Pushes a state to the top of the stack, bypassing the iterator check. </summary>
             /// <param name="state"> The state to push. </param>
-            void push (const std::shared_ptr<GameState>& state);
+            void push (const std::shared_ptr<AGameState>& state);
 
             /// <summary> Removes the top-most state from the stack. </summary>
             void pop();
@@ -125,9 +125,9 @@ namespace water
 
             #pragma region Implementation data
 
-            std::unordered_map<int, std::shared_ptr<GameState>> m_states    { };    //!< A map of game states with a unique ID, this is how states are accessed externally.
-            std::stack<std::shared_ptr<GameState>>              m_stack     { };    //!< The active stack of game states. Only to top-most state is updated every frame.
-            std::queue<std::function<void()>>                   m_tasks     { };    //!< A queue of requested tasks to perform. Each task is a function to be called.
+            std::unordered_map<int, std::shared_ptr<AGameState>>    m_states    { };    //!< A map of game states with a unique ID, this is how states are accessed externally.
+            std::stack<std::shared_ptr<AGameState>>                 m_stack     { };    //!< The active stack of game states. Only to top-most state is updated every frame.
+            std::queue<std::function<void()>>                       m_tasks     { };    //!< A queue of requested tasks to perform. Each task is a function to be called.
 
             #pragma endregion
     };

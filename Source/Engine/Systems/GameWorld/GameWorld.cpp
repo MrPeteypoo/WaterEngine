@@ -2,7 +2,7 @@
 
 
 // Engine headers.
-#include <GameComponents/GameState.hpp>
+#include <GameComponents/AGameState.hpp>
 #include <Systems.hpp>
 
 
@@ -87,7 +87,7 @@ namespace water
 
     #pragma region Getters
 
-    const std::vector<PhysicsObject*>& GameWorld::getPhysicsObjects() const
+    const std::vector<IPhysicsObject*>& GameWorld::getPhysicsObjects() const
     {
         if (!m_stack.empty())
         {
@@ -102,7 +102,7 @@ namespace water
 
     #pragma region State management
 
-    bool GameWorld::addState (const int id, const std::shared_ptr<GameState>& state)
+    bool GameWorld::addState (const int id, const std::shared_ptr<AGameState>& state)
     {
         // Pre-condition: State is valid.
         if (!state)
@@ -216,7 +216,7 @@ namespace water
     }
 
 
-    void GameWorld::push (const std::shared_ptr<GameState>& state)
+    void GameWorld::push (const std::shared_ptr<AGameState>& state)
     {
         // Pre-condition: We have a valid pointer.
         if (state)

@@ -91,7 +91,7 @@
     <ClCompile Include="..\..\Engine\Systems\GameWorld\GameWorld.cpp">
       <Filter>Engine\Systems\GameWorld</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp">
+    <ClCompile Include="..\..\Engine\GameComponents\AGameState.cpp">
       <Filter>Engine\GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
@@ -199,7 +199,10 @@
     <ClInclude Include="..\..\Engine\GameComponents\IGameObject.hpp">
       <Filter>Engine\GameComponents</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Engine\GameComponents\GameState.hpp">
+    <ClInclude Include="..\..\Engine\GameComponents\IPhysicsObject.hpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\GameComponents\AGameState.hpp">
       <Filter>Engine\GameComponents</Filter>
     </ClInclude>
   </ItemGroup>

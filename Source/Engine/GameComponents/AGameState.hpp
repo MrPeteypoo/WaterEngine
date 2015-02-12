@@ -12,29 +12,28 @@ namespace water
     // Forward declarations. 
     class IGameWorld;
     class Systems;
-    class PhysicsObject;
+    class IPhysicsObject;
 
 
     /// <summary>
     /// An abstract class which represents every state in the game. A state is effectively a clearly defined part of a game, typically a piece of a game with
     /// a single specific purpose. Examples would be a main menu, a level, a status screen, a world map, etc. Games made with the water engine must use the 
-    /// GameState class to control the flow of the game.
+    /// AGameState class to control the flow of the game.
     ///
-    /// The way physics integrates with the game requires every engine-managed object with collision detection must both derive from the PhysicsObject class
-    /// and must be enabled using GameState::addPhysicsObject(). Without this physicsUpdate() won't be called and no collision detection will occur. Also if 
-    /// you ever need to delete a PhysicsObject you must call GameState::removePhysicsObject() otherwise access violation errors will occur in the physics 
-    /// system.
+    /// The way physics integrates with the game requires every engine-managed object with collision detection must both derive from the IPhysicsObject class
+    /// and must be enabled using AGameState::addPhysicsObject(). Also if you ever need to delete a IPhysicsObject you must call AGameState::removePhysicsObject()
+    /// otherwise access violation errors will occur in the physics system.
     /// </summary>
-    class GameState
+    class AGameState
     {
         public:
 
-            /// <summary> Call this in child classes to ensure the state reserves space for PhysicsObject's. This increases efficiency when adding. </summary>
+            /// <summary> Call this in child classes to ensure the state reserves space for IPhysicsObject's. This increases efficiency when adding. </summary>
             /// <param name="size"> How many elements are expected to be held by the state. </param>
-            GameState (const unsigned int elementCount = 100);
+            AGameState (const unsigned int elementCount = 100);
 
             // Ensure virtual destructor of the abstract class.
-            virtual ~GameState() { };
+            virtual ~AGameState() { };
 
 
             #pragma region Game flow
@@ -69,24 +68,24 @@ namespace water
             #pragma region Physics management
 
             /// <summary>
-            /// Adds a PhysicsObject to the list of objects which should be managed by the physics system. This means they will receive collsion detection.
+            /// Adds a IPhysicsObject to the list of objects which should be managed by the physics system. This means they will receive collsion detection.
             /// Ensure you're never adding an object which already exists.
             /// </summary>
-            /// <param name="object"> The PhysicsObject to add, nullptr will be ignored. </param>
-            void addPhysicsObject (PhysicsObject* const object);
+            /// <param name="object"> The IPhysicsObject to add, nullptr will be ignored. </param>
+            void addPhysicsObject (IPhysicsObject* const object);
 
             /// <summary>
             /// Similar to addPhysicsObject(), the only difference is that the state will check the list beforehand to ensure the object isn't already on
             /// the list.
             /// </summary>
-            void addUniquePhysicsObject (PhysicsObject* const object);
+            void addUniquePhysicsObject (IPhysicsObject* const object);
 
             /// <summary>
-            /// Removes a PhysicsObject from the list of physics-managed objects. This should ALWAYS be done before deleting a PhysicsObject otherwise
+            /// Removes a IPhysicsObject from the list of physics-managed objects. This should ALWAYS be done before deleting a IPhysicsObject otherwise
             /// dangling pointers will cause the physics loop to crash the game.
             /// </summary>
             /// <param name="object"> The object to remove, nullptr will be ignored. </param>
-            void removePhysicsObject (PhysicsObject* const object);
+            void removePhysicsObject (IPhysicsObject* const object);
 
             /// <summary>
             /// Requests that all stored objects be removed. This is an effective method of cleaning the physics system. 
@@ -111,16 +110,16 @@ namespace water
             // Let IGameWorld manage interaction with the physics system.
             friend class GameWorld;
 
-            /// <summary> Attempts to find the given PhysicsObject in the vector of objects. Don't make it const otherwise the pointer becomes const. </summary>
+            /// <summary> Attempts to find the given IPhysicsObject in the vector of objects. Don't make it const otherwise the pointer becomes const. </summary>
             /// <param name="object"> The object to search for. </param>
             /// <returns> The iterator of the vector for the object. </returns>
-            std::vector<PhysicsObject*>::iterator findObject (const PhysicsObject* const object);
+            std::vector<IPhysicsObject*>::iterator findObject (const IPhysicsObject* const object);
 
-            /// <summary> Obtains the collection of PhysicsObject's in the state. </summary>
+            /// <summary> Obtains the collection of IPhysicsObject's in the state. </summary>
             /// <returns> A reference to the state-contained vector. </returns>
-            const std::vector<PhysicsObject*>& getPhysicsObjects() const    { return m_objects; }
+            const std::vector<IPhysicsObject*>& getPhysicsObjects() const   { return m_objects; }
 
-            std::vector<PhysicsObject*> m_objects   { };    //!< A collection of PhysicsObject's to be managed by the physics system.
+            std::vector<IPhysicsObject*>    m_objects   { };    //!< A collection of IPhysicsObject's to be managed by the physics system.
 
             #pragma endregion
     };
