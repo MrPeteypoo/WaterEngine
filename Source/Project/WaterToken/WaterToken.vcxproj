@@ -21,9 +21,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Engine.cpp" />
     <ClCompile Include="..\..\Engine\Configuration.cpp" />
-    <ClCompile Include="..\..\Engine\GameComponents\AGameObject.cpp" />
-    <ClCompile Include="..\..\Engine\GameComponents\AGameState.cpp" />
-    <ClCompile Include="..\..\Engine\GameComponents\APhysicsObject.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\Collider.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\GameObject.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\PhysicsObject.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
@@ -42,14 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Configuration.hpp" />
-    <ClInclude Include="..\..\Engine\GameComponents\AGameObject.hpp" />
-    <ClInclude Include="..\..\Engine\GameComponents\AGameState.hpp" />
-    <ClInclude Include="..\..\Engine\GameComponents\APhysicsObject.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\Collider.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\GameObject.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\GameState.hpp" />
+    <ClInclude Include="..\..\Engine\GameComponents\PhysicsObject.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IAudio.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IGameObject.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IInput.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\ILogger.hpp" />
-    <ClInclude Include="..\..\Engine\Interfaces\IPhysicsObject.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IRenderer.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\ITime.hpp" />
     <ClInclude Include="..\..\Engine\Interfaces\IGameWorld.hpp" />

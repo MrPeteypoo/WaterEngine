@@ -10,7 +10,7 @@
 namespace water
 {
     // Forward declarations.
-    class AGameState;
+    class GameState;
 
 
     /// <summary>
@@ -32,7 +32,7 @@ namespace water
             /// <param name="id"> The unique identifier of the state. If a state with this ID already exists it will be ignored. </param>
             /// <param name="state"> The state to add. </param>
             /// <returns> True if successful, false if the ID is already in use or the state doesn't exist. </returns>
-            virtual bool addState (const int id, const std::shared_ptr<AGameState>& state) = 0;
+            virtual bool addState (const int id, const std::shared_ptr<GameState>& state) = 0;
 
             /// <summary> Removes a state from the game world, this will cause it to be inaccessible from now on. </summary>
             /// <param name="id"> The unique identifier of the state to remove. </param>

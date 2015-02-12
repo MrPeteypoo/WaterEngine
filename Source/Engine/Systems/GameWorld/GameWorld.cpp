@@ -2,7 +2,7 @@
 
 
 // Engine headers.
-#include <GameComponents/AGameState.hpp>
+#include <GameComponents/GameState.hpp>
 #include <Systems.hpp>
 
 
@@ -79,6 +79,9 @@ namespace water
             // Each task is a function!
             auto& function = m_tasks.front();
             function();
+
+            // Pop the task! Eagle eyes are handy when you forget things like this, it's OK I fixed his bug too.
+            m_tasks.pop();
         }
     }
 
@@ -87,7 +90,7 @@ namespace water
 
     #pragma region Getters
 
-    const std::vector<IPhysicsObject*>& GameWorld::getPhysicsObjects() const
+    const std::vector<PhysicsObject*>& GameWorld::getPhysicsObjects() const
     {
         if (!m_stack.empty())
         {
@@ -102,7 +105,7 @@ namespace water
 
     #pragma region State management
 
-    bool GameWorld::addState (const int id, const std::shared_ptr<AGameState>& state)
+    bool GameWorld::addState (const int id, const std::shared_ptr<GameState>& state)
     {
         // Pre-condition: State is valid.
         if (!state)
@@ -216,7 +219,7 @@ namespace water
     }
 
 
-    void GameWorld::push (const std::shared_ptr<AGameState>& state)
+    void GameWorld::push (const std::shared_ptr<GameState>& state)
     {
         // Pre-condition: We have a valid pointer.
         if (state)

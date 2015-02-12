@@ -3,7 +3,7 @@
     <!-- Systems can be left blank, the engine will use defaults. -->
     <Systems>
         <Audio>SFML</Audio>         <!-- SFML -->
-        <Logger>STL</Logger>        <!-- STL, HAPI -->
+        <Logger>HAPI</Logger>       <!-- STL, HAPI -->
         <Renderer>HAPI</Renderer>   <!-- HAPI -->
         <Time>STL</Time>            <!-- STL -->
     </Systems>

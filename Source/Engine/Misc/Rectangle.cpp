@@ -105,6 +105,12 @@ template <typename T> void Rectangle<T>::setBottom (const T bottom)
 
 #pragma region Testing functionality
 
+template <typename T> bool Rectangle<T>::isValid() const
+{
+    return (m_left <= m_right && m_top <= m_bottom);
+}
+
+
 template <typename T> bool Rectangle<T>::contains (const Rectangle& other) const
 {
     return (m_left <= other.m_left &&

@@ -6,6 +6,11 @@
 #include <string>
 
 
+// CRAP!
+#include <GameComponents/GameState.hpp>
+#include <GameComponents/PhysicsObject.hpp>
+
+
 /// <summary>
 /// The namespace of every aspect of the water engine. This includes renderering systems, audio systems, logging systems,
 /// input systems, etc. Everything that is required to make a simple 2D game.

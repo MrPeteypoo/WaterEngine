@@ -53,6 +53,9 @@ template <typename T> class Rectangle final
 
         #pragma region Testing functionality
 
+        /// <summary> Checks if each point on the rectangle is valid, aka left is not more than right and top is not more than bottom. </summary>
+        bool isValid() const;
+
         /// <summary> Checks if the given rectangle is contained within the current rectangle. </summary>
         bool contains (const Rectangle& other) const;
 
