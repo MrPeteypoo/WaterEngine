@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Logging/ILoggerEngine.hpp>
+#include <Systems/IEngineLogger.hpp>
 
 
 // Engine namespace.

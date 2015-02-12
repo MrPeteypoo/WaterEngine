@@ -10,8 +10,8 @@
 
 // Engine headers.
 #include <Systems.hpp>
-#include <ILogger.hpp>
-#include <Audio/SFMLSound.hpp>
+#include <Interfaces/ILogger.hpp>
+#include <Systems/Audio/SFMLSound.hpp>
 #include <Utility/Maths.hpp>
 
 
@@ -100,10 +100,10 @@ namespace water
         }
 
         // SFML has a hard limit so we will impose one here by allowing a maximum of 256 sound channels.
-        const size_t hardLimit  { 256 };
+        const auto hardLimit    = 256U ;
 
         // Calculate the limit to apply. We reserve one for the BGM.
-        const auto limit = soundLimit > hardLimit ? hardLimit - 1 : soundLimit - 1;
+        const auto limit        = soundLimit > hardLimit ? hardLimit - 1 : soundLimit - 1;
 
         m_impl->soundLimit = limit;
         m_impl->channels.resize (limit);

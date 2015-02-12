@@ -9,7 +9,7 @@
 #pragma region Instantiations
 
 template Rectangle<int>;
-template Rectangle<unsigned int>;
+template Rectangle<long>;
 template Rectangle<float>;
 template Rectangle<double>;
 

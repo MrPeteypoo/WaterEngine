@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <ITime.hpp>
+#include <Interfaces/ITime.hpp>
 
 
 // Engine namespace.
@@ -33,7 +33,7 @@ namespace water
 
             /// <summary> Causes physics update to become the active context and updates the physics delta time. </summary>
             /// <returns> Whether an update should be performed on physics systems this frame. </returns>
-            virtual bool physicsUpdate() = 0;
+            virtual bool updatePhysics() = 0;
 
             /// <summary> Causes update to become the active context and updates the standard delta time. </summary>
             /// <returns> Whether an update should be performed on game objects. </returns>

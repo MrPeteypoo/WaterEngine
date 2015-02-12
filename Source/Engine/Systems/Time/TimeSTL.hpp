@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <Time/ITimeEngine.hpp>
+#include <Systems/IEngineTime.hpp>
 
 
 // Engine namespace.
@@ -40,7 +40,7 @@ namespace water
             void initialise (const unsigned int physicsFPS, const unsigned int updateFPS, const unsigned int minFPS) override final;
 
             /// <summary> Causes physics update to become the active context and updates the physics delta time. </summary>
-            bool physicsUpdate() override final;
+            bool updatePhysics() override final;
 
             /// <summary> Causes update to become the active context and updates the standard delta time. </summary>
             bool update() override final;
@@ -57,7 +57,7 @@ namespace water
             #pragma region Time management
 
             /// <summary> Get the delta time value of the current update loop in seconds. </summary>
-            /// <returns> The physics update time during physicsUpdate() or the update time during update(). </returns>
+            /// <returns> The physics update time during updatePhysics() or the update time during update(). </returns>
             float getDelta() const override final { return m_currentDelta; }
 
             /// <summary> Obtains the time in seconds since the game start. </summary>

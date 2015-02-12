@@ -7,48 +7,39 @@
     <Filter Include="Engine">
       <UniqueIdentifier>{47d558f7-0222-452a-9e4d-9dcf27c57964}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Audio">
-      <UniqueIdentifier>{21eb1e79-13d9-4d22-a3f4-665da72361d3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Input">
-      <UniqueIdentifier>{1bab7902-e338-433e-a8b9-c2bba5a9bc8b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Time">
-      <UniqueIdentifier>{9acabd5e-c6f8-4801-9224-0d86b85f6931}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Misc">
       <UniqueIdentifier>{53c3a0f5-1735-4f53-9599-29286071725a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utility">
       <UniqueIdentifier>{fd504d1a-6741-4ae3-8953-628b57da58d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Logging">
-      <UniqueIdentifier>{741bbe7c-51c1-4028-803e-503435706b56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Rendering">
-      <UniqueIdentifier>{2ed1322b-1b62-473a-b6d7-66fc3c49079d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\ThirdParty">
       <UniqueIdentifier>{e78613f8-321b-4d70-bbb5-4064207f0224}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Interfaces">
+      <UniqueIdentifier>{dd1dffd5-4d82-45eb-8556-f178ad21d270}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\GameObjects">
+      <UniqueIdentifier>{cec6eefd-78ca-4d1e-a5cc-c08b58bd0da8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Systems">
+      <UniqueIdentifier>{188c91ba-0f09-4591-bdb1-08b5a4ea68d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Systems\Audio">
+      <UniqueIdentifier>{fb6d441f-6810-4a2b-8f8b-00750d02de2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Systems\Logging">
+      <UniqueIdentifier>{4b871f56-c1fc-4e14-82b5-585c27e87a99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Systems\Rendering">
+      <UniqueIdentifier>{65677265-2870-455f-9bba-eeca133d3712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Systems\Time">
+      <UniqueIdentifier>{485d392d-7116-4a1e-85c7-6f90a2a2ea69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Engine\Audio\AudioSFML.cpp">
-      <Filter>Engine\Audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Rendering\RendererHAPI.cpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\WaterToken.cpp" />
-    <ClCompile Include="..\..\Engine\Systems.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Rendering\HAPITexture.cpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Audio\SFMLSound.cpp">
-      <Filter>Engine\Audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp">
       <Filter>Engine\Misc</Filter>
     </ClCompile>
@@ -57,15 +48,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp">
       <Filter>Engine\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Logging\LoggerHAPI.cpp">
-      <Filter>Engine\Logging</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Logging\LoggerSTL.cpp">
-      <Filter>Engine\Logging</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Time\TimeSTL.cpp">
-      <Filter>Engine\Time</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Engine\Utility\Time.cpp">
       <Filter>Engine\Utility</Filter>
@@ -82,23 +64,29 @@
     <ClCompile Include="..\..\Engine\Utility\String.cpp">
       <Filter>Engine\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Audio\AudioSFML.cpp">
+      <Filter>Engine\Systems\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Audio\SFMLSound.cpp">
+      <Filter>Engine\Systems\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Logging\LoggerHAPI.cpp">
+      <Filter>Engine\Systems\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Logging\LoggerSTL.cpp">
+      <Filter>Engine\Systems\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Time\TimeSTL.cpp">
+      <Filter>Engine\Systems\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Rendering\HAPITexture.cpp">
+      <Filter>Engine\Systems\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Rendering\RendererHAPI.cpp">
+      <Filter>Engine\Systems\Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Engine\Audio\AudioSFML.hpp">
-      <Filter>Engine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Audio\SFMLSound.hpp">
-      <Filter>Engine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Logging\ILoggerEngine.hpp">
-      <Filter>Engine\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Logging\LoggerHAPI.hpp">
-      <Filter>Engine\Logging</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Logging\LoggerSTL.hpp">
-      <Filter>Engine\Logging</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
       <Filter>Engine\Misc</Filter>
     </ClInclude>
@@ -107,39 +95,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Misc\Vector3.hpp">
       <Filter>Engine\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Rendering\HAPITexture.hpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Rendering\IRendererEngine.hpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Rendering\RendererHAPI.hpp">
-      <Filter>Engine\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Time\ITimeEngine.hpp">
-      <Filter>Engine\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IAudio.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IGameObject.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IInput.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\ILogger.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\IRenderer.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\ITime.hpp">
-      <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Systems.hpp">
-      <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\WaterToken.hpp" />
     <ClInclude Include="..\..\Engine\Utility\Maths.hpp">
@@ -150,12 +105,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Utility\Time.hpp">
       <Filter>Engine\Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Audio\IAudioEngine.hpp">
-      <Filter>Engine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Time\TimeSTL.hpp">
-      <Filter>Engine\Time</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\Engine.hpp">
       <Filter>Engine</Filter>
@@ -177,6 +126,60 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Utility\String.hpp">
       <Filter>Engine\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IAudio.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IInput.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\ILogger.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IRenderer.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\ITime.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IGameObject.hpp">
+      <Filter>Engine\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems.hpp">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Audio\AudioSFML.hpp">
+      <Filter>Engine\Systems\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Audio\SFMLSound.hpp">
+      <Filter>Engine\Systems\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Logging\LoggerHAPI.hpp">
+      <Filter>Engine\Systems\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Logging\LoggerSTL.hpp">
+      <Filter>Engine\Systems\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Time\TimeSTL.hpp">
+      <Filter>Engine\Systems\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Rendering\RendererHAPI.hpp">
+      <Filter>Engine\Systems\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Rendering\HAPITexture.hpp">
+      <Filter>Engine\Systems\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEngineAudio.hpp">
+      <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEngineLogger.hpp">
+      <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEngineRenderer.hpp">
+      <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEngineTime.hpp">
+      <Filter>Engine\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

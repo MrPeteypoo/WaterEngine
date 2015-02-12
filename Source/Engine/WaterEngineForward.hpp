@@ -6,11 +6,12 @@
 namespace water
 {
     class Engine;
-    struct Configuration;
-
     class Systems;
+    struct Configuration;
+    
     class IAudio;
     class IInput;
+    class IGameObject;
     class ILogger;
     class IRenderer;
     class ITime;

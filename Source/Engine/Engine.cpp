@@ -9,17 +9,28 @@
 // Engine headers.
 #include <Systems.hpp>
 
-#include <Audio/AudioSFML.hpp>
-#include <Logging/LoggerHAPI.hpp>
-#include <Logging/LoggerSTL.hpp>
-#include <Rendering/RendererHAPI.hpp>
-#include <Time/TimeSTL.hpp>
+#include <Systems/Audio/AudioSFML.hpp>
+#include <Systems/Logging/LoggerHAPI.hpp>
+#include <Systems/Logging/LoggerSTL.hpp>
+#include <Systems/Rendering/RendererHAPI.hpp>
+#include <Systems/Time/TimeSTL.hpp>
 
 #include <Configuration.hpp>
 
 
 namespace water
 {
+    #pragma region Systems initial values
+
+    IAudio*     Systems::m_audio    = nullptr;
+    //IInput*     Systems::m_input    = nullptr;
+    ILogger*    Systems::m_logger   = nullptr;
+    IRenderer*  Systems::m_renderer = nullptr;
+    ITime*      Systems::m_time     = nullptr;
+
+    #pragma endregion
+
+
     #pragma region Constructors and destructor
 
     Engine::Engine()
@@ -154,7 +165,7 @@ namespace water
             while (!m_close && m_renderer->update())
             {
                 // Only perform a physics update if the time specifies so.
-                if (m_time->physicsUpdate())
+                if (m_time->updatePhysics())
                 {
                     // TODO: Implement me bruv!
                 }

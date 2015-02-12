@@ -3,7 +3,7 @@
 
 
 // Engine headers.
-#include <IRenderer.hpp>
+#include <Interfaces/IRenderer.hpp>
 
 
 // Engine namespace.

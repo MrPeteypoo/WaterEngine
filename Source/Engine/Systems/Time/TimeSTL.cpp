@@ -113,7 +113,7 @@ namespace water
     }
 
 
-    bool TimeSTL::physicsUpdate()
+    bool TimeSTL::updatePhysics()
     {
         // Cache the implementation data.
         auto& impl = *m_impl;

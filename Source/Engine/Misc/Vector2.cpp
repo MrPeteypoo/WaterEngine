@@ -9,6 +9,7 @@
 #pragma region Instantiations
 
 template Vector2<int>;
+template Vector2<long>;
 template Vector2<float>;
 template Vector2<double>;
 
