@@ -9,7 +9,9 @@
 // Engine namespace.
 namespace water
 {
-    // Forward declarations.
+    // Forward declarations. 
+    class IGameWorld;
+    class Systems;
     class PhysicsObject;
 
 
@@ -26,6 +28,10 @@ namespace water
     class GameState
     {
         public:
+
+            /// <summary> Call this in child classes to ensure the state reserves space for PhysicsObject's. This increases efficiency when adding. </summary>
+            /// <param name="size"> How many elements are expected to be held by the state. </param>
+            GameState (const unsigned int elementCount = 100);
 
             // Ensure virtual destructor of the abstract class.
             virtual ~GameState() { };
@@ -89,12 +95,26 @@ namespace water
 
             #pragma endregion
 
+
+            #pragma region Utility functions
+
+            /// <summary> Obtain a reference to the active IGameWorld. </summary>
+            /// <returns> The game world. </returns>
+            IGameWorld& gameWorld() const;
+
+            #pragma endregion
+
         private:
 
             #pragma region Physics integration
             
             // Let IGameWorld manage interaction with the physics system.
             friend class GameWorld;
+
+            /// <summary> Attempts to find the given PhysicsObject in the vector of objects. Don't make it const otherwise the pointer becomes const. </summary>
+            /// <param name="object"> The object to search for. </param>
+            /// <returns> The iterator of the vector for the object. </returns>
+            std::vector<PhysicsObject*>::iterator findObject (const PhysicsObject* const object);
 
             /// <summary> Obtains the collection of PhysicsObject's in the state. </summary>
             /// <returns> A reference to the state-contained vector. </returns>

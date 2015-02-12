@@ -11,6 +11,7 @@ namespace water
     
     class IAudio;
     class IInput;
+    class IGameWorld;
     class IGameObject;
     class ILogger;
     class IRenderer;
