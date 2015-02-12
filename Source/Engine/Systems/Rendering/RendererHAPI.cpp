@@ -9,7 +9,6 @@
 
 // Engine headers.
 #include <Systems.hpp>
-#include <Interfaces/ILogger.hpp>
 #include <Systems/Rendering/HAPITexture.hpp>
 #include <Utility/Maths.hpp>
 

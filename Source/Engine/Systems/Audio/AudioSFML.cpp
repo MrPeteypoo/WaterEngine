@@ -10,7 +10,6 @@
 
 // Engine headers.
 #include <Systems.hpp>
-#include <Interfaces/ILogger.hpp>
 #include <Systems/Audio/SFMLSound.hpp>
 #include <Utility/Maths.hpp>
 
