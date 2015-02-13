@@ -223,12 +223,12 @@ namespace water
     void Engine::clean()
     {
         // We need to test each pointer because not all compilers will ignore the deletion of a nullptr.
-        if (m_audio)        { delete m_audio; }
         if (m_gameWorld)    { delete m_gameWorld; }
+        if (m_audio)        { delete m_audio; }
         if (m_input)        { delete m_input; }
-        if (m_logger)       { delete m_logger; }
         if (m_renderer)     { delete m_renderer; }
         if (m_time)         { delete m_time; }
+        if (m_logger)       { delete m_logger; }
     }
 
 

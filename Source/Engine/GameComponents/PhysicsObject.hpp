@@ -19,8 +19,19 @@ namespace water
     {
         public:
 
+            #pragma region Constructors and destructor
+            
+            PhysicsObject()                                    = default;
+            PhysicsObject (PhysicsObject&& move);
+            PhysicsObject& operator= (PhysicsObject&& move);
+
+            PhysicsObject (const PhysicsObject& copy)             = default;
+            PhysicsObject& operator= (const PhysicsObject& copy)  = default;
+
             // Ensure destructor is virtual.
             virtual ~PhysicsObject() {}
+
+            #pragma endregion
 
 
             #pragma region Collision

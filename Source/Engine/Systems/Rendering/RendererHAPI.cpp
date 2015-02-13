@@ -116,6 +116,12 @@ namespace water
             throw std::runtime_error ("RendererHAPI::initialise(), unable to initialise HAPI.");
         }
 
+        #if defined _DEBUG || defined SHOW_FPS
+
+        HAPI->SetShowFPS (true);
+
+        #endif
+
         // Initialise data.
         m_impl->screen = HAPI->GetScreenPointer();
         m_impl->screenSpace = { 0, 0, width - 1, height - 1 };
