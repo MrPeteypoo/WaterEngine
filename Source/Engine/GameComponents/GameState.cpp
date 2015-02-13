@@ -30,6 +30,12 @@ namespace water
     }
 
 
+    IAudio& GameState::audio()
+    {
+        return Systems::audio();
+    }
+
+
     ILogger& GameState::logger()
     {
         return Systems::logger();

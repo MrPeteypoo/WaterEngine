@@ -11,6 +11,7 @@ namespace water
 {
     // Forward declarations. 
     class IGameWorld;
+    class IAudio;
     class ILogger;
     class PhysicsObject;
 
@@ -70,8 +71,12 @@ namespace water
             /// <returns> The game world. </returns>
             static IGameWorld& gameWorld();
 
+            /// <summary> Obtain a reference to the active audio system. </summary>
+            /// <returns> The audio systems. </returns>
+            static IAudio& audio();
+
             /// <summary> Obtain a reference to the active ILogger. </summary>
-            /// <returns> A working logger </returns>
+            /// <returns> A working logger. </returns>
             static ILogger& logger();
 
             #pragma endregion
