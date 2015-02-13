@@ -6,7 +6,7 @@
 
 
 // Game headers.
-#include <MagaMen/States/MainMenu.hpp>
+#include <MagaMen/States/MainMenuState.hpp>
 
 
 // Game namespace.
@@ -50,7 +50,7 @@ namespace mm
     void Game::createStates()
     {
         // Start by creating the states.
-        m_mainMenu = std::make_shared<MainMenuState>();
+        m_mainMenu = std::make_shared<MainMenuState> ("Nothing.xml");
     }
 
 

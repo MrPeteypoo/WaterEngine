@@ -73,7 +73,11 @@ namespace water
 
             /// <summary> Gets a copy of the objects texture ID. </summary>
             /// <returns> The TextureID of the object. </returns>
-            water::TextureID getBaseTextureID() const           { return m_baseTexture; }
+            TextureID getBaseTextureID() const                  { return m_baseTexture; }
+
+            /// <summary> Gets the blending mode that the object currently uses. </summary>
+            /// <returns> The BlendType in use. </returns>
+            BlendType getBlendType() const                      { return m_blendType; }
 
             /// <summary> Obtain a reference to the objects name. </summary>
             /// <returns> The name of the object. </returns>
@@ -90,7 +94,11 @@ namespace water
             /// <summary> Sets the texture for the object to use. </summary>
             /// <param name="texture"> The desired TextureID of the object. </param>
             /// <param name="removeCurrent"> Indicates whether the objects current texture should be removed from the IRenderer. </param>
-            void setBaseTextureID (const water::TextureID texture, const bool removeCurrent = false);
+            void setBaseTextureID (const TextureID texture, const bool removeCurrent = false);
+
+            /// <summary> Sets the blending type of the textures used by the GameObject. </summary>
+            /// <param name="type"> Specifies the blending algorithm to be used, Opaque is fastest. </param>
+            void setBlendType (const BlendType type)            { m_blendType; }
 
             /// <summary> Sets the name of the object. </summary>
             /// <param name="name"> The value to set the name of the object to. </param>
@@ -102,12 +110,13 @@ namespace water
 
             #pragma endregion
 
-        private:
+        protected:
 
             #pragma region Implementation data
 
             Vector2<float>  m_position      { 0, 0 };   //!< The position of the GameObject in the world.
             TextureID       m_baseTexture   { 0 };      //!< The standard texture of the GameObject.
+            BlendType       m_blendType     { };        //!< The blending type to be used by the object in rendering.
             std::string     m_name          = "";       //!< The name of the GameObject.
             std::string     m_tag           = "";       //!< The tag of the GameObject.
 

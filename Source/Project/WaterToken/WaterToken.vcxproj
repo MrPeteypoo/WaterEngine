@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\Engine\GameComponents\Collider.cpp" />
     <ClCompile Include="..\..\Engine\GameComponents\GameObject.cpp" />
     <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp" />
+    <ClCompile Include="..\..\Engine\GameComponents\PhysicsObject.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
@@ -39,6 +40,8 @@
     <ClCompile Include="..\..\Engine\Utility\String.cpp" />
     <ClCompile Include="..\..\Engine\Utility\Time.cpp" />
     <ClCompile Include="..\..\MagaMen.cpp" />
+    <ClCompile Include="..\..\MagaMen\GameObjects\StaticObject.cpp" />
+    <ClCompile Include="..\..\MagaMen\States\MainMenuState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Configuration.hpp" />
@@ -80,8 +83,9 @@
     <ClInclude Include="..\..\Engine\Engine.hpp" />
     <ClInclude Include="..\..\Engine\WaterEngine.hpp" />
     <ClInclude Include="..\..\MagaMen.hpp" />
+    <ClInclude Include="..\..\MagaMen\GameObjects\StaticObject.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp" />
-    <ClInclude Include="..\..\MagaMen\States\MainMenu.hpp" />
+    <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -185,6 +189,7 @@
       <AdditionalDependencies>HAPI_Debug.lib;sfml-system-d.lib;sfml-audio-d.lib;user32.lib;gdi32.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -193,7 +198,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -207,6 +212,7 @@
       <AdditionalDependencies>HAPI_Debug64.lib;sfml-system-d64.lib;sfml-audio-d64.lib;user32.lib;gdi32.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -243,7 +249,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>

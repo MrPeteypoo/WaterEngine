@@ -109,6 +109,15 @@
       <Filter>Engine\GameComponents</Filter>
     </ClCompile>
     <ClCompile Include="..\..\MagaMen.cpp" />
+    <ClCompile Include="..\..\MagaMen\States\MainMenuState.cpp">
+      <Filter>MagaMen\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\GameComponents\PhysicsObject.cpp">
+      <Filter>Engine\GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\GameObjects\StaticObject.cpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
@@ -229,11 +238,14 @@
     <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp">
       <Filter>MagaMen\States</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MagaMen\States\MainMenu.hpp">
-      <Filter>MagaMen\States</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp">
       <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp">
+      <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\StaticObject.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

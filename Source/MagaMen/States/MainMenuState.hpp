@@ -1,14 +1,13 @@
-#if !defined MAGA_MEN_MAIN_MENU_INCLUDED
-#define MAGA_MEN_MAIN_MENU_INCLUDED
+#if !defined MAGA_MEN_MAIN_MENU_STATE_INCLUDED
+#define MAGA_MEN_MAIN_MENU_STATE_INCLUDED
 
 
-// Engine headers.
-#include <Engine/GameComponents/GameState.hpp>
-#include <Engine/Interfaces/IAudio.hpp>
+// STL headers.
+#include <vector>
 
 
 // Game headers.
-#include <MagaMen/States/StateIDs.hpp>
+#include <MagaMen/States/MagaMenState.hpp>
 
 
 // Game namespace.
@@ -17,13 +16,16 @@ namespace mm
     /// <summary>
     /// The main menu of Maga Men. This is the entry point of the game where the title screen is shown, waiting for the player to start the game.
     /// </summary>
-    class MainMenuState : public water::GameState
+    class MainMenuState : public MagaMenState
     {
         public:
 
             #pragma region Constructors and destructor
 
-            MainMenuState();         
+            /// <summary> A simple constructor which specifies the .XML file to load the states data from. </summary>
+            /// <param name="loadFrom"> An .XML file containing information the state needs to load from. </param>
+            MainMenuState (const std::string& loadFrom) : MagaMenState (loadFrom) { }
+
             MainMenuState (MainMenuState&& move);
             MainMenuState& operator= (MainMenuState&& move);            
             ~MainMenuState() override final { }
@@ -36,19 +38,19 @@ namespace mm
 
             #pragma region Game flow
 
-            /// <summary> Loads all of the graphics and sound required by the title screen. </summary>
+            /// <summary> Loads all of the graphics required by the title screen. </summary>
             /// <returns> Whether the loading was successful or not. </returns>
             bool onAdd() override final;
 
-            /// <summary> Removes any graphics and sound specific to the title screen. </summary>
+            /// <summary> Removes any graphics specific to the title screen. </summary>
             /// <returns> If something went wrong and an error should be flagged. </returns>
             bool onRemove() override final;
 
-            /// <summary> Swaps to the title screen music. </summary>
+            /// <summary> Plays the title music. </summary>
             void onEntry() override final;
 
-            /// <summary> Absolutely nothing. </summary>
-            void onExit() override final { }
+            /// <summary> Stops the music from playing. </summary>
+            void onExit() override final;
 
             /// <summary> Absolutely nothing. </summary>
             void updatePhysics() override final { }
@@ -63,10 +65,9 @@ namespace mm
 
         private:
 
-            #pragma region Implementation data
+            #pragma region Internal workings
 
-            std::string     m_loadFrom  = "";   //!< The file to load data from.
-            water::SoundID  m_bgm       { };    //!< The ID of the background music.
+            
 
             #pragma endregion
     };

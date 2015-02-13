@@ -63,4 +63,21 @@ namespace water
     }
 
     #pragma endregion
+
+
+    #pragma region Setters
+
+    void GameObject::setBaseTextureID (const TextureID texture, const bool removeCurrent)
+    {
+        // Remove the texture we currently use if necessary.
+        if (removeCurrent)
+        {
+            renderer().removeTexture (m_baseTexture);
+        }
+
+        // Enable the new texture.
+        m_baseTexture = texture;
+    }
+
+    #pragma endregion
 }
