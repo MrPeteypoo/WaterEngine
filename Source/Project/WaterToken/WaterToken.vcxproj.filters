@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="World">
-      <UniqueIdentifier>{26036865-a72b-497d-a2a0-78000373f020}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{47d558f7-0222-452a-9e4d-9dcf27c57964}</UniqueIdentifier>
     </Filter>
@@ -40,9 +37,20 @@
     <Filter Include="Engine\GameComponents">
       <UniqueIdentifier>{cec6eefd-78ca-4d1e-a5cc-c08b58bd0da8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MagaMen">
+      <UniqueIdentifier>{26036865-a72b-497d-a2a0-78000373f020}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MagaMen\GameObjects">
+      <UniqueIdentifier>{9dd126df-b432-4b75-9b0b-05e1d5b5074c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MagaMen\States">
+      <UniqueIdentifier>{33e9eeda-b00b-40af-9d72-5e521b54bf1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MagaMen\Loading">
+      <UniqueIdentifier>{db01e57d-070e-4347-b14e-00489270fe36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\WaterToken.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp">
       <Filter>Engine\Misc</Filter>
     </ClCompile>
@@ -100,6 +108,7 @@
     <ClCompile Include="..\..\Engine\GameComponents\Collider.cpp">
       <Filter>Engine\GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MagaMen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
@@ -111,7 +120,6 @@
     <ClInclude Include="..\..\Engine\Misc\Vector3.hpp">
       <Filter>Engine\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\WaterToken.hpp" />
     <ClInclude Include="..\..\Engine\Utility\Maths.hpp">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
@@ -216,6 +224,16 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\GameComponents\Collider.hpp">
       <Filter>Engine\GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen.hpp" />
+    <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp">
+      <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\States\MainMenu.hpp">
+      <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp">
+      <Filter>MagaMen\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
