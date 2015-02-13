@@ -30,14 +30,14 @@ namespace water
             /// by the physics system and will be called on both objects.
             /// </summary>
             /// <param name="collision"> The object being collided with. </param>
-            virtual void onCollision (PhysicsObject* const collision);
+            virtual void onCollision (PhysicsObject* const collision) = 0;
 
             /// <summary>
             /// The function called on trigger objects when either another trigger object or a collision object intersects the trigger zone.
             /// This will be called every frame until the object leaves.
             /// </summary>
             /// <param name="collision"> The object intersecting the trigger zone. </param>
-            virtual void onTrigger (PhysicsObject* const collision);
+            virtual void onTrigger (PhysicsObject* const collision) = 0;
 
             #pragma endregion
 
@@ -45,14 +45,14 @@ namespace water
             #pragma region Getters and setters
 
             /// <summary> Indicates whether the PhysicsObject is static or not. </summary>
-            bool isStatic() const;
+            bool isStatic() const                   { return m_isStatic; }
 
             /// <summary> 
             /// Obtain a reference to the collider of the physics object. This contains information relating to how the physics
             /// object should be handled by the engine.
             /// </summary>
             /// <returns> A reference to the collider. </returns>
-            const Collider& getCollider() const { return m_collider; }
+            const Collider& getCollider() const     { return m_collider; }
 
             /// <summary> Sets whether the PhysicsObject is static. If they're static they will not be moved by the physics system. </summary>
             /// <param name="isStatic"> Whether it should be static. </param>

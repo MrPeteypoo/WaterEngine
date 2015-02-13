@@ -97,9 +97,6 @@
     <ClCompile Include="..\..\Engine\GameComponents\GameObject.cpp">
       <Filter>Engine\GameComponents</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Engine\GameComponents\PhysicsObject.cpp">
-      <Filter>Engine\GameComponents</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Engine\GameComponents\Collider.cpp">
       <Filter>Engine\GameComponents</Filter>
     </ClCompile>

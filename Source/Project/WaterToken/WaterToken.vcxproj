@@ -24,7 +24,6 @@
     <ClCompile Include="..\..\Engine\GameComponents\Collider.cpp" />
     <ClCompile Include="..\..\Engine\GameComponents\GameObject.cpp" />
     <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp" />
-    <ClCompile Include="..\..\Engine\GameComponents\PhysicsObject.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
     <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
