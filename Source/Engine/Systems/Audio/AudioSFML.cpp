@@ -154,7 +154,11 @@ namespace water
 
     void AudioSFML::removeSound (const SoundID sound)
     {
-        // TODO: Implement me bruv!
+        // Report silly activity.
+        if (m_impl->buffers.erase (sound) == 0)
+        {
+            Systems::logger().logWarning ("AudioSFML::removeSound(), attempt to remove a non-existent sound buffer.");
+        }
     }
 
     

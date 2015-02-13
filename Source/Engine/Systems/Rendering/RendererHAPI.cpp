@@ -161,6 +161,12 @@ namespace water
             Systems::logger().logError ("RendererHAPI::loadTexture(), unable to initialise texture at \"" + fileLocation + "\".");
         }
 
+        else
+        {
+            // Return the ID of the texture since it's already loaded!
+            return textureID;
+        }
+
         return (TextureID) 0;
     }
     
@@ -214,12 +220,50 @@ namespace water
                                                   std::to_string (size.x) + "x" + std::to_string (size.y) + ".");
             }
         }
+        
+        else
+        {
+            Systems::logger().logWarning ("RendererHAPI::scaleTexture(), attempt to scale non-existent texture.");
+        }
+    }
+
+
+    void RendererHAPI::cropTexture (const TextureID target, const float right, const float bottom, const bool pixelUnits)
+    {
+        // Pre-condition: Right and bottom are actually valid values.
+        if (right >= 0 && bottom >= 0)
+        {
+            // Check if the texture is valid.
+            auto& iterator = m_impl->textures.find (target);
+
+            if (iterator != m_impl->textures.end())
+            {
+                // Scale if necessary.
+                const Point crop = pixelUnits ? Vector2<float> (right, bottom) : Vector2<float> (right, bottom) * m_impl->unitToPixel;
+
+                iterator->second.crop (crop);
+            }
+
+            else
+            {
+                Systems::logger().logWarning ("RendererHAPI::cropTexture(), attempt to crop non-existent texture.");
+            }
+        }
+
+        else
+        {
+            Systems::logger().logError ("RendererHAPI::cropTexture(), attempt to crop a texture with negative cropping values. Request will be ignored.");
+        }
     }
 
 
     void RendererHAPI::removeTexture (const TextureID texture)
     {
-        // TODO: Implement me bruv.
+        // Log whether anything was actually erased.
+        if (m_impl->textures.erase (texture) == 0)
+        {
+            Systems::logger().logWarning ("RendererHAPI::removeTexture(), attempt to erase non-existent texture.");
+        }
     }
 
 

@@ -96,6 +96,10 @@ namespace water
             /// <param name="dimensions"> The width and height to scale to. </param>
             bool scaleToSize (const Point& dimensions);
 
+            /// <summary> Crops a number of pixels from the right and bottom of the texture. </summary>
+            /// <param name="crop"> The values to crop. </param>
+            void crop (const Point& crop);
+
             /// <summary> Calculates the bilinear filtered pixel of the given x and y values. </summary>
             /// <returns> The calculated filtered pixel. </returns>
             Colour bilinearFilteredPixel (const float x, const float y) const;        

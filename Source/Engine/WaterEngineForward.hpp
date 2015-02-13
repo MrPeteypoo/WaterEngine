@@ -16,6 +16,8 @@ namespace water
     class ILogger;
     class IRenderer;
     class ITime;
+
+    class GameState;
 }
 
 #endif

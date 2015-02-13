@@ -58,6 +58,13 @@ namespace water
             /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
             virtual void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) = 0;
 
+            /// <summary> Crops a part of a texture, permenantly removing data which will become inaccessible. </summary>
+            /// <param name="target"> The target texture to crop. </param>
+            /// <param name="right"> How many pixels or units to remove from the right side of the texture. </param>
+            /// <param name="bottom"> How many pixels or units to remove from the bottom of the texture. </param>
+            /// <param name="pixelUnits"> Indicates whether the right and bottom values should be scaled from world units to pixels. </param>
+            virtual void cropTexture (const TextureID target, const float right, const float bottom, const bool pixelUnits) = 0;
+
             /// <summary> Deletes a loaded texture from the system. </summary>
             /// <param name="texture"> The ID of the texture to delete. </param>
             virtual void removeTexture (const TextureID texture) = 0;

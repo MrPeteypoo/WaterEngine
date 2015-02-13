@@ -292,6 +292,49 @@ namespace water
         return { r, g, b, a };
     }
 
+
+    void RendererHAPI::Texture::crop (const Point& crop)
+    {
+        // Don't do anything if no cropping is to be performed.
+        if (crop.x != 0 || crop.y != 0)
+        {
+            // Work on the basis of bytes for cropping.
+            const auto  width       = m_textureSpace.width(),
+                        height      = m_textureSpace.height(),
+                        copyWidth   = width * (int) sizeOfColour;
+
+            // Determine the new width and height values. Require at least 1x1 size.
+            const auto  newWidth    = crop.x >= width ? 1 : width - crop.x,
+                        newHeight   = crop.y >= height ? 1 : height - crop.y,
+                        newOffset   = newWidth * (int) sizeOfColour;                        
+
+            // Allocate the required data.
+            BYTE* scaledData    = new BYTE[newWidth * newHeight * sizeOfColour];
+
+            // Ensure the allocation is valid.
+            if (scaledData)
+            {
+                // Use memcpy to move the data across.
+                for (int y = 0; y < newHeight; ++y)
+                {
+                    // Calculte the pointers to the memory we'll be using.
+                    auto source = m_data + y * copyWidth,
+                         target = scaledData + y * newOffset;
+
+                    std::memcpy (target, source, newOffset);
+                }
+
+                // Clean up the old texture data and replace it with the new data.
+                cleanUp();
+                m_data          = scaledData;
+                m_textureSpace  = { 0, 0, newWidth - 1, newHeight - 1 };
+
+                // Reset the frame calculations.
+                setFrameDimensions (m_frameDimensions);
+            }
+        }    
+    }
+
     #pragma endregion
 
 

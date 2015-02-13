@@ -6,6 +6,7 @@
 #include <Engine.hpp>
 #include <Systems.hpp>
 #include <Configuration.hpp>
+#include <GameComponents/GameState.hpp>
 
 
 #endif
