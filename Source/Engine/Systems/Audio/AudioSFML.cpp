@@ -130,25 +130,37 @@ namespace water
 
     SoundID AudioSFML::loadSound (const std::string& fileLocation)
     {
-        // We need to attempt to load the sound buffer into memory.
-        sf::SoundBuffer buffer { };
+        // Hash the file location at load-time so that run-time accessing can be fast.
+        const auto id = m_impl->hasher (fileLocation);
 
-        if (buffer.loadFromFile (fileLocation))
+        // Check if it already exists.
+        auto& iterator = m_impl->buffers.find (id);
+        if (iterator != m_impl->buffers.end())
         {
-            // Hash the file location at load-time so that run-time accessing can be fast.
-            const auto id = m_impl->hasher (fileLocation);
-
-            // Add the buffer to the map and return the valid ID.
-            m_impl->buffers.emplace (std::make_pair (id, buffer));
-
-            return id;
+            // We have already loaded that sound, just return the ID.
+            return iterator->first;
         }
+
+        else
+        {
+            // We need to attempt to load the sound buffer into memory.
+            sf::SoundBuffer buffer { };
+
+            if (buffer.loadFromFile (fileLocation))
+            {
+                // Add the buffer to the map and return the valid ID.
+                m_impl->buffers.emplace (std::make_pair (id, buffer));
+
+                return id;
+            }
+        }        
 
         // Output an error message to inform the user or programmer of their stupidity.
         Systems::logger().logError ("AudioSFML::loadSound(): Cannot load sound with filename \"" + fileLocation + "\".");
 
         // Let the user cry due to lack of sounds.
         return 0;
+
     }
 
 
