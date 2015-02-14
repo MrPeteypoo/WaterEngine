@@ -8,6 +8,7 @@
 
 // Game headers.
 #include <MagaMen/States/MagaMenState.hpp>
+#include <MagaMen/GameObjects/StaticObject.hpp>
 
 
 // Game namespace.
@@ -65,9 +66,9 @@ namespace mm
 
         private:
 
-            #pragma region Internal workings
+            #pragma region Implementation data
 
-            
+            std::vector<StaticObject> m_objects { };    //!< The objects managed by the MainMenuState.
 
             #pragma endregion
     };

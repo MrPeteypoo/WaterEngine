@@ -3,6 +3,7 @@
 
 // Engine headers.
 #include <Engine/Misc/Vector2.hpp>
+#include <Engine/Interfaces/ITime.hpp>
 
 
 // Game headers.
@@ -50,6 +51,7 @@ namespace mm
 
     bool MainMenuState::onRemove()
     {
+        removePhysicsObjects();
         return true;
     }
 
@@ -71,13 +73,28 @@ namespace mm
 
     void MainMenuState::update()
     {
-    
+        // Check for input to see if the user wants to start the game.
+
     }
 
 
     void MainMenuState::render()
     {
-        renderText ("AN73 VOX02-;S 24P[N", 0, 0, { 0, 0 }, 8);
+        // Render each object.
+        for (auto& object : m_objects)
+        {
+            object.render();
+        }
+
+        // Make the "Press Start" text flicker on and off every third of a second.
+        const float timeSinceStart  = StaticObject::time().timeSinceStart();
+        const bool showText         = std::remainder (timeSinceStart, 0.66f) < 0.33f;
+
+        if (showText)
+        {
+            // Since we've set the tiling viewport to 1x1 we can use relative co-ordinates!
+            renderText ("Press Start", letters, numbers, { 0.333f, 0.666f }, 0.033f);
+        }
     }
 
     #pragma endregion
