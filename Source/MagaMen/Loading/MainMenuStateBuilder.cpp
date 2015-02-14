@@ -45,6 +45,12 @@ namespace mm
                 const auto numbersCrop      = Point (numbers.attribute ("CropRight").as_int(),  numbers.attribute ("CropBottom").as_int());
                 const auto numbersFrames    = Point (numbers.attribute ("XFrames").as_int(),    numbers.attribute ("YFrames").as_int());
                 
+                // Ensure the validity of the textures as much as possible
+                if (lettersFrames.x <= 0 || lettersFrames.y <= 0 || numbersFrames.x <= 0 || numbersFrames.y <= 0)
+                {
+                    return false;
+                }
+
                 state.renderer().cropTexture (state.letters, lettersCrop.x, lettersCrop.y);
                 state.renderer().cropTexture (state.numbers, numbersCrop.x, numbersCrop.y);
 
