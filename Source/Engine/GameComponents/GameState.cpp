@@ -19,6 +19,23 @@ namespace water
         m_objects.reserve (elementCount);
     }
 
+
+    GameState::GameState (GameState&& move)
+    {
+        *this = std::move (move);
+    }
+
+
+    GameState& GameState::operator= (GameState&& move)
+    {
+        if (this != &move)
+        {
+            m_objects = std::move (move.m_objects);
+        }
+
+        return *this;
+    }
+
     #pragma endregion
 
 

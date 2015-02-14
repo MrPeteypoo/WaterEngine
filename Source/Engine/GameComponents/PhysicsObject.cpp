@@ -6,7 +6,7 @@ namespace water
 {
     #pragma region Constructors and destructor
 
-    PhysicsObject::PhysicsObject (PhysicsObject&& move) : GameObject (std::move (move))
+    PhysicsObject::PhysicsObject (PhysicsObject&& move)
     {
         *this = std::move (move);
     }
@@ -16,6 +16,8 @@ namespace water
     {
         if (this != &move)
         {
+            GameObject::operator= (std::move (move));
+
             m_collider  = std::move (move.m_collider);
             m_isStatic  = move.m_isStatic;
 

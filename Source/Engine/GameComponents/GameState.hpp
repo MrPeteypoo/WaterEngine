@@ -29,12 +29,22 @@ namespace water
     {
         public:
 
+            #pragma region Constructors and destructor
+
             /// <summary> Call this in child classes to ensure the state reserves space for PhysicsObject's. This increases efficiency when adding. </summary>
             /// <param name="size"> How many elements are expected to be held by the state. </param>
             GameState (const unsigned int elementCount = 100);
 
+            GameState (const GameState& copy)               = default;
+            GameState& operator= (const GameState& copy)    = default;
+
+            GameState (GameState&& move);
+            GameState& operator= (GameState&& move);
+
             // Ensure virtual destructor of the abstract class.
             virtual ~GameState() { };
+
+            #pragma endregion
 
 
             #pragma region Game flow
