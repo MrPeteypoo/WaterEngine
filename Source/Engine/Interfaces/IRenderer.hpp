@@ -8,6 +8,7 @@
 
 // Forward declarations.
 template <typename T> struct Vector2;
+template <typename T> struct Rectangle;
 using Point = Vector2<int>;
 
 
@@ -16,6 +17,16 @@ namespace water
 {
     // Aliases.
     using TextureID = size_t;
+
+
+    /// <summary>
+    /// The filtering modes available to the rendering system. This has a huge impact on speed.
+    /// </summary>
+    enum class FilterMode : int
+    {
+        NearestNeighbour    = 0,    //!< Copies neighbouring pixels to create an upscaled effect.
+        Bilinear            = 1     //!< Blends pixels together to give the illusion of more detail.
+    };
     
 
     /// <summary> 
@@ -23,7 +34,7 @@ namespace water
     /// </summary>
     enum class BlendType : int
     {
-        Opaque = 0,         //!< Enables fast blitting by disregarding alpha values.
+        Opaque      = 0,    //!< Enables fast blitting by disregarding alpha values.
         Transparent = 1     //!< Enables alpha blending when blitting, slower but allows for transparency.
     };
 
@@ -39,6 +50,19 @@ namespace water
             virtual ~IRenderer() {}
 
 
+            #pragma region Viewport
+            
+            /// <summary> Sets the viewport of the renderer. This will not scale drawn textures, it just determines how the world units are interpreted. </summary>
+            /// <param name="viewport"> The desired viewable area of the screen in world units. This will be tested for validity. </param>
+            virtual void setViewport (const Rectangle<float>& viewport) = 0;
+
+            /// <summary> Translates the current viewable area to the point given, maintaining the viewport which has been set. </summary
+            /// <param name="translateTo"> The desired top-left point of the viewport. </param>
+            virtual void translateViewportTo (const Vector2<float>& translateTo) = 0;
+
+            #pragma endregion
+
+
             #pragma region Data management
 
             /// <summary> Loads a texture from local storage, ready for rendering. </summary>
@@ -46,16 +70,14 @@ namespace water
             virtual TextureID loadTexture (const std::string& fileLocation) = 0;
 
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
-            /// <param name="textureDimensions"> The width and height of the blank texture. Can represent world units or pixels. </param>
-            /// <param name="pixelDimensions"> Effects how the texture dimensions are interpreted, if false the values will be scaled, if true they will be in pixels. </param>
+            /// <param name="textureDimensions"> The width and height of the blank texture in pixels. </param>
             /// <returns> The ID of the newly created texture. </returns>
-            virtual TextureID createBlankTexture (const Vector2<float>& textureDimensions, const bool pixelDimensions) = 0;
+            virtual TextureID createBlankTexture (const Vector2<float>& textureDimensions) = 0;
 
             /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
             /// <param name="target"> The texture to modify. </param>
-            /// <param name="dimensions"> The desired width and height in units for the texture. </param>
-            /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
-            virtual void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) = 0;
+            /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
+            virtual void scaleTexture (const TextureID target, const Vector2<float>& dimensions) = 0;
 
             /// <summary> Crops a part of a texture, permenantly removing data which will become inaccessible. </summary>
             /// <param name="target"> The target texture to crop. </param>
@@ -79,6 +101,10 @@ namespace water
 
 
             #pragma region Rendering
+
+            /// <summary> Sets the scaling mode of the renderer. Nearest-neighbour is the fastest but bilinear should provide nicer results. </summary
+            /// <param name="mode"> The desired filtering mode to use when upscaling to the screen resolution. </param>
+            virtual void setFilteringMode (const FilterMode mode) = 0;
         
             /// <summary> Clears the screen to a black level between 0 and 1, quicker than clearing to a colour. </summary>
             virtual void clearToBlack (const float blackLevel = 0) = 0;        

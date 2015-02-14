@@ -31,11 +31,19 @@ namespace water
     /// <summary> A POD structure with all working data for the RendererHAPI class. </summary>
     struct RendererHAPI::Impl final
     {
-        BYTE*                                   screen      { nullptr };    //!< A pointer to the memory address of the screen buffer.
-        Rectangle<int>                          screenSpace { };            //!< A rectangle representing the screen space, used for clipping.
-        float                                   unitToPixel { };            //!< The scalar applied to world units to create a pixel-space vector.
-        std::hash<std::string>                  hasher      { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
-        std::unordered_map<TextureID, Texture>  textures    { };            //!< A container for all loaded texture data.
+        BYTE*                                   screen          { nullptr };    //!< A pointer to the memory address of the screen buffer.
+        Rectangle<int>                          screenSpace     { };            //!< A rectangle representing the screen space, used for clipping.
+        Point                                   screenOffset    { };            //!< The offset to apply when upscaling to the screen, this is useful when maintaining the aspect ratio of the internal resolution.
+
+        Texture                                 frameBuffer     { };            //!< An internal buffer which represents the screen being drawn to.
+        Vector2<int>                            internalRes     { };            //!< The internal resolution of the renderer.
+        FilterMode                              filter          { };            //!< The filter to be applied during the framebuffer scaling.
+
+        Rectangle<float>                        viewport        { };            //!< The visible area of the screen in world units.
+        Vector2<float>                          worldToPixel    { };            //!< The scalar applied to world units to create a pixel-space vector.
+
+        std::hash<std::string>                  hasher          { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
+        std::unordered_map<TextureID, Texture>  textures        { };            //!< A container for all loaded texture data.
     };
 
     #pragma endregion
@@ -91,30 +99,34 @@ namespace water
 
     #pragma region System management
 
-    void RendererHAPI::initialise (const unsigned int screenWidth, const unsigned int screenHeight, const float unitToPixelScale)
+    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter, const bool maintainAspectRatio)
     {
-        // Pre-condition: Width and height are valid.
-        if (screenWidth == 0 || screenHeight == 0)
+        // Pre-condition: Screen resolution is valid.
+        if (screenWidth <= 0 || screenHeight <= 0)
         {
             throw std::invalid_argument ("RendererHAPI::initialise(): Invalid screen resolution given (" + 
                                           std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
         }
 
-        // Pre-condition: Pixel scale is valid.
-        if (unitToPixelScale <= 0)
+        // Pre-condition: Internal resolution is valid.
+        if (internalWidth <= 0 || internalHeight <= 0)
         {
-            throw std::invalid_argument ("RendererHAPI::initialise(): Invalid scale values given (" +
-                                          std::to_string (unitToPixelScale) + ").");
+            throw std::invalid_argument ("RendererHAPI::initialise(): Invalid internal resolution given (" +
+                                          std::to_string (internalWidth) + "x" + std::to_string (internalHeight) + ").");
         }
 
 
         // Initialise HAPI.
-        int width = (int) screenWidth, height = (int) screenHeight;
+        int width = screenWidth, height = screenHeight;
 
         if (!HAPI->Initialise (&width, &height))
         {
             throw std::runtime_error ("RendererHAPI::initialise(), unable to initialise HAPI.");
         }
+
+        m_impl->screen          = HAPI->GetScreenPointer();
+        m_impl->screenSpace     = { 0, 0, width - 1, height - 1 };
+        m_impl->screenOffset    = { 0, 0 };
 
         #if defined _DEBUG || defined SHOW_FPS
 
@@ -122,10 +134,12 @@ namespace water
 
         #endif
 
-        // Initialise data.
-        m_impl->screen = HAPI->GetScreenPointer();
-        m_impl->screenSpace = { 0, 0, width - 1, height - 1 };
-        m_impl->unitToPixel = unitToPixelScale;
+        // Initialise the internal framebuffer.
+        m_impl->frameBuffer.fillWithBlankData ({ internalWidth, internalHeight });
+
+        m_impl->filter          = filter;
+        m_impl->worldToPixel    = { (float) internalWidth, (float) internalHeight };
+        m_impl->viewport        = { 0, 0, 1, 1 };
 
         // Ensure the screen pointer is valid.
         if (!m_impl->screen)
@@ -144,6 +158,37 @@ namespace water
         }
 
         return false;
+    }
+
+    #pragma endregion
+
+
+    #pragma region Viewport
+
+    void RendererHAPI::setViewport (const Rectangle<float>& viewport)
+    {
+        // Pre-condition: The viewport is valid.
+        if (viewport.isValid())
+        {
+            // Set the viewport and calculate the world-to-pixel scale.
+            m_impl->viewport        = viewport;
+            m_impl->worldToPixel    = { viewport.width() / m_impl->internalRes.x, viewport.height / m_impl->internalRes.y };
+        }
+
+        else
+        {
+            Systems::logger().logError ("RendererHAPI::setViewport(), attempt to set an invalid viewport. Request ignored.");
+        }
+    }
+
+
+    void RendererHAPI::translateViewportTo (const Vector2<float>& translateTo)
+    {
+        // Simply calculate the translation and translate the viewport there.
+        const auto transX = translateTo.x - m_impl->viewport.getLeft();
+        const auto transY = translateTo.y - m_impl->viewport.getTop();
+
+        m_impl->viewport.translate (transX, transY);
     }
 
     #pragma endregion
@@ -307,6 +352,11 @@ namespace water
 
 
     #pragma region Rendering
+
+    void RendererHAPI::setFilteringMode (const FilterMode mode)
+    {
+        m_impl->filter = mode;
+    }
 
 
     void RendererHAPI::clearToBlack (const float blackLevel)

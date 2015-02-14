@@ -25,8 +25,11 @@ namespace water
             /// <summary> Initialise all data and prepare for rendering. </summary>
             /// <param name="screenWidth"> The width of the screen resolution. </param>
             /// <param name="screenHeight"> The height of the screen resolution. </param>
-            /// <param name="unitToPixelScale"> How much to scale the position values during the rendering process. </param>
-            virtual void initialise (const unsigned int screenWidth, const unsigned int screenHeight, const float unitToPixelScale) = 0;
+            /// <param name="internalWidth"> The width of the internal framebuffer. </param>
+            /// <param name="internalHeight"> The height of the internal framebuffer. </param>
+            /// <param name="filter"> The filter to be applied when scaling the internal framebuffer to the screen. </param>
+            /// <param name="maintainAspectRatio"> Whether the aspect ratio of the internal framebuffer should be maintained. </param>
+            virtual void initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter, const bool maintainAspectRatio) = 0;
 
             /// <summary> Updates the IRenderer system. </summary>
             /// <returns> Whether the update was successful. </returns>
