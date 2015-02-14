@@ -49,6 +49,9 @@
     <Filter Include="MagaMen\Loading">
       <UniqueIdentifier>{db01e57d-070e-4347-b14e-00489270fe36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MagaMen\Utility">
+      <UniqueIdentifier>{49f0e6c1-e31a-4a64-9ad3-542b0dc0211a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp">
@@ -117,6 +120,12 @@
     </ClCompile>
     <ClCompile Include="..\..\MagaMen\GameObjects\StaticObject.cpp">
       <Filter>MagaMen\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\Utility\Utility.cpp">
+      <Filter>MagaMen\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\States\MagaMenState.cpp">
+      <Filter>MagaMen\States</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,14 +247,17 @@
     <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp">
       <Filter>MagaMen\States</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp">
-      <Filter>MagaMen\States</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp">
       <Filter>MagaMen\States</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\GameObjects\StaticObject.hpp">
       <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp">
+      <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\Utility\Utility.hpp">
+      <Filter>MagaMen\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

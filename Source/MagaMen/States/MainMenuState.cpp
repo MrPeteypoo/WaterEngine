@@ -1,6 +1,14 @@
 #include "MainMenuState.hpp"
 
 
+// Engine headers.
+#include <Engine/Misc/Vector2.hpp>
+
+
+// Game headers.
+#include <MagaMen/Utility/Utility.hpp>
+
+
 // Game namespace.
 namespace mm
 {
@@ -16,8 +24,10 @@ namespace mm
     {
         if (this != &move)
         {
-            m_dataFile = std::move (move.m_dataFile);
-            m_bgmFile = std::move (move.m_bgmFile);
+            MagaMenState::operator= (std::move (move));
+
+            m_dataFile  = std::move (move.m_dataFile);
+            m_bgmFile   = std::move (move.m_bgmFile);
             m_bgmVolume = move.m_bgmVolume;
 
             // Reset primitives.
@@ -67,7 +77,7 @@ namespace mm
 
     void MainMenuState::render()
     {
-    
+        renderText ("AN73 VOX02-;S 24P[N", 0, 0, { 0, 0 }, 8);
     }
 
     #pragma endregion

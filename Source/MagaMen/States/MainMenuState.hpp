@@ -27,7 +27,7 @@ namespace mm
             MainMenuState (const std::string& loadFrom) : MagaMenState (loadFrom) { }
 
             MainMenuState (MainMenuState&& move);
-            MainMenuState& operator= (MainMenuState&& move);            
+            MainMenuState& operator= (MainMenuState&& move);
             ~MainMenuState() override final { }
             
             MainMenuState (const MainMenuState& copy)               = delete;
