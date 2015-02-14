@@ -41,6 +41,8 @@
     <ClCompile Include="..\..\Engine\Utility\Time.cpp" />
     <ClCompile Include="..\..\MagaMen.cpp" />
     <ClCompile Include="..\..\MagaMen\GameObjects\StaticObject.cpp" />
+    <ClCompile Include="..\..\MagaMen\Loading\MainMenuStateBuilder.cpp" />
+    <ClCompile Include="..\..\MagaMen\Loading\StateBuilder.cpp" />
     <ClCompile Include="..\..\MagaMen\States\MagaMenState.cpp" />
     <ClCompile Include="..\..\MagaMen\States\MainMenuState.cpp" />
     <ClCompile Include="..\..\MagaMen\Utility\Utility.cpp" />
@@ -86,6 +88,8 @@
     <ClInclude Include="..\..\Engine\WaterEngine.hpp" />
     <ClInclude Include="..\..\MagaMen.hpp" />
     <ClInclude Include="..\..\MagaMen\GameObjects\StaticObject.hpp" />
+    <ClInclude Include="..\..\MagaMen\Loading\MainMenuStateBuilder.hpp" />
+    <ClInclude Include="..\..\MagaMen\Loading\StateBuilder.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp" />

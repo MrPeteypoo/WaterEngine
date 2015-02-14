@@ -33,4 +33,16 @@ namespace mm
     }
 
     #pragma endregion
+
+
+    #pragma region Texture handling
+
+    void StaticObject::loadBaseTexture (const std::string& textureName, const bool removeCurrent)
+    {
+        // Use the functionality already available.
+        const auto id = renderer().loadTexture (textureName);
+        setBaseTextureID (id, removeCurrent);
+    }
+
+    #pragma endregion
 }

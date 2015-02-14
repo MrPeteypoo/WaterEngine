@@ -7,6 +7,7 @@
 
 
 // Game headers.
+#include <MagaMen/Loading/MainMenuStateBuilder.hpp>
 #include <MagaMen/Utility/Utility.hpp>
 
 
@@ -45,12 +46,14 @@ namespace mm
 
     bool MainMenuState::onAdd()
     {
-        return true;
+        return MainMenuStateBuilder::loadFromFile (*this);
     }
 
 
     bool MainMenuState::onRemove()
     {
+        audio().clearSoundData();
+        renderer().clearTextureData();
         removePhysicsObjects();
         return true;
     }
@@ -88,12 +91,12 @@ namespace mm
 
         // Make the "Press Start" text flicker on and off every third of a second.
         const float timeSinceStart  = StaticObject::time().timeSinceStart();
-        const bool showText         = std::remainder (timeSinceStart, 0.66f) < 0.33f;
+        const bool showText         = std::fmod (timeSinceStart, 2.0f) < 1.5f;
 
         if (showText)
         {
             // Since we've set the tiling viewport to 1x1 we can use relative co-ordinates!
-            renderText ("Press Start", letters, numbers, { 0.333f, 0.666f }, 0.033f);
+            renderText ("PRESS START", letters, numbers, { 0.333f, 0.666f }, 0.02f);
         }
     }
 

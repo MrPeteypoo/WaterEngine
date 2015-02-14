@@ -39,11 +39,11 @@ namespace mm
 
             #pragma region Game flow
 
-            /// <summary> Loads all of the graphics required by the title screen. </summary>
+            /// <summary> Loads all of the graphics required by the title screen. Also clears previous data. </summary>
             /// <returns> Whether the loading was successful or not. </returns>
             bool onAdd() override final;
 
-            /// <summary> Removes any graphics specific to the title screen. </summary>
+            /// <summary> Removes all graphical and audio data from the game. </summary>
             /// <returns> If something went wrong and an error should be flagged. </returns>
             bool onRemove() override final;
 
@@ -67,6 +67,9 @@ namespace mm
         private:
 
             #pragma region Implementation data
+
+            // Allow the construction of the state externally.
+            friend class MainMenuStateBuilder;
 
             std::vector<StaticObject> m_objects { };    //!< The objects managed by the MainMenuState.
 

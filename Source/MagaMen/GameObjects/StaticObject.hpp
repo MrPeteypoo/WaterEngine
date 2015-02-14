@@ -53,9 +53,8 @@ namespace mm
 
             /// <summary> Causes the object to contact the IRenderer to load a texture which the object will use. </summary>
             /// <param name="textureName"> The file name of the texture which the object should use. </param>
-            /// <param name="frameDimensions"> The width and height of the texture in frames. </param>
             /// <param name="removeCurrent"> Indicates whether the objects current TextureID should be removed from the IRenderer. </param>
-            void loadBaseTexture (const std::string& textureName, const Point& frameDimensions, const bool removeCurrent = false);
+            void loadBaseTexture (const std::string& textureName, const bool removeCurrent = false);
 
             #pragma endregion
     };

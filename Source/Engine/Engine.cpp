@@ -171,7 +171,6 @@ namespace water
             {
                 // Update systems regardless of frame time.
                 m_audio->update();
-                m_renderer->update();
 
                 // Only perform a physics update if the time specifies so.
                 if (m_time->updatePhysics())

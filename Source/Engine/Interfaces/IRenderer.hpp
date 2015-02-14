@@ -59,10 +59,9 @@ namespace water
 
             /// <summary> Crops a part of a texture, permenantly removing data which will become inaccessible. </summary>
             /// <param name="target"> The target texture to crop. </param>
-            /// <param name="right"> How many pixels or units to remove from the right side of the texture. </param>
-            /// <param name="bottom"> How many pixels or units to remove from the bottom of the texture. </param>
-            /// <param name="pixelUnits"> Indicates whether the right and bottom values should be scaled from world units to pixels. </param>
-            virtual void cropTexture (const TextureID target, const float right, const float bottom, const bool pixelUnits) = 0;
+            /// <param name="right"> How many pixels to remove from the right side of the texture. </param>
+            /// <param name="bottom"> How many pixels to remove from the bottom of the texture. </param>
+            virtual void cropTexture (const TextureID target, const int right, const int bottom) = 0;
 
             /// <summary> Set the number width and height of a texture in frames. This enables spritesheet functionality. </summary>
             /// <param name="target"> The texture to modify. </param>

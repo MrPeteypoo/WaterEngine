@@ -49,8 +49,10 @@ namespace mm
 
     void Game::createStates()
     {
+        const auto workingDir = std::string ("../");
+
         // Start by creating the states.
-        m_mainMenu = std::make_shared<MainMenuState> ("Nothing.xml");
+        m_mainMenu = std::make_shared<MainMenuState> (workingDir + "MainMenuState.xml");
     }
 
 

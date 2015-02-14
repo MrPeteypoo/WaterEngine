@@ -25,13 +25,13 @@ namespace mm
             {
                 // Calculate the frame by taking advantage of character order. We must ensure 'A' == 0 to get a correct frame offset.
                 idToUse     = charID;
-                frameToUse  = 0 - 'A' + character;
+                frameToUse  = character - 'A';
             }
 
             else if (character >= '0' && character <= '9')
             {
                 idToUse     = numID;
-                frameToUse  = 0 - '0' + character;
+                frameToUse  = character - '0';
             }
 
             // Render the text.

@@ -137,7 +137,13 @@ namespace water
 
     bool RendererHAPI::update()
     {
-        return HAPI->Update();
+        if (HAPI->Update())
+        {
+            clearToBlack();
+            return true;
+        }
+
+        return false;
     }
 
     #pragma endregion
@@ -234,7 +240,7 @@ namespace water
     }
 
 
-    void RendererHAPI::cropTexture (const TextureID target, const float right, const float bottom, const bool pixelUnits)
+    void RendererHAPI::cropTexture (const TextureID target, const int right, const int bottom)
     {
         // Pre-condition: Right and bottom are actually valid values.
         if (right >= 0 && bottom >= 0)
@@ -245,7 +251,7 @@ namespace water
             if (iterator != m_impl->textures.end())
             {
                 // Scale if necessary.
-                const Point crop = pixelUnits ? Vector2<float> (right, bottom) : Vector2<float> (right, bottom) * m_impl->unitToPixel;
+                const Point crop { right, bottom };
 
                 iterator->second.crop (crop);
             }
