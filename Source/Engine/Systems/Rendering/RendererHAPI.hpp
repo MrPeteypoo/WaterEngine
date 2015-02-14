@@ -49,18 +49,17 @@ namespace water
 
             /// <summary> Loads a texture from local storage, ready for rendering. </summary>
             /// <returns> Returns the ID for the loaded texture. </returns>
-            TextureID loadTexture (const std::string& fileLocation, const Point& frameDimensions) override final;
+            TextureID loadTexture (const std::string& fileLocation) override final;
 
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
             /// <param name="textureDimensions"> The width and height of the blank texture. Can represent world units or pixels. </param>
-            /// <param name="frameDimensions"> The frame dimensions of the texture, if x or y is zero then it is ignored. </param>
-            /// <param name="textureDimensions"> Effects how the texture dimensions are interpreted, if false the values will be scaled, if true they will be in pixels. </param>
+            /// <param name="pixelDimensions"> Effects how the texture dimensions are interpreted, if false the values will be scaled, if true they will be in pixels. </param>
             /// <returns> The ID of the newly created texture. </returns>
-            TextureID createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions) override final;
+            TextureID createBlankTexture (const Vector2<float>& textureDimensions, const bool pixelDimensions) override final;
 
             /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
             /// <param name="target"> The texture to modify. </param>
-            /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
+            /// <param name="dimensions"> The desired width and height in units for the texture. </param>
             /// <param name="pixelUnits"> Specifies whether the dimensions should be treat as world or pixel units. </param>
             void scaleTexture (const TextureID target, const Vector2<float>& dimensions, const bool pixelUnits) override final;
 
@@ -70,6 +69,11 @@ namespace water
             /// <param name="bottom"> How many pixels or units to remove from the bottom of the texture. </param>
             /// <param name="pixelUnits"> Indicates whether the right and bottom values should be scaled from world units to pixels. </param>
             void cropTexture (const TextureID target, const float right, const float bottom, const bool pixelUnits) override final;
+
+            /// <summary> Set the number width and height of a texture in frames. This enables spritesheet functionality. </summary>
+            /// <param name="target"> The texture to modify. </param>
+            /// <param name="dimensions"> The new frame dimensions of the texture. If the X or Y is zero then spritesheet functionality is disabled. </param>
+            void setFrameDimensions (const TextureID target, const Point& dimensions) override final;
 
             /// <summary> Deletes a loaded texture from the system. </summary>
             /// <param name="texture"> The ID of the texture to delete. </param>

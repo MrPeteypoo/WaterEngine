@@ -128,8 +128,8 @@ namespace water
             return true;
         }
 
-        Systems::logger().logError ("GameWorld::addState(), the onAdd() method for state " + std::to_string (id) + " returned false, state was not added.");
-        return false;
+        // Stop execution immediately.
+        throw std::runtime_error ("GameWorld::addState(), the onAdd() method for state " + std::to_string (id) + " returned false, state was not added.");
     }
 
 
@@ -145,16 +145,15 @@ namespace water
         }
 
         // Call onRemove to make sure the state cleans itself.
-        const bool successful = iterator->second->onRemove();
-
-        if (!successful)
+        if (iterator->second->onRemove())
         {
-            Systems::logger().logWarning ("GameWorld::removeState(), the onRemove() method for state " + std::to_string (id) + " returned false.");   
+            // Remove the state.
+            m_states.erase (id);
+            return true;
         }
-
-        // Remove the state.
-        m_states.erase (id);
-        return successful;
+        
+        // Stop execution immediately.
+        throw std::runtime_error ("GameWorld::removeState(), the onRemove() method for state " + std::to_string (id) + " returned false.");
     }
 
 

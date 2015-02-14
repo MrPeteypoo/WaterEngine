@@ -22,11 +22,13 @@ namespace water
         {
             m_position      = std::move (move.m_position);
             m_baseTexture   = move.m_baseTexture;
+            m_blendType     = move.m_blendType;
             m_name          = std::move (move.m_name);
             m_tag           = std::move (move.m_tag);
 
             // Reset primitives.
             move.m_baseTexture = 0;
+            move.m_blendType = BlendType::Opaque;
         }
 
         return *this;

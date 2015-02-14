@@ -12,7 +12,10 @@ namespace water
     // Forward declarations. 
     class IGameWorld;
     class IAudio;
+    class IInput;
     class ILogger;
+    class IRenderer;
+    class ITime;
     class PhysicsObject;
 
 
@@ -77,17 +80,23 @@ namespace water
 
             #pragma region Commonly accessed systems
 
-            /// <summary> Obtain a reference to the active IGameWorld. </summary>
-            /// <returns> The game world. </returns>
+            /// <summary> Obtains a reference to the IGameWorld system used by the engine. </summary>
             static IGameWorld& gameWorld();
 
-            /// <summary> Obtain a reference to the active audio system. </summary>
-            /// <returns> The audio systems. </returns>
+            /// <summary> Obtains a reference to the IAudio system used by the engine. </summary>
             static IAudio& audio();
 
-            /// <summary> Obtain a reference to the active ILogger. </summary>
-            /// <returns> A working logger. </returns>
+            /// <summary> Obtains a reference to the IInput system used by the engine. </summary>
+            static IInput& input();
+
+            /// <summary> Obtains a reference to the ILogger system used by the engine. </summary>
             static ILogger& logger();
+
+            /// <summary> Obtains a reference to the IRenderer system used by the engine. </summary>
+            static IRenderer& renderer();
+
+            /// <summary> Obtains a reference to the ITime system used by the engine. </summary>
+            static ITime& time();
 
             #pragma endregion
 

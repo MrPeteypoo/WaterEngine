@@ -46,16 +46,29 @@ namespace water
         return Systems::gameWorld();
     }
 
-
     IAudio& GameState::audio()
     {
         return Systems::audio();
     }
 
+    /*IInput& GameState::input()
+    {
+        return Systems::input();
+    }*/
 
     ILogger& GameState::logger()
     {
         return Systems::logger();
+    }
+
+    IRenderer& GameState::renderer()
+    {
+        return Systems::renderer();
+    }
+
+    ITime& GameState::time()
+    {
+        return Systems::time();
     }
 
     #pragma endregion

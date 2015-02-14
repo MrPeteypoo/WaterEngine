@@ -104,7 +104,7 @@ namespace water
 
     void RendererHAPI::Texture::setFrameDimensions (const Point& dimensions)
     {
-        if (dimensions.x == 0 || dimensions.y == 0)
+        if (dimensions.x <= 0 || dimensions.y <= 0)
         {
             // Disable spritesheet functionality.
             resetFrameDimensions();

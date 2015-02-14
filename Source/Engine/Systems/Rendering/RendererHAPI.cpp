@@ -145,7 +145,7 @@ namespace water
 
     #pragma region Data management
 
-    TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const Point& frameDimensions)
+    TextureID RendererHAPI::loadTexture (const std::string& fileLocation)
     {
         // Determine the texture ID.
         const auto textureID = m_impl->hasher (fileLocation);
@@ -156,7 +156,7 @@ namespace water
             // Attempt to load the texture.
             Texture texture { };
 
-            if (texture.initialise (fileLocation, frameDimensions))
+            if (texture.initialise (fileLocation))
             {
                 // Add it to the unordered map.
                 m_impl->textures.emplace (textureID, std::move (texture));
@@ -177,7 +177,7 @@ namespace water
     }
     
 
-    TextureID RendererHAPI::createBlankTexture (const Vector2<float>& textureDimensions, const Point& frameDimensions, const bool pixelDimensions)
+    TextureID RendererHAPI::createBlankTexture (const Vector2<float>& textureDimensions, const bool pixelDimensions)
     {
         // We know that all valid string values will end in .* so we can just increment an integer value and guarantee we'll have a valid
         // hashed TextureID at the end of it!
@@ -192,7 +192,7 @@ namespace water
         // Attempt to creae the blank texture.
         Texture texture { }; 
 
-        if (texture.initialise (dimensions, frameDimensions))
+        if (texture.initialise (dimensions))
         {
             // Finally load the texture and return the ID.
             m_impl->textures.emplace (textureID, std::move (texture));
@@ -259,6 +259,23 @@ namespace water
         else
         {
             Systems::logger().logError ("RendererHAPI::cropTexture(), attempt to crop a texture with negative cropping values. Request will be ignored.");
+        }
+    }
+
+
+    void RendererHAPI::setFrameDimensions (const TextureID target, const Point& dimensions)
+    {
+        // Attempt to find the texture.
+        auto& iterator = m_impl->textures.find (target);
+
+        if (iterator != m_impl->textures.end())
+        {
+            iterator->second.setFrameDimensions (dimensions);
+        }
+
+        else
+        {
+            Systems::logger().logWarning ("RendererHAPI::setFrameDimensions(), attempt to set the dimensions of a non-existent texture.");
         }
     }
 
