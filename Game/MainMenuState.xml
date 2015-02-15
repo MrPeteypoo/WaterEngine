@@ -9,7 +9,7 @@
     
     <StaticObjects>
     
-        <StaticObject Name="Title" Tag="GUI" Texture="Art/GUI/Title.png" Blend="1" X="0.25" Y="0.25" />
+        <StaticObject Name="Title" Tag="GUI" Texture="Art/GUI/Title.png" CropRight="72" CropBottom="7" Blend="1" X="0.116" Y="0.25" />
     
     </StaticObjects>
     
