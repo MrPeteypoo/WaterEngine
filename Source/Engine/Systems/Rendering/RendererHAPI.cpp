@@ -291,15 +291,21 @@ namespace water
         // Pre-condition: Screen resolution is valid.
         if (screenWidth <= 0 || screenHeight <= 0)
         {
-            throw std::invalid_argument ("RendererHAPI::initialise(): Invalid screen resolution given (" + 
+            throw std::invalid_argument ("RendererHAPI::initialise(), invalid screen resolution given (" + 
                                           std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
         }
 
         // Pre-condition: Internal resolution is valid.
         if (internalWidth <= 0 || internalHeight <= 0)
         {
-            throw std::invalid_argument ("RendererHAPI::initialise(): Invalid internal resolution given (" +
+            throw std::invalid_argument ("RendererHAPI::initialise(), invalid internal resolution given (" +
                                           std::to_string (internalWidth) + "x" + std::to_string (internalHeight) + ").");
+        }
+
+        // Pre-condition: If no filtering is applied the internal resolution can't be higher than the screen.
+        if (filter == FilterMode::None && (screenWidth < internalWidth || screenHeight < internalHeight))
+        {
+            throw std::invalid_argument ("RendererHAPI::initialise(), attempt to set internal resolution higher than screen resolution with no scaling filter.");
         }
 
         // Attempt to initialise the renderer.

@@ -397,16 +397,16 @@ namespace water
         // If m_frames is zero it's a single texture and therefore do not need to calculate offsets.
         if (m_frames != 0)
         {
-            const int   frameWidth = textureWidth / m_frameDimensions.x,
-                        frameHeight = textureHeight / m_frameDimensions.y;
+            const float frameWidth  = textureWidth / (float) m_frameDimensions.x,
+                        frameHeight = textureHeight / (float) m_frameDimensions.y;
 
             // Update the texture co-ordinates.
-            texture.setRight (point.x + frameWidth - 1);
-            texture.setBottom (point.y + frameHeight - 1);
+            texture.setRight (point.x + (int) frameWidth - 1);
+            texture.setBottom (point.y + (int) frameHeight - 1);
 
             // Calculate how much we need to translate by.
-            frameOffset.x = frame.x * frameWidth, 0;
-            frameOffset.y = frame.y * frameHeight, 0;
+            frameOffset.x = (int) (frame.x * frameWidth);
+            frameOffset.y = (int) (frame.y * frameHeight);
         }
     
         // We will only draw if the texture is out-of-bounds.
