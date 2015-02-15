@@ -92,9 +92,10 @@ namespace water
 
             #pragma region Scaling
 
-            /// <summary> Scales the texture using bilinear filtering to the desired dimensions. </summary>
-            /// <param name="dimensions"> The width and height to scale to. </param>
-            bool scaleToSize (const Point& dimensions);
+            /// <summary> Scales a texture by the given ratio, this is very useful for load-time image scaling. </summary>
+            /// <param name="ratios"> The X and Y ratio to scale the texture by. </param>
+            /// <param name="mode"> The mode to use for scaling. </param>
+            bool scaleByFactor (const Vector2<float>& ratios, const FilterMode mode);
 
             /// <summary> Crops a number of pixels from the right and bottom of the texture. </summary>
             /// <param name="crop"> The values to crop. </param>
@@ -122,20 +123,21 @@ namespace water
 
             /// <summary> The entry point for blitting functionality. Determines whether blitting is necessary then calls the correct blitting function. </summary>
             /// <param name="target"> The data buffer to write to, this is likely to be the screen. </param>
-            /// <param name="targetSpace"> The Rectangle representing the drawable area of the target. </param>
+            /// <param name="blitTo"> The Rectangle representing the blittable area of the target. </param>
+            /// <param name="clipTo"> The Rectangle representing the visible area of the target. </param>
             /// <param name="point"> Where the blitting should begin, if this is out-of-bounds then the texture will be clipped. </param>
-            /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
             /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
+            /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
             /// <returns> Whether the blitting was successful. </returns>
-            bool blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame);
+            bool blitTo (BYTE* const target, const Rectangle<int>& blitTo, const Rectangle<int>& clipTo, const Point& point, const Point& frame, const BlendType blend);
 
             /// <summary> An overload which blits the current texture onto the target texture. </summary>
             /// <param name="target"> The target texture to be altered. </param>
             /// <param name="point"> Where the blitting should begin, if this is out-of-bounds then the texture will be clipped. </param>
-            /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
             /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
+            /// <param name="blend"> Determines how the texture should be blended, can have a huge impact on speed. </param>
             /// <returns> Whether the blitting was successful. </returns>
-            bool blit (Texture& target, const Point& point, const BlendType blend, const Point& frame);
+            bool blitTo (Texture& target, const Point& point, const Point& frame, const BlendType blend);
 
             /// <summary> Clears the entire texture to a black level. </summary>
             /// <param name="blackLevel"> A number between 0 and 255 to set the texture to. </param>
@@ -163,9 +165,9 @@ namespace water
             #pragma region Member variables
         
             int             m_frames            { 0 };          //!< How many frames the texture has, assuming it's a spritesheet.
-            Point           m_frameDimensions   {  };           //!< The width and height of the spritesheet.
+            Point           m_frameDimensions   { 0, 0 };       //!< The width and height of the spritesheet.
 
-            Rectangle<int>  m_textureSpace      {  };           //!< The total rectangular area of the texture.
+            Rectangle<int>  m_textureSpace      { };            //!< The total rectangular area of the texture.
 
             BYTE*           m_data              { nullptr };    //!< The raw memory data of the texture.
 

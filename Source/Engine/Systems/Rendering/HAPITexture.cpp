@@ -199,55 +199,70 @@ namespace water
 
     #pragma region Scaling
 
-    bool RendererHAPI::Texture::scaleToSize (const Point& dimensions)
+    bool RendererHAPI::Texture::scaleByFactor (const Vector2<float>& ratios, const FilterMode mode)
     {
-        // Pre-condition: Ensure the dimensions are valid.
-        if (dimensions.x <= 0 || dimensions.y <= 0)
+        // Pre-condition: Check if we need to scale at all.
+        if (mode == FilterMode::None)
+        {
+            return true;
+        }
+
+        // Pre-condition: Ensure the ratios aren't 1:1
+        if (ratios.x == 1.f && ratios.y == 1.f)
+        {
+            return true;
+        }
+
+        // Work on the basis of colours instead of bytes for the scaling.
+        const auto  width       = m_textureSpace.width(),
+                    height      = m_textureSpace.height();
+
+        const auto  newWidth    = (int) (width * ratios.x),
+                    newHeight   = (int) (height * ratios.y);
+
+        // Allocate the required data.
+        Colour* scaledData      = new Colour[newWidth * newHeight];
+
+        // Ensure the allocation is valid.
+        if (!scaledData)
         {
             return false;
         }
 
-        // Work on the basis of colours instead of bytes for the scaling.
-        const auto  width   = m_textureSpace.width(),
-                    height  = m_textureSpace.height();
-
-        // Don't do anything if no scaling is to be performed.
-        if (dimensions.x != width || dimensions.y != height)
+        // Filter each pixel.
+        for (int y = 0; y < newHeight; ++y)
         {
-            const auto  floatWidth  = (float) dimensions.x,
-                        floatHeight = (float) dimensions.y;
-
-            // Allocate the required data.
-            Colour* scaledData      = new Colour[dimensions.x * dimensions.y];
-
-            // Ensure the allocation is valid.
-            if (!scaledData)
+            for (int x = 0; x < newWidth; ++x)
             {
-                return false;
-            }
+                // We need to find where we are in terms of the unscaled data.
+                const float unscaledX = (float) x / newWidth * (width - 1),
+                            unscaledY = (float) y / newHeight * (height - 1);
 
-            // Filter each pixel.
-            for (int y = 0; y < dimensions.y; ++y)
-            {
-                for (int x = 0; x < dimensions.x; ++x)
+                // Now we need to use the correct algorithm.
+                switch (mode)
                 {
-                    // We need to find where we are in terms of the unscaled data.
-                    const float unscaledX = x / floatWidth * width,
-                                unscaledY = y / floatHeight * height;
+                    case FilterMode::NearestNeighbour:
+                        scaledData[x + y * newWidth] = nearestNeighbourPixel (*this, unscaledX, unscaledY, width);
+                        break;
+                    
+                    case FilterMode::Bilinear:
+                        scaledData[x + y * newWidth] = bilinearFilteredPixel (*this, unscaledX, unscaledY, width);
+                        break;
 
-                    // Now we need to calculate the current scaled pixel using bilinear filtering.
-                    scaledData[x + y * dimensions.x] = bilinearFilteredPixel (*this, unscaledX, unscaledY, width);
+                    // Not implemented!
+                    default:
+                        return false;
                 }
             }
-
-            // Clean up the old texture data and replace it with the new data.
-            cleanUp();
-            m_data          = (BYTE*) scaledData;
-            m_textureSpace  = { 0, 0, dimensions.x - 1, dimensions.y - 1 };
-
-            // Reset the frame calculations.
-            setFrameDimensions (m_frameDimensions);
         }
+
+        // Clean up the old texture data and replace it with the new data.
+        cleanUp();
+        m_data          = (BYTE*) scaledData;
+        m_textureSpace  = { 0, 0, newWidth - 1, newHeight - 1 };
+
+        // Reset the frame calculations.
+        setFrameDimensions (m_frameDimensions);
 
         return true;
     }
@@ -256,7 +271,7 @@ namespace water
     Colour RendererHAPI::Texture::nearestNeighbourPixel (const Texture& source, const float x, const float y, const int width)
     {
         // We need to floor the X and Y values then return the correct pixel.
-        const auto px = (int) x, py = (int) y;
+        const auto px    = (int) x, py = (int) y;
 
         const auto pixel = (Colour*) (source.m_data) + px + py * width;
 
@@ -271,34 +286,34 @@ namespace water
         /// Available at: http://fastcpp.blogspot.co.uk/2011/06/bilinear-pixel-interpolation-using-sse.html (Accessed: 07/02/2015).
 
         // Start by flooring X and Y so we can interpolate between pixels.
-        const auto  px      = (int) x,
-                    py      = (int) y;
+        const auto  px  = (int) x,
+                    py  = (int) y;
 
         // Obtain the base pixel.
-        const auto  p0      = (Colour*) (source.m_data) + px + py * width;
+        const auto  p0  = (Colour*) (source.m_data) + px + py * width;
  
         // Obtain a reference to the four neighbouring pixels.
-        const auto& p1      = p0[0 + 0 * width],
-                    p2      = p0[1 + 0 * width],
-                    p3      = p0[0 + 1 * width],
-                    p4      = p0[1 + 1 * width];
+        const auto& p1  = p0[0 + 0 * width],
+                    p2  = p0[1 + 0 * width],
+                    p3  = p0[0 + 1 * width],
+                    p4  = p0[1 + 1 * width];
  
-        // Calculate the weights for each pixel. This is where we determine how much to blend each neighbour by. We need to clamp to prevent overshooting.
-        const auto  fx      = x - px,
-                    fy      = y - py,
-                    fx1     = 1.0f - fx,
-                    fy1     = 1.0f - fy;
+        // Calculate the weights for each pixel. This is where we determine how much to blend each neighbour by.
+        const auto  fx  = x - px,
+                    fy  = y - py,
+                    fx1 = 1.0f - fx,
+                    fy1 = 1.0f - fy;
   
-        const auto  w1      = (BYTE) (fx1 * fy1 * 256.f),
-                    w2      = (BYTE) (fx  * fy1 * 256.f),
-                    w3      = (BYTE) (fx1 * fy * 256.f),
-                    w4      = (BYTE) (fx  * fy * 256.f);
+        const auto  w1  = (BYTE) (fx1 * fy1 * 256.f),
+                    w2  = (BYTE) (fx  * fy1 * 256.f),
+                    w3  = (BYTE) (fx1 * fy * 256.f),
+                    w4  = (BYTE) (fx  * fy * 256.f);
  
         // Interpolate each channel, for cache reasons calculate in BGRA order.
-        const BYTE  b       = (p1.blue * w1 + p2.blue * w2 + p3.blue * w3 + p4.blue * w4) >> 8,
-                    g       = (p1.green * w1 + p2.green * w2 + p3.green * w3 + p4.green * w4) >> 8,
-                    r       = (p1.red * w1 + p2.red * w2 + p3.red * w3 + p4.red * w4) >> 8,
-                    a       = (p1.alpha * w1 + p2.alpha * w2 + p3.alpha * w3 + p4.alpha * w4) >> 8;
+        const BYTE  b   = (p1.blue * w1 + p2.blue * w2 + p3.blue * w3 + p4.blue * w4) >> 8,
+                    g   = (p1.green * w1 + p2.green * w2 + p3.green * w3 + p4.green * w4) >> 8,
+                    r   = (p1.red * w1 + p2.red * w2 + p3.red * w3 + p4.red * w4) >> 8,
+                    a   = (p1.alpha * w1 + p2.alpha * w2 + p3.alpha * w3 + p4.alpha * w4) >> 8;
  
         return { r, g, b, a };
     }
@@ -351,7 +366,7 @@ namespace water
 
     #pragma region Blitting
 
-    bool RendererHAPI::Texture::blit (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const BlendType blend, const Point& frame)
+    bool RendererHAPI::Texture::blitTo (BYTE* const target, const Rectangle<int>& blitTo, const Rectangle<int>& clipTo, const Point& point, const Point& frame, const BlendType blend)
     {
         // Pre-condition: target is a valid pointer.
         if (!target)
@@ -382,8 +397,8 @@ namespace water
         // If m_frames is zero it's a single texture and therefore do not need to calculate offsets.
         if (m_frames != 0)
         {
-            const unsigned int  frameWidth = textureWidth / m_frameDimensions.x,
-                                frameHeight = textureHeight / m_frameDimensions.y;
+            const int   frameWidth = textureWidth / m_frameDimensions.x,
+                        frameHeight = textureHeight / m_frameDimensions.y;
 
             // Update the texture co-ordinates.
             texture.setRight (point.x + frameWidth - 1);
@@ -395,13 +410,13 @@ namespace water
         }
     
         // We will only draw if the texture is out-of-bounds.
-        if (targetSpace.intersects (texture))
+        if (clipTo.intersects (texture))
         {
             // Check if any clipping is necessary.
-            if (!targetSpace.contains (texture))
+            if (!clipTo.contains (texture))
             {
                 // Clip the rectangle.
-                texture.clipTo (targetSpace);
+                texture.clipTo (clipTo);
             }
             
             // Translate back to texture space, ready for blitting.
@@ -411,27 +426,26 @@ namespace water
             switch (blend)
             {
                 case BlendType::Opaque:
-                    blitOpaque (target, targetSpace, point, frameOffset, texture);
+                    blitOpaque (target, blitTo, point, frameOffset, texture);
                     break;
 
                 case BlendType::Transparent:
-                    blitTransparent (target, targetSpace, point, frameOffset, texture);
+                    blitTransparent (target, blitTo, point, frameOffset, texture);
                     break;
             }
         }
 
         // Do nothing if it doesn't intersect.
-
         return true;
     }
 
 
-    bool RendererHAPI::Texture::blit (Texture& target, const Point& point, const BlendType blend, const Point& frame)
+    bool RendererHAPI::Texture::blitTo (Texture& target, const Point& point, const Point& frame, const BlendType blend)
     {
         // Forward onto the normal blitting function.
-        return blit (target.m_data, target.m_textureSpace, point, blend, frame);
+        return blitTo (target.m_data, target.m_textureSpace, target.m_textureSpace, point, frame, blend);
     }
-
+    
 
     void RendererHAPI::Texture::blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
     {    

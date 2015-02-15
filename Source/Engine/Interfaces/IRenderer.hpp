@@ -77,11 +77,6 @@ namespace water
             /// <returns> The ID of the newly created texture. </returns>
             virtual TextureID createBlankTexture (const Vector2<float>& dimensions) = 0;
 
-            /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
-            /// <param name="target"> The texture to modify. </param>
-            /// <param name="dimensions"> The desired width and height in pixels for the texture. </param>
-            virtual void scaleTexture (const TextureID target, const Vector2<float>& dimensions) = 0;
-
             /// <summary> Crops a part of a texture, permenantly removing data which will become inaccessible. </summary>
             /// <param name="target"> The target texture to crop. </param>
             /// <param name="right"> How many pixels to remove from the right side of the texture. </param>
@@ -108,12 +103,6 @@ namespace water
             /// <summary> Sets the scaling mode of the renderer. Nearest-neighbour is the fastest but bilinear should provide nicer results. </summary
             /// <param name="mode"> The desired filtering mode to use when upscaling to the screen resolution. </param>
             virtual void setFilteringMode (const FilterMode mode) = 0;
-        
-            /// <summary> Clears the screen to a black level between 0 and 1, quicker than clearing to a colour. </summary>
-            virtual void clearToBlack (const float blackLevel = 0) = 0;        
-
-            /// <summary> Clears the entire screen to a single colour. </summary>
-            virtual void clearToColour (const float red, const float green, const float blue, const float alpha = 1.f) = 0;
 
             /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
             /// <param name="point"> The top-left point where the texture should render from. </param>
@@ -124,7 +113,7 @@ namespace water
             /// <param name="point"> The top-left point where the texture should render from. </param>
             /// <param name="id"> The ID of the texture to render. </param>
             /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
-            virtual void drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend, const Point& frame) = 0;
+            virtual void drawToScreen (const Vector2<float>& point, const TextureID id, const Point& frame, const BlendType blend) = 0;
 
             /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>
             /// <param name="point"> The target top-left point on the texture to draw onto. </param>
@@ -139,7 +128,7 @@ namespace water
             /// <param name="target"> The target texture to draw onto. </param>
             /// <param name="blend"> The type of alpha blending to perform. </param>
             /// <param name="frame"> The frame of the source texture to draw. </param>
-            virtual void drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame) = 0;
+            virtual void drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const Point& frame, const BlendType blend) = 0;
 
             #pragma endregion
     };

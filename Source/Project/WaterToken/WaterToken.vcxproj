@@ -243,7 +243,7 @@
       <AdditionalDependencies>HAPI.lib;sfml-system.lib;sfml-audio.lib;user32.lib;gdi32.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
-      <Profile>true</Profile>
+      <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -270,7 +270,7 @@
       <AdditionalDependencies>HAPI64.lib;sfml-system64.lib;sfml-audio64.lib;user32.lib;gdi32.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
-      <Profile>true</Profile>
+      <Profile>false</Profile>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -48,7 +48,6 @@ namespace water
             int             internalWidth   { 240 };    //!< The width of the internal resolution.
             int             internalHeight  { 232 };    //!< The height of the internal resolution.
             int             filterMode      { 0 };      //!< The desired filtering mode to use during upscaling.
-            bool            aspectRatio     { true };   //!< Whether to correct the aspect ratio or not.
         };
 
         /// <summary> Initialisation settings for time systems. </summary>

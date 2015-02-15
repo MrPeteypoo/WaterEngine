@@ -28,8 +28,7 @@ namespace water
             /// <param name="internalWidth"> The width of the internal framebuffer. </param>
             /// <param name="internalHeight"> The height of the internal framebuffer. </param>
             /// <param name="filter"> The filter to be applied when scaling the internal framebuffer to the screen. </param>
-            /// <param name="maintainAspectRatio"> Whether the aspect ratio of the internal framebuffer should be maintained. </param>
-            virtual void initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter, const bool maintainAspectRatio) = 0;
+            virtual void initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter) = 0;
 
             /// <summary> Updates the IRenderer system. </summary>
             /// <returns> Whether the update was successful. </returns>

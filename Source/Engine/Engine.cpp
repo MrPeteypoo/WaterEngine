@@ -294,7 +294,7 @@ namespace water
 
         m_renderer->initialise (config.rendering.screenWidth,               config.rendering.screenHeight, 
                                 config.rendering.internalWidth,             config.rendering.internalHeight,
-                                (FilterMode) config.rendering.filterMode,   config.rendering.aspectRatio);
+                                (FilterMode) config.rendering.filterMode);
 
         m_time->initialise (config.time.physicsFPS, config.time.updateFPS, config.time.minFPS);
     }

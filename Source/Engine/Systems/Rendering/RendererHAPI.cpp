@@ -32,11 +32,12 @@ namespace water
     struct RendererHAPI::Impl final
     {
         BYTE*                                   screen          { nullptr };    //!< A pointer to the memory address of the screen buffer.
-        Rectangle<int>                          screenSpace     { };            //!< A rectangle representing the screen space, used for clipping.
-        Point                                   screenOffset    { 0, 0 };       //!< The offset to apply when upscaling to the screen, this is useful when maintaining the aspect ratio of the internal resolution.
-
-        Texture                                 framebuffer     { };            //!< An internal buffer which represents the screen being drawn to.
-        Vector2<int>                            internalRes     { };            //!< The internal resolution of the renderer.
+        Rectangle<int>                          screenSpace     { };            //!< A rectangle representing the screen space, used for blitting.
+        Rectangle<int>                          drawSpace       { };            //!< The actual drawable area of the screen. Useful for clipping.
+        Point                                   screenOffset    { 0, 0 };       //!< The offset to apply when upscaling, this is useful when maintaining the aspect ratio of the internal resolution.
+        
+        Vector2<int>                            internalRes     { };            //!< The internal resolution of the renderer, required for world to pixel conversion.
+        Vector2<float>                          textureScale    { 1, 1 };       //!< The scale ratios used to filter loaded textures to a desired size.
         FilterMode                              filter          { };            //!< The filter to be applied during the framebuffer scaling.
 
         Rectangle<float>                        viewport        { };            //!< The visible area of the screen in world units.
@@ -130,64 +131,91 @@ namespace water
     }
 
 
-    void RendererHAPI::initialiseFramebuffer (const int width, const int height, const FilterMode filter)
+    void RendererHAPI::initialiseScaling (const int internalWidth, const int internalHeight, const FilterMode filter)
     {
-        // Initialise the internal framebuffer.
-        m_impl->internalRes = { width, height };
+        // Set default values.
+        m_impl->filter       = filter;
+        m_impl->viewport     = { 0, 0, 1, 1 };
 
-        if (!m_impl->framebuffer.fillWithBlankData (m_impl->internalRes))
+        // Prepare the internal resolution, required for world to pixel scaling.
+        m_impl->internalRes = { internalWidth, internalHeight };
+
+        // Ensure we have correct offset values.
+        calculateScalingOffset();
+
+        // We need to calculate the drawable area of the screen.
+        const auto  screenWidth  = m_impl->screenSpace.width(),
+                    screenHeight = m_impl->screenSpace.height();
+
+        m_impl->drawSpace.setLeft (m_impl->screenOffset.x);
+        m_impl->drawSpace.setTop (m_impl->screenOffset.y);
+        m_impl->drawSpace.setRight (screenWidth - m_impl->screenOffset.x);
+        m_impl->drawSpace.setBottom (screenHeight - m_impl->screenOffset.y);
+
+
+        // We need to calculate the ratio between the internal resolution and the external resolution.
+        const auto  drawWidth  = (float) m_impl->drawSpace.width(),
+                    drawHeight = (float) m_impl->drawSpace.height();
+        
+        if (screenWidth == internalWidth && screenHeight == internalHeight)
         {
-            throw std::runtime_error ("RendererHAPI::initialiseFramebuffer(), unable to create the framebuffer.");
+            m_impl->textureScale = { 1.f, 1.f };
         }
 
-        m_impl->filter          = filter;
-        m_impl->worldToPixel    = { (float) width, (float) height };
-        m_impl->viewport        = { 0, 0, 1, 1 };        
+        else
+        {
+            m_impl->textureScale.x = drawWidth / internalWidth;
+            m_impl->textureScale.y = drawHeight / internalHeight;
+        }
+
+        // We need to enable the correct world to unit scale.
+        m_impl->worldToPixel = { drawWidth, drawHeight };
     }
 
 
-    void RendererHAPI::fixAspectRatio()
+    void RendererHAPI::calculateScalingOffset()
     {
-        // We need to obtain the aspect ratio of the screen and the internal framebuffer and compare the two.
-        const auto  screenWidth     = m_impl->screenSpace.width(),
-                    screenHeight    = m_impl->screenSpace.height(),
-                    internalWidth   = m_impl->internalRes.x,
-                    internalHeight  = m_impl->internalRes.y;
-
-        const auto  screenRatio     = (float) screenWidth / screenHeight,
-                    internalRatio   = (float) internalWidth / internalHeight;
-
-        // If the internal ratio is wider we need to correct the Y offset.
-        if (internalRatio > screenRatio)
+        // We should just centre the screen if no scaling is to be applied.
+        if (m_impl->filter == FilterMode::None)
         {
-            // We need to divide by the aspect ratio to determine the drawable height of the screen!
-            const auto desiredHeight = screenWidth / internalRatio;
-
-            // We use half of the difference to have padding on the top and bottom of the screen.
-            m_impl->screenOffset.y = (int) ((screenHeight - desiredHeight) / 2.f);
+            // Simply set the offset to be the difference between the internal and external resolutions.
+            m_impl->screenOffset.x = (m_impl->screenSpace.width() - m_impl->internalRes.x) / 2;
+            m_impl->screenOffset.y = (m_impl->screenSpace.height() - m_impl->internalRes.y) / 2;
         }
-
-        // If the internal ratio is narrower we need to correct the X offset.
-        if (internalRatio < screenRatio)
+        
+        else
         {
-            // We need to multiply the current height by the internal ratio to calculate the desired width.
-            const auto desiredWidth = screenHeight * internalRatio;
+            // We need to obtain the aspect ratio of the screen and the internal framebuffer and compare the two.
+            const auto  screenWidth     = m_impl->screenSpace.width(),
+                        screenHeight    = m_impl->screenSpace.height();
 
-            // We use half of the difference to add padding on the left and right of the screen.
-            m_impl->screenOffset.x = (int) ((screenWidth - desiredWidth) / 2.f);
+            const auto  screenRatio     = (float) screenWidth / screenHeight,
+                        internalRatio   = (float) m_impl->internalRes.x / m_impl->internalRes.y;
+
+            // If the internal ratio is wider we need to correct the Y offset.
+            if (internalRatio > screenRatio)
+            {
+                // We need to divide by the aspect ratio to determine the drawable height of the screen!
+                const auto desiredHeight = screenWidth / internalRatio;
+
+                // We use half of the difference to have padding on the top and bottom of the screen.
+                m_impl->screenOffset.y = (int) ((screenHeight - desiredHeight) / 2.f);
+            }
+
+            // If the internal ratio is narrower we need to correct the X offset.
+            if (internalRatio < screenRatio)
+            {
+                // We need to multiply the current height by the internal ratio to calculate the desired width.
+                const auto desiredWidth = screenHeight * internalRatio;
+
+                // We use half of the difference to add padding on the left and right of the screen.
+                m_impl->screenOffset.x = (int) ((screenWidth - desiredWidth) / 2.f);
+            }
         }
     }
 
 
-    void RendererHAPI::centreFramebufferOnScreen()
-    {
-        // Simply set the offset to be the difference between the internal and external resolutions.
-        m_impl->screenOffset.x = (m_impl->screenSpace.width() - m_impl->internalRes.x) / 2;
-        m_impl->screenOffset.y = (m_impl->screenSpace.height() - m_impl->internalRes.y) / 2;
-    }
-
-
-    void RendererHAPI::scaleBufferToScreen()
+    /*void RendererHAPI::scaleBufferToScreen()
     {
         // Clear to black first of all.
         std::memset (m_impl->screen, 0, m_impl->screenSpace.area() * sizeOfColour);
@@ -251,14 +279,14 @@ namespace water
             // Simply blit the framebuffer onto the screen.
             buffer.blit (m_impl->screen, m_impl->screenSpace, m_impl->screenOffset, BlendType::Opaque, { });
         }
-    }
+    }*/
 
     #pragma endregion
 
 
     #pragma region System management
 
-    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter, const bool maintainAspectRatio)
+    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter)
     {
         // Pre-condition: Screen resolution is valid.
         if (screenWidth <= 0 || screenHeight <= 0)
@@ -276,17 +304,7 @@ namespace water
 
         // Attempt to initialise the renderer.
         initialiseHAPI (screenWidth, screenHeight);
-        initialiseFramebuffer (internalWidth, internalHeight, filter);
-
-        if (filter == FilterMode::None)
-        {
-            centreFramebufferOnScreen();
-        }
-
-        else if (maintainAspectRatio)
-        {
-            fixAspectRatio();
-        }
+        initialiseScaling (internalWidth, internalHeight, filter);
     }
 
 
@@ -294,9 +312,8 @@ namespace water
     {
         if (HAPI->Update())
         {
-            // Output the framebuffer to the screen.
-            scaleBufferToScreen();
-            m_impl->framebuffer.clearToBlack(0);
+            // Clear the screen area to black.
+            std::memset (m_impl->screen, 0, m_impl->screenSpace.area() * sizeOfColour);
             return true;
         }
 
@@ -315,7 +332,7 @@ namespace water
         {
             // Set the viewport and calculate the world-to-pixel scale.
             m_impl->viewport        = viewport;
-            m_impl->worldToPixel    = { viewport.width() / m_impl->internalRes.x, viewport.height() / m_impl->internalRes.y };
+            m_impl->worldToPixel    = { m_impl->drawSpace.width() / viewport.width(), m_impl->drawSpace.height() / viewport.height() };
         }
 
         else
@@ -354,6 +371,12 @@ namespace water
             {
                 // Ensure the cropping is only done once unless manually cropped to avoid over-cropping.
                 texture.crop ({ cropRight, cropBottom });
+
+                // Next scale the texture to the desired size.
+                if (!texture.scaleByFactor (m_impl->textureScale, m_impl->filter))
+                {
+                    Systems::logger().logError ("RendererHAPI::loadTexture(), unable to scale loaded texture, possibly ran out of memory.");
+                }
 
                 // Add it to the unordered map.
                 m_impl->textures.emplace (textureID, std::move (texture));
@@ -399,29 +422,6 @@ namespace water
                                         std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ".");
 
         return 0;
-    }
-
-
-    void RendererHAPI::scaleTexture (const TextureID target, const Vector2<float>& dimensions)
-    {
-        // Ensure the texture actually exists.
-        auto& iterator = m_impl->textures.find (target);
-
-        if (iterator != m_impl->textures.end())
-        {
-            // Inform the texture to change its dimensions.
-            if (!iterator->second.scaleToSize (dimensions))
-            {
-                // The texture will still be valid so just output an error.
-                Systems::logger().logWarning ("RendererHAPI::scaleTexture(), unable to scale texture to " +
-                                                  std::to_string (dimensions.x) + "x" + std::to_string (dimensions.y) + ".");
-            }
-        }
-        
-        else
-        {
-            Systems::logger().logWarning ("RendererHAPI::scaleTexture(), attempt to scale non-existent texture.");
-        }
     }
 
 
@@ -499,33 +499,13 @@ namespace water
     }
 
 
-    void RendererHAPI::clearToBlack (const float blackLevel)
-    {
-        const auto black = (BYTE) (channel * util::clamp (blackLevel, 0.f, 1.f));
-
-        m_impl->framebuffer.clearToBlack (black);
-    }
-
-
-    void RendererHAPI::clearToColour (const float red, const float green, const float blue, const float alpha)
-    {
-        // Construct the colour and pass it on to the framebuffer.
-        const Colour    colour      {   (BYTE) (channel * red),
-                                        (BYTE) (channel * green), 
-                                        (BYTE) (channel * blue), 
-                                        (BYTE) (channel * alpha) };
-
-        m_impl->framebuffer.clearToColour (colour);
-    }
-
-
     void RendererHAPI::drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend)
     {
-        drawToScreen (point, id, blend, { 0, 0 });
+        drawToScreen (point, id, { 0, 0 }, blend);
     }
 
 
-    void RendererHAPI::drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend, const Point& frame)
+    void RendererHAPI::drawToScreen (const Vector2<float>& point, const TextureID id, const Point& frame, const BlendType blend)
     {
         // Check if the texture exists.
         auto& iterator = m_impl->textures.find (id);
@@ -536,11 +516,10 @@ namespace water
             const auto translation  = Vector2<float> (m_impl->viewport.getLeft(), m_impl->viewport.getTop());
             const auto drawPoint    = point + translation;
 
-            const auto pixelSpace   = (Point) (point * m_impl->worldToPixel);
+            const auto pixelSpace   = (Point) (point * m_impl->worldToPixel) + m_impl->screenOffset;
 
             // Blit the valid texture.
-            //if (!iterator->second.blit (m_impl->screen, m_impl->screenSpace, pixelSpace))
-            if (!iterator->second.blit (m_impl->framebuffer, pixelSpace, blend, frame))
+            if (!iterator->second.blitTo (m_impl->screen, m_impl->screenSpace, m_impl->drawSpace, pixelSpace, frame, blend))
             {
                 // Output a silly error!
                 Systems::logger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 
@@ -558,11 +537,11 @@ namespace water
 
     void RendererHAPI::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend)
     {
-        drawToTexture (point, source, target, blend, { 0, 0 });
+        drawToTexture (point, source, target, { 0, 0 }, blend);
     }
 
 
-    void RendererHAPI::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend, const Point& frame)
+    void RendererHAPI::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const Point& frame, const BlendType blend)
     {
         // Obtain the iterators to both textures.
         auto& sourceIterator = m_impl->textures.find (source);
@@ -575,7 +554,7 @@ namespace water
             const auto pixelSpace = (Point) (point * m_impl->worldToPixel);
 
             // Blit the source texture onto the target.
-            if (!sourceIterator->second.blit (targetIterator->second, pixelSpace, blend, frame))
+            if (!sourceIterator->second.blitTo (targetIterator->second, pixelSpace, frame, blend))
             {
                 // Output a silly error!
                 Systems::logger().logError ("RendererHAPI::drawToScreen(), unable to blit texture, ensure frame \"" + 

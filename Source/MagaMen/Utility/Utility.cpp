@@ -37,7 +37,7 @@ namespace mm
             // Render the text.
             if (frameToUse != -1)
             {
-                water::Systems::renderer().drawToScreen (textPosition, idToUse, water::BlendType::Transparent, { frameToUse, 0 });
+                water::Systems::renderer().drawToScreen (textPosition, idToUse, { frameToUse, 0 }, water::BlendType::Transparent);
             }
 
             // Increase the position offset for the next render.
