@@ -100,9 +100,15 @@ namespace water
             /// <param name="crop"> The values to crop. </param>
             void crop (const Point& crop);
 
-            /// <summary> Calculates the bilinear filtered pixel of the given x and y values. </summary>
+            /// <summary> Calculates the bilinear filtered pixel of the given x and y values. The width, right and bottom values allow efficiency to be increased. </summary>
+            /// <param name="source"> The source texture to create a filtered pixel from. </param>
+            /// <param name="x"> The X co-ordinate to be calculated. </param>
+            /// <param name="y"> The Y co-ordinate to be calculated. </param>
+            /// <param name="width"> The width of the texture. </param>
+            /// <param name="right"> The right-most point of the texture. </param>
+            /// <param name="bottom"> The bottom-most pointer of the texture. </param>
             /// <returns> The calculated filtered pixel. </returns>
-            Colour bilinearFilteredPixel (const float x, const float y) const;        
+            static Colour bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width, const int right, const int bottom);        
 
             #pragma endregion
 
@@ -125,6 +131,14 @@ namespace water
             /// <param name="frame"> The co-ordinate of the frame to be drawn, (0, 0) should be used for single images. </param>
             /// <returns> Whether the blitting was successful. </returns>
             bool blit (Texture& target, const Point& point, const BlendType blend, const Point& frame);
+
+            /// <summary> Clears the entire texture to a black level. </summary>
+            /// <param name="blackLevel"> A number between 0 and 255 to set the texture to. </param>
+            void clearToBlack (const BYTE blackLevel = 0);
+
+            /// <summary> Clears the entire texture to a given colour. </summary>
+            /// <param name="colour"> The desired colour of the texture. </param>
+            void clearToColour (const Colour& colour);
 
             #pragma endregion
         

@@ -234,7 +234,7 @@ namespace water
                                 unscaledY = y / floatHeight * height;
 
                     // Now we need to calculate the current scaled pixel using bilinear filtering.
-                    scaledData[x + y * dimensions.x] = bilinearFilteredPixel (unscaledX, unscaledY);
+                    scaledData[x + y * dimensions.x] = bilinearFilteredPixel (*this, unscaledX, unscaledY, width, m_textureSpace.getRight(), m_textureSpace.getBottom());
                 }
             }
 
@@ -251,30 +251,28 @@ namespace water
     }
 
 
-    Colour RendererHAPI::Texture::bilinearFilteredPixel (const float x, const float y) const
+    Colour RendererHAPI::Texture::bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width, const int right, const int bottom)
     {
         /// This code is a modified version of a very useful blog post.
         /// theowl84 (2011) 'Bilinear Pixel Interpolation using SSE', FastC++: Coding Cpp Efficiently, 16 June.
         /// Available at: http://fastcpp.blogspot.co.uk/2011/06/bilinear-pixel-interpolation-using-sse.html (Accessed: 07/02/2015).
 
-        // We avoid casting as much as possible here since this is a load-time function, we do not need to sacrifice clarity for efficiency.
         // Start by flooring X and Y so we can interpolate between pixels.
         const auto  px      = (int) x,
-                    py      = (int) y,
-                    stride  = m_textureSpace.width();
+                    py      = (int) y;
 
         // Obtain the base pixel.
-        const auto  p0      = (Colour*) (m_data) + px + py * stride;
+        const auto  p0      = (Colour*) (source.m_data) + px + py * width;
  
         // Obtain a reference to the four neighbouring pixels.
-        const auto& p1      = p0[0 + 0 * stride],
-                    p2      = p0[1 + 0 * stride],
-                    p3      = p0[0 + 1 * stride],
-                    p4      = p0[1 + 1 * stride];
+        const auto& p1      = p0[0 + 0 * width],
+                    p2      = p0[1 + 0 * width],
+                    p3      = p0[0 + 1 * width],
+                    p4      = p0[1 + 1 * width];
  
         // Calculate the weights for each pixel. This is where we determine how much to blend each neighbour by. We need to clamp to prevent overshooting.
-        const auto  fx      = x < m_textureSpace.getRight() ? x - px : 0.f,
-                    fy      = y < m_textureSpace.getBottom() ? y - py : 0.f,
+        const auto  fx      = x < right ? x - px : 0.f,
+                    fy      = y < bottom ? y - py : 0.f,
                     fx1     = 1.0f - fx,
                     fy1     = 1.0f - fy,
   
@@ -290,6 +288,19 @@ namespace water
                     a       = (BYTE) (p1.alpha * w1 + p2.alpha * w2 + p3.alpha * w3 + p4.alpha * w4);
  
         return { r, g, b, a };
+
+        /*int w1 = fx1 * fy1 * 256.0f;
+        int w2 = fx  * fy1 * 256.0f;
+        int w3 = fx1 * fy  * 256.0f;
+        int w4 = fx  * fy  * 256.0f;
+ 
+        // Calculate the weighted sum of pixels (for each color channel)
+        int outr = p1.r * w1 + p2.r * w2 + p3.r * w3 + p4.r * w4;
+        int outg = p1.g * w1 + p2.g * w2 + p3.g * w3 + p4.g * w4;
+        int outb = p1.b * w1 + p2.b * w2 + p3.b * w3 + p4.b * w4;
+        int outa = p1.a * w1 + p2.a * w2 + p3.a * w3 + p4.a * w4;
+ 
+        return Pixel(outr >> 8, outg >> 8, outb >> 8, outa >> 8);*/
     }
 
 
@@ -510,6 +521,26 @@ namespace water
             // Since the width is done we must go onto the next line.
             currentPixel += targetWidth - dataWidth;
             currentData += textureWidth - dataWidth;
+        }
+    }
+
+
+    void RendererHAPI::Texture::clearToBlack (const BYTE blackLevel)
+    {
+        std::memset (m_data, blackLevel, m_textureSpace.area() * sizeOfColour);
+    }
+
+
+    void RendererHAPI::Texture::clearToColour (const Colour& colour)
+    {
+        // Loop through each pixel
+        const auto size = m_textureSpace.area();
+        for (auto i = 0; i < size; ++i)
+        {
+            // Find the correct memory address
+            auto pixel = m_data + i * sizeOfColour;
+
+            std::memcpy (pixel, &colour, sizeOfColour);
         }
     }
 

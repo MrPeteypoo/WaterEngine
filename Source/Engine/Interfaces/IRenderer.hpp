@@ -70,9 +70,9 @@ namespace water
             virtual TextureID loadTexture (const std::string& fileLocation) = 0;
 
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
-            /// <param name="textureDimensions"> The width and height of the blank texture in pixels. </param>
+            /// <param name="dimensions"> The width and height of the blank texture in pixels. </param>
             /// <returns> The ID of the newly created texture. </returns>
-            virtual TextureID createBlankTexture (const Vector2<float>& textureDimensions) = 0;
+            virtual TextureID createBlankTexture (const Vector2<float>& dimensions) = 0;
 
             /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
             /// <param name="target"> The texture to modify. </param>

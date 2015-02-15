@@ -68,9 +68,9 @@ namespace water
             TextureID loadTexture (const std::string& fileLocation) override final;
 
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
-            /// <param name="textureDimensions"> The width and height of the blank texture in pixels. </param>
+            /// <param name="dimensions"> The width and height of the blank texture in pixels. </param>
             /// <returns> The ID of the newly created texture. </returns>
-            TextureID createBlankTexture (const Vector2<float>& textureDimensions) override final;
+            TextureID createBlankTexture (const Vector2<float>& dimensions) override final;
 
             /// <summary> Scales a texture to an arbitrary width and height value. This is a permanent effect. </summary>
             /// <param name="target"> The texture to modify. </param>
@@ -150,6 +150,9 @@ namespace water
 
             /// <summary> Calculate the offset required to correct the aspect ratio of the screen resolution so that it matches the internal framebuffer. </summary>
             void fixAspectRatio();
+
+            /// <summary> Uses the desired filtering algorithm to scale the framebuffer to the screen resolution. </summary>
+            void scaleBufferToScreen();
 
             #pragma endregion
 
