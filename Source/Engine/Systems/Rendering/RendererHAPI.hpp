@@ -142,6 +142,14 @@ namespace water
 
             #pragma region Internal workings
 
+            /// <summary> Initialise HAPI with the given screen resolution. </summary>
+            void initialiseHAPI (const int width, const int height);
+
+            /// <summary> Initialise the internal framebuffer with the given resolution. </summary>
+            void initialiseFramebuffer (const int width, const int height, const FilterMode filter);
+
+            /// <summary> Calculate the offset required to correct the aspect ratio of the screen resolution so that it matches the internal framebuffer. </summary>
+            void fixAspectRatio();
 
             #pragma endregion
 

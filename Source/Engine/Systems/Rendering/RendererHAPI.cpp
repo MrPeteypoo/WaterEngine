@@ -97,6 +97,86 @@ namespace water
     #pragma endregion
 
 
+    #pragma region Internal workings
+
+    void RendererHAPI::initialiseHAPI (const int width, const int height)
+    {
+        // Prepare to initialise HAPI.
+        int finalWidth = width, 
+            finalHeight = height;
+
+        if (!HAPI->Initialise (&finalWidth, &finalHeight))
+        {
+            throw std::runtime_error ("RendererHAPI::initialise(), unable to initialise HAPI.");
+        }
+
+        // Set the correct screen values.
+        m_impl->screen          = HAPI->GetScreenPointer();
+        m_impl->screenSpace     = { 0, 0, width - 1, height - 1 };
+        m_impl->screenOffset    = { 0, 0 };
+
+        // Ensure the screen pointer is valid.
+        if (!m_impl->screen)
+        {
+            throw std::runtime_error ("RendererHAPI::initialise(): Failed to obtain a pointer to the screenbuffer.");
+        }
+
+        // Enable the FPS display if necessary.
+        #if defined _DEBUG || defined SHOW_FPS
+
+        HAPI->SetShowFPS (true);
+
+        #endif
+    }
+
+
+    void RendererHAPI::initialiseFramebuffer (const int width, const int height, const FilterMode filter)
+    {
+        // Initialise the internal framebuffer.
+        m_impl->frameBuffer.fillWithBlankData ({ width, height });
+
+        m_impl->filter          = filter;
+        m_impl->worldToPixel    = { (float) width, (float) height };
+        m_impl->viewport        = { 0, 0, 1, 1 };        
+    }
+
+
+    void RendererHAPI::fixAspectRatio()
+    {
+        // We need to obtain the aspect ratio of the screen and the internal framebuffer and compare the two.
+        const auto  screenWidth     = m_impl->screenSpace.width(),
+                    screenHeight    = m_impl->screenSpace.height(),
+                    internalWidth   = m_impl->internalRes.x,
+                    internalHeight  = m_impl->internalRes.y;
+
+        const auto  screenRatio     = (float) screenWidth / screenHeight,
+                    internalRatio   = (float) internalWidth / internalHeight;
+
+        // If the internal ratio is wider we need to correct the Y offset.
+        if (internalRatio > screenRatio)
+        {
+            // We need to divide by the aspect ratio to determine the drawable height of the screen!
+            const auto desiredHeight = screenWidth / internalRatio;
+
+            // We use half of the difference to have padding on the top and bottom of the screen.
+            m_impl->screenOffset.y = (int) ((screenHeight - desiredHeight) / 2.f);
+        }
+
+        // If the internal ratio is narrower we need to correct the X offset.
+        else if (internalRatio < screenRatio)
+        {
+            // We need to multiply the current height by the internal ratio to calculate the desired width.
+            const auto desiredWidth = screenHeight * internalRatio;
+
+            // We use half of the difference to add padding on the left and right of the screen.
+            m_impl->screenOffset.x = (int) ((screenWidth - desiredWidth) / 2.f);
+        }
+    }
+
+
+    #pragma endregion
+
+
     #pragma region System management
 
     void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter, const bool maintainAspectRatio)
@@ -115,36 +195,13 @@ namespace water
                                           std::to_string (internalWidth) + "x" + std::to_string (internalHeight) + ").");
         }
 
+        // Attempt to initialise the renderer.
+        initialiseHAPI (screenWidth, screenHeight);
+        initialiseFramebuffer (internalWidth, internalHeight, filter);
 
-        // Initialise HAPI.
-        int width = screenWidth, height = screenHeight;
-
-        if (!HAPI->Initialise (&width, &height))
+        if (maintainAspectRatio)
         {
-            throw std::runtime_error ("RendererHAPI::initialise(), unable to initialise HAPI.");
-        }
-
-        m_impl->screen          = HAPI->GetScreenPointer();
-        m_impl->screenSpace     = { 0, 0, width - 1, height - 1 };
-        m_impl->screenOffset    = { 0, 0 };
-
-        #if defined _DEBUG || defined SHOW_FPS
-
-        HAPI->SetShowFPS (true);
-
-        #endif
-
-        // Initialise the internal framebuffer.
-        m_impl->frameBuffer.fillWithBlankData ({ internalWidth, internalHeight });
-
-        m_impl->filter          = filter;
-        m_impl->worldToPixel    = { (float) internalWidth, (float) internalHeight };
-        m_impl->viewport        = { 0, 0, 1, 1 };
-
-        // Ensure the screen pointer is valid.
-        if (!m_impl->screen)
-        {
-            throw std::runtime_error ("RendererHAPI::initialise(): Failed to obtain a pointer to the screenbuffer.");
+            fixAspectRatio();
         }
     }
 
@@ -172,7 +229,7 @@ namespace water
         {
             // Set the viewport and calculate the world-to-pixel scale.
             m_impl->viewport        = viewport;
-            m_impl->worldToPixel    = { viewport.width() / m_impl->internalRes.x, viewport.height / m_impl->internalRes.y };
+            m_impl->worldToPixel    = { viewport.width() / m_impl->internalRes.x, viewport.height() / m_impl->internalRes.y };
         }
 
         else

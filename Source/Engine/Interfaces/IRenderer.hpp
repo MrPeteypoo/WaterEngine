@@ -7,8 +7,8 @@
 
 
 // Forward declarations.
+template <typename T> class Rectangle;
 template <typename T> struct Vector2;
-template <typename T> struct Rectangle;
 using Point = Vector2<int>;
 
 
