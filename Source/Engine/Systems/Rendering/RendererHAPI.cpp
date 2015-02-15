@@ -33,7 +33,7 @@ namespace water
     {
         BYTE*                                   screen          { nullptr };    //!< A pointer to the memory address of the screen buffer.
         Rectangle<int>                          screenSpace     { };            //!< A rectangle representing the screen space, used for clipping.
-        Point                                   screenOffset    { };            //!< The offset to apply when upscaling to the screen, this is useful when maintaining the aspect ratio of the internal resolution.
+        Point                                   screenOffset    { 0, 0 };       //!< The offset to apply when upscaling to the screen, this is useful when maintaining the aspect ratio of the internal resolution.
 
         Texture                                 framebuffer     { };            //!< An internal buffer which represents the screen being drawn to.
         Vector2<int>                            internalRes     { };            //!< The internal resolution of the renderer.
@@ -112,7 +112,7 @@ namespace water
 
         // Set the correct screen values.
         m_impl->screen          = HAPI->GetScreenPointer();
-        m_impl->screenSpace     = { 0, 0, width - 1, height - 1 };
+        m_impl->screenSpace     = { 0, 0, finalWidth - 1, finalHeight - 1 };
         m_impl->screenOffset    = { 0, 0 };
 
         // Ensure the screen pointer is valid.
@@ -133,7 +133,12 @@ namespace water
     void RendererHAPI::initialiseFramebuffer (const int width, const int height, const FilterMode filter)
     {
         // Initialise the internal framebuffer.
-        m_impl->framebuffer.fillWithBlankData ({ width, height });
+        m_impl->internalRes = { width, height };
+
+        if (!m_impl->framebuffer.fillWithBlankData (m_impl->internalRes))
+        {
+            throw std::runtime_error ("RendererHAPI::initialiseFramebuffer(), unable to create the framebuffer.");
+        }
 
         m_impl->filter          = filter;
         m_impl->worldToPixel    = { (float) width, (float) height };
@@ -163,7 +168,7 @@ namespace water
         }
 
         // If the internal ratio is narrower we need to correct the X offset.
-        else if (internalRatio < screenRatio)
+        if (internalRatio < screenRatio)
         {
             // We need to multiply the current height by the internal ratio to calculate the desired width.
             const auto desiredWidth = screenHeight * internalRatio;
@@ -174,45 +179,77 @@ namespace water
     }
 
 
+    void RendererHAPI::centreFramebufferOnScreen()
+    {
+        // Simply set the offset to be the difference between the internal and external resolutions.
+        m_impl->screenOffset.x = (m_impl->screenSpace.width() - m_impl->internalRes.x) / 2;
+        m_impl->screenOffset.y = (m_impl->screenSpace.height() - m_impl->internalRes.y) / 2;
+    }
+
+
     void RendererHAPI::scaleBufferToScreen()
     {
-        // Start by obtaining each width and height value.
-        const auto  bufferWidth     = m_impl->internalRes.x,
-                    bufferHeight    = m_impl->internalRes.y,
-                    bufferRight     = bufferWidth - 1,
-                    bufferBottom    = bufferHeight - 1,
-                    
-                    screenWidth     = m_impl->screenSpace.width(),
-                    screenHeight    = m_impl->screenSpace.height(),
+        // Clear to black first of all.
+        std::memset (m_impl->screen, 0, m_impl->screenSpace.area() * sizeOfColour);
 
-        // Take into account the aspect ratio offset when drawing.
-                    drawWidth       = screenWidth - (m_impl->screenOffset.x * 2),
-                    drawHeight      = screenHeight - (m_impl->screenOffset.y * 2),
-                    lineIncrement   = screenWidth - drawWidth;
-        
-        // We need to enforce floating-point division.
-        const auto  floatWidth      = (float) drawWidth,
-                    floatHeight     = (float) drawHeight;
+        // Cache the filter mode.
+        auto&      buffer = m_impl->framebuffer;
+        const auto mode   = m_impl->filter;
 
-        // Work on a pixel-by-pixel basis.
-        Colour* screen = (Colour*) m_impl->screen + m_impl->screenOffset.x + m_impl->screenOffset.y * screenWidth;
-        auto&   buffer = m_impl->framebuffer;
-
-        // Filter each pixel.
-        for (int y = 0; y < drawWidth; ++y)
+        if (m_impl->filter != FilterMode::None)
         {
-            for (int x = 0; x < drawHeight; ++x)
+
+            // Start by obtaining each width and height value.
+            const auto  bufferWidth     = m_impl->internalRes.x,
+                        bufferHeight    = m_impl->internalRes.y,
+                    
+                        screenWidth     = m_impl->screenSpace.width(),
+                        screenHeight    = m_impl->screenSpace.height(),
+
+            // Take into account the aspect ratio offset when drawing.
+                        drawWidth       = screenWidth - (m_impl->screenOffset.x * 2),
+                        drawHeight      = screenHeight - (m_impl->screenOffset.y * 2),
+                        lineIncrement   = screenWidth - drawWidth;
+        
+            // We need to calculate the ratio between the internal resolution and the external resolution.
+            const auto  xRatio          = bufferWidth / (float) drawWidth,
+                        yRatio          = bufferHeight / (float) drawHeight;
+
+            // Work on a pixel-by-pixel basis.
+            Colour* screen = (Colour*) (m_impl->screen) + m_impl->screenOffset.x + m_impl->screenOffset.y * screenWidth;
+
+            // Filter each pixel.
+            for (int y = 0; y < drawHeight; ++y)
             {
-                // We need to find where we are in terms of the buffer
-                const float unscaledX = x / floatWidth * bufferWidth,
-                            unscaledY = y / floatHeight * bufferHeight;
+                for (int x = 0; x < drawWidth; ++x)
+                {
+                    // We need to find where we are in terms of the buffer.
+                    const float unscaledX = x * xRatio,
+                                unscaledY = y * yRatio;
 
-                // Now we need to calculate the current scaled pixel using bilinear filtering.
-                *screen = Texture::bilinearFilteredPixel (buffer, unscaledX, unscaledY, bufferWidth, bufferRight, bufferBottom);
-                ++screen;
+                    // Now we calculate the pixel colour using the correct filter.
+                    switch (mode)
+                    {
+                        case FilterMode::NearestNeighbour:
+                            *screen = Texture::nearestNeighbourPixel (buffer, unscaledX, unscaledY, bufferWidth);
+                            break;
+
+                        case FilterMode::Bilinear:
+                            *screen = Texture::bilinearFilteredPixel (buffer, unscaledX, unscaledY, bufferWidth);
+                            break;
+                    }
+                
+                    ++screen;
+                }
+
+                screen += lineIncrement;
             }
+        }
 
-            screen += lineIncrement;
+        else
+        {
+            // Simply blit the framebuffer onto the screen.
+            buffer.blit (m_impl->screen, m_impl->screenSpace, m_impl->screenOffset, BlendType::Opaque, { });
         }
     }
 
@@ -241,7 +278,12 @@ namespace water
         initialiseHAPI (screenWidth, screenHeight);
         initialiseFramebuffer (internalWidth, internalHeight, filter);
 
-        if (maintainAspectRatio)
+        if (filter == FilterMode::None)
+        {
+            centreFramebufferOnScreen();
+        }
+
+        else if (maintainAspectRatio)
         {
             fixAspectRatio();
         }
@@ -250,12 +292,11 @@ namespace water
 
     bool RendererHAPI::update()
     {
-        // Output the framebuffer to the screen.
-        scaleBufferToScreen();
-
         if (HAPI->Update())
         {
-            m_impl->framebuffer.clearToBlack();
+            // Output the framebuffer to the screen.
+            scaleBufferToScreen();
+            m_impl->framebuffer.clearToBlack(0);
             return true;
         }
 
@@ -298,7 +339,7 @@ namespace water
 
     #pragma region Data management
 
-    TextureID RendererHAPI::loadTexture (const std::string& fileLocation)
+    TextureID RendererHAPI::loadTexture (const std::string& fileLocation, const int cropRight, const int cropBottom)
     {
         // Determine the texture ID.
         const auto textureID = m_impl->hasher (fileLocation);
@@ -311,6 +352,9 @@ namespace water
 
             if (texture.initialise (fileLocation))
             {
+                // Ensure the cropping is only done once unless manually cropped to avoid over-cropping.
+                texture.crop ({ cropRight, cropBottom });
+
                 // Add it to the unordered map.
                 m_impl->textures.emplace (textureID, std::move (texture));
             
@@ -459,8 +503,7 @@ namespace water
     {
         const auto black = (BYTE) (channel * util::clamp (blackLevel, 0.f, 1.f));
 
-        // Use memset for efficiency.
-        std::memset (m_impl->screen, black, m_impl->screenSpace.area() * sizeOfColour);
+        m_impl->framebuffer.clearToBlack (black);
     }
 
 
@@ -489,10 +532,14 @@ namespace water
 
         if (iterator != m_impl->textures.end())
         {
-            // Convert the world-space units to pixel-space.
-            const auto pixelSpace = (Point) (point * m_impl->worldToPixel);
+            // We need to make use of the viewport by translating the world position.
+            const auto translation  = Vector2<float> (m_impl->viewport.getLeft(), m_impl->viewport.getTop());
+            const auto drawPoint    = point + translation;
+
+            const auto pixelSpace   = (Point) (point * m_impl->worldToPixel);
 
             // Blit the valid texture.
+            //if (!iterator->second.blit (m_impl->screen, m_impl->screenSpace, pixelSpace))
             if (!iterator->second.blit (m_impl->framebuffer, pixelSpace, blend, frame))
             {
                 // Output a silly error!

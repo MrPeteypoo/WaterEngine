@@ -98,7 +98,7 @@ namespace water
 
             /// <summary> Sets the blending type of the textures used by the GameObject. </summary>
             /// <param name="type"> Specifies the blending algorithm to be used, Opaque is fastest. </param>
-            void setBlendType (const BlendType type)            { m_blendType; }
+            void setBlendType (const BlendType type)            { m_blendType = type; }
 
             /// <summary> Sets the name of the object. </summary>
             /// <param name="name"> The value to set the name of the object to. </param>

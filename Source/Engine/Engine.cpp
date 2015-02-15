@@ -291,7 +291,11 @@ namespace water
     {
         // We can assume all pointers from here on are valid.
         m_audio->initialise (config.audio.soundLimit, config.audio.bgmMixer, config.audio.sfxMixer);
-        m_renderer->initialise (config.rendering.screenWidth, config.rendering.screenHeight, config.rendering.unitToPixel);
+
+        m_renderer->initialise (config.rendering.screenWidth,               config.rendering.screenHeight, 
+                                config.rendering.internalWidth,             config.rendering.internalHeight,
+                                (FilterMode) config.rendering.filterMode,   config.rendering.aspectRatio);
+
         m_time->initialise (config.time.physicsFPS, config.time.updateFPS, config.time.minFPS);
     }
 
@@ -299,11 +303,11 @@ namespace water
     void Engine::setSystems()
     {
         // Set each system in the Systems class so that every game object gains access.
-        Systems::setAudio (m_audio);
-        Systems::setGameWorld (m_gameWorld);
         Systems::setLogger (m_logger);
+        Systems::setAudio (m_audio);
         Systems::setRenderer (m_renderer);
         Systems::setTime (m_time);
+        Systems::setGameWorld (m_gameWorld);
     }
 
     #pragma endregion

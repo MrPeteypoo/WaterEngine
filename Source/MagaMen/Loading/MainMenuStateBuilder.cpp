@@ -28,10 +28,12 @@ namespace mm
                 const auto workingDir   = std::string (root.child ("WorkingDirectory").text().as_string());
                 const auto letters      = root.child ("LettersTexture");
                 const auto numbers      = root.child ("NumbersTexture");
+                const auto lettersCrop  = Point (letters.attribute ("CropRight").as_int(),  letters.attribute ("CropBottom").as_int());
+                const auto numbersCrop  = Point (numbers.attribute ("CropRight").as_int(),  numbers.attribute ("CropBottom").as_int());
 
                 // Attempt to load the textures.
-                state.letters = state.renderer().loadTexture (workingDir + letters.text().as_string());
-                state.numbers = state.renderer().loadTexture (workingDir + numbers.text().as_string());
+                state.letters = state.renderer().loadTexture (workingDir + letters.text().as_string(), lettersCrop.x, lettersCrop.y);
+                state.numbers = state.renderer().loadTexture (workingDir + numbers.text().as_string(), numbersCrop.x, numbersCrop.y);
                 
                 // Zero is 99% likely to represent an invalid texture.
                 if (state.letters == 0 || state.numbers == 0)
@@ -39,10 +41,8 @@ namespace mm
                     return false;
                 }
 
-                // Crop each texture and set the frame dimensions.
-                const auto lettersCrop      = Point (letters.attribute ("CropRight").as_int(),  letters.attribute ("CropBottom").as_int());
+                // Set the frame dimensions.
                 const auto lettersFrames    = Point (letters.attribute ("XFrames").as_int(),    letters.attribute ("YFrames").as_int());
-                const auto numbersCrop      = Point (numbers.attribute ("CropRight").as_int(),  numbers.attribute ("CropBottom").as_int());
                 const auto numbersFrames    = Point (numbers.attribute ("XFrames").as_int(),    numbers.attribute ("YFrames").as_int());
                 
                 // Ensure the validity of the textures as much as possible
@@ -50,9 +50,6 @@ namespace mm
                 {
                     return false;
                 }
-
-                state.renderer().cropTexture (state.letters, lettersCrop.x, lettersCrop.y);
-                state.renderer().cropTexture (state.numbers, numbersCrop.x, numbersCrop.y);
 
                 state.renderer().setFrameDimensions (state.letters, lettersFrames);
                 state.renderer().setFrameDimensions (state.numbers, numbersFrames);

@@ -43,9 +43,12 @@ namespace water
         /// <summary> Initialisation settings for rendering systems. </summary>
         struct Rendering final
         {
-            unsigned int    screenWidth     { 1024 };   //!< The width of the desired screen resolution.
-            unsigned int    screenHeight    { 768 };    //!< The height of the desired screen resolution.
-            float           unitToPixel     { 64 };     //!< The world unit to screen pixel ratio used in converting positions from world space.
+            int             screenWidth     { 1024 };   //!< The width of the desired screen resolution.
+            int             screenHeight    { 768 };    //!< The height of the desired screen resolution.
+            int             internalWidth   { 240 };    //!< The width of the internal resolution.
+            int             internalHeight  { 232 };    //!< The height of the internal resolution.
+            int             filterMode      { 0 };      //!< The desired filtering mode to use during upscaling.
+            bool            aspectRatio     { true };   //!< Whether to correct the aspect ratio or not.
         };
 
         /// <summary> Initialisation settings for time systems. </summary>

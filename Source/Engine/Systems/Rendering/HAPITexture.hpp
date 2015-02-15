@@ -100,15 +100,20 @@ namespace water
             /// <param name="crop"> The values to crop. </param>
             void crop (const Point& crop);
 
+            /// <summmary> Calculates the nearest neighbour to a pixel at the given x and y values. </summary>
+            /// <param name="source" The source texture to create a filtered pixel from. </param>
+            /// <param name="x"> The X co-ordinate to be calculated. </param>
+            /// <param name="y"> The Y co-ordinate to be calculated. </param>
+            /// <param name="width"> The width of the texture, allows for increased efficiency. </param>
+            static Colour nearestNeighbourPixel (const Texture& source, const float x, const float y, const int width);
+
             /// <summary> Calculates the bilinear filtered pixel of the given x and y values. The width, right and bottom values allow efficiency to be increased. </summary>
             /// <param name="source"> The source texture to create a filtered pixel from. </param>
             /// <param name="x"> The X co-ordinate to be calculated. </param>
             /// <param name="y"> The Y co-ordinate to be calculated. </param>
-            /// <param name="width"> The width of the texture. </param>
-            /// <param name="right"> The right-most point of the texture. </param>
-            /// <param name="bottom"> The bottom-most pointer of the texture. </param>
+            /// <param name="width"> The width of the texture, allows for increased efficiency. </param>
             /// <returns> The calculated filtered pixel. </returns>
-            static Colour bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width, const int right, const int bottom);        
+            static Colour bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width);
 
             #pragma endregion
 
@@ -157,12 +162,12 @@ namespace water
 
             #pragma region Member variables
         
-            int             m_frames            { 0 };  //!< How many frames the texture has, assuming it's a spritesheet.
-            Point           m_frameDimensions   {  };   //!< The width and height of the spritesheet.
+            int             m_frames            { 0 };          //!< How many frames the texture has, assuming it's a spritesheet.
+            Point           m_frameDimensions   {  };           //!< The width and height of the spritesheet.
 
-            Rectangle<int>  m_textureSpace      {  };   //!< The total rectangular area of the texture.
+            Rectangle<int>  m_textureSpace      {  };           //!< The total rectangular area of the texture.
 
-            BYTE*           m_data              {  };   //!< The raw memory data of the texture.
+            BYTE*           m_data              { nullptr };    //!< The raw memory data of the texture.
 
             #pragma endregion
     };

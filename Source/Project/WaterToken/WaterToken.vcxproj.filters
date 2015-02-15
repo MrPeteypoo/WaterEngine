@@ -54,15 +54,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp">
-      <Filter>Engine\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Misc\Vector2.cpp">
-      <Filter>Engine\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Misc\Vector3.cpp">
-      <Filter>Engine\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Engine\Utility\Time.cpp">
       <Filter>Engine\Utility</Filter>
     </ClCompile>

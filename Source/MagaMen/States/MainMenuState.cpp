@@ -96,7 +96,7 @@ namespace mm
         if (showText)
         {
             // Since we've set the tiling viewport to 1x1 we can use relative co-ordinates!
-            renderText ("PRESS START", letters, numbers, { 0.333f, 0.666f }, 0.02f);
+            renderText ("PRESS START", letters, numbers, { 0.333f, 0.666f }, 0.033f);
         }
     }
 

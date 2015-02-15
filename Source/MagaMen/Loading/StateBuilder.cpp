@@ -35,10 +35,15 @@ namespace mm
         const auto posX     = node.attribute ("X").as_float();
         const auto posY     = node.attribute ("Y").as_float();
 
+        // Load the texture and crop if necessary.
+        const auto cropX    = node.attribute ("CropRight").as_int();
+        const auto cropY    = node.attribute ("CropBottom").as_int();
+        const auto textID   = StaticObject::renderer().loadTexture (texture, cropX, cropY);
+
         // Set the data to the corresponding values.
         fill.setName (name);
         fill.setTag (tag);
-        fill.loadBaseTexture (texture);
+        fill.setBaseTextureID (textID);
         fill.setBlendType ((water::BlendType) blend);
         fill.setPosition ({ posX, posY });
 

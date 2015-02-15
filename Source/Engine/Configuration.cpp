@@ -58,9 +58,12 @@ namespace water
             config.logging.timestamp        = logger.attribute ("Timestamp").as_bool();
 
             // Renderer settings.
-            config.rendering.screenWidth    = renderer.attribute ("ScreenWidth").as_uint();
-            config.rendering.screenHeight   = renderer.attribute ("ScreenHeight").as_uint();
-            config.rendering.unitToPixel    = renderer.attribute ("UnitToPixelScale").as_float();
+            config.rendering.screenWidth    = renderer.attribute ("ScreenWidth").as_int();
+            config.rendering.screenHeight   = renderer.attribute ("ScreenHeight").as_int();
+            config.rendering.internalWidth  = renderer.attribute ("InternalWidth").as_int();
+            config.rendering.internalHeight = renderer.attribute ("InternalHeight").as_int();
+            config.rendering.filterMode     = renderer.attribute ("FilterMode").as_int();
+            config.rendering.aspectRatio    = renderer.attribute ("MaintainAspectRatio").as_bool();
 
             // Time settings.
             config.time.physicsFPS          = time.attribute ("PhysicsFPS").as_uint();

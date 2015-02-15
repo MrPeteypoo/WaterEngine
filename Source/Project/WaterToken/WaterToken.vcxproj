@@ -25,9 +25,6 @@
     <ClCompile Include="..\..\Engine\GameComponents\GameObject.cpp" />
     <ClCompile Include="..\..\Engine\GameComponents\GameState.cpp" />
     <ClCompile Include="..\..\Engine\GameComponents\PhysicsObject.cpp" />
-    <ClCompile Include="..\..\Engine\Misc\Rectangle.cpp" />
-    <ClCompile Include="..\..\Engine\Misc\Vector2.cpp" />
-    <ClCompile Include="..\..\Engine\Misc\Vector3.cpp" />
     <ClCompile Include="..\..\Engine\Systems\Audio\AudioSFML.cpp" />
     <ClCompile Include="..\..\Engine\Systems\Audio\SFMLSound.cpp" />
     <ClCompile Include="..\..\Engine\Systems\GameWorld\GameWorld.cpp" />
@@ -230,7 +227,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>SFML_STATIC;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SHOW_FPS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -246,6 +243,7 @@
       <AdditionalDependencies>HAPI.lib;sfml-system.lib;sfml-audio.lib;user32.lib;gdi32.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -256,7 +254,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SHOW_FPS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)</ProgramDataBaseFileName>
       <AdditionalIncludeDirectories>$(SolutionDir)..\..\Lib\HAPI\;$(SolutionDir)..\;$(SolutionDir)..\Engine\;$(SolutionDir)..\..\Lib\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -272,6 +270,7 @@
       <AdditionalDependencies>HAPI64.lib;sfml-system64.lib;sfml-audio64.lib;user32.lib;gdi32.lib;ole32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\Lib\HAPI;$(SolutionDir)..\..\Lib\SFML</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

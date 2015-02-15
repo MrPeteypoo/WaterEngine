@@ -1,6 +1,10 @@
 #include "HAPITexture.hpp"
 
 
+// Engine headers.
+#include <Utility/Maths.hpp>
+
+
 // Third party headers.
 #include <HAPI/HAPI_lib.h>
 
@@ -25,17 +29,19 @@ namespace water
     {
         if (this != &move)
         {
-            // Obtain all of the data from the movee.
-            m_frames = move.m_frames;
+            cleanUp();
 
-            m_frameDimensions = std::move (move.m_frameDimensions);
-            m_textureSpace = std::move (move.m_textureSpace);
-            m_data = move.m_data;
+            // Obtain all of the data from the movee.
+            m_frames            = move.m_frames;
+
+            m_frameDimensions   = std::move (move.m_frameDimensions);
+            m_textureSpace      = std::move (move.m_textureSpace);
+            m_data              = move.m_data;
 
 
             // Reset the movee.
-            move.m_frames = 0;
-            move.m_data = nullptr;
+            move.m_frames       = 0;
+            move.m_data         = nullptr;
         }
 
         return *this;
@@ -170,7 +176,7 @@ namespace water
 
         // Allocate enough data.
         const auto size = dimensions.x * dimensions.y;
-        m_data = new BYTE[size];
+        m_data = new BYTE[size * sizeOfColour];
 
         // Check whether the allocation was successful.
         if (!m_data)
@@ -181,13 +187,9 @@ namespace water
         // Prepare the texture.
         resetFrameDimensions();
 
-        m_textureSpace = { 0, 0, dimensions.x, dimensions.y };
+        m_textureSpace = { 0, 0, dimensions.x - 1, dimensions.y - 1 };
 
-        // Ensure all data is black.
-        for (auto i = 0; i < size; ++i)
-        {
-            m_data[i] = 0;
-        }
+        clearToBlack();
 
         return true;
     }
@@ -234,7 +236,7 @@ namespace water
                                 unscaledY = y / floatHeight * height;
 
                     // Now we need to calculate the current scaled pixel using bilinear filtering.
-                    scaledData[x + y * dimensions.x] = bilinearFilteredPixel (*this, unscaledX, unscaledY, width, m_textureSpace.getRight(), m_textureSpace.getBottom());
+                    scaledData[x + y * dimensions.x] = bilinearFilteredPixel (*this, unscaledX, unscaledY, width);
                 }
             }
 
@@ -251,7 +253,18 @@ namespace water
     }
 
 
-    Colour RendererHAPI::Texture::bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width, const int right, const int bottom)
+    Colour RendererHAPI::Texture::nearestNeighbourPixel (const Texture& source, const float x, const float y, const int width)
+    {
+        // We need to floor the X and Y values then return the correct pixel.
+        const auto px = (int) x, py = (int) y;
+
+        const auto pixel = (Colour*) (source.m_data) + px + py * width;
+
+        return *pixel;
+    }
+
+
+    Colour RendererHAPI::Texture::bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width)
     {
         /// This code is a modified version of a very useful blog post.
         /// theowl84 (2011) 'Bilinear Pixel Interpolation using SSE', FastC++: Coding Cpp Efficiently, 16 June.
@@ -271,36 +284,23 @@ namespace water
                     p4      = p0[1 + 1 * width];
  
         // Calculate the weights for each pixel. This is where we determine how much to blend each neighbour by. We need to clamp to prevent overshooting.
-        const auto  fx      = x < right ? x - px : 0.f,
-                    fy      = y < bottom ? y - py : 0.f,
+        const auto  fx      = x - px,
+                    fy      = y - py,
                     fx1     = 1.0f - fx,
-                    fy1     = 1.0f - fy,
+                    fy1     = 1.0f - fy;
   
-                    w1      = fx1 * fy1,
-                    w2      = fx  * fy1,
-                    w3      = fx1 * fy,
-                    w4      = fx  * fy;
+        const auto  w1      = (BYTE) (fx1 * fy1 * 256.f),
+                    w2      = (BYTE) (fx  * fy1 * 256.f),
+                    w3      = (BYTE) (fx1 * fy * 256.f),
+                    w4      = (BYTE) (fx  * fy * 256.f);
  
         // Interpolate each channel, for cache reasons calculate in BGRA order.
-        const auto  b       = (BYTE) (p1.blue * w1 + p2.blue * w2 + p3.blue * w3 + p4.blue * w4),
-                    g       = (BYTE) (p1.green * w1 + p2.green * w2 + p3.green * w3 + p4.green * w4),
-                    r       = (BYTE) (p1.red * w1 + p2.red * w2 + p3.red * w3 + p4.red * w4),
-                    a       = (BYTE) (p1.alpha * w1 + p2.alpha * w2 + p3.alpha * w3 + p4.alpha * w4);
+        const BYTE  b       = (p1.blue * w1 + p2.blue * w2 + p3.blue * w3 + p4.blue * w4) >> 8,
+                    g       = (p1.green * w1 + p2.green * w2 + p3.green * w3 + p4.green * w4) >> 8,
+                    r       = (p1.red * w1 + p2.red * w2 + p3.red * w3 + p4.red * w4) >> 8,
+                    a       = (p1.alpha * w1 + p2.alpha * w2 + p3.alpha * w3 + p4.alpha * w4) >> 8;
  
         return { r, g, b, a };
-
-        /*int w1 = fx1 * fy1 * 256.0f;
-        int w2 = fx  * fy1 * 256.0f;
-        int w3 = fx1 * fy  * 256.0f;
-        int w4 = fx  * fy  * 256.0f;
- 
-        // Calculate the weighted sum of pixels (for each color channel)
-        int outr = p1.r * w1 + p2.r * w2 + p3.r * w3 + p4.r * w4;
-        int outg = p1.g * w1 + p2.g * w2 + p3.g * w3 + p4.g * w4;
-        int outb = p1.b * w1 + p2.b * w2 + p3.b * w3 + p4.b * w4;
-        int outa = p1.a * w1 + p2.a * w2 + p3.a * w3 + p4.a * w4;
- 
-        return Pixel(outr >> 8, outg >> 8, outb >> 8, outa >> 8);*/
     }
 
 
@@ -315,12 +315,12 @@ namespace water
                         copyWidth   = width * (int) sizeOfColour;
 
             // Determine the new width and height values. Require at least 1x1 size.
-            const auto  newWidth    = crop.x >= width ? 1 : width - crop.x,
-                        newHeight   = crop.y >= height ? 1 : height - crop.y,
+            const auto  newWidth    = util::max (width - crop.x, 1),
+                        newHeight   = util::max (height - crop.y, 1),
                         newOffset   = newWidth * (int) sizeOfColour;                        
 
             // Allocate the required data.
-            BYTE* scaledData    = new BYTE[newWidth * newHeight * sizeOfColour];
+            BYTE* scaledData    = new BYTE[newOffset * newHeight];
 
             // Ensure the allocation is valid.
             if (scaledData)
@@ -473,7 +473,10 @@ namespace water
                     textureWidth    = m_textureSpace.width() * sizeOfColour,
                 
                     dataOffset      = (drawArea.getLeft() + frameOffset.x) * sizeOfColour + (drawArea.getTop() + frameOffset.y) * textureWidth,
-                    targetOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * targetWidth;
+                    targetOffset    = (point.x + drawArea.getLeft()) * sizeOfColour + (point.y + drawArea.getTop()) * targetWidth,
+
+                    sourceIncrement = textureWidth - dataWidth,
+                    targetIncrement = targetWidth - dataWidth;
 
         // Create the required pointers for the blitting process.
         auto        currentData     = m_data + dataOffset;
@@ -519,8 +522,8 @@ namespace water
             }
 
             // Since the width is done we must go onto the next line.
-            currentPixel += targetWidth - dataWidth;
-            currentData += textureWidth - dataWidth;
+            currentPixel += targetIncrement;
+            currentData += sourceIncrement;
         }
     }
 
