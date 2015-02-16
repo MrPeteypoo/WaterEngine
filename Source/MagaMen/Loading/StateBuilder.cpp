@@ -6,7 +6,7 @@
 
 
 // Third party headers.
-#include <ThirdParty/pugixml.hpp>
+#include <Pugi/pugixml.hpp>
 
 
 // Game namespace.

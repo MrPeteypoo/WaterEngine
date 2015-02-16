@@ -38,8 +38,8 @@
 // #define PUGIXML_MEMORY_XPATH_PAGE_SIZE 4096
 
 // Uncomment this to switch to header-only version
-// #define PUGIXML_HEADER_ONLY
-// #include "pugixml.cpp"
+#define PUGIXML_HEADER_ONLY
+#include "pugixml.cpp"
 
 // Uncomment this to enable long long support
 // #define PUGIXML_HAS_LONG_LONG
