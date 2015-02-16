@@ -17,7 +17,7 @@ namespace water
         public:
 
             // Ensure destructor is virtual since this is an interface.
-            virtual ~IEngineRenderer() {}
+            virtual ~IEngineRenderer() override {}
 
 
             #pragma region System management

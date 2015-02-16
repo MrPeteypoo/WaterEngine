@@ -19,7 +19,7 @@ namespace water
         public:
 
             // Ensure destructor is virtual since this is an interface.
-            virtual ~IEngineTime() {}
+            virtual ~IEngineTime() override {}
 
 
             #pragma region System management
