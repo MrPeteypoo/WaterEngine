@@ -268,5 +268,8 @@
     <ClInclude Include="..\..\Engine\Utility\Misc.hpp">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\MagaMen\Misc\Actions.hpp">
+      <Filter>MagaMen\Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

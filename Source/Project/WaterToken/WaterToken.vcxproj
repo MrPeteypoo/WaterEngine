@@ -89,6 +89,7 @@
     <ClInclude Include="..\..\MagaMen\GameObjects\StaticObject.hpp" />
     <ClInclude Include="..\..\MagaMen\Loading\MainMenuStateBuilder.hpp" />
     <ClInclude Include="..\..\MagaMen\Loading\StateBuilder.hpp" />
+    <ClInclude Include="..\..\MagaMen\Misc\Actions.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp" />

@@ -13,7 +13,7 @@
     <Settings>
         <Audio SoundLimit="256" BGMVolume="1" SFXVolume="0.85" />
         <Logger Output="WaterLog" Timestamp="true" />
-        <Renderer ScreenWidth="1024" ScreenHeight="768" InternalWidth="240" InternalHeight="232" FilterMode="2" />
+        <Renderer ScreenWidth="1024" ScreenHeight="768" InternalWidth="240" InternalHeight="224" FilterMode="1" />
         <Time PhysicsFPS="60" UpdateFPS="0" MinFPS="10" />
     </Settings>
 </WaterEngine>

@@ -194,8 +194,8 @@ namespace water
 
         m_impl->drawSpace.setLeft (m_impl->screenOffset.x);
         m_impl->drawSpace.setTop (m_impl->screenOffset.y);
-        m_impl->drawSpace.setRight (screenWidth - m_impl->screenOffset.x);
-        m_impl->drawSpace.setBottom (screenHeight - m_impl->screenOffset.y);
+        m_impl->drawSpace.setRight (screenWidth - m_impl->screenOffset.x - 1);
+        m_impl->drawSpace.setBottom (screenHeight - m_impl->screenOffset.y - 1);
 
 
         // We need to calculate the ratio between the internal resolution and the external resolution.
