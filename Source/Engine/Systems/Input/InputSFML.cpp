@@ -84,8 +84,12 @@ namespace water
 
     void InputSFML::processButton (const ControllerButton& button)
     {
-        // Use KeyButton algorithm to avoid code duplication.
-        keyButtonAlgorithm (button.id, isButtonPressed (button.controller, button.button));
+        // Don't waste computation cycles if the controller isn't plugged in.
+        if (isConnected (button.controller))
+        {
+            // Use KeyButton algorithm to avoid code duplication.
+            keyButtonAlgorithm (button.id, isButtonPressed (button.controller, button.button));
+        }        
     }
 
 
@@ -169,16 +173,18 @@ namespace water
     void InputSFML::removeActionByID (const int id, std::vector<T>& actions)
     {
         // Simply iterate through the vector swapping and popping matching ID values!
-        for (auto& action : actions)
+        for (auto i = 0U; i < actions.size(); ++i)
         {
+            auto& action = actions[i];
             if (action.id == id)
             {
                 // Swap'n'pop!
                 std::swap (action, actions.back());
                 actions.pop_back();
+                --i;
 
                 // Update the references and erase the ActionState if necessary.
-                if (updateActionReferenceCount (id, false))
+                if (!updateActionReferenceCount (id, false))
                 {
                     m_actions.erase (id);
                     break;

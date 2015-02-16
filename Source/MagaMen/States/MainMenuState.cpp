@@ -51,8 +51,10 @@ namespace mm
     {
         const auto start = water::KeyboardKey { 1, water::Key::Return };
         const auto start2 = water::KeyboardKey { 1, water::Key::Space };
+        const auto start3 = water::KeyboardKey { 2, water::Key::Space };
         input().addAction (start);
         input().addAction (start2);
+        input().addAction (start3);
 
         return MainMenuStateBuilder::loadFromFile (*this);
     }
@@ -88,6 +90,7 @@ namespace mm
         if (input().getActionUp (1))
         {
             logger().log ("Button up");
+            input().removeAction (1);
         }
 
         if (input().getActionDown (1))
