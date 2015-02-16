@@ -7,7 +7,7 @@
 
 
 // Engine headers.
-#include <Utility/String.hpp>
+#include <Utility/Misc.hpp>
 
 
 // Third party headers.
@@ -35,8 +35,9 @@ namespace water
 
             // Obtain the systems information. System names should be lower case.
             const auto systems              = root.child ("Systems");
-
+            
             config.systems.audio            = util::toLower (systems.child ("Audio").text().as_string());
+            config.systems.input            = util::toLower (systems.child ("Input").text().as_string());
             config.systems.logger           = util::toLower (systems.child ("Logger").text().as_string());
             config.systems.renderer         = util::toLower (systems.child ("Renderer").text().as_string());
             config.systems.time             = util::toLower (systems.child ("Time").text().as_string());

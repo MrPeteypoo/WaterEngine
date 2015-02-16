@@ -10,9 +10,6 @@
     <Filter Include="Engine\Utility">
       <UniqueIdentifier>{fd504d1a-6741-4ae3-8953-628b57da58d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\ThirdParty">
-      <UniqueIdentifier>{e78613f8-321b-4d70-bbb5-4064207f0224}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Interfaces">
       <UniqueIdentifier>{dd1dffd5-4d82-45eb-8556-f178ad21d270}</UniqueIdentifier>
     </Filter>
@@ -52,6 +49,9 @@
     <Filter Include="MagaMen\Utility">
       <UniqueIdentifier>{49f0e6c1-e31a-4a64-9ad3-542b0dc0211a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Systems\Input">
+      <UniqueIdentifier>{5dc6faab-52e6-421e-a4da-6b2f5a7dbb1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Utility\Time.cpp">
@@ -62,12 +62,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Engine\Configuration.cpp">
       <Filter>Engine</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\ThirdParty\pugixml.cpp">
-      <Filter>Engine\ThirdParty</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Engine\Utility\String.cpp">
-      <Filter>Engine\Utility</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Engine\Systems\Audio\AudioSFML.cpp">
       <Filter>Engine\Systems\Audio</Filter>
@@ -124,6 +118,12 @@
     <ClCompile Include="..\..\MagaMen\Loading\MainMenuStateBuilder.cpp">
       <Filter>MagaMen\Loading</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Input\InputSFML.cpp">
+      <Filter>Engine\Systems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Utility\Misc.cpp">
+      <Filter>Engine\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
@@ -155,15 +155,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Engine\Configuration.hpp">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\ThirdParty\pugiconfig.hpp">
-      <Filter>Engine\ThirdParty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\ThirdParty\pugixml.hpp">
-      <Filter>Engine\ThirdParty</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Engine\Utility\String.hpp">
-      <Filter>Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Engine\Interfaces\IAudio.hpp">
       <Filter>Engine\Interfaces</Filter>
@@ -261,6 +252,21 @@
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\Loading\MainMenuStateBuilder.hpp">
       <Filter>MagaMen\Loading</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Input\Actions.hpp">
+      <Filter>Engine\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEngineInput.hpp">
+      <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Input\InputSFML.hpp">
+      <Filter>Engine\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Input\Enums.hpp">
+      <Filter>Engine\Systems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Utility\Misc.hpp">
+      <Filter>Engine\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -51,10 +51,10 @@ namespace water
         return Systems::audio();
     }
 
-    /*IInput& GameState::input()
+    IInput& GameState::input()
     {
         return Systems::input();
-    }*/
+    }
 
     ILogger& GameState::logger()
     {

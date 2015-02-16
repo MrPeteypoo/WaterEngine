@@ -28,7 +28,7 @@ namespace water
 
             static IAudio&      audio()                                 { return *m_audio; }
             static IGameWorld&  gameWorld()                             { return *m_gameWorld; }
-            //static IInput&      input()                                 { return *m_input; }
+            static IInput&      input()                                 { return *m_input; }
             static ILogger&     logger()                                { return *m_logger; }
             static IRenderer&   renderer()                              { return *m_renderer; }
             static ITime&       time()                                  { return *m_time; }
@@ -40,14 +40,14 @@ namespace water
 
             static void         setAudio (IAudio* const system)         { m_audio = system; }
             static void         setGameWorld (IGameWorld* const system) { m_gameWorld = system; }
-            //static void         setInput (IInput* const system)         { m_input = system; }
+            static void         setInput (IInput* const system)         { m_input = system; }
             static void         setLogger (ILogger* const system)       { m_logger = system; }
             static void         setRenderer (IRenderer* const system)   { m_renderer = system; }
             static void         setTime (ITime* const system)           { m_time = system; }
 
             static IAudio*      m_audio;        //!< An audio system used for playing and manipulating sounds.
             static IGameWorld*  m_gameWorld;    //!< The game world system, allows manipulation of the game flow.
-            //static IInput*      m_input;        //!< An input system for obtaining abstracted input.
+            static IInput*      m_input;        //!< An input system for obtaining abstracted input.
             static ILogger*     m_logger;       //!< The logger to be used for logging debug, warning or error messages.
             static IRenderer*   m_renderer;     //!< The renderering system which is used for drawing.
             static ITime*       m_time;         //!< The time system which keeps track of delta time values.

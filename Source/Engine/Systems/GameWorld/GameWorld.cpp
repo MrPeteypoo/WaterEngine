@@ -77,8 +77,11 @@ namespace water
         while (!m_tasks.empty())
         {
             // Each task is a function!
-            auto& function = m_tasks.front();
-            function();
+            auto& task = m_tasks.front();
+            if (task) 
+            {
+                task();
+            }
 
             // Pop the task! Eagle eyes are handy when you forget things like this, it's OK I fixed his bug too.
             m_tasks.pop();

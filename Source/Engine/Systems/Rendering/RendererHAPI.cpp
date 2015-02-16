@@ -98,6 +98,51 @@ namespace water
     #pragma endregion
 
 
+    #pragma region System management
+
+    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter)
+    {
+        // Pre-condition: Screen resolution is valid.
+        if (screenWidth <= 0 || screenHeight <= 0)
+        {
+            throw std::invalid_argument ("RendererHAPI::initialise(), invalid screen resolution given (" + 
+                                          std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
+        }
+
+        // Pre-condition: Internal resolution is valid.
+        if (internalWidth <= 0 || internalHeight <= 0)
+        {
+            throw std::invalid_argument ("RendererHAPI::initialise(), invalid internal resolution given (" +
+                                          std::to_string (internalWidth) + "x" + std::to_string (internalHeight) + ").");
+        }
+
+        // Pre-condition: If no filtering is applied the internal resolution can't be higher than the screen.
+        if (filter == FilterMode::None && (screenWidth < internalWidth || screenHeight < internalHeight))
+        {
+            throw std::invalid_argument ("RendererHAPI::initialise(), attempt to set internal resolution higher than screen resolution with no scaling filter.");
+        }
+
+        // Attempt to initialise the renderer.
+        initialiseHAPI (screenWidth, screenHeight);
+        initialiseScaling (internalWidth, internalHeight, filter);
+    }
+
+
+    bool RendererHAPI::update()
+    {
+        if (HAPI->Update())
+        {
+            // Clear the screen area to black.
+            std::memset (m_impl->screen, 0, m_impl->screenSpace.area() * sizeOfColour);
+            return true;
+        }
+
+        return false;
+    }
+
+    #pragma endregion
+
+
     #pragma region Internal workings
 
     void RendererHAPI::initialiseHAPI (const int width, const int height)
@@ -212,118 +257,6 @@ namespace water
                 m_impl->screenOffset.x = (int) ((screenWidth - desiredWidth) / 2.f);
             }
         }
-    }
-
-
-    /*void RendererHAPI::scaleBufferToScreen()
-    {
-        // Clear to black first of all.
-        std::memset (m_impl->screen, 0, m_impl->screenSpace.area() * sizeOfColour);
-
-        // Cache the filter mode.
-        auto&      buffer = m_impl->framebuffer;
-        const auto mode   = m_impl->filter;
-
-        if (m_impl->filter != FilterMode::None)
-        {
-
-            // Start by obtaining each width and height value.
-            const auto  bufferWidth     = m_impl->internalRes.x,
-                        bufferHeight    = m_impl->internalRes.y,
-                    
-                        screenWidth     = m_impl->screenSpace.width(),
-                        screenHeight    = m_impl->screenSpace.height(),
-
-            // Take into account the aspect ratio offset when drawing.
-                        drawWidth       = screenWidth - (m_impl->screenOffset.x * 2),
-                        drawHeight      = screenHeight - (m_impl->screenOffset.y * 2),
-                        lineIncrement   = screenWidth - drawWidth;
-        
-            // We need to calculate the ratio between the internal resolution and the external resolution.
-            const auto  xRatio          = bufferWidth / (float) drawWidth,
-                        yRatio          = bufferHeight / (float) drawHeight;
-
-            // Work on a pixel-by-pixel basis.
-            Colour* screen = (Colour*) (m_impl->screen) + m_impl->screenOffset.x + m_impl->screenOffset.y * screenWidth;
-
-            // Filter each pixel.
-            for (int y = 0; y < drawHeight; ++y)
-            {
-                for (int x = 0; x < drawWidth; ++x)
-                {
-                    // We need to find where we are in terms of the buffer.
-                    const float unscaledX = x * xRatio,
-                                unscaledY = y * yRatio;
-
-                    // Now we calculate the pixel colour using the correct filter.
-                    switch (mode)
-                    {
-                        case FilterMode::NearestNeighbour:
-                            *screen = Texture::nearestNeighbourPixel (buffer, unscaledX, unscaledY, bufferWidth);
-                            break;
-
-                        case FilterMode::Bilinear:
-                            *screen = Texture::bilinearFilteredPixel (buffer, unscaledX, unscaledY, bufferWidth);
-                            break;
-                    }
-                
-                    ++screen;
-                }
-
-                screen += lineIncrement;
-            }
-        }
-
-        else
-        {
-            // Simply blit the framebuffer onto the screen.
-            buffer.blit (m_impl->screen, m_impl->screenSpace, m_impl->screenOffset, BlendType::Opaque, { });
-        }
-    }*/
-
-    #pragma endregion
-
-
-    #pragma region System management
-
-    void RendererHAPI::initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter)
-    {
-        // Pre-condition: Screen resolution is valid.
-        if (screenWidth <= 0 || screenHeight <= 0)
-        {
-            throw std::invalid_argument ("RendererHAPI::initialise(), invalid screen resolution given (" + 
-                                          std::to_string (screenWidth) + "x" + std::to_string (screenHeight) + ").");
-        }
-
-        // Pre-condition: Internal resolution is valid.
-        if (internalWidth <= 0 || internalHeight <= 0)
-        {
-            throw std::invalid_argument ("RendererHAPI::initialise(), invalid internal resolution given (" +
-                                          std::to_string (internalWidth) + "x" + std::to_string (internalHeight) + ").");
-        }
-
-        // Pre-condition: If no filtering is applied the internal resolution can't be higher than the screen.
-        if (filter == FilterMode::None && (screenWidth < internalWidth || screenHeight < internalHeight))
-        {
-            throw std::invalid_argument ("RendererHAPI::initialise(), attempt to set internal resolution higher than screen resolution with no scaling filter.");
-        }
-
-        // Attempt to initialise the renderer.
-        initialiseHAPI (screenWidth, screenHeight);
-        initialiseScaling (internalWidth, internalHeight, filter);
-    }
-
-
-    bool RendererHAPI::update()
-    {
-        if (HAPI->Update())
-        {
-            // Clear the screen area to black.
-            std::memset (m_impl->screen, 0, m_impl->screenSpace.area() * sizeOfColour);
-            return true;
-        }
-
-        return false;
     }
 
     #pragma endregion

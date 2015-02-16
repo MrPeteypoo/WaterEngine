@@ -11,6 +11,7 @@
 
 #include <Systems/Audio/AudioSFML.hpp>
 #include <Systems/GameWorld/GameWorld.hpp>
+#include <Systems/Input/InputSFML.hpp>
 #include <Systems/Logging/LoggerHAPI.hpp>
 #include <Systems/Logging/LoggerSTL.hpp>
 #include <Systems/Rendering/RendererHAPI.hpp>
@@ -26,7 +27,7 @@ namespace water
 
     IAudio*     Systems::m_audio        = nullptr;
     IGameWorld* Systems::m_gameWorld    = nullptr;
-    //IInput*     Systems::m_input        = nullptr;
+    IInput*     Systems::m_input        = nullptr;
     ILogger*    Systems::m_logger       = nullptr;
     IRenderer*  Systems::m_renderer     = nullptr;
     ITime*      Systems::m_time         = nullptr;
@@ -181,7 +182,8 @@ namespace water
                 // Only perform an update if the time specifies so.
                 if (m_time->update())
                 {
-                   m_gameWorld->update();
+                    m_input->update();
+                    m_gameWorld->update();
                 }
 
                 // Render the beautiful imagery all over the screen!
@@ -254,6 +256,12 @@ namespace water
 
         else { return false; }
 
+        // Input!
+        if (config.systems.input == "sfml" || config.systems.input == "")
+        {
+            m_input = new InputSFML();
+        }
+
         // Graphics!
         if (config.systems.renderer == "hapi" || config.systems.renderer == "")
         {
@@ -291,6 +299,8 @@ namespace water
     {
         // We can assume all pointers from here on are valid.
         m_audio->initialise (config.audio.soundLimit, config.audio.bgmMixer, config.audio.sfxMixer);
+
+        m_input->initialise();
 
         m_renderer->initialise (config.rendering.screenWidth,               config.rendering.screenHeight, 
                                 config.rendering.internalWidth,             config.rendering.internalHeight,

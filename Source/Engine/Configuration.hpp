@@ -19,10 +19,11 @@ namespace water
         /// <summary> A structure containing information on which systems should be used by the engine. </summary>
         struct Systems final
         {
-            std::string     audio           = "sfml"; //!< The audio system to use (sfml).
-            std::string     logger          = "stl";  //!< The logging system to use (hapi, stl).
-            std::string     renderer        = "hapi"; //!< The renderer to use (hapi).
-            std::string     time            = "stl";  //!< The time system to use (stl).
+            std::string     audio           = "sfml";   //!< The audio system to use (sfml).
+            std::string     input           = "sfml";   //!< The input system to use (sfml).
+            std::string     logger          = "stl";    //!< The logging system to use (hapi, stl).
+            std::string     renderer        = "hapi";   //!< The renderer to use (hapi).
+            std::string     time            = "stl";    //!< The time system to use (stl).
         };
 
         /// <summary> Initialisation settings for audio systems. </summary>
@@ -36,7 +37,7 @@ namespace water
         /// <summary> Initialisation settings for logging systems. </summary>
         struct Logging final
         {
-            std::string     file            = "log";  //!< The name of the file to be used by logging systems, if applicable.
+            std::string     file            = "log";    //!< The name of the file to be used by logging systems, if applicable.
             bool            timestamp       { true };   //!< Whether log messages should be timestamped.
         };
 
