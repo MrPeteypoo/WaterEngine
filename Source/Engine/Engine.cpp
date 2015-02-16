@@ -317,6 +317,7 @@ namespace water
         Systems::setAudio (m_audio);
         Systems::setRenderer (m_renderer);
         Systems::setTime (m_time);
+        Systems::setInput (m_input);
         Systems::setGameWorld (m_gameWorld);
     }
 

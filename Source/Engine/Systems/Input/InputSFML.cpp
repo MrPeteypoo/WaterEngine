@@ -58,6 +58,9 @@ namespace water
 
     void InputSFML::update()
     {
+        // SFML requires controllers to be updated every frame.
+        sf::Joystick::update();
+
         // Use the beauty of functional programming to do the work for us!
         std::for_each (m_keys.begin(),    m_keys.end(),    [&] (const KeyboardKey& key)         { processKey (key); });
         std::for_each (m_buttons.begin(), m_buttons.end(), [&] (const ControllerButton& button) { processButton (button); });
@@ -117,7 +120,7 @@ namespace water
             }
 
             // Check if another binding has flagged the action as pressed, if so we can't possibly be up!
-            else if (action.pressed)
+            else if (action.pressed || !action.previous)
             {
                 action.up = false;
             }

@@ -3,6 +3,9 @@
 
 // Engine headers.
 #include <Engine/Misc/Vector2.hpp>
+#include <Engine/Interfaces/IGameWorld.hpp>
+#include <Engine/Interfaces/IInput.hpp>
+#include <Engine/Interfaces/ILogger.hpp>
 #include <Engine/Interfaces/ITime.hpp>
 
 
@@ -46,6 +49,11 @@ namespace mm
 
     bool MainMenuState::onAdd()
     {
+        const auto start = water::KeyboardKey { 1, water::Key::Return };
+        const auto start2 = water::KeyboardKey { 1, water::Key::Space };
+        input().addAction (start);
+        input().addAction (start2);
+
         return MainMenuStateBuilder::loadFromFile (*this);
     }
 
@@ -77,6 +85,15 @@ namespace mm
     void MainMenuState::update()
     {
         // Check for input to see if the user wants to start the game.
+        if (input().getActionUp (1))
+        {
+            logger().log ("Button up");
+        }
+
+        if (input().getActionDown (1))
+        {
+            logger().log ("Button down");
+        }
 
     }
 
