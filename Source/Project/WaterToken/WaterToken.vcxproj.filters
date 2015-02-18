@@ -46,11 +46,11 @@
     <Filter Include="MagaMen\Loading">
       <UniqueIdentifier>{db01e57d-070e-4347-b14e-00489270fe36}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MagaMen\Utility">
-      <UniqueIdentifier>{49f0e6c1-e31a-4a64-9ad3-542b0dc0211a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Systems\Input">
       <UniqueIdentifier>{5dc6faab-52e6-421e-a4da-6b2f5a7dbb1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MagaMen\Misc">
+      <UniqueIdentifier>{49f0e6c1-e31a-4a64-9ad3-542b0dc0211a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -106,9 +106,6 @@
     <ClCompile Include="..\..\MagaMen\GameObjects\StaticObject.cpp">
       <Filter>MagaMen\GameObjects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MagaMen\Utility\Utility.cpp">
-      <Filter>MagaMen\Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\MagaMen\States\MagaMenState.cpp">
       <Filter>MagaMen\States</Filter>
     </ClCompile>
@@ -123,6 +120,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Engine\Utility\Misc.cpp">
       <Filter>Engine\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\Misc\Utility.cpp">
+      <Filter>MagaMen\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +244,6 @@
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp">
       <Filter>MagaMen\States</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MagaMen\Utility\Utility.hpp">
-      <Filter>MagaMen\Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MagaMen\Loading\StateBuilder.hpp">
       <Filter>MagaMen\Loading</Filter>
     </ClInclude>
@@ -269,7 +266,10 @@
       <Filter>Engine\Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\Misc\Actions.hpp">
-      <Filter>MagaMen\Utility</Filter>
+      <Filter>MagaMen\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\Misc\Utility.hpp">
+      <Filter>MagaMen\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

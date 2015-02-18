@@ -11,7 +11,7 @@
 
 // Game headers.
 #include <MagaMen/Loading/MainMenuStateBuilder.hpp>
-#include <MagaMen/Utility/Utility.hpp>
+#include <MagaMen/Misc/Utility.hpp>
 
 
 // Game namespace.
