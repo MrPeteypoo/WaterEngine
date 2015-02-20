@@ -135,6 +135,13 @@ template <typename T = float> struct Vector2 final
     /// <summary> Calculates the dot/scalar product of two given vectors. </summary>
     static T dotProduct (const Vector2& lhs, const Vector2& rhs);
 
+    /// <summary> Performs linear interpolation from a given vector to a given vector based on a delta value between 0 and 1. </summary>
+    /// <param name="from"> The start position. </param>
+    /// <param name="to"> The position to interpolate to. </param>
+    /// <param name="delta"> The delta value to use for interpolation. </param>
+    /// <returns> An interpolated vector. </returns>
+    static T lerp (const Vector2& from, const Vector2& to, const float delta);
+
     #pragma endregion
 };
 
@@ -370,6 +377,14 @@ template <typename T> T Vector2<T>::dotProduct (const Vector2& lhs, const Vector
     
     // Return the calculated product.
     return ( x + y );
+}
+
+
+template <typename T> T Vector2<T>::lerp (const Vector2& from, const Vector2& to, const float delta)
+{
+    // We won't bother clamping the delta value as it could be useful to use "incorrect" deltas.
+    // Equation is V0 + delta * (V1 - V0).
+    return from + delta * (to - from);
 }
 
 #pragma endregion
