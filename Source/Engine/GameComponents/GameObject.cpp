@@ -21,6 +21,8 @@ namespace water
         if (this != &move)
         {
             m_position      = std::move (move.m_position);
+            m_velocity      = std::move (move.m_velocity);
+            m_frame         = std::move (move.m_frame);
             m_baseTexture   = move.m_baseTexture;
             m_blendType     = move.m_blendType;
             m_name          = std::move (move.m_name);

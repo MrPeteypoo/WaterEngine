@@ -71,6 +71,14 @@ namespace water
             /// <returns> The position vector. </returns>
             const Vector2<float>& getPosition() const           { return m_position; }
 
+            /// <summary> Obtain a reference to the objects velocity. </summary>
+            /// <returns> The velocity vector. </returns>
+            const Vector2<float>& getVelocity() const           { return m_velocity; }
+
+            /// <summary> Obtain a reference to the objects current frame co-ordinate. </summary>
+            /// <returns> The frame co-ordinate currently in use. </returns>
+            const Point& getFrame() const                       { return m_frame; }
+
             /// <summary> Gets a copy of the objects texture ID. </summary>
             /// <returns> The TextureID of the object. </returns>
             TextureID getBaseTextureID() const                  { return m_baseTexture; }
@@ -90,6 +98,14 @@ namespace water
             /// <summary> Set the position of the object. </summary>
             /// <param name="position"> The new position to assign to the object. </param>
             void setPosition (const Vector2<float>& position)   { m_position = position; }
+
+            /// <summary> Set the velocity of the object. </summary>
+            /// <param name="velocity"> The new velocity to assign to the object. </param>
+            void setVelocity (const Vector2<float>& velocity)   { m_velocity = velocity; }
+
+            /// <summary> Set the frame which the GameObject should use to render. </summary>
+            /// <param name="frame"> The desired frame co-ordinate to be rendered. </param>
+            void setFrame (const Point& frame)                  { m_frame = frame; }
 
             /// <summary> Sets the texture for the object to use. </summary>
             /// <param name="texture"> The desired TextureID of the object. </param>
@@ -115,6 +131,8 @@ namespace water
             #pragma region Implementation data
 
             Vector2<float>  m_position      { 0, 0 };   //!< The position of the GameObject in the world.
+            Vector2<float>  m_velocity      { 0, 0 };   //!< The velocity of the GameObject. This is how much it moves in the world.
+            Vector2<int>    m_frame         { 0, 0 };   //!< The desired frame co-ordinate of the texture. 0, 0 means either the first frame or the entire texture.
             TextureID       m_baseTexture   { 0 };      //!< The standard texture of the GameObject.
             BlendType       m_blendType     { };        //!< The blending type to be used by the object in rendering.
             std::string     m_name          = "";       //!< The name of the GameObject.
