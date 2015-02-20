@@ -22,11 +22,11 @@ namespace water
             #pragma region Constructors and destructor
             
             PhysicsObject()                                         = default;
-            PhysicsObject (PhysicsObject&& move);
-            PhysicsObject& operator= (PhysicsObject&& move);
-
             PhysicsObject (const PhysicsObject& copy)               = default;
             PhysicsObject& operator= (const PhysicsObject& copy)    = default;
+
+            PhysicsObject (PhysicsObject&& move);
+            PhysicsObject& operator= (PhysicsObject&& move);
 
             // Ensure destructor is virtual.
             virtual ~PhysicsObject() override {}
