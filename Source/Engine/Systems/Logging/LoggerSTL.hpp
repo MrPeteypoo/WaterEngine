@@ -2,6 +2,10 @@
 #define WATER_LOGGER_STL_INCLUDED
 
 
+// STL headers.
+#include <fstream>
+
+
 // Engine headers.
 #include <Systems/IEngineLogger.hpp>
 
@@ -19,7 +23,7 @@ namespace water
 
             #pragma region Constructors and destructor
             
-            LoggerSTL();
+            LoggerSTL()                                     = default;
             LoggerSTL (LoggerSTL&& move);
             LoggerSTL& operator= (LoggerSTL&& move);
 
@@ -96,11 +100,13 @@ namespace water
             #pragma endregion
 
 
-            // Forward declarations.
-            struct Impl;
+            #pragma region Implmentation data
 
-
-            Impl* m_impl { nullptr };   //!< A pointer to the implementation data.
+            std::fstream    m_file      { };        //!< The file stream used for logging messages.
+            std::string     m_filename  { };        //!< The file name used for in the file stream.
+            bool            m_timestamp { false };  //!< Determines whether a timestamp should be displayed before each logged message.
+    
+            #pragma endregion
     };
 }
 
