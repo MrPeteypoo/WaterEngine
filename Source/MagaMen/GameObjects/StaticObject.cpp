@@ -29,7 +29,7 @@ namespace mm
 
     void StaticObject::render()
     {
-        renderer().drawToScreen (m_position, m_baseTexture, m_blendType);
+        renderer().drawToScreen (m_position, m_baseTexture, m_frame, m_blendType);
     }
 
     #pragma endregion

@@ -10,7 +10,7 @@
 namespace mm
 {
     /// <summary>
-    /// A basic GameObject decendent whose purpose is to simply exist in the scene and render itself, StaticObject's should not use sprite sheets.
+    /// A basic GameObject decendent whose purpose is to simply exist in the scene and render itself.
     /// </summary>
     class StaticObject : public water::GameObject
     {
