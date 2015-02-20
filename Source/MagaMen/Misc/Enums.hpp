@@ -16,7 +16,7 @@ namespace mm
         Right,  //!< Move right.
         Shoot,  //!< Shoot projectiles.
         Start,  //!< Start/pause the game.
-        Reset   //!< Reset the game.
+        Back    //!< Cause the game to go back a step.
     };
 
 

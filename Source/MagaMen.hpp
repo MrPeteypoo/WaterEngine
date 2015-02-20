@@ -21,6 +21,7 @@ namespace mm
 {
     // Forward declarations.
     class MainMenuState;
+    class CutManState;
 
 
     /// <summary>
@@ -59,6 +60,12 @@ namespace mm
             /// <summary> Adds each created state to the game world, ready for playing! </summary>
             void addStatesToWorld();
 
+            /// <summary> Adds the required controller-based actions to the game. </summary>
+            void addControllerInput();
+
+            /// <summary> Adds the required keyboard-based actions to the game. </summary>
+            void addKeyboardInput();
+
             #pragma endregion
 
 
@@ -66,6 +73,7 @@ namespace mm
 
             std::unique_ptr<water::Engine>      m_engine    { nullptr };    //!< The engine used in the game.
             std::shared_ptr<MainMenuState>      m_mainMenu  { nullptr };    //!< The entry point of the game, this displays the title screen.
+            std::shared_ptr<CutManState>        m_cutMan    { nullptr };    //!< The Cut Man level of the game.
 
             #pragma endregion
 
