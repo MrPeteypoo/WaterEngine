@@ -140,7 +140,7 @@ template <typename T = float> struct Vector2 final
     /// <param name="to"> The position to interpolate to. </param>
     /// <param name="delta"> The delta value to use for interpolation. </param>
     /// <returns> An interpolated vector. </returns>
-    static T lerp (const Vector2& from, const Vector2& to, const float delta);
+    static Vector2 lerp (const Vector2& from, const Vector2& to, const float delta);
 
     #pragma endregion
 };
@@ -380,11 +380,14 @@ template <typename T> T Vector2<T>::dotProduct (const Vector2& lhs, const Vector
 }
 
 
-template <typename T> T Vector2<T>::lerp (const Vector2& from, const Vector2& to, const float delta)
+template <typename T> Vector2<T> Vector2<T>::lerp (const Vector2<T>& from, const Vector2<T>& to, const float delta)
 {
     // We won't bother clamping the delta value as it could be useful to use "incorrect" deltas.
     // Equation is V0 + delta * (V1 - V0).
-    return from + delta * (to - from);
+    const Vector2<T> difference {   (T) ((to.x - from.x) * delta), 
+                                    (T) ((to.y - from.y) * delta) };
+
+    return from + difference;
 }
 
 #pragma endregion
