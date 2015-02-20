@@ -39,11 +39,11 @@ namespace mm
 
             #pragma region Game flow
 
-            /// <summary> Loads all of the graphics required by the title screen. Also clears previous data. </summary>
+            /// <summary> Loads all of the graphics required by the title screen </summary>
             /// <returns> Whether the loading was successful or not. </returns>
             bool onAdd() override final;
 
-            /// <summary> Removes all graphical and audio data from the game. </summary>
+            /// <summary> Absolutely nothing. </summary>
             /// <returns> If something went wrong and an error should be flagged. </returns>
             bool onRemove() override final;
 

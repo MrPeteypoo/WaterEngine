@@ -49,6 +49,9 @@
     <Filter Include="MagaMen\Misc">
       <UniqueIdentifier>{49f0e6c1-e31a-4a64-9ad3-542b0dc0211a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Systems\Physics">
+      <UniqueIdentifier>{35ee2874-b2a6-4dae-b6f8-001af75956b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Engine\Utility\Time.cpp">
@@ -126,6 +129,15 @@
     </ClCompile>
     <ClCompile Include="..\..\MagaMen\Misc\StateBuilder.cpp">
       <Filter>MagaMen\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\States\CutManState.cpp">
+      <Filter>MagaMen\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\States\MagaMenLevelState.cpp">
+      <Filter>MagaMen\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Engine\Systems\Physics\Physics.cpp">
+      <Filter>Engine\Systems\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,6 +303,15 @@
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\Misc\StateBuilder.hpp">
       <Filter>MagaMen\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Interfaces\IPhysics.hpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\IEnginePhysics.hpp">
+      <Filter>Engine\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Engine\Systems\Physics\Physics.hpp">
+      <Filter>Engine\Systems\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

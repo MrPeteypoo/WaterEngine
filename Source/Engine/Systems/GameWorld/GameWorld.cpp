@@ -97,7 +97,7 @@ namespace water
     {
         if (!m_stack.empty())
         {
-            m_stack.top()->getPhysicsObjects();
+            return m_stack.top()->getPhysicsObjects();
         }
 
         throw std::runtime_error ("Call to GameWorld::getPhysicsObjects() when the stack is empty.");
@@ -245,7 +245,12 @@ namespace water
 
             m_stack.top()->onExit();
             m_stack.pop();
-        }    
+        }
+
+        if (!m_stack.empty())
+        {
+            m_stack.top()->onEntry();
+        }
     }
 
 

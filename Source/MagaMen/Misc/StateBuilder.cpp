@@ -144,20 +144,36 @@ namespace mm
 
             if (!root.empty())
             {
-                const auto workingDir   = std::string (root.child ("WorkingDirectory").text().as_string());
+                const auto workingDir = std::string (root.child ("WorkingDirectory").text().as_string());
 
-                const auto bgmNode      = root.child ("BGM");
-                state.m_bgmFile         = workingDir + bgmNode.text().as_string();
-                state.m_bgmVolume       = bgmNode.attribute ("Volume").as_float();
+                const auto bgmNode    = root.child ("BGM");
+                state.m_bgmFile       = workingDir + bgmNode.text().as_string();
+                state.m_bgmVolume     = bgmNode.attribute ("Volume").as_float();
+
+                // Load the background.
+                const auto background   = root.child ("Background");
+                const auto bgCropRight  = background.attribute ("CropRight").as_int();
+                const auto bgCropBottom = background.attribute ("CropBottom").as_int();
+                state.m_background      = StaticObject::renderer().loadTexture (workingDir + background.text().as_string(), bgCropRight, bgCropBottom);
 
                 // Load the lives sprite.
                 constructStaticObject (state.m_lives, root.child ("StaticObject"), workingDir);
                 
                 // Load the sounds used in the game.
-                const auto soundsNode   = root.child ("Sounds");
-                Character::setCollideSound (StaticObject::audio().loadSound (soundsNode.child ("Collide").text().as_string()));
-                Character::setDeathSound (StaticObject::audio().loadSound (soundsNode.child ("Death").text().as_string()));
-                Character::setFireSound (StaticObject::audio().loadSound (soundsNode.child ("Shoot").text().as_string()));
+                const auto soundsNode = root.child ("Sounds");
+                Character::setCollideSound (StaticObject::audio().loadSound (workingDir + soundsNode.child ("Collide").text().as_string()));
+                Character::setDeathSound (StaticObject::audio().loadSound (workingDir + soundsNode.child ("Death").text().as_string()));
+                Character::setFireSound (StaticObject::audio().loadSound (workingDir + soundsNode.child ("Shoot").text().as_string()));
+
+                // Set up the player.
+                const auto playerNode       = root.child ("Player");
+                const auto frameDimensions  = Point (playerNode.attribute ("XFrames").as_int(), playerNode.attribute ("YFrames").as_int());
+                const auto blendMode        = (water::BlendType) playerNode.attribute ("Blend").as_int();
+
+                const auto playerTexture    = StaticObject::renderer().loadTexture (workingDir + playerNode.text().as_string());
+                
+                StaticObject::renderer().setFrameDimensions (playerTexture, frameDimensions);
+                state.m_player.setBaseTextureID (playerTexture);
 
                 return true;
             }

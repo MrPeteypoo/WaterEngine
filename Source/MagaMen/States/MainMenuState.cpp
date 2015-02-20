@@ -2,10 +2,9 @@
 
 
 // Engine headers.
-#include <Engine/Misc/Vector2.hpp>
+#include <Engine/Misc/Rectangle.hpp>
 #include <Engine/Interfaces/IGameWorld.hpp>
 #include <Engine/Interfaces/IInput.hpp>
-#include <Engine/Interfaces/ILogger.hpp>
 #include <Engine/Interfaces/ITime.hpp>
 
 
@@ -31,12 +30,7 @@ namespace mm
         {
             MagaMenState::operator= (std::move (move));
 
-            m_dataFile  = std::move (move.m_dataFile);
-            m_bgmFile   = std::move (move.m_bgmFile);
-            m_bgmVolume = move.m_bgmVolume;
-
-            // Reset primitives.
-            move.m_bgmVolume = 0;
+            m_objects = std::move (move.m_objects);
         }
 
         return *this;
@@ -55,9 +49,6 @@ namespace mm
 
     bool MainMenuState::onRemove()
     {
-        audio().clearSoundData();
-        renderer().clearTextureData();
-        removePhysicsObjects();
         return true;
     }
 
@@ -67,6 +58,9 @@ namespace mm
         // Load and play the music.
         audio().loadMusic (m_bgmFile);
         audio().playMusic (m_bgmVolume);
+
+        // Adjust the viewport.
+        renderer().setViewport ({ 0, 0, 0, 0 });
     }
 
 
@@ -80,14 +74,14 @@ namespace mm
     void MainMenuState::update()
     {
         // Check for input to see if the user wants to start the game.
-        if (input().getActionUp (1))
+        if (input().getActionDown ((int) Action::Back))
         {
-            logger().log ("Button up");
+            gameWorld().requestExit();
         }
-
-        if (input().getActionDown (1))
+        
+        else if (input().getActionDown ((int) Action::Start))
         {
-            logger().log ("Button down");
+            gameWorld().requestPush ((int) StateID::CutManStage);
         }
     }
 
@@ -110,13 +104,6 @@ namespace mm
             renderText ("PRESS START", letters, numbers, { 0.333f, 0.666f }, 0.033f);
         }
     }
-
-    #pragma endregion
-
-
-    #pragma region Interal workings
-
-
 
     #pragma endregion
 }

@@ -7,6 +7,7 @@
 #include <Interfaces/IGameWorld.hpp>
 #include <Interfaces/IInput.hpp>
 #include <Interfaces/ILogger.hpp>
+#include <Interfaces/IPhysics.hpp>
 #include <Interfaces/IRenderer.hpp>
 #include <Interfaces/ITime.hpp>
 
@@ -30,6 +31,7 @@ namespace water
             static IGameWorld&  gameWorld()                             { return *m_gameWorld; }
             static IInput&      input()                                 { return *m_input; }
             static ILogger&     logger()                                { return *m_logger; }
+            static IPhysics&    physics()                               { return *m_physics; }
             static IRenderer&   renderer()                              { return *m_renderer; }
             static ITime&       time()                                  { return *m_time; }
       
@@ -42,6 +44,7 @@ namespace water
             static void         setGameWorld (IGameWorld* const system) { m_gameWorld = system; }
             static void         setInput (IInput* const system)         { m_input = system; }
             static void         setLogger (ILogger* const system)       { m_logger = system; }
+            static void         setPhysics (IPhysics* const system)     { m_physics = system; }
             static void         setRenderer (IRenderer* const system)   { m_renderer = system; }
             static void         setTime (ITime* const system)           { m_time = system; }
 
@@ -49,6 +52,7 @@ namespace water
             static IGameWorld*  m_gameWorld;    //!< The game world system, allows manipulation of the game flow.
             static IInput*      m_input;        //!< An input system for obtaining abstracted input.
             static ILogger*     m_logger;       //!< The logger to be used for logging debug, warning or error messages.
+            static IPhysics*    m_physics;      //!< The physics system used for collision detection by games.
             static IRenderer*   m_renderer;     //!< The renderering system which is used for drawing.
             static ITime*       m_time;         //!< The time system which keeps track of delta time values.
     };

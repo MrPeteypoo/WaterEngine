@@ -26,6 +26,8 @@ namespace mm
             /// <param name="loadFrom"> An .XML file containing information the state needs to load from. </param>
             MagaMenLevelState (const std::string& loadFrom) : MagaMenState (loadFrom) { }
 
+            MagaMenLevelState()                                             = default;
+
             MagaMenLevelState (MagaMenLevelState&& move);
             MagaMenLevelState& operator= (MagaMenLevelState&& move);
             ~MagaMenLevelState() override { }
@@ -39,7 +41,7 @@ namespace mm
             #pragma region Level management
 
             /// <summary> Informs the level that the player has died. </summary>
-            virtual void playerDead() = 0;
+            /*virtual void playerDead() = 0;
 
             /// <summary> Increase the current score of the player. </summary>
             virtual void increaseScore (const int value) = 0;
@@ -50,7 +52,7 @@ namespace mm
 
             /// <summary> Spawns an explosion in the level which is returned by the function. </summary>
             /// <returns> Explosions are non-collidable graphical effects, usually this happens when an object is destroyed. </returns>
-            virtual Explosion& spawnExplosion() = 0;
+            virtual Explosion& spawnExplosion() = 0;*/
 
             #pragma endregion
 

@@ -97,7 +97,7 @@ namespace mm
 
         // Set the correct animation frame. If firing the X should be 1. The left-looking sprites on the spritesheet are 0 on the Y axis.
         m_frame.x = m_fireCD > 0.f;
-        m_frame.y = m_facingLeft;
+        m_frame.y = !m_facingLeft;
     }
 
 
@@ -106,7 +106,7 @@ namespace mm
         m_lives = util::max (--m_lives, 0);
         audio().playSound (m_deathSound);
 
-        m_state->playerDead();
+        //m_state->playerDead();
     }
 
     #pragma endregion
@@ -139,12 +139,20 @@ namespace mm
             direction.y += 1.f;
         }
 
-        direction.x += input().getActionAxis ((int) Action::Right);
-        direction.y += input().getActionAxis ((int) Action::Down);
+        const auto xAxis = input().getActionAxis ((int) Action::Right);
+        const auto yAxis = input().getActionAxis ((int) Action::Down);
+
+        direction.x += std::abs (xAxis) > 0.15f ? xAxis : 0.f;
+        direction.y += std::abs (yAxis) > 0.15f ? yAxis : 0.f;
 
 
         // Normalise the direction to blend the controller and keyboard input then increase the velocity.
-        m_velocity += direction.normalised() * m_speed * time().getDelta();
+        const auto magnitude = direction.magnitude();
+
+        if (magnitude != 0.f)
+        {
+            m_velocity += (direction / magnitude) * m_speed * time().getDelta();
+        }        
         
         // If the input direction is positive then we should face right.
         if (direction.x != 0.f)
@@ -164,7 +172,7 @@ namespace mm
             const auto velocity = Vector2<float> { m_facingLeft ? -5.f : 5.f, 0.f };
 
             fireBullet (m_position + offset, velocity);
-            m_fireCD = 0.125f;
+            m_fireCD = 0.25f;
             audio().playSound (m_fireSound);
         }
     }

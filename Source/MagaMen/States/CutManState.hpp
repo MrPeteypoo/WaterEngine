@@ -44,25 +44,28 @@ namespace mm
             /// <returns> If something went wrong and an error should be flagged. </returns>
             bool onRemove() override final;
 
-            /// <summary> Plays the title music. </summary>
+            /// <summary> Plays the background music and resets the state. </summary>
             void onEntry() override final;
 
             /// <summary> Stops the music from playing. </summary>
             void onExit() override final;
 
-            /// <summary> Absolutely nothing. </summary>
-            void updatePhysics() override final { }
+            /// <summary> Updates all collidable objects. </summary>
+            void updatePhysics() override final;
 
-            /// <summary> Checks if the player is ready to start the game or not. </summary>
+            /// <summary> Checks which objects are still alive and scrolls the background/ </summary>
             void update() override final;
 
-            /// <summary> Renders the entire title screen! </summary>
+            /// <summary> Renders every object in the scene. </summary>
             void render() override final;
 
             #pragma endregion
 
 
             #pragma region Level management
+
+            /// <summary> Informs the level that the player has died. </summary>
+            /*void playerDead() override final;
 
             /// <summary> Increment the players score by the value given. </summary>
             /// <param name="value"> The amount to increase the players score by. </param>
@@ -74,7 +77,7 @@ namespace mm
 
             /// <summary> Spawns an explosion in the level which is returned by the function. </summary>
             /// <returns> Explosions are non-collidable graphical effects, usually this happens when an object is destroyed. </returns>
-            Explosion& spawnExplosion() override final;
+            Explosion& spawnExplosion() override final;*/
 
             #pragma endregion
 
@@ -88,9 +91,10 @@ namespace mm
             water::TextureID    m_background    { 0 };      //!< The scrolling background texture.
             Vector2<float>      m_bgPosition    { 0, 0 };   //!< The current position of the scrolling background.
 
+            bool                m_paused        { false };  //!< A flag which indicates whether the game is paused or not.
             int                 m_score         { 0 };      //!< Keeps track of the score of the player.
             
-            StaticObject        m_lives         {  };       //!< The GUI object displaying the current lives of the player.
+            StaticObject        m_lives         { };        //!< A GUI object displaying the current lives of the player.
             Player              m_player        { };        //!< The player.
 
             #pragma endregion

@@ -14,6 +14,7 @@
 #include <Systems/Input/InputSFML.hpp>
 #include <Systems/Logging/LoggerHAPI.hpp>
 #include <Systems/Logging/LoggerSTL.hpp>
+#include <Systems/Physics/Physics.hpp>
 #include <Systems/Rendering/RendererHAPI.hpp>
 #include <Systems/Time/TimeSTL.hpp>
 
@@ -29,6 +30,7 @@ namespace water
     IGameWorld* Systems::m_gameWorld    = nullptr;
     IInput*     Systems::m_input        = nullptr;
     ILogger*    Systems::m_logger       = nullptr;
+    IPhysics*   Systems::m_physics      = nullptr;
     IRenderer*  Systems::m_renderer     = nullptr;
     ITime*      Systems::m_time         = nullptr;
 
@@ -60,6 +62,7 @@ namespace water
             m_audio             = move.m_audio;
             m_gameWorld         = move.m_gameWorld;
             m_input             = move.m_input;
+            m_physics           = move.m_physics;
             m_renderer          = move.m_renderer;
             m_time              = move.m_time;
             m_ready             = move.m_ready;
@@ -69,6 +72,7 @@ namespace water
             move.m_gameWorld    = nullptr;
             move.m_input        = nullptr;
             move.m_logger       = nullptr;
+            move.m_physics      = nullptr;
             move.m_renderer     = nullptr;
             move.m_time         = nullptr;
             move.m_ready        = false;
@@ -177,6 +181,7 @@ namespace water
                 if (m_time->updatePhysics())
                 {
                     m_gameWorld->updatePhysics();
+                    m_physics->detectCollisions (m_gameWorld->getPhysicsObjects());
                 }
 
                 // Only perform an update if the time specifies so.
@@ -224,12 +229,13 @@ namespace water
     void Engine::clean()
     {
         // We need to test each pointer because not all compilers will ignore the deletion of a nullptr.
-        if (m_gameWorld)    { delete m_gameWorld; }
-        if (m_audio)        { delete m_audio; }
-        if (m_input)        { delete m_input; }
-        if (m_renderer)     { delete m_renderer; }
-        if (m_time)         { delete m_time; }
-        if (m_logger)       { delete m_logger; }
+        if (m_gameWorld)    { delete m_gameWorld;   m_gameWorld = nullptr; }
+        if (m_audio)        { delete m_audio;       m_audio = nullptr; }
+        if (m_input)        { delete m_input;       m_input = nullptr; }
+        if (m_physics)      { delete m_physics;     m_physics = nullptr; }
+        if (m_renderer)     { delete m_renderer;    m_renderer = nullptr; }
+        if (m_time)         { delete m_time;        m_time = nullptr; }
+        if (m_logger)       { delete m_logger;      m_logger = nullptr; }
     }
 
 
@@ -278,6 +284,8 @@ namespace water
 
         else { return false; }
 
+        m_physics = new Physics();
+
         // We made it!
         return true;
     }
@@ -307,6 +315,8 @@ namespace water
                                 (FilterMode) config.rendering.filterMode);
 
         m_time->initialise (config.time.physicsFPS, config.time.updateFPS, config.time.minFPS);
+
+        m_physics->initialise();
     }
 
 
@@ -318,6 +328,7 @@ namespace water
         Systems::setRenderer (m_renderer);
         Systems::setTime (m_time);
         Systems::setInput (m_input);
+        Systems::setPhysics (m_physics);
         Systems::setGameWorld (m_gameWorld);
     }
 

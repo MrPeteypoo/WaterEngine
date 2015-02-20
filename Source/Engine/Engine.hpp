@@ -18,6 +18,7 @@ namespace water
     class IEngineGameWorld;
     class IEngineInput;
     class IEngineLogger;
+    class IEnginePhysics;
     class IEngineRenderer;
     class IEngineTime;
     class IGameWorld;
@@ -118,6 +119,7 @@ namespace water
             IEngineGameWorld*   m_gameWorld { nullptr };    //!< A state manager used to control the flow of the game.
             IEngineInput*       m_input     { nullptr };    //!< An input system, the main port of call for user interaction.
             IEngineLogger*      m_logger    { nullptr };    //!< The logging system used for logging messages throughout the engine and game.
+            IEnginePhysics*     m_physics   { nullptr };    //!< The physics system used by the engine.
             IEngineRenderer*    m_renderer  { nullptr };    //!< The renderering system used for drawing onto the screen.
             IEngineTime*        m_time      { nullptr };    //!< The time system used for maintaining the game loop and delta time.
 
