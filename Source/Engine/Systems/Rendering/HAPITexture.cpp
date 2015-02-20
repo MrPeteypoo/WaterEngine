@@ -18,14 +18,14 @@ namespace water
 {
     #pragma region Constructors and destructor
 
-    RendererHAPI::Texture::Texture (Texture&& move)
+    HAPITexture::HAPITexture (HAPITexture&& move)
     {
         // Just use the operator implementation.
         *this = std::move (move);
     }
 
 
-    RendererHAPI::Texture& RendererHAPI::Texture::operator= (Texture&& move)
+    HAPITexture& HAPITexture::operator= (HAPITexture&& move)
     {
         if (this != &move)
         {
@@ -48,7 +48,7 @@ namespace water
     }
 
 
-    RendererHAPI::Texture::~Texture()
+    HAPITexture::~HAPITexture()
     {
         cleanUp();
     }
@@ -58,14 +58,14 @@ namespace water
 
     #pragma region Initialisation
 
-    bool RendererHAPI::Texture::initialise (const std::string& fileLocation)
+    bool HAPITexture::initialise (const std::string& fileLocation)
     {   
         // Attempt to load the texture during construction.
         return loadTexture (fileLocation);
     }
 
 
-    bool RendererHAPI::Texture::initialise (const std::string& fileLocation, const Point& frameDimensions)
+    bool HAPITexture::initialise (const std::string& fileLocation, const Point& frameDimensions)
     {
         // Attempt to load the texture during construction.
         const bool result = loadTexture (fileLocation);
@@ -77,14 +77,14 @@ namespace water
     }
 
 
-    bool RendererHAPI::Texture::initialise (const Point& pixelDimensions)
+    bool HAPITexture::initialise (const Point& pixelDimensions)
     {
         // Load all the data captain!
         return fillWithBlankData (pixelDimensions);
     }
 
 
-    bool RendererHAPI::Texture::initialise (const Point& pixelDimensions, const Point& frameDimensions)
+    bool HAPITexture::initialise (const Point& pixelDimensions, const Point& frameDimensions)
     {
         // Load all the data captain!
         const bool result = fillWithBlankData (pixelDimensions);
@@ -100,7 +100,7 @@ namespace water
 
     #pragma region Getters and setters
 
-    void RendererHAPI::Texture::resetFrameDimensions()
+    void HAPITexture::resetFrameDimensions()
     {
         m_frames = 0;
         m_frameDimensions.x = 0;
@@ -108,7 +108,7 @@ namespace water
     }
 
 
-    void RendererHAPI::Texture::setFrameDimensions (const Point& dimensions)
+    void HAPITexture::setFrameDimensions (const Point& dimensions)
     {
         if (dimensions.x <= 0 || dimensions.y <= 0)
         {
@@ -130,7 +130,7 @@ namespace water
 
     #pragma region Loading functionality
 
-    void RendererHAPI::Texture::cleanUp()
+    void HAPITexture::cleanUp()
     {
         if (m_data)
         {
@@ -140,7 +140,7 @@ namespace water
     }
 
 
-    bool RendererHAPI::Texture::loadTexture (const std::string& fileLocation)
+    bool HAPITexture::loadTexture (const std::string& fileLocation)
     {
         // Make sure we don't leak memory.
         cleanUp();
@@ -163,7 +163,7 @@ namespace water
     }
 
 
-    bool RendererHAPI::Texture::fillWithBlankData (const Point& dimensions)
+    bool HAPITexture::fillWithBlankData (const Point& dimensions)
     {
         // Pre-condition: Ensure the dimensions are valid.
         if (dimensions.x <= 0 || dimensions.y <= 0)
@@ -199,7 +199,7 @@ namespace water
 
     #pragma region Scaling
 
-    bool RendererHAPI::Texture::scaleByFactor (const Vector2<float>& ratios, const FilterMode mode)
+    bool HAPITexture::scaleByFactor (const Vector2<float>& ratios, const FilterMode mode)
     {
         // Pre-condition: Check if we need to scale at all.
         if (mode == FilterMode::None)
@@ -268,7 +268,7 @@ namespace water
     }
 
 
-    Colour RendererHAPI::Texture::nearestNeighbourPixel (const Texture& source, const float x, const float y, const int width)
+    Colour HAPITexture::nearestNeighbourPixel (const HAPITexture& source, const float x, const float y, const int width)
     {
         // We need to floor the X and Y values then return the correct pixel.
         const auto px    = (int) x, py = (int) y;
@@ -279,7 +279,7 @@ namespace water
     }
 
 
-    Colour RendererHAPI::Texture::bilinearFilteredPixel (const Texture& source, const float x, const float y, const int width)
+    Colour HAPITexture::bilinearFilteredPixel (const HAPITexture& source, const float x, const float y, const int width)
     {
         /// This code is a modified version of a very useful blog post.
         /// theowl84 (2011) 'Bilinear Pixel Interpolation using SSE', FastC++: Coding Cpp Efficiently, 16 June.
@@ -319,7 +319,7 @@ namespace water
     }
 
 
-    void RendererHAPI::Texture::crop (const Point& crop)
+    void HAPITexture::crop (const Point& crop)
     {
         // Don't do anything if no cropping is to be performed.
         if (crop.x != 0 || crop.y != 0)
@@ -366,7 +366,7 @@ namespace water
 
     #pragma region Blitting
 
-    bool RendererHAPI::Texture::blitTo (BYTE* const target, const Rectangle<int>& blitTo, const Rectangle<int>& clipTo, const Point& point, const Point& frame, const BlendType blend)
+    bool HAPITexture::blitTo (BYTE* const target, const Rectangle<int>& blitTo, const Rectangle<int>& clipTo, const Point& point, const Point& frame, const BlendType blend)
     {
         // Pre-condition: target is a valid pointer.
         if (!target)
@@ -440,14 +440,14 @@ namespace water
     }
 
 
-    bool RendererHAPI::Texture::blitTo (Texture& target, const Point& point, const Point& frame, const BlendType blend)
+    bool HAPITexture::blitTo (HAPITexture& target, const Point& point, const Point& frame, const BlendType blend)
     {
         // Forward onto the normal blitting function.
         return blitTo (target.m_data, target.m_textureSpace, target.m_textureSpace, point, frame, blend);
     }
     
 
-    void RendererHAPI::Texture::blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
+    void HAPITexture::blitOpaque (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
     {    
         // Cache zee variables captain!
         const auto  blitWidth       = (size_t) drawArea.width(),
@@ -476,7 +476,7 @@ namespace water
     }
 
 
-    void RendererHAPI::Texture::blitTransparent (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
+    void HAPITexture::blitTransparent (BYTE* const target, const Rectangle<int>& targetSpace, const Point& point, const Point& frameOffset, const Rectangle<int>& drawArea)
     {
         // Cache zee variables captain!
         const auto  blitWidth       = (size_t) drawArea.width(),
@@ -542,13 +542,13 @@ namespace water
     }
 
 
-    void RendererHAPI::Texture::clearToBlack (const BYTE blackLevel)
+    void HAPITexture::clearToBlack (const BYTE blackLevel)
     {
         std::memset (m_data, blackLevel, m_textureSpace.area() * sizeOfColour);
     }
 
 
-    void RendererHAPI::Texture::clearToColour (const Colour& colour)
+    void HAPITexture::clearToColour (const Colour& colour)
     {
         // Loop through each pixel
         const auto size = m_textureSpace.area();

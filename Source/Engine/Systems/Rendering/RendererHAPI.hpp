@@ -2,8 +2,17 @@
 #define WATER_RENDERER_HAPI_INCLUDED
 
 
+// STL headers.
+#include <unordered_map>
+
+
 // Engine headers.
 #include <Systems/IEngineRenderer.hpp>
+#include <Systems/Rendering/HAPITexture.hpp>
+
+
+// Forward declarations.
+using BYTE = unsigned char;
 
 
 // Engine namespace
@@ -18,7 +27,7 @@ namespace water
 
             #pragma region Constructors & destructor
 
-            RendererHAPI();
+            RendererHAPI()                                      = default;
             RendererHAPI (RendererHAPI&& move);
             RendererHAPI& operator= (RendererHAPI&& move);
 
@@ -144,12 +153,24 @@ namespace water
             #pragma endregion
 
 
-            // Forward declarations
-            class Texture;
-            struct Impl;
+            #pragma region Implementation data
 
+            BYTE*                                       m_screen          { nullptr };    //!< A pointer to the memory address of the screen buffer.
+            Rectangle<int>                              m_screenSpace     { };            //!< A rectangle representing the screen space, used for blitting.
+            Rectangle<int>                              m_drawSpace       { };            //!< The actual drawable area of the screen. Useful for clipping.
+            Point                                       m_screenOffset    { 0, 0 };       //!< The offset to apply when upscaling, this is useful when maintaining the aspect ratio of the internal resolution.
+        
+            Vector2<int>                                m_internalRes     { };            //!< The internal resolution of the renderer, required for world to pixel conversion.
+            Vector2<float>                              m_textureScale    { 1, 1 };       //!< The scale ratios used to filter loaded textures to a desired size.
+            FilterMode                                  m_filter          { };            //!< The filter to be applied during the framebuffer scaling.
 
-            Impl*   m_impl  { nullptr };    //!< A pointer to the implementation data.
+            Rectangle<float>                            m_viewport        { };            //!< The visible area of the screen in world units.
+            Vector2<float>                              m_worldToPixel    { };            //!< The scalar applied to world units to create a pixel-space vector.
+
+            std::hash<std::string>                      m_hasher          { };            //!< A hashing function used to speed up map lookup at the expense of map insertion.
+            std::unordered_map<TextureID, HAPITexture>  m_textures        { };            //!< A container for all loaded texture data.
+
+            #pragma endregion
     };
 }
 
