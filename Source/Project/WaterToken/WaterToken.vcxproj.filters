@@ -43,9 +43,6 @@
     <Filter Include="MagaMen\States">
       <UniqueIdentifier>{33e9eeda-b00b-40af-9d72-5e521b54bf1e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MagaMen\Loading">
-      <UniqueIdentifier>{db01e57d-070e-4347-b14e-00489270fe36}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Systems\Input">
       <UniqueIdentifier>{5dc6faab-52e6-421e-a4da-6b2f5a7dbb1e}</UniqueIdentifier>
     </Filter>
@@ -109,12 +106,6 @@
     <ClCompile Include="..\..\MagaMen\States\MagaMenState.cpp">
       <Filter>MagaMen\States</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\MagaMen\Loading\StateBuilder.cpp">
-      <Filter>MagaMen\Loading</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\MagaMen\Loading\MainMenuStateBuilder.cpp">
-      <Filter>MagaMen\Loading</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Engine\Systems\Input\InputSFML.cpp">
       <Filter>Engine\Systems\Input</Filter>
     </ClCompile>
@@ -132,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="..\..\MagaMen\GameObjects\Player.cpp">
       <Filter>MagaMen\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\Misc\StateBuilder.cpp">
+      <Filter>MagaMen\Misc</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,12 +244,6 @@
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp">
       <Filter>MagaMen\States</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MagaMen\Loading\StateBuilder.hpp">
-      <Filter>MagaMen\Loading</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\MagaMen\Loading\MainMenuStateBuilder.hpp">
-      <Filter>MagaMen\Loading</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Engine\Systems\Input\Actions.hpp">
       <Filter>Engine\Systems\Input</Filter>
     </ClInclude>
@@ -299,6 +287,9 @@
       <Filter>MagaMen\GameObjects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\Misc\Enums.hpp">
+      <Filter>MagaMen\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\Misc\StateBuilder.hpp">
       <Filter>MagaMen\Misc</Filter>
     </ClInclude>
   </ItemGroup>

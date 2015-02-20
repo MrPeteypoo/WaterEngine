@@ -10,7 +10,7 @@
 
 
 // Game headers.
-#include <MagaMen/Loading/MainMenuStateBuilder.hpp>
+#include <MagaMen/Misc/StateBuilder.hpp>
 #include <MagaMen/Misc/Utility.hpp>
 
 
@@ -49,7 +49,7 @@ namespace mm
 
     bool MainMenuState::onAdd()
     {
-        return MainMenuStateBuilder::loadFromFile (*this);
+        return StateBuilder::loadFromFile (*this);
     }
 
 

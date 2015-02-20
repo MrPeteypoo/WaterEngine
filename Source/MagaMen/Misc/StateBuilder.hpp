@@ -17,7 +17,10 @@ namespace pugi
 namespace mm
 {
     // Forward declarations.
+    class MainMenuState;
+    class CutManState;
     class StaticObject;
+
 
     /// <summary>
     /// A static class which provides common functionality required to build states from an XML file.
@@ -34,6 +37,21 @@ namespace mm
             /// <param name="workingDir"> The working directory for texture loading. </param>
             /// <returns> Whether something went wrong. </returns>
             static bool constructStaticObject (StaticObject& output, const pugi::xml_node& node, const std::string& workingDir);
+
+            #pragma endregion
+
+
+            #pragma region Load states
+
+            /// <summary> Attempts to load a MainMenuState from the file information stored within the state. </summary>
+            /// <param name="state"> The state to be loaded. </param>
+            /// <returns> Whether the operation was successful or not. </returns>
+            static bool loadFromFile (MainMenuState& state);
+
+            /// <summary> Attempts to load a CutManState from the file information stored within the state. </summary>
+            /// <param name="state"> The state to be loaded. </param>
+            /// <returns> Whether the operation was successful or not. </returns>
+            static bool loadFromFile (CutManState& state);
 
             #pragma endregion
     };

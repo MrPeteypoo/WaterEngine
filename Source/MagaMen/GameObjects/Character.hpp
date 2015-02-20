@@ -37,14 +37,16 @@ namespace mm
             ~Character() override {}
 
             #pragma endregion
-
-
-            #pragma region Collision
-
+            
             /// <summary> Takes damage any environmental object it hits. </summary>
             virtual void onCollision (PhysicsObject* const collision) override;
 
-            #pragma endregion
+            /// <summary> Called when a character is reported as dead. </summary>
+            virtual void onDeath();
+            
+            static void setFireSound (const water::SoundID sound)       { m_fireSound = sound; }
+            static void setCollideSound (const water::SoundID sound)    { m_collideSound = sound; }
+            static void setDeathSound (const water::SoundID sound)      { m_deathSound = sound; }
 
         protected:
 
@@ -64,6 +66,7 @@ namespace mm
             static MagaMenLevelState*   m_state;                    //!< A pointer to the state associated with the character.
             static water::SoundID       m_fireSound;                //!< The ID of the sound to play when firing bullets.
             static water::SoundID       m_collideSound;             //!< The ID of the sound to play when characters collide with something.
+            static water::SoundID       m_deathSound;               //!< The ID of the sound to play when the character dies.
 
             float                       m_collideCD     { 0 };      //!< The cooldown left before the character can be hurt from collision again.
             float                       m_fireCD        { 0 };      //!< The cooldown left before the character can fire again.

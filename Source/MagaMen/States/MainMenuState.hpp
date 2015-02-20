@@ -69,7 +69,7 @@ namespace mm
             #pragma region Implementation data
 
             // Allow the construction of the state externally.
-            friend class MainMenuStateBuilder;
+            friend class StateBuilder;
 
             std::vector<StaticObject> m_objects { };    //!< The objects managed by the MainMenuState.
 

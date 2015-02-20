@@ -15,8 +15,9 @@ namespace mm
     #pragma region Static data
 
     MagaMenLevelState*  Character::m_state = nullptr;
-    water::SoundID      Character::m_fireSound = 0;
     water::SoundID      Character::m_collideSound = 0;
+    water::SoundID      Character::m_fireSound = 0;
+    water::SoundID      Character::m_deathSound = 0;
 
     #pragma endregion
 
@@ -48,30 +49,6 @@ namespace mm
     #pragma endregion
 
 
-    #pragma region Collision
-
-    void Character::onCollision (PhysicsObject* const collision)
-    {
-        // If it is the player then cause them to take damage.
-        if (collision->getTag() == "Player" || collision->getTag() == "Enemy")
-        {
-            auto const object = (Character*) collision;
-            
-            // Check if we can hurt them.
-            if (!object->m_collideCD == 0.f)
-            {
-                object->damage (m_power);
-                object->m_collideCD = 0.125f;
-
-                // Play a sound to indicate that we've collided with them.
-                audio().playSound (m_collideSound);
-            }
-        }
-    }
-
-    #pragma endregion
-
-
     #pragma region Firing
 
     void Character::fireBullet (const Vector2<float>& position, const Vector2<float>& velocity)
@@ -93,6 +70,36 @@ namespace mm
 
         m_collideCD = util::max (m_collideCD - dt, 0.f);
         m_fireCD    = util::max (m_fireCD - dt, 0.f);
+    }
+
+    #pragma endregion
+
+
+    #pragma region Other
+
+    void Character::onCollision (PhysicsObject* const collision)
+    {
+        // If it is the player then cause them to take damage.
+        if (collision->getTag() == "Player" || collision->getTag() == "Enemy")
+        {
+            auto const object = (Character*) collision;
+            
+            // Check if we can hurt them.
+            if (!object->m_collideCD == 0.f)
+            {
+                object->damage (m_power);
+                object->m_collideCD = 0.125f;
+
+                // Play a sound to indicate that we've collided with them.
+                audio().playSound (m_collideSound);
+            }
+        }
+    }
+
+    
+    void Character::onDeath()
+    {
+        audio().playSound (m_deathSound);
     }
 
     #pragma endregion

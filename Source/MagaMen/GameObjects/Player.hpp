@@ -42,7 +42,22 @@ namespace mm
             /// <summary> Checks for input and moves the player accordingly. </summary>
             void update() override final;
 
+            /// <summary> Spawns an explosion at the point where the player died. </summary>
+            void onDeath() override final;
+
             #pragma endregion
+
+
+            #pragma region Getters
+
+            /// <summary> Tests whether the player has lost all of their lives and has no remaining HP. </summary>
+            bool isGameOver() const { return m_lives == 0 && m_currentHP == 0; }
+
+            /// <summary> Obtains the number of lives the player currently has. </summary>
+            int getLives() const    { return m_lives; }
+
+            #pragma endregion
+
 
         private:
 
@@ -57,6 +72,7 @@ namespace mm
             #pragma endregion
 
             bool    m_facingLeft    { false };  //!< Indicates whether the player is currently facing left or right.
+            int     m_lives         { 5 };      //!< The number of lives the player has.
     };
 }
 

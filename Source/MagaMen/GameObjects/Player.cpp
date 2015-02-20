@@ -7,6 +7,7 @@
 
 
 // Game headers.
+#include <MagaMen/States/MagaMenLevelState.hpp>
 #include <MagaMen/Misc/Enums.hpp>
 
 
@@ -67,6 +68,10 @@ namespace mm
         m_collideCD = 0.f;
         m_fireCD    = 0.f;
 
+        // Player data.
+        m_facingLeft = false;
+        m_lives      = 5;
+
         return true;
     }
 
@@ -93,6 +98,15 @@ namespace mm
         // Set the correct animation frame. If firing the X should be 1. The left-looking sprites on the spritesheet are 0 on the Y axis.
         m_frame.x = m_fireCD > 0.f;
         m_frame.y = m_facingLeft;
+    }
+
+
+    void Player::onDeath()
+    {
+        m_lives = util::max (--m_lives, 0);
+        audio().playSound (m_deathSound);
+
+        m_state->playerDead();
     }
 
     #pragma endregion

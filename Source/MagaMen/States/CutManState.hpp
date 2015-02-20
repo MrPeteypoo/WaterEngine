@@ -3,7 +3,9 @@
 
 
 // Game headers.
-#include <MagaMen/States/MagaMenState.hpp>
+#include <MagaMen/States/MagaMenLevelState.hpp>
+#include <MagaMen/GameObjects/StaticObject.hpp>
+#include <MagaMen/GameObjects/Player.hpp>
 
 
 // Game namespace.
@@ -12,7 +14,7 @@ namespace mm
     /// <summary>
     /// The level where the player has to defeat Cut Man. This is where the majority of gameplay is.
     /// </summary>
-    class CutManState final : public MagaMenState
+    class CutManState final : public MagaMenLevelState
     {
         public:
 
@@ -20,7 +22,7 @@ namespace mm
 
             /// <summary> A simple constructor which specifies the .XML file to load the states data from. </summary>
             /// <param name="loadFrom"> An .XML file containing information the state needs to load from. </param>
-            CutManState (const std::string& loadFrom) : MagaMenState (loadFrom) { }
+            CutManState (const std::string& loadFrom) : MagaMenLevelState (loadFrom) { }
 
             CutManState (CutManState&& move);
             CutManState& operator= (CutManState&& move);
@@ -59,14 +61,37 @@ namespace mm
 
             #pragma endregion
 
+
+            #pragma region Level management
+
+            /// <summary> Increment the players score by the value given. </summary>
+            /// <param name="value"> The amount to increase the players score by. </param>
+            void increaseScore (const int value) override final;
+
+            /// <summary> Spawns a bullet in the level which is returned by the function. </summary>
+            /// <returns> A usable bullet. </returns>
+            Bullet& spawnBullet() override final;
+
+            /// <summary> Spawns an explosion in the level which is returned by the function. </summary>
+            /// <returns> Explosions are non-collidable graphical effects, usually this happens when an object is destroyed. </returns>
+            Explosion& spawnExplosion() override final;
+
+            #pragma endregion
+
         private:
 
             #pragma region Implementation data
 
             // Allow the construction of the state externally.
-            friend class CutManStateBuilder;
+            friend class StateBuilder;
 
-            //std::vector<
+            water::TextureID    m_background    { 0 };      //!< The scrolling background texture.
+            Vector2<float>      m_bgPosition    { 0, 0 };   //!< The current position of the scrolling background.
+
+            int                 m_score         { 0 };      //!< Keeps track of the score of the player.
+            
+            StaticObject        m_lives         {  };       //!< The GUI object displaying the current lives of the player.
+            Player              m_player        { };        //!< The player.
 
             #pragma endregion
     };

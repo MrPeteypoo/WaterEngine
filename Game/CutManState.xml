@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<CutManState>
+
+    <WorkingDirectory>../../Assets/</WorkingDirectory> 
+    <BGM Volume="1.0">Sound/BGM/CutMan.ogg</BGM>
+    <Background CropRight="32" CropBottom="32" XFrames="0" YFrames="0">Art/Level/Backgroud.png</Background>
+    <StaticObject Name="Lives" Tag="GUI" Texture="Art/Misc/Life.png" Blend="1" X="1" Y="12" />
+    
+    <Sounds> 
+        <Collide>Sound/BGM/Collide.ogg</Collide>
+        <Death>Sound/BGM/Death.ogg</Death>
+        <Hit>Sound/BGM/BulletHit.ogg</Hit>
+        <Shoot>Sound/BGM/Shoot.ogg</Shoot>    
+    </Sounds>
+    
+    <Bullet Texture="Art/Misc/Bullet.png" Blend="1" XFrames="2" YFrames="2" />
+    <Player Texture="Art/Misc/MegaManJumping.png" Blend="1" XFrames="2" YFrames="2" />
+    
+    <Collidables>
+        
+    </Collidables>
+    
+</MainMenuState>
