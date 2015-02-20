@@ -2,8 +2,16 @@
 #define WATER_TIME_STL_INCLUDED
 
 
+// STL headers.
+#include <chrono>
+
+
 // Engine headers.
 #include <Systems/IEngineTime.hpp>
+
+
+// Namespaces.
+using namespace std::chrono;
 
 
 // Engine namespace.
@@ -18,11 +26,11 @@ namespace water
 
             #pragma region Constructors and destructor
             
-            TimeSTL();
+            TimeSTL()                                   = default;
             TimeSTL (TimeSTL&& move);
             TimeSTL& operator= (TimeSTL&& move);
 
-            ~TimeSTL() override final;
+            ~TimeSTL() override final { }
         
             TimeSTL (const TimeSTL& copy)               = delete;
             TimeSTL& operator= (const TimeSTL& copy)    = delete;
@@ -76,11 +84,23 @@ namespace water
             /// <summary> Sets the current delta value, applying the timescale value. </summary>
             void setCurrentDelta (const real delta);
 
-            // Forward declarations.
-            struct Impl;
 
-            Impl* m_impl            { nullptr };    //!< A pointer to the implementation data.
-            float m_currentDelta    { 0.f };        //!< Keep the current delta value outside the pimpl for efficiency.
+            #pragma region Implementation data
+
+            real                                m_targetPhysics     { 0 },  //!< The target physics delta value.
+                                                m_targetUpdate      { 0 },  //!< The target update delta value.
+                                                m_maxDelta          { 0 },  //!< The maximum delta value for both physics and other systems.
+                                                m_timescale         { 1 };  //!< The scale applied to time values, this can create slow motion in the game.
+
+            real                                m_physicsDelta      { 0 },  //!< The physics delta accumulator.
+                                                m_updateDelta       { 0 };  //!< The update delta accumulator.
+            float                               m_currentDelta      { 0 };  //!< The current delta time value.
+
+            high_resolution_clock::time_point   m_startTime         { },    //!< The initial time point since the start of the application.
+                                                m_previousPhysics   { },    //!< The previous physics time point.
+                                                m_previousUpdate    { };    //!< The previous update time point.
+
+            #pragma endregion
     };   
 }
 
