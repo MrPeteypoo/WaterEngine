@@ -33,6 +33,9 @@ namespace water
             /// <returns> The physics update time during updatePhysics() or the update time during update(). </returns>
             virtual float getDelta() const = 0;
 
+            /// <summary> Get the normalised value of the current point in time between the previous physics update and the next physics update. </summary>
+            virtual float getPhysicsStep() const = 0;
+
             /// <summary> Obtains the time in seconds since the game start. </summary>
             virtual float timeSinceStart() const = 0;
 

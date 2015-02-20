@@ -32,6 +32,7 @@ namespace water
             m_physicsDelta      = move.m_physicsDelta;
             m_updateDelta       = move.m_updateDelta;
             m_currentDelta      = move.m_currentDelta;
+            m_physicsStep       = move.m_physicsStep;
 
             m_startTime         = std::move (move.m_startTime);
             m_previousPhysics   = std::move (move.m_previousPhysics);
@@ -46,6 +47,7 @@ namespace water
             move.m_physicsDelta     = 0;
             move.m_updateDelta      = 0;
             move.m_currentDelta     = 0;
+            move.m_physicsStep      = 0;
         }
 
         return *this;
@@ -94,6 +96,7 @@ namespace water
         // Set the physics delta and checks if a physics update should be performed.
         m_physicsDelta += time;
         m_previousPhysics = now;
+        m_physicsStep = (float) util::max (m_physicsDelta / m_targetPhysics, 1.0);
         setCurrentDelta (m_targetPhysics);
 
         return m_physicsDelta >= m_targetPhysics;
@@ -192,12 +195,6 @@ namespace water
         const auto time = duration<float> (now - m_startTime).count();
 
         return time;
-    }
-
-
-    float TimeSTL::timescale() const
-    {
-        return (float) m_timescale;
     }
 
 

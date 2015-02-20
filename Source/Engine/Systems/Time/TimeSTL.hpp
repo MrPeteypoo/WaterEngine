@@ -66,13 +66,16 @@ namespace water
 
             /// <summary> Get the delta time value of the current update loop in seconds. </summary>
             /// <returns> The physics update time during updatePhysics() or the update time during update(). </returns>
-            float getDelta() const override final { return m_currentDelta; }
+            float getDelta() const override final           { return m_currentDelta; }
+
+            /// <summary> Obtains a normalised value of the current point in time between the previous physics update and the next physics update. </summary>
+            float getPhysicsStep() const override final     { return m_physicsStep; }
 
             /// <summary> Obtains the time in seconds since the game start. </summary>
             float timeSinceStart() const override final;
 
             /// <summary> Obtains the time scale currently being applied each frame. </summary>
-            float timescale() const override final;
+            float timescale() const override final          { return (float) m_timescale; }
 
             /// <summary> This sets the time scale applied to the real world frame times. This will not go below zero. </summary>
             void setTimescale (const real timescale) override final;
@@ -94,7 +97,8 @@ namespace water
 
             real                                m_physicsDelta      { 0 },  //!< The physics delta accumulator.
                                                 m_updateDelta       { 0 };  //!< The update delta accumulator.
-            float                               m_currentDelta      { 0 };  //!< The current delta time value.
+            float                               m_currentDelta      { 0 },  //!< The current delta time value.
+                                                m_physicsStep       { 0 };  //!< The step value for the current point between the previous physics update and the next.
 
             high_resolution_clock::time_point   m_startTime         { },    //!< The initial time point since the start of the application.
                                                 m_previousPhysics   { },    //!< The previous physics time point.
