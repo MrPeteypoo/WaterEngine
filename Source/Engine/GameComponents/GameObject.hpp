@@ -40,7 +40,7 @@ namespace water
             GameObject& operator= (const GameObject& copy)  = default;
 
             // Ensure destructor is virtual.
-            virtual ~GameObject() {}
+            virtual ~GameObject() override {}
 
             #pragma endregion
 
