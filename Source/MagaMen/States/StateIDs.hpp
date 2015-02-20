@@ -11,7 +11,6 @@ namespace mm
     enum class StateID : int
     {
         MainMenu    = 0,    //!< The entry point of the game.
-        LevelSelect = 1,    //!< The state where the player can select which stage to play.
         Credits     = 2,    //!< The final state of the game once the player has won.
         CutManStage = 3     //!< The stage where the player fights Cut Man.
     };
