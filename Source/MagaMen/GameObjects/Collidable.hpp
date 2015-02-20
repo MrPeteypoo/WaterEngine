@@ -33,8 +33,22 @@ namespace mm
 
             #pragma region Game functionality
 
+            /// <summary> Moves the object based on its current velocity. </summary>
+            virtual void updatePhysics() override;
+
             /// <summary> By default collidable objects will use interpolation to create smooth graphics at any frame rate. </summary>
             virtual void render() override;
+
+            #pragma endregion
+
+
+            #pragma region Movement
+
+            /// <summary> Get the movement speed of the object in units-per-second. </summary>
+            float getMovementSpeed() const  { return m_speed; }
+
+            /// <summary> Set the maximum movement speed of the object in units-per-second. This cannot be lower than zero. </summary>
+            void setMovementSpeed (const float speed);
 
             #pragma endregion
 
@@ -79,9 +93,11 @@ namespace mm
 
             #pragma region Implementation data
 
-            int m_currentHP { 0 };  //!< The current HP value of the collidable object.
-            int m_maxHP     { 0 };  //!< The maximum HP value of the collidable object.
-            int m_power     { 0 };  //!< The maximum amount of inflictable damage.
+            float   m_speed     { 0 };  //!< The movement speed of the object.
+
+            int     m_currentHP { 0 };  //!< The current HP value of the collidable object.
+            int     m_maxHP     { 0 };  //!< The maximum HP value of the collidable object.
+            int     m_power     { 0 };  //!< The maximum amount of inflictable damage.
 
             #pragma endregion
     };

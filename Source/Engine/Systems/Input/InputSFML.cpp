@@ -287,7 +287,7 @@ namespace water
 
     float InputSFML::axisPosition (const unsigned int controller, const Axis axis) const
     {
-        return sf::Joystick::getAxisPosition (controller, (sf::Joystick::Axis) axis);
+        return sf::Joystick::getAxisPosition (controller, (sf::Joystick::Axis) axis) / 100.f;
     }
 
     #pragma endregion

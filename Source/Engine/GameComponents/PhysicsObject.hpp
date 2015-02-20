@@ -41,14 +41,14 @@ namespace water
             /// by the physics system and will be called on both objects.
             /// </summary>
             /// <param name="collision"> The object being collided with. </param>
-            virtual void onCollision (PhysicsObject* const collision) = 0;
+            virtual void onCollision (PhysicsObject* const collision) { }
 
             /// <summary>
             /// The function called on trigger objects when either another trigger object or a collision object intersects the trigger zone.
             /// This will be called every frame until the object leaves.
             /// </summary>
             /// <param name="collision"> The object intersecting the trigger zone. </param>
-            virtual void onTrigger (PhysicsObject* const collision) = 0;
+            virtual void onTrigger (PhysicsObject* const collision) { }
 
             #pragma endregion
 
@@ -71,7 +71,7 @@ namespace water
 
             #pragma endregion
 
-        private:
+        protected:
 
             #pragma region Implementation data
             

@@ -37,7 +37,9 @@
     <ClCompile Include="..\..\Engine\Utility\Misc.cpp" />
     <ClCompile Include="..\..\Engine\Utility\Time.cpp" />
     <ClCompile Include="..\..\MagaMen.cpp" />
+    <ClCompile Include="..\..\MagaMen\GameObjects\Character.cpp" />
     <ClCompile Include="..\..\MagaMen\GameObjects\Collidable.cpp" />
+    <ClCompile Include="..\..\MagaMen\GameObjects\Player.cpp" />
     <ClCompile Include="..\..\MagaMen\GameObjects\StaticObject.cpp" />
     <ClCompile Include="..\..\MagaMen\Loading\MainMenuStateBuilder.cpp" />
     <ClCompile Include="..\..\MagaMen\Loading\StateBuilder.cpp" />
@@ -87,16 +89,21 @@
     <ClInclude Include="..\..\Engine\Engine.hpp" />
     <ClInclude Include="..\..\Engine\WaterEngine.hpp" />
     <ClInclude Include="..\..\MagaMen.hpp" />
+    <ClInclude Include="..\..\MagaMen\GameObjects\Bullet.hpp" />
+    <ClInclude Include="..\..\MagaMen\GameObjects\Character.hpp" />
     <ClInclude Include="..\..\MagaMen\GameObjects\Collidable.hpp" />
+    <ClInclude Include="..\..\MagaMen\GameObjects\Enemy.hpp" />
+    <ClInclude Include="..\..\MagaMen\GameObjects\Environment.hpp" />
+    <ClInclude Include="..\..\MagaMen\GameObjects\Player.hpp" />
     <ClInclude Include="..\..\MagaMen\GameObjects\StaticObject.hpp" />
     <ClInclude Include="..\..\MagaMen\Loading\MainMenuStateBuilder.hpp" />
     <ClInclude Include="..\..\MagaMen\Loading\StateBuilder.hpp" />
-    <ClInclude Include="..\..\MagaMen\Misc\Actions.hpp" />
+    <ClInclude Include="..\..\MagaMen\Misc\Enums.hpp" />
     <ClInclude Include="..\..\MagaMen\Misc\Utility.hpp" />
     <ClInclude Include="..\..\MagaMen\States\CutManState.hpp" />
+    <ClInclude Include="..\..\MagaMen\States\MagaMenLevelState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MagaMenState.hpp" />
     <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp" />
-    <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E9304ABB-98E4-49C8-BDEA-7C305028EE2C}</ProjectGuid>

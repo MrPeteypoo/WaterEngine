@@ -23,11 +23,13 @@ namespace mm
         {
             PhysicsObject::operator= (std::move (move));
 
+            m_speed     = move.m_speed;
             m_currentHP = move.m_currentHP;
             m_maxHP     = move.m_maxHP;
             m_power     = move.m_power;
 
             // Reset primitives.
+            move.m_speed     = 0;
             move.m_currentHP = 0;
             move.m_maxHP     = 0;
             move.m_power     = 0;
@@ -41,11 +43,27 @@ namespace mm
 
     #pragma region Game functionality
 
+    void Collidable::updatePhysics()
+    {
+        m_position += m_velocity * time().getDelta();
+    }
+
+
     void Collidable::render()
     {
         // Interpolate between the current and next frame based on the timestep between physics updates.
         const auto smoothPosition = Vector2<float>::lerp (m_position, m_position + m_velocity, time().getPhysicsStep());
         renderer().drawToScreen (smoothPosition, m_baseTexture, m_frame, m_blendType);
+    }
+
+    #pragma endregion
+
+
+    #pragma region Movement
+
+    void Collidable::setMovementSpeed (const float speed)
+    {
+        m_speed = util::max (speed, 0.f);
     }
 
     #pragma endregion

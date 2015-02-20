@@ -48,10 +48,7 @@ namespace water
 
     void Collider::setLayer (const unsigned int layer)
     {
-        if (layer < 32)
-        {
-            m_layer = layer;
-        }
+        m_layer = util::min (layer, 31U);
     }
 
     #pragma endregion

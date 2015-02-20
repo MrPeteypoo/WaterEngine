@@ -127,6 +127,12 @@
     <ClCompile Include="..\..\MagaMen\GameObjects\Collidable.cpp">
       <Filter>MagaMen\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MagaMen\GameObjects\Character.cpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MagaMen\GameObjects\Player.cpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
@@ -235,9 +241,6 @@
       <Filter>Engine\GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="..\..\MagaMen.hpp" />
-    <ClInclude Include="..\..\MagaMen\States\StateIDs.hpp">
-      <Filter>MagaMen\States</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MagaMen\States\MainMenuState.hpp">
       <Filter>MagaMen\States</Filter>
     </ClInclude>
@@ -268,9 +271,6 @@
     <ClInclude Include="..\..\Engine\Utility\Misc.hpp">
       <Filter>Engine\Utility</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\MagaMen\Misc\Actions.hpp">
-      <Filter>MagaMen\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\MagaMen\Misc\Utility.hpp">
       <Filter>MagaMen\Misc</Filter>
     </ClInclude>
@@ -279,6 +279,27 @@
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\GameObjects\Collidable.hpp">
       <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\Player.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\Environment.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\Bullet.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\Enemy.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\States\MagaMenLevelState.hpp">
+      <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\Character.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\Misc\Enums.hpp">
+      <Filter>MagaMen\Misc</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

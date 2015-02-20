@@ -12,7 +12,7 @@
 
 
 // Game headers.
-#include <MagaMen/States/StateIDs.hpp>
+#include <MagaMen/Misc/Enums.hpp>
 
 
 // Forward declarations.
