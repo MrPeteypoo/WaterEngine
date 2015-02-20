@@ -124,6 +124,9 @@
     <ClCompile Include="..\..\MagaMen\Misc\Utility.cpp">
       <Filter>MagaMen\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MagaMen\GameObjects\Collidable.cpp">
+      <Filter>MagaMen\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Engine\Misc\Rectangle.hpp">
@@ -270,6 +273,12 @@
     </ClInclude>
     <ClInclude Include="..\..\MagaMen\Misc\Utility.hpp">
       <Filter>MagaMen\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\States\CutManState.hpp">
+      <Filter>MagaMen\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MagaMen\GameObjects\Collidable.hpp">
+      <Filter>MagaMen\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
