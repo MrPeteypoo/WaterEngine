@@ -14,13 +14,13 @@ namespace water
 {
     #pragma region Constructors
 
-    AudioSFML::Sound::Sound (Sound&& move)
+    SFMLSound::SFMLSound (SFMLSound&& move)
     {
         *this = std::move (move);
     }
 
 
-    AudioSFML::Sound& AudioSFML::Sound::operator= (Sound&& move)
+    SFMLSound& SFMLSound::operator= (SFMLSound&& move)
     {
         if (this != &move)
         {
@@ -39,7 +39,7 @@ namespace water
 
     #pragma region Wrapped functionality
 
-    void AudioSFML::Sound::setVolume (const float volume, const float mixer)
+    void SFMLSound::setVolume (const float volume, const float mixer)
     {
         // Assume the audio system is passing us good values.
         m_volume = volume;
@@ -49,14 +49,14 @@ namespace water
     }
 
 
-    void AudioSFML::Sound::resetVolume (const float mixer)
+    void SFMLSound::resetVolume (const float mixer)
     {
         // Apply the current volume and mixer together.
         m_sound.setVolume (100.f * m_volume * mixer);
     }
 
 
-    void AudioSFML::Sound::setOffset (const float seconds)
+    void SFMLSound::setOffset (const float seconds)
     {
         // We should clamp the offset given.
         const auto duration = m_sound.getBuffer()->getDuration().asSeconds();

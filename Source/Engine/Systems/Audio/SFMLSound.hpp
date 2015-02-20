@@ -2,10 +2,6 @@
 #define WATER_SFML_SOUND_INCLUDED
 
 
-// Engine headers.
-#include <Systems/Audio/AudioSFML.hpp>
-
-
 // Third party headers.
 #include <SFML/Audio/Sound.hpp>
 
@@ -16,21 +12,21 @@ namespace water
     /// <summary>
     /// A wrapper of the sf::Sound class which provides more control over the sound properties.
     /// </summary>
-    class AudioSFML::Sound final
+    class SFMLSound final
     {
         public:
 
             #pragma region Constructors and destructor
         
-            /// <summary> Initialises the Sound with the given buffer. </summary>
-            Sound (const sf::SoundBuffer& buffer) : m_sound (buffer) { }
-            Sound (Sound&& move);
-            Sound& operator= (Sound&& move);
+            /// <summary> Initialises the SFMLSound with the given buffer. </summary>
+            SFMLSound (const sf::SoundBuffer& buffer) : m_sound (buffer) { }
+            SFMLSound (SFMLSound&& move);
+            SFMLSound& operator= (SFMLSound&& move);
 
-            Sound()                                 = default;
-            Sound (const Sound& copy)               = default;
-            Sound& operator= (const Sound& copy)    = default;
-            ~Sound()                                = default;        
+            SFMLSound()                                 = default;
+            SFMLSound (const SFMLSound& copy)               = default;
+            SFMLSound& operator= (const SFMLSound& copy)    = default;
+            ~SFMLSound()                                = default;        
 
             #pragma endregion
 

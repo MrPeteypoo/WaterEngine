@@ -2,8 +2,23 @@
 #define WATER_AUDIO_SFML_INCLUDED
 
 
+// STL headers.
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
+
 // Engine headers.
 #include <Systems/IEngineAudio.hpp>
+#include <Systems/Audio/SFMLSound.hpp>
+
+
+// Third party headers.
+#include <SFML/Audio/SoundBuffer.hpp>
+
+
+// Forward declarations.
+namespace sf { class Music; }
 
 
 // Engine namespace
@@ -23,7 +38,7 @@ namespace water
             AudioSFML& operator= (AudioSFML&& move);
 
             ~AudioSFML() override final;
-        
+
             AudioSFML (const AudioSFML& copy)               = delete;
             AudioSFML& operator= (const AudioSFML& copy)    = delete;
 
@@ -155,14 +170,22 @@ namespace water
             PlaybackID findInactiveChannel();
 
             #pragma endregion
+            
 
+            #pragma region Implementation data
 
-            // Forward declarations.
-            class Sound;
-            struct Impl;
+            unsigned int                                    m_soundLimit    { 31 };         //!< The number of sound effect channels available concurrently.
+            float                                           m_bgmMixer      { 1.f };        //!< The background music mixer, this is how loud the music is.
+            float                                           m_sfxMixer      { 1.f };        //!< The effects mixer, this is the volume applied to every sound effect.
 
+            std::unique_ptr<sf::Music>                      m_bgm           { nullptr };    //!< The loaded background music.
+            float                                           m_bgmVolume     { 1.f };        //!< The core volume of the music file.
 
-            Impl*   m_impl  { nullptr };    //!< A pointer to the implementation data.
+            std::hash<std::string>                          m_hasher        { };            //!< The hasher used to hash file names.
+            std::unordered_map<SoundID, sf::SoundBuffer>    m_buffers       { };            //!< A collection of sound buffers containing loaded sound effects.
+            std::vector<SFMLSound>                          m_channels      { };            //!< A collection of sound channels to play audio clips back with.
+
+            #pragma endregion
     };
 }
 
