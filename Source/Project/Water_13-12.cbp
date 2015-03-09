@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Water_13-12" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Win64Debug">
+				<Option output="../../Builds/Water-Win64-d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../../Temp/Win64Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="libsfml-graphics-s-d" />
+					<Add library="libsfml-window-s-d" />
+					<Add library="libsfml-system-s-d" />
+					<Add library="libsfml-audio-s-d" />
+					<Add library="libsfml-main-d" />
+					<Add directory="../../External/Lib/SFML/Win64" />
+				</Linker>
+			</Target>
+			<Target title="Win64Release">
+				<Option output="../../Builds/Water-Win64" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../../Temp/Win64Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libsfml-graphics-s" />
+					<Add library="libsfml-window-s" />
+					<Add library="libsfml-system-s" />
+					<Add library="libsfml-audio-s" />
+					<Add library="libsfml-main" />
+					<Add directory="../../External/Lib/SFML/Win64" />
+				</Linker>
+			</Target>
+			<Target title="Linux64Debug">
+				<Option output="../../Builds/Water-Linux64-d" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../../Temp/Linux64Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="libsfml-graphics-s-d" />
+					<Add library="libsfml-window-s-d" />
+					<Add library="libsfml-system-s-d" />
+					<Add library="libsfml-audio-s-d" />
+					<Add library="pthread" />
+					<Add library="GL" />
+					<Add library="X11" />
+					<Add library="Xrandr" />
+					<Add library="freetype" />
+					<Add library="GLEW" />
+					<Add library="jpeg" />
+					<Add library="sndfile" />
+					<Add library="openal" />
+					<Add directory="../../External/Lib/SFML/Linux64" />
+					<Add directory="/usr/lib" />
+				</Linker>
+			</Target>
+			<Target title="Linux64Release">
+				<Option output="../../Builds/Water-Linux64" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="../../Temp/Linux64Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="libsfml-graphics-s" />
+					<Add library="libsfml-window-s" />
+					<Add library="libsfml-system-s" />
+					<Add library="libsfml-audio-s" />
+					<Add library="pthread" />
+					<Add library="GL" />
+					<Add library="X11" />
+					<Add library="Xrandr" />
+					<Add library="freetype" />
+					<Add library="GLEW" />
+					<Add library="jpeg" />
+					<Add library="sndfile" />
+					<Add library="openal" />
+					<Add directory="../../External/Lib/SFML/Linux64" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-DSFML_STATIC" />
+			<Add directory="../../External/Include" />
+			<Add directory="../" />
+		</Compiler>
+		<Linker>
+			<Add directory="../../External/Lib" />
+		</Linker>
+		<Unit filename="../Configuration.cpp" />
+		<Unit filename="../Configuration.hpp" />
+		<Unit filename="../Engine.cpp" />
+		<Unit filename="../Engine.hpp" />
+		<Unit filename="../GameComponents/Collider.cpp" />
+		<Unit filename="../GameComponents/Collider.hpp" />
+		<Unit filename="../GameComponents/GameObject.cpp" />
+		<Unit filename="../GameComponents/GameObject.hpp" />
+		<Unit filename="../GameComponents/GameState.cpp" />
+		<Unit filename="../GameComponents/GameState.hpp" />
+		<Unit filename="../GameComponents/PhysicsObject.cpp" />
+		<Unit filename="../GameComponents/PhysicsObject.hpp" />
+		<Unit filename="../Interfaces/IAudio.hpp" />
+		<Unit filename="../Interfaces/IGameObject.hpp" />
+		<Unit filename="../Interfaces/IGameWorld.hpp" />
+		<Unit filename="../Interfaces/IInput.hpp" />
+		<Unit filename="../Interfaces/ILogger.hpp" />
+		<Unit filename="../Interfaces/IPhysics.hpp" />
+		<Unit filename="../Interfaces/IRenderer.hpp" />
+		<Unit filename="../Interfaces/ITime.hpp" />
+		<Unit filename="../Misc/Rectangle.hpp" />
+		<Unit filename="../Misc/Vector2.hpp" />
+		<Unit filename="../Misc/Vector3.hpp" />
+		<Unit filename="../Systems.hpp" />
+		<Unit filename="../Systems/Audio/AudioSFML.cpp" />
+		<Unit filename="../Systems/Audio/AudioSFML.hpp" />
+		<Unit filename="../Systems/Audio/SFMLSound.cpp" />
+		<Unit filename="../Systems/Audio/SFMLSound.hpp" />
+		<Unit filename="../Systems/GameWorld/GameWorld.cpp" />
+		<Unit filename="../Systems/GameWorld/GameWorld.hpp" />
+		<Unit filename="../Systems/IEngineAudio.hpp" />
+		<Unit filename="../Systems/IEngineGameWorld.hpp" />
+		<Unit filename="../Systems/IEngineInput.hpp" />
+		<Unit filename="../Systems/IEngineLogger.hpp" />
+		<Unit filename="../Systems/IEnginePhysics.hpp" />
+		<Unit filename="../Systems/IEngineRenderer.hpp" />
+		<Unit filename="../Systems/IEngineTime.hpp" />
+		<Unit filename="../Systems/Input/Actions.hpp" />
+		<Unit filename="../Systems/Input/Enums.hpp" />
+		<Unit filename="../Systems/Input/InputSFML.cpp" />
+		<Unit filename="../Systems/Input/InputSFML.hpp" />
+		<Unit filename="../Systems/Logging/LoggerSTL.cpp" />
+		<Unit filename="../Systems/Logging/LoggerSTL.hpp" />
+		<Unit filename="../Systems/Physics/Physics.cpp" />
+		<Unit filename="../Systems/Physics/Physics.hpp" />
+		<Unit filename="../Systems/Time/TimeSTL.cpp" />
+		<Unit filename="../Systems/Time/TimeSTL.hpp" />
+		<Unit filename="../Utility/Maths.hpp" />
+		<Unit filename="../Utility/Misc.cpp" />
+		<Unit filename="../Utility/Misc.hpp" />
+		<Unit filename="../Utility/RNG.hpp" />
+		<Unit filename="../Utility/Time.cpp" />
+		<Unit filename="../Utility/Time.hpp" />
+		<Unit filename="../WaterEngine.hpp" />
+		<Unit filename="../WaterEngineForward.hpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
