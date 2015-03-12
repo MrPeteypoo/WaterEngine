@@ -128,9 +128,9 @@
 		<Unit filename="../Interfaces/IPhysics.hpp" />
 		<Unit filename="../Interfaces/IRenderer.hpp" />
 		<Unit filename="../Interfaces/ITime.hpp" />
+		<Unit filename="../Interfaces/IWindow.hpp" />
 		<Unit filename="../Misc/Rectangle.hpp" />
 		<Unit filename="../Misc/Vector2.hpp" />
-		<Unit filename="../Misc/Vector3.hpp" />
 		<Unit filename="../Systems.hpp" />
 		<Unit filename="../Systems/Audio/AudioSFML.cpp" />
 		<Unit filename="../Systems/Audio/AudioSFML.hpp" />
@@ -145,6 +145,7 @@
 		<Unit filename="../Systems/IEnginePhysics.hpp" />
 		<Unit filename="../Systems/IEngineRenderer.hpp" />
 		<Unit filename="../Systems/IEngineTime.hpp" />
+		<Unit filename="../Systems/IEngineWindow.hpp" />
 		<Unit filename="../Systems/Input/Actions.hpp" />
 		<Unit filename="../Systems/Input/Enums.hpp" />
 		<Unit filename="../Systems/Input/InputSFML.cpp" />
@@ -153,8 +154,12 @@
 		<Unit filename="../Systems/Logging/LoggerSTL.hpp" />
 		<Unit filename="../Systems/Physics/Physics.cpp" />
 		<Unit filename="../Systems/Physics/Physics.hpp" />
+		<Unit filename="../Systems/Rendering/RendererSFML.cpp" />
+		<Unit filename="../Systems/Rendering/RendererSFML.hpp" />
 		<Unit filename="../Systems/Time/TimeSTL.cpp" />
 		<Unit filename="../Systems/Time/TimeSTL.hpp" />
+		<Unit filename="../Systems/Window/WindowSFML.cpp" />
+		<Unit filename="../Systems/Window/WindowSFML.hpp" />
 		<Unit filename="../Utility/Maths.hpp" />
 		<Unit filename="../Utility/Misc.cpp" />
 		<Unit filename="../Utility/Misc.hpp" />
