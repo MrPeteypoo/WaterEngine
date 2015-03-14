@@ -24,7 +24,7 @@ namespace water
             ///////////////////////////
             /// Getters and setters ///
             ///////////////////////////
-
+/*
             /// <summary> Prepares a music track to be streamed. </summary>
             /// <returns> Whether the music track was loaded successfully. </returns>
             virtual bool loadMusic (const std::string& fileLocation) = 0;
@@ -111,6 +111,7 @@ namespace water
             /// <param name="offset"> An offset in seconds for the sound. </param>
             /// <param name="loop"> Should the sound loop after finishing? </param>
             virtual void adjustSoundProperties (const PlaybackID sound, const float volume, const float offset = 0.f, const bool loop = false) = 0;
+            */
     };
 }
 

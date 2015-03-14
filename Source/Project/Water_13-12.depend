@@ -1234,3 +1234,375 @@
 	<string>
 	<type_traits>
 
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Configuration.cpp
+	"Configuration.hpp"
+	<iostream>
+	<stdexcept>
+	<Utility/Misc.hpp>
+	<Pugi/pugixml.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Configuration.hpp
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Utility/Misc.hpp
+	<string>
+	<vector>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/Pugi/pugixml.hpp
+	"pugiconfig.hpp"
+	<stddef.h>
+	<exception>
+	<iterator>
+	<iosfwd>
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/Pugi/pugiconfig.hpp
+	"pugixml.cpp"
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/Pugi/pugixml.cpp
+	"pugixml.hpp"
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<assert.h>
+	<wchar.h>
+	<math.h>
+	<float.h>
+	<setjmp.h>
+	<istream>
+	<ostream>
+	<string>
+	<new>
+	<stdint.h>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Engine.cpp
+	"Engine.hpp"
+	<exception>
+	<iostream>
+	<Systems.hpp>
+	<Systems/Audio/AudioSFML.hpp>
+	<Systems/GameWorld/GameWorld.hpp>
+	<Systems/Input/InputSFML.hpp>
+	<Systems/Logging/LoggerSTL.hpp>
+	<Systems/Physics/Physics.hpp>
+	<Systems/Time/TimeSTL.hpp>
+	<Configuration.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Engine.hpp
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems.hpp
+	<Interfaces/IAudio.hpp>
+	<Interfaces/IGameWorld.hpp>
+	<Interfaces/IInput.hpp>
+	<Interfaces/ILogger.hpp>
+	<Interfaces/IPhysics.hpp>
+	<Interfaces/IRenderer.hpp>
+	<Interfaces/ITime.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/IAudio.hpp
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/IGameWorld.hpp
+	<memory>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/IInput.hpp
+	<Systems/Input/Actions.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Input/Actions.hpp
+	<Systems/Input/Enums.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Input/Enums.hpp
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/ILogger.hpp
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/IPhysics.hpp
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/IRenderer.hpp
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/ITime.hpp
+	<string>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Audio/AudioSFML.hpp
+	<memory>
+	<unordered_map>
+	<vector>
+	<Systems/IEngineAudio.hpp>
+	<Systems/Audio/SFMLSound.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEngineAudio.hpp
+	<Interfaces/IAudio.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Audio/SFMLSound.hpp
+	<SFML/Audio/Sound.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Audio/Sound.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Time.hpp>
+	<cstdlib>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Audio/Export.hpp
+	<SFML/Config.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Config.hpp
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Audio/SoundSource.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/Vector3.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Vector3.hpp
+	<SFML/System/Vector3.inl>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Vector3.inl
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Time.hpp
+	<SFML/System/Export.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Export.hpp
+	<SFML/Config.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Audio/SoundBuffer.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+	<set>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/GameWorld/GameWorld.hpp
+	<functional>
+	<queue>
+	<stack>
+	<unordered_map>
+	<Systems/IEngineGameWorld.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEngineGameWorld.hpp
+	<vector>
+	<Interfaces/IGameWorld.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Input/InputSFML.hpp
+	<functional>
+	<unordered_map>
+	<vector>
+	<Systems/IEngineInput.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEngineInput.hpp
+	<Interfaces/IInput.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Logging/LoggerSTL.hpp
+	<fstream>
+	<Systems/IEngineLogger.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEngineLogger.hpp
+	<Interfaces/ILogger.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Physics/Physics.hpp
+	<Systems/IEnginePhysics.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEnginePhysics.hpp
+	<vector>
+	<Interfaces/IPhysics.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/Time/TimeSTL.hpp
+	<chrono>
+	<Systems/IEngineTime.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEngineTime.hpp
+	<Interfaces/ITime.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Configuration.hpp
+	<string>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/Collider.cpp
+	"Collider.hpp"
+	<utility>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/Collider.hpp
+	<Misc/Rectangle.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Misc/Rectangle.hpp
+	<utility>
+	<Utility/Maths.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Utility/Maths.hpp
+	<cmath>
+	<type_traits>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/GameObject.cpp
+	"GameObject.hpp"
+	<Systems.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/GameObject.hpp
+	<string>
+	<Interfaces/IGameObject.hpp>
+	<Interfaces/IRenderer.hpp>
+	<Misc/Vector2.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Interfaces/IGameObject.hpp
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Misc/Vector2.hpp
+	<complex>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/GameState.cpp
+	"GameState.hpp"
+	<algorithm>
+	<Systems.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/GameState.hpp
+	<vector>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/PhysicsObject.cpp
+	"PhysicsObject.hpp"
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/GameComponents/PhysicsObject.hpp
+	<GameComponents/Collider.hpp>
+	<GameComponents/GameObject.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//GameComponents/Collider.hpp
+	<Misc/Rectangle.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//GameComponents/GameObject.hpp
+	<string>
+	<Interfaces/IGameObject.hpp>
+	<Interfaces/IRenderer.hpp>
+	<Misc/Vector2.hpp>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Audio/AudioSFML.cpp
+	"AudioSFML.hpp"
+	<exception>
+	<limits>
+	<Systems.hpp>
+	<Utility/Maths.hpp>
+	<SFML/Audio/Music.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Audio/AudioSFML.hpp
+	<memory>
+	<unordered_map>
+	<vector>
+	<Systems/IEngineAudio.hpp>
+	<Systems/Audio/SFMLSound.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Audio/Music.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundStream.hpp>
+	<SFML/System/Mutex.hpp>
+	<SFML/System/Time.hpp>
+	<string>
+	<vector>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Audio/SoundStream.hpp
+	<SFML/Audio/Export.hpp>
+	<SFML/Audio/SoundSource.hpp>
+	<SFML/System/Thread.hpp>
+	<SFML/System/Time.hpp>
+	<cstdlib>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Thread.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+	<cstdlib>
+	<SFML/System/Thread.inl>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/NonCopyable.hpp
+	<SFML/System/Export.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Thread.inl
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/System/Mutex.hpp
+	<SFML/System/Export.hpp>
+	<SFML/System/NonCopyable.hpp>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Audio/SFMLSound.cpp
+	"SFMLSound.hpp"
+	<Utility/Maths.hpp>
+	<SFML/Audio/SoundBuffer.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Audio/SFMLSound.hpp
+	<SFML/Audio/Sound.hpp>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/GameWorld/GameWorld.cpp
+	"GameWorld.hpp"
+	<GameComponents/GameState.hpp>
+	<Systems.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/GameWorld/GameWorld.hpp
+	<functional>
+	<queue>
+	<stack>
+	<unordered_map>
+	<Systems/IEngineGameWorld.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//GameComponents/GameState.hpp
+	<vector>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Input/InputSFML.cpp
+	"InputSFML.hpp"
+	<algorithm>
+	<Systems.hpp>
+	<Utility/Misc.hpp>
+	<SFML/Window/Joystick.hpp>
+	<SFML/Window/Keyboard.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Input/InputSFML.hpp
+	<functional>
+	<unordered_map>
+	<vector>
+	<Systems/IEngineInput.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Window/Joystick.hpp
+	<SFML/Window/Export.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Window/Export.hpp
+	<SFML/Config.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/External/Include/SFML/Window/Keyboard.hpp
+	<SFML/Window/Export.hpp>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Logging/LoggerSTL.cpp
+	"LoggerSTL.hpp"
+	<utility>
+	<Utility/Time.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Logging/LoggerSTL.hpp
+	<fstream>
+	<Systems/IEngineLogger.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Utility/Time.hpp
+	<chrono>
+	<string>
+	<type_traits>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Physics/Physics.cpp
+	"Physics.hpp"
+	<GameComponents/PhysicsObject.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Physics/Physics.hpp
+	<Systems/IEnginePhysics.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//GameComponents/PhysicsObject.hpp
+	<GameComponents/Collider.hpp>
+	<GameComponents/GameObject.hpp>
+
+1426259950 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Rendering/RendererSFML.cpp
+	"RendererSFML.hpp"
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Rendering/RendererSFML.hpp
+	<unordered_map>
+	<Systems/IEngineRenderer.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source//Systems/IEngineRenderer.hpp
+	<Interfaces/IRenderer.hpp>
+
+1426188540 source:/home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Time/TimeSTL.cpp
+	"TimeSTL.hpp"
+	<stdexcept>
+	<Utility/Maths.hpp>
+
+1426188540 /home/scm-studs/n3053620/WaterEngine-feature-sfml-renderer/Source/Systems/Time/TimeSTL.hpp
+	<chrono>
+	<Systems/IEngineTime.hpp>
+
