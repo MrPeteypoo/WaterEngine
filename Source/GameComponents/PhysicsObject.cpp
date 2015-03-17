@@ -4,9 +4,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     PhysicsObject::PhysicsObject (PhysicsObject&& move)
     {

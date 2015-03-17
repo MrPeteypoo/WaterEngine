@@ -8,9 +8,9 @@
 // Engine namespace.
 namespace water
 {
-    ////////////////////
-    /// Constructors ///
-    ////////////////////
+    //////////////////
+    // Constructors //
+    //////////////////
 
     Physics::Physics (Physics&& move)
     {
@@ -29,9 +29,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// System management ///
-    /////////////////////////
+    ///////////////////////
+    // System management //
+    ///////////////////////
 
     void Physics::initialise()
     {
@@ -99,9 +99,9 @@ namespace water
     }
 
 
-    ////////////////////////
-    /// Layer management ///
-    ////////////////////////
+    //////////////////////
+    // Layer management //
+    //////////////////////
 
     void Physics::setLayerMask (const unsigned int layer, const unsigned int collidable)
     {

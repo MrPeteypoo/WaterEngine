@@ -28,9 +28,9 @@ namespace water
             virtual ~IEnginePhysics () override {}
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialise the system, preparing it for checking collisions. </summary>
             virtual void initialise() = 0;

@@ -18,9 +18,9 @@ namespace water
             virtual ~IPhysics() { }
 
 
-            ////////////////////////
-            /// Layer management ///
-            ////////////////////////
+            //////////////////////
+            // Layer management //
+            //////////////////////
 
             /// <summary> Set the layer mask to use for a given layer. This will effect what objects collide with it. </summary
             /// <param name="layer"> The layer to set the layer mask of. Must be lower than 32. </param>

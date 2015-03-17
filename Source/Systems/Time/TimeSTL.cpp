@@ -12,9 +12,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     TimeSTL::TimeSTL (TimeSTL&& move)
     {
@@ -56,9 +56,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// System management ///
-    /////////////////////////
+    ///////////////////////
+    // System management //
+    ///////////////////////
 
     void TimeSTL::initialise (const unsigned int physicsFPS, const unsigned int updateFPS, const unsigned int minFPS)
     {
@@ -187,9 +187,9 @@ namespace water
     }
 
 
-    ///////////////////////
-    /// Time management ///
-    ///////////////////////
+    /////////////////////
+    // Time management //
+    /////////////////////
 
     float TimeSTL::timeSinceStart() const
     {

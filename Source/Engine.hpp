@@ -33,9 +33,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             Engine();
             Engine (Engine&& move);
@@ -46,9 +46,9 @@ namespace water
             Engine& operator= (const Engine& copy)  = delete;
 
 
-            /////////////////////////
-            /// Engine management ///
-            /////////////////////////
+            ///////////////////////
+            // Engine management //
+            ///////////////////////
 
             /// <summary>
             /// Attempt to load the engine from the default configuration. This may not provide suitable results but it is great for getting
@@ -78,9 +78,9 @@ namespace water
             void run();
 
 
-            ///////////////
-            /// Getters ///
-            ///////////////
+            /////////////
+            // Getters //
+            /////////////
 
             /// <summary> Obtains a reference to the game world so that the game may prepare before running the engine. </summary>
             /// <returns> The game world. </returns>
@@ -89,9 +89,9 @@ namespace water
         private:
 
 
-            /////////////////////////
-            /// Internal workings ///
-            /////////////////////////
+            ///////////////////////
+            // Internal workings //
+            ///////////////////////
 
             /// <summary> Stops and deletes all systems. </summary>
             void clean();
@@ -114,9 +114,9 @@ namespace water
             void setSystems();
 
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             IEngineAudio*       m_audio     { nullptr };    //!< The audio system used for playing audio.
             IEngineGameWorld*   m_gameWorld { nullptr };    //!< A state manager used to control the flow of the game.

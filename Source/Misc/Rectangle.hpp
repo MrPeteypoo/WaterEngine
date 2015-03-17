@@ -17,9 +17,9 @@ template <typename T> class Rectangle final
 {
     public:
 
-        ///////////////////////////////////
-        /// Constructors and destructor ///
-        ///////////////////////////////////
+        /////////////////////////////////
+        // Constructors and destructor //
+        /////////////////////////////////
 
         /// <summary> Construct a rectangle with a value for each co-ordinate. </summary>
         Rectangle (const T left, const T top, const T roght, const T bottom);
@@ -33,9 +33,9 @@ template <typename T> class Rectangle final
         Rectangle& operator= (Rectangle&& move);
 
 
-        /////////////////
-        /// Operators ///
-        /////////////////
+        ///////////////
+        // Operators //
+        ///////////////
 
         /// <summary> Returns a casted version of the rectangle with the desired type. </summary>
         template <typename U> operator Rectangle<U>() const { return { (U) m_left, (U) m_top, (U) m_right, (U) m_bottom }; }
@@ -44,9 +44,9 @@ template <typename T> class Rectangle final
         bool operator!= (const Rectangle& rhs) const;
 
 
-        ///////////////////////////
-        /// Getters and setters ///
-        ///////////////////////////
+        /////////////////////////
+        // Getters and setters //
+        /////////////////////////
 
         T getLeft() const     { return m_left; }
         T getTop() const      { return m_top; }
@@ -59,9 +59,9 @@ template <typename T> class Rectangle final
         void setBottom (const T bottom);
 
 
-        /////////////////////////////
-        /// Testing functionality ///
-        /////////////////////////////
+        ///////////////////////////
+        // Testing functionality //
+        ///////////////////////////
 
         /// <summary> Checks if each point on the rectangle is valid, aka left is not more than right and top is not more than bottom. </summary>
         bool isValid() const;
@@ -73,9 +73,9 @@ template <typename T> class Rectangle final
         bool intersects (const Rectangle& other) const;
 
 
-        ////////////////////
-        /// Calculations ///
-        ////////////////////
+        //////////////////
+        // Calculations //
+        //////////////////
 
         /// <summary> Calculates and returns the width of the rectangle. </summary>
         T width() const     { return m_right - m_left + 1; }
@@ -90,9 +90,9 @@ template <typename T> class Rectangle final
         T perimeter() const { return width() * 2 + height() * 2; }
 
 
-        ////////////////////
-        /// Manipulation ///
-        ////////////////////
+        //////////////////
+        // Manipulation //
+        //////////////////
 
         /// <summary> Returns a clipped version of the current rectangle which is inside the given rectangle. </summary>
         Rectangle clipped (const Rectangle& clip) const;
@@ -105,9 +105,9 @@ template <typename T> class Rectangle final
 
     private:
 
-        ///////////////////////////
-        /// Implementation data ///
-        ///////////////////////////
+        /////////////////////////
+        // Implementation data //
+        /////////////////////////
 
         T   m_left      { (T) 0 },  //!< The left co-ordinate.
             m_top       { (T) 0 },  //!< The top co-ordinate.
@@ -116,9 +116,9 @@ template <typename T> class Rectangle final
 };
 
 
-////////////////////
-/// Constructors ///
-////////////////////
+//////////////////
+// Constructors //
+//////////////////
 
 template <typename T> Rectangle<T>::Rectangle (const T left, const T top, const T right, const T bottom)
     : m_left (left), m_top (top), m_right (right), m_bottom (bottom)
@@ -153,9 +153,9 @@ template <typename T> Rectangle<T>& Rectangle<T>::operator= (Rectangle&& move)
 }
 
 
-/////////////////
-/// Operators ///
-/////////////////
+///////////////
+// Operators //
+///////////////
 
 template <typename T> bool Rectangle<T>::operator== (const Rectangle& rhs) const
 {
@@ -175,9 +175,9 @@ template <typename T> bool Rectangle<T>::operator!= (const Rectangle& rhs) const
 }
 
 
-///////////////////////////
-/// Getters and setters ///
-///////////////////////////
+/////////////////////////
+// Getters and setters //
+/////////////////////////
 
 template <typename T> void Rectangle<T>::setLeft (const T left)
 {
@@ -203,9 +203,9 @@ template <typename T> void Rectangle<T>::setBottom (const T bottom)
 }
 
 
-/////////////////////////////
-/// Testing functionality ///
-/////////////////////////////
+///////////////////////////
+// Testing functionality //
+///////////////////////////
 
 template <typename T> bool Rectangle<T>::isValid() const
 {
@@ -231,9 +231,9 @@ template <typename T> bool Rectangle<T>::intersects (const Rectangle& other) con
 }
 
 
-////////////////////
-/// Manipulation ///
-////////////////////
+//////////////////
+// Manipulation //
+//////////////////
 
 template <typename T> Rectangle<T> Rectangle<T>::clipped (const Rectangle& clip) const
 {

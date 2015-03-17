@@ -51,9 +51,9 @@ namespace water
             virtual ~IRenderer() {}
 
 
-            ////////////////
-            /// Viewport ///
-            ////////////////
+            //////////////
+            // Viewport //
+            //////////////
 
             /// <summary> Sets the viewport of the renderer. This will not scale drawn textures, it just determines how the world units are interpreted. </summary>
             /// <param name="viewport"> The desired viewable area of the screen in world units. This will be tested for validity. </param>
@@ -64,9 +64,9 @@ namespace water
             virtual void translateViewportTo (const Vector2<float>& translateTo) = 0;
 
 
-            ///////////////////////
-            /// Data management ///
-            ///////////////////////
+            /////////////////////
+            // Data management //
+            /////////////////////
 
             /// <summary> Loads a texture from local storage, ready for rendering. </summary>
             /// <param name="cropRight"> How many pixels, if any, to crop from the right of the texture. </param>
@@ -98,9 +98,9 @@ namespace water
             virtual void clearTextureData() = 0;
 
 
-            /////////////////
-            /// Rendering ///
-            /////////////////
+            ///////////////
+            // Rendering //
+            ///////////////
 
             /// <summary> Sets the scaling mode of the renderer. Nearest-neighbour is the fastest but bilinear should provide nicer results. </summary
             /// <param name="mode"> The desired filtering mode to use when upscaling to the screen resolution. </param>

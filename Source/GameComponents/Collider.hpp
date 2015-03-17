@@ -17,9 +17,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             Collider()                                  = default;
             Collider (const Collider& copy)             = default;
@@ -30,9 +30,9 @@ namespace water
             Collider& operator= (Collider&& move);
 
 
-            ///////////////////////////
-            /// Getters and setters ///
-            ///////////////////////////
+            /////////////////////////
+            // Getters and setters //
+            /////////////////////////
 
             /// <summary> Obtain a reference to the box of the collider. </summary>
             const Rectangle<float>& getBox() const  { return m_box; }
@@ -57,9 +57,9 @@ namespace water
 
         private:
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             Rectangle<float>    m_box       { 0, 0, 1, 1 }; //!< The collider offset and size.
             unsigned int        m_layer     { 0 };          //!< The layer of the collider, is a 0 to 32 value which effects which objects collide with it.

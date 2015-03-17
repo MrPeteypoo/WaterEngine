@@ -18,9 +18,9 @@
 // Engine namespace.
 namespace water
 {
-    ////////////////////
-    /// Constructors ///
-    ////////////////////
+    //////////////////
+    // Constructors //
+    //////////////////
 
     InputSFML::InputSFML (InputSFML&& move)
     {
@@ -42,9 +42,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// System management ///
-    /////////////////////////
+    ///////////////////////
+    // System management //
+    ///////////////////////
 
     void InputSFML::initialise()
     {
@@ -73,9 +73,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// Internal workings ///
-    /////////////////////////
+    ///////////////////////
+    // Internal workings //
+    ///////////////////////
 
     void InputSFML::processKey (const KeyboardKey& key)
     {
@@ -215,9 +215,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Getters ///
-    ///////////////
+    /////////////
+    // Getters //
+    /////////////
 
     bool InputSFML::isConnected (const unsigned int controller) const
     {
@@ -271,9 +271,9 @@ namespace water
     }
 
 
-    ///////////////////////
-    /// Real-time state ///
-    ///////////////////////
+    /////////////////////
+    // Real-time state //
+    /////////////////////
 
     bool InputSFML::isKeyPressed (const Key key) const
     {
@@ -293,9 +293,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// Action management ///
-    /////////////////////////
+    ///////////////////////
+    // Action management //
+    ///////////////////////
 
     bool InputSFML::addAction (const KeyboardKey& action)
     {

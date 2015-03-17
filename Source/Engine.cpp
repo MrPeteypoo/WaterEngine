@@ -22,9 +22,9 @@
 // Engine namespace.
 namespace water
 {
-    //////////////////////////////
-    /// Systems initial values ///
-    //////////////////////////////
+    ////////////////////////////
+    // Systems initial values //
+    ////////////////////////////
 
     IAudio*     Systems::m_audio        = nullptr;
     IGameWorld* Systems::m_gameWorld    = nullptr;
@@ -35,9 +35,9 @@ namespace water
     ITime*      Systems::m_time         = nullptr;
 
 
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     Engine::Engine()
     {
@@ -91,9 +91,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// Engine management ///
-    /////////////////////////
+    ///////////////////////
+    // Engine management //
+    ///////////////////////
 
     bool Engine::initialise()
     {
@@ -212,9 +212,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Getters ///
-    ///////////////
+    /////////////
+    // Getters //
+    /////////////
 
     IGameWorld& Engine::getGameWorld() const
     {
@@ -222,9 +222,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// Internal workings ///
-    /////////////////////////
+    ///////////////////////
+    // Internal workings //
+    ///////////////////////
 
     void Engine::clean()
     {

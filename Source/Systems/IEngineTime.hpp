@@ -22,9 +22,9 @@ namespace water
             virtual ~IEngineTime() override {}
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialise the time system, preparing it for usage. </summary>
             /// <param name="physicsFPS"> The FPS which physics updates should be capped at. </param>

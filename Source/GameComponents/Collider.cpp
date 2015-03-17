@@ -8,9 +8,9 @@
 // Engine namespace.
 namespace water
 {
-    ////////////////////
-    /// Constructors ///
-    ////////////////////
+    //////////////////
+    // Constructors //
+    //////////////////
 
     Collider::Collider (Collider&& move)
     {
@@ -35,9 +35,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Setters ///
-    ///////////////
+    /////////////
+    // Setters //
+    /////////////
 
     void Collider::setBox (const Rectangle<float>& box)
     {

@@ -19,9 +19,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             PhysicsObject()                                         = default;
             PhysicsObject (const PhysicsObject& copy)               = default;
@@ -34,9 +34,9 @@ namespace water
             virtual ~PhysicsObject() override {}
 
 
-            /////////////////
-            /// Collision ///
-            /////////////////
+            ///////////////
+            // Collision //
+            ///////////////
 
             /// <summary>
             /// This function is called every time two collision objects intersect. This will be called AFTER the objects have been moved
@@ -53,9 +53,9 @@ namespace water
             virtual void onTrigger (PhysicsObject* const collision) = 0;
 
 
-            ///////////////////////////
-            /// Getters and setters ///
-            ///////////////////////////
+            /////////////////////////
+            // Getters and setters //
+            /////////////////////////
 
             /// <summary> Indicates whether the PhysicsObject is static or not. </summary>
             bool isStatic() const                   { return m_isStatic; }
@@ -73,9 +73,9 @@ namespace water
 
         protected:
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             Collider    m_collider  { };        //!< The collision information of the PhysicsObject.
             bool        m_isStatic  { true };   //!< Determines whether collision should cause this object to move or not.

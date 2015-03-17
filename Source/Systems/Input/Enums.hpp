@@ -5,9 +5,9 @@
 // Engine namespace.
 namespace water
 {
-    ////////////////////////////////////////////////////////////
-    /// \brief Key codes, this comes directly from SFML and is not designed or documented by me at all.    ///
-    ////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Key codes, this comes directly from SFML and is not designed or documented by me at all.
+    /// </summary>
     enum class Key : int
     {
         Unknown = -1, //!< Unhandled key
@@ -115,9 +115,9 @@ namespace water
     };
 
 
-    ////////////////////////////////////////////////////////////
-    /// \brief Axes supported by the engine, this comes directly from SFML and is not designed or documented by me at all.
-    ////////////////////////////////////////////////////////////
+    /// <summary>
+    /// Axes supported by the engine, this comes directly from SFML and is not designed or documented by me at all.
+    /// </summary>
     enum class Axis : int
     {
         X,    //!< The X axis

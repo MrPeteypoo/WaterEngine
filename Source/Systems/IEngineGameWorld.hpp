@@ -28,9 +28,9 @@ namespace water
             virtual ~IEngineGameWorld() override {}
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Perform a physics update on the active state. </summary>
             virtual void updatePhysics() = 0;
@@ -45,9 +45,9 @@ namespace water
             virtual void processQueue() = 0;
 
 
-            ///////////////
-            /// Getters ///
-            ///////////////
+            /////////////
+            // Getters //
+            /////////////
 
             /// <summary> Tests if the stack is empty. If so then the engine knows that it can exit. </summary>
             /// <returns> Whether the stack is empty. </returns>

@@ -8,9 +8,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     GameObject::GameObject (GameObject&& move)
     {
@@ -39,9 +39,9 @@ namespace water
     }
 
 
-    /////////////////////////////////
-    /// Commonly accessed systems ///
-    /////////////////////////////////
+    ///////////////////////////////
+    // Commonly accessed systems //
+    ///////////////////////////////
 
     IAudio& GameObject::audio()
     {
@@ -69,9 +69,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Setters ///
-    ///////////////
+    /////////////
+    // Setters //
+    /////////////
 
     void GameObject::setBaseTextureID (const TextureID texture, const bool removeCurrent)
     {

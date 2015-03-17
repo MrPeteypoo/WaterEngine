@@ -31,9 +31,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             AudioSFML();
             AudioSFML (AudioSFML&& move);
@@ -45,9 +45,9 @@ namespace water
             AudioSFML& operator= (const AudioSFML& copy)    = delete;
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialises the audio engine with the maximum number of sound channels specified. </summary>
             /// <param name="soundLimit"> The total number of sounds available at one time. </param>
@@ -59,9 +59,9 @@ namespace water
             void update() override final;
 
 
-            ///////////////////////
-            /// Data management ///
-            ///////////////////////
+            /////////////////////
+            // Data management //
+            /////////////////////
 
             /// <summary> Prepares a music track to be streamed. </summary>
             /// <returns> Whether the music track was loaded successfully. </returns>
@@ -79,9 +79,9 @@ namespace water
             void clearSoundData() override final;
 
 
-            ////////////////
-            /// Playback ///
-            ////////////////
+            //////////////
+            // Playback //
+            //////////////
 
             /// <summary> Plays the currently loaded music file. </summary>
             /// <param name="volume"> The core volume of the music track. </param>
@@ -125,9 +125,9 @@ namespace water
             void pauseSounds() override final;
 
 
-            ////////////////////////
-            /// Sound properties ///
-            ////////////////////////
+            //////////////////////
+            // Sound properties //
+            //////////////////////
 
             /// <summary> Changes the music mixer volume. </summary>
             /// <param name="volume"> A normalised volume between 0 and 1. </param>
@@ -152,9 +152,9 @@ namespace water
 
         private:
 
-            ///////////////
-            /// Utility ///
-            ///////////////
+            /////////////
+            // Utility //
+            /////////////
 
             /// <summary> Destroys all sound data from the system. </summary>
             void cleanUp();
@@ -172,9 +172,9 @@ namespace water
             PlaybackID findInactiveChannel();
 
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             unsigned int                                    m_soundLimit    { 31 };         //!< The number of sound effect channels available concurrently.
             float                                           m_bgmMixer      { 1.f };        //!< The background music mixer, this is how loud the music is.

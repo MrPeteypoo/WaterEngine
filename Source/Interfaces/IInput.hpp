@@ -35,9 +35,9 @@ namespace water
             virtual ~IInput() { }
 
 
-            ///////////////
-            /// Getters ///
-            ///////////////
+            /////////////
+            // Getters //
+            /////////////
 
             /// <summary> Checks whether a controller is connected. </summary>
             /// <param name="controller"> The index of the desired controller. </param>
@@ -80,9 +80,9 @@ namespace water
             virtual float getActionAxis (const int id) const = 0;
 
 
-            ///////////////////////
-            /// Real-time state ///
-            ///////////////////////
+            /////////////////////
+            // Real-time state //
+            /////////////////////
 
             /// <summary> Performs a real-time check on the state of a key, this is accessing the raw data and could be slow. </summary>
             /// <param name="key"> The key to check the status of. </param>
@@ -102,9 +102,9 @@ namespace water
             virtual float axisPosition (const unsigned int controller, const Axis axis) const = 0;
 
 
-            /////////////////////////
-            /// Action management ///
-            /////////////////////////
+            ///////////////////////
+            // Action management //
+            ///////////////////////
 
             /// <summary> Adds a KeyboardKey action to the list of actions to check the status of. </summary>
             /// <param name="action"> The action to be added. </param>

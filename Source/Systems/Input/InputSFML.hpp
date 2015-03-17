@@ -22,9 +22,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             InputSFML()                                     = default;
             InputSFML (InputSFML&& move);
@@ -36,9 +36,9 @@ namespace water
             InputSFML& operator= (const InputSFML& copy)    = delete;
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialises the system, reserving memory for the containers. </summary>
             void initialise() override final;
@@ -47,9 +47,9 @@ namespace water
             void update() override final;
 
 
-            ///////////////
-            /// Getters ///
-            ///////////////
+            /////////////
+            // Getters //
+            /////////////
 
             /// <summary> Checks whether a controller is connected. </summary>
             /// <param name="controller"> The index of the desired controller. </param>
@@ -92,9 +92,9 @@ namespace water
             float getActionAxis (const int id) const override final;
 
 
-            ///////////////////////
-            /// Real-time state ///
-            ///////////////////////
+            /////////////////////
+            // Real-time state //
+            /////////////////////
 
             /// <summary> Performs a real-time check on the state of a key, this is accessing the raw data and could be slow. </summary>
             /// <param name="key"> The key to check the status of. </param>
@@ -114,9 +114,9 @@ namespace water
             float axisPosition (const unsigned int controller, const Axis axis) const override final;
 
 
-            /////////////////////////
-            /// Action management ///
-            /////////////////////////
+            ///////////////////////
+            // Action management //
+            ///////////////////////
 
             /// <summary> Adds a KeyboardKey action to the list of actions to check the status of. </summary>
             /// <param name="action"> The action to be added. </param>
@@ -143,16 +143,16 @@ namespace water
 
         private:
 
-            ////////////////////////////
-            /// Forward declarations ///
-            ////////////////////////////
+            //////////////////////////
+            // Forward declarations //
+            //////////////////////////
 
             struct ActionState;
 
 
-            /////////////////////////
-            /// Internal workings ///
-            /////////////////////////
+            ///////////////////////
+            // Internal workings //
+            ///////////////////////
 
             /// <summary> A function which checks the state of a key and updates the associated ActionState as required. </summary>
             /// <param name="key"> The KeyboardKey object to process. </param>
@@ -195,9 +195,9 @@ namespace water
             bool updateActionReferenceCount (const int id, const bool increment);
 
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             /// <summary> A structure containing the pressed, down and up state of actions. </summary>
             struct ActionState final

@@ -27,9 +27,9 @@ namespace water
             virtual ~ITime() {}
 
 
-            ///////////////////////
-            /// Time management ///
-            ///////////////////////
+            /////////////////////
+            // Time management //
+            /////////////////////
 
             /// <summary> Get the delta time value of the current update loop. </summary>
             /// <returns> The physics update time during updatePhysics() or the update time during update(). </returns>

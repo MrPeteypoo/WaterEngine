@@ -10,9 +10,9 @@
 // Utility namespace.
 namespace util
 {
-    /////////////////////
-    /// Miscellaneous ///
-    /////////////////////
+    ///////////////////
+    // Miscellaneous //
+    ///////////////////
 
     /// <summary> Checks if two float values are relatively equal to each other. </summary>
     /// <param name="margin"> The absolute margin of error between the two floats. Must be a positive value. </param>
@@ -23,9 +23,9 @@ namespace util
     }
 
 
-    ///////////////////
-    /// Comparisons ///
-    ///////////////////
+    /////////////////
+    // Comparisons //
+    /////////////////
 
     /// <summary> Returns the minimum value, passed by value for arithmetic types. </summary>
     template <typename T> typename std::enable_if<std::is_arithmetic<T>::value, T>::type min (const T a, const T b)

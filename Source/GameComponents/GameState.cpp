@@ -12,9 +12,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////
-    /// Constructor ///
-    ///////////////////
+    /////////////////
+    // Constructor //
+    /////////////////
 
     GameState::GameState (const unsigned int elementCount)
     {
@@ -39,9 +39,9 @@ namespace water
     }
 
 
-    /////////////////////////////////
-    /// Commonly accessed systems ///
-    /////////////////////////////////
+    ///////////////////////////////
+    // Commonly accessed systems //
+    ///////////////////////////////
 
     IGameWorld& GameState::gameWorld()
     {
@@ -74,9 +74,9 @@ namespace water
     }
 
 
-    //////////////////////////
-    /// Physics management ///
-    //////////////////////////
+    ////////////////////////
+    // Physics management //
+    ////////////////////////
 
     void GameState::addPhysicsObject (PhysicsObject* const object)
     {
@@ -159,9 +159,9 @@ namespace water
     }
 
 
-    ///////////////////////////
-    /// Physics integration ///
-    ///////////////////////////
+    /////////////////////////
+    // Physics integration //
+    /////////////////////////
 
     std::vector<PhysicsObject*>::iterator GameState::findObject (const PhysicsObject* const object)
     {

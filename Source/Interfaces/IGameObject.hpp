@@ -16,9 +16,9 @@ namespace water
             virtual ~IGameObject() {}
 
 
-            /////////////////
-            /// Game flow ///
-            /////////////////
+            ///////////////
+            // Game flow //
+            ///////////////
 
             /// <summary> Initialises the object, this should be performed during load or creation. </summary>
             /// <returns> Whether the initialisation was successful. </returns>

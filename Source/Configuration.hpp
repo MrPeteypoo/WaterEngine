@@ -15,9 +15,9 @@ namespace water
     struct Configuration final
     {
 
-        //////////////////////////////
-        /// Configuration segments ///
-        //////////////////////////////
+        ////////////////////////////
+        // Configuration segments //
+        ////////////////////////////
 
         /// <summary> A structure containing information on which systems should be used by the engine. </summary>
         struct Systems final
@@ -63,9 +63,9 @@ namespace water
         };
 
 
-        /////////////////////
-        /// Public access ///
-        /////////////////////
+        ///////////////////
+        // Public access //
+        ///////////////////
 
         /// <summary> Loads an XML file and creates a configuration from that. </summary>
         /// <param name="file"> The location of the .xml configuration file. </param>

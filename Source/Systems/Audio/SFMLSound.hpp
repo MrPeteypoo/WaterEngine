@@ -16,9 +16,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             /// <summary> Initialises the SFMLSound with the given buffer. </summary>
             SFMLSound (const sf::SoundBuffer& buffer) : m_sound (buffer) { }
@@ -31,9 +31,9 @@ namespace water
             ~SFMLSound()                                = default;
 
 
-            /////////////////////////////
-            /// Wrapped functionality ///
-            /////////////////////////////
+            ///////////////////////////
+            // Wrapped functionality //
+            ///////////////////////////
 
             /// <summary> Plays the sound. </summary>
             void play()                                     { m_sound.play(); }
@@ -69,9 +69,9 @@ namespace water
 
         private:
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             float       m_volume    { 1.f };    //!< The core volume of the sound, from 0 to 1.
             sf::Sound   m_sound     { };        //!< The sound object to track.

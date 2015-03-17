@@ -20,9 +20,9 @@ namespace water
             virtual ~IEngineInput() override { }
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialises the system, preparing it for usage by the rest of the engine. </summary>
             virtual void initialise() = 0;

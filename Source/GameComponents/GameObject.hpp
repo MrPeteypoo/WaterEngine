@@ -30,9 +30,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             GameObject()                                    = default;
             GameObject (GameObject&& move);
@@ -45,9 +45,9 @@ namespace water
             virtual ~GameObject() override {}
 
 
-            /////////////////////////////////
-            /// Commonly accessed systems ///
-            /////////////////////////////////
+            ///////////////////////////////
+            // Commonly accessed systems //
+            ///////////////////////////////
 
             /// <summary> Obtains a reference to the IAudio system used by the engine. </summary>
             static IAudio& audio();
@@ -65,9 +65,9 @@ namespace water
             static ITime& time();
 
 
-            ///////////////////////////
-            /// Getters and setters ///
-            ///////////////////////////
+            /////////////////////////
+            // Getters and setters //
+            /////////////////////////
 
             /// <summary> Obtain a reference to the objects position. </summary>
             /// <returns> The position vector. </returns>
@@ -128,9 +128,9 @@ namespace water
 
         protected:
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             Vector2<float>  m_position      { 0, 0 };   //!< The position of the GameObject in the world.
             Vector2<float>  m_velocity      { 0, 0 };   //!< The velocity of the GameObject. This is how much it moves in the world.

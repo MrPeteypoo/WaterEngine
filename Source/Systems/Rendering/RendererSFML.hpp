@@ -19,9 +19,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             RendererSFML()                                      = default;
             RendererSFML(const RendererSFML& other);

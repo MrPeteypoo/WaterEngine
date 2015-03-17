@@ -32,9 +32,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             /// <summary> Call this in child classes to ensure the state reserves space for PhysicsObject's. This increases efficiency when adding. </summary>
             /// <param name="size"> How many elements are expected to be held by the state. </param>
@@ -50,9 +50,9 @@ namespace water
             virtual ~GameState() { };
 
 
-            /////////////////
-            /// Game flow ///
-            /////////////////
+            ///////////////
+            // Game flow //
+            ///////////////
 
             /// <summary> Called when the state is added to the IGameWorld. Effectively a constructor. </summary>
             /// <returns> Whether an error has occurred. The state will not be added if this returns false. </returns>
@@ -78,9 +78,9 @@ namespace water
             virtual void render() = 0;
 
 
-            /////////////////////////////////
-            /// Commonly accessed systems ///
-            /////////////////////////////////
+            ///////////////////////////////
+            // Commonly accessed systems //
+            ///////////////////////////////
 
             /// <summary> Obtains a reference to the IGameWorld system used by the engine. </summary>
             static IGameWorld& gameWorld();
@@ -102,9 +102,9 @@ namespace water
 
         protected:
 
-            //////////////////////////
-            /// Physics management ///
-            //////////////////////////
+            ////////////////////////
+            // Physics management //
+            ////////////////////////
 
             /// <summary>
             /// Adds a PhysicsObject to the list of objects which should be managed by the physics system. This means they will receive collsion detection.
@@ -133,9 +133,9 @@ namespace water
 
         private:
 
-            ///////////////////////////
-            /// Physics integration ///
-            ///////////////////////////
+            /////////////////////////
+            // Physics integration //
+            /////////////////////////
 
             // Let IGameWorld manage interaction with the physics system.
             friend class GameWorld;

@@ -25,9 +25,9 @@ namespace water
             virtual ~IAudio() { }
 
 
-            ///////////////////////
-            /// Data management ///
-            ///////////////////////
+            /////////////////////
+            // Data management //
+            /////////////////////
 
             /// <summary> Prepares a music track to be streamed. </summary>
             /// <returns> Whether the music track was loaded successfully. </returns>
@@ -45,9 +45,9 @@ namespace water
             virtual void clearSoundData() = 0;
 
 
-            ////////////////
-            /// Playback ///
-            ////////////////
+            //////////////
+            // Playback //
+            //////////////
 
             /// <summary> Plays the currently loaded music file. </summary>
             /// <param name="volume"> The core volume of the music track. </param>
@@ -91,9 +91,9 @@ namespace water
             virtual void pauseSounds() = 0;
 
 
-            ////////////////////////
-            /// Sound properties ///
-            ////////////////////////
+            //////////////////////
+            // Sound properties //
+            //////////////////////
 
             /// <summary> Changes the effects mixer volume. </summary>
             /// <param name="volume"> A normalised volume between 0 and 1. </param>

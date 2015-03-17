@@ -26,9 +26,9 @@ namespace water
             virtual ~IGameWorld() { }
 
 
-            ////////////////////////
-            /// State management ///
-            ////////////////////////
+            //////////////////////
+            // State management //
+            //////////////////////
 
             /// <summary> Adds a game state to the world, this allows it to be accessible.</summary>
             /// <param name="id"> The unique identifier of the state. If a state with this ID already exists it will be ignored. </param>

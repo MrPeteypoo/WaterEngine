@@ -18,9 +18,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
 
     AudioSFML::AudioSFML()
@@ -68,9 +68,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// System management ///
-    /////////////////////////
+    ///////////////////////
+    // System management //
+    ///////////////////////
 
     void AudioSFML::initialise (const unsigned int soundLimit, const float bgmMixer, const float sfxMixer)
     {
@@ -100,9 +100,9 @@ namespace water
     }
 
 
-    ///////////////////////
-    /// Data management ///
-    ///////////////////////
+    /////////////////////
+    // Data management //
+    /////////////////////
 
     bool AudioSFML::loadMusic (const std::string& fileLocation)
     {
@@ -168,9 +168,9 @@ namespace water
     }
 
 
-    ////////////////
-    /// Playback ///
-    ////////////////
+    //////////////
+    // Playback //
+    //////////////
 
     void AudioSFML::playMusic (const float volume, const float offset, const bool loop)
     {
@@ -283,9 +283,9 @@ namespace water
     }
 
 
-    ////////////////////////
-    /// Sound properties ///
-    ////////////////////////
+    //////////////////////
+    // Sound properties //
+    //////////////////////
 
     void AudioSFML::adjustMusicMixer (const float volume)
     {
@@ -343,9 +343,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Utility ///
-    ///////////////
+    /////////////
+    // Utility //
+    /////////////
 
     void AudioSFML::cleanUp()
     {

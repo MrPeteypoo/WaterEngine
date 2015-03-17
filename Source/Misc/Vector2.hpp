@@ -11,17 +11,17 @@
 /// </summary>
 template <typename T = float> struct Vector2 final
 {
-    ///////////////////////////
-    /// Implementation data ///
-    ///////////////////////////
+    /////////////////////////
+    // Implementation data //
+    /////////////////////////
 
     T   x   { (T) 0 },  //!< The x component of the vector.
         y   { (T) 0 };  //!< The y component of the vector.
 
 
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     /// <summary> The default constructor, allows the initial values of each component to be set. </summary>
     Vector2 (const T newX, const T newY) : x (newX), y (newY) {  };
@@ -36,9 +36,9 @@ template <typename T = float> struct Vector2 final
     ~Vector2()                                  = default;
 
 
-    /////////////////
-    /// Operators ///
-    /////////////////
+    ///////////////
+    // Operators //
+    ///////////////
 
     /// <summary> Allows the Vector2 to be cast between specialisations. </summary>
     template <typename U> operator Vector2<U>() const   { return { (U) x, (U) y }; }
@@ -101,9 +101,9 @@ template <typename T = float> struct Vector2 final
     Vector2 operator-() const;
 
 
-    ////////////////////
-    /// Manipulation ///
-    ////////////////////
+    //////////////////
+    // Manipulation //
+    //////////////////
 
     /// <summary> Sets the position of the vector. </summary>
     void setPosition (const T newX, const T newY);
@@ -115,9 +115,9 @@ template <typename T = float> struct Vector2 final
     void translate (const T moveX, const T moveY);
 
 
-    /////////////
-    /// Maths ///
-    /////////////
+    ///////////
+    // Maths //
+    ///////////
 
     /// <summary> Returns the squared magnitude of the vector, use for efficiency when comparing magnitudes. </summary>
     T squareMagnitude() const;
@@ -146,16 +146,16 @@ template <typename T = float> struct Vector2 final
 };
 
 
-///////////////
-/// Aliases ///
-///////////////
+/////////////
+// Aliases //
+/////////////
 
 using Point = Vector2<int>;
 
 
-////////////////////
-/// Constructors ///
-////////////////////
+//////////////////
+// Constructors //
+//////////////////
 
 template <typename T> Vector2<T>::Vector2 (Vector2&& move)
 {
@@ -180,9 +180,9 @@ template <typename T> Vector2<T>& Vector2<T>::operator= (Vector2&& move)
 }
 
 
-/////////////////
-/// Operators ///
-/////////////////
+///////////////
+// Operators //
+///////////////
 
 template <typename T> bool Vector2<T>::operator== (const Vector2& rhs) const
 {
@@ -322,9 +322,9 @@ template <typename T> Vector2<T> Vector2<T>::operator-() const
 }
 
 
-////////////////////
-/// Manipulation ///
-////////////////////
+//////////////////
+// Manipulation //
+//////////////////
 
 template <typename T> void Vector2<T>::setPosition (const T newX, const T newY)
 {
@@ -346,9 +346,9 @@ template <typename T> void Vector2<T>::translate (const T moveX, const T moveY)
 }
 
 
-/////////////
-/// Maths ///
-/////////////
+///////////
+// Maths //
+///////////
 
 template <typename T> T Vector2<T>::squareMagnitude() const
 {

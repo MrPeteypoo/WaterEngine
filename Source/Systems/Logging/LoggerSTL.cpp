@@ -12,9 +12,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     LoggerSTL::LoggerSTL (LoggerSTL&& move)
     {
@@ -45,9 +45,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// System management ///
-    /////////////////////////
+    ///////////////////////
+    // System management //
+    ///////////////////////
 
     bool LoggerSTL::initialise (const std::string& file, const bool timestamp)
     {
@@ -88,9 +88,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Logging ///
-    ///////////////
+    /////////////
+    // Logging //
+    /////////////
 
     bool LoggerSTL::log (const std::string& message)
     {
@@ -129,9 +129,9 @@ namespace water
     }
 
 
-    /////////////////////
-    /// File handling ///
-    /////////////////////
+    ///////////////////
+    // File handling //
+    ///////////////////
 
     void LoggerSTL::clearFile (const std::string& name)
     {

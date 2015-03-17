@@ -16,9 +16,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             Physics()                                   = default;
             Physics (const Physics& copy)               = default;
@@ -29,9 +29,9 @@ namespace water
             ~Physics() override final { };
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialise the system, preparing it for checking collisions. </summary>
             void initialise() override final;
@@ -41,9 +41,9 @@ namespace water
             void detectCollisions (const std::vector<PhysicsObject*>& objects) override final;
 
 
-            ////////////////////////
-            /// Layer management ///
-            ////////////////////////
+            //////////////////////
+            // Layer management //
+            //////////////////////
 
             /// <summary> Set the layer mask to use for a given layer. This will effect what objects collide with it. </summary
             /// <param name="layer"> The layer to set the layer mask of. Must be lower than 32. </param>
@@ -62,9 +62,9 @@ namespace water
 
         private:
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             std::vector<unsigned int>   m_layers    { };    //!< A collection of layer masks representing the layers each layer collides with.
     };

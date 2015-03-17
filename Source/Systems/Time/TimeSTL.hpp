@@ -24,9 +24,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             TimeSTL()                                   = default;
             TimeSTL (TimeSTL&& move);
@@ -38,9 +38,9 @@ namespace water
             TimeSTL& operator= (const TimeSTL& copy)    = delete;
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialise the time system, preparing it for usage. </summary>
             /// <param name="physicsFPS"> The FPS which physics updates should be capped at. </param>
@@ -62,9 +62,9 @@ namespace water
             void resetTime() override final;
 
 
-            ///////////////////////
-            /// Time management ///
-            ///////////////////////
+            /////////////////////
+            // Time management //
+            /////////////////////
 
             /// <summary> Get the delta time value of the current update loop in seconds. </summary>
             /// <returns> The physics update time during updatePhysics() or the update time during update(). </returns>
@@ -88,9 +88,9 @@ namespace water
             void setCurrentDelta (const real delta);
 
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             real                                m_targetPhysics     { 0 },  //!< The target physics delta value.
                                                 m_targetUpdate      { 0 },  //!< The target update delta value.

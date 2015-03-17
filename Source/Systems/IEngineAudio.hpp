@@ -20,9 +20,9 @@ namespace water
             virtual ~IEngineAudio() override {}
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialises the audio engine with the maximum number of sound channels specified. </summary>
             /// <param name="soundLimit"> The total number of sounds available at one time. </param>

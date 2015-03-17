@@ -21,9 +21,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             LoggerSTL()                                     = default;
             LoggerSTL (LoggerSTL&& move);
@@ -35,9 +35,9 @@ namespace water
             LoggerSTL& operator= (const LoggerSTL& copy)    = delete;
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>
@@ -54,9 +54,9 @@ namespace water
             bool changeLogDestination (const std::string& newFile) override final;
 
 
-            ///////////////
-            /// Logging ///
-            ///////////////
+            /////////////
+            // Logging //
+            /////////////
 
             /// <summary> Passes a message to LoggerSTL::logMessage(). </summary>
             /// <param name="message"> The text to log. </param>
@@ -75,9 +75,9 @@ namespace water
 
         private:
 
-            /////////////////////
-            /// File handling ///
-            /////////////////////
+            ///////////////////
+            // File handling //
+            ///////////////////
 
             /// <summary> Clears a file of its contents, fresh for modification. </summary>
             void clearFile (const std::string& name);
@@ -100,9 +100,9 @@ namespace water
             std::string getLogFooter() const;
 
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             std::fstream    m_file      { };        //!< The file stream used for logging messages.
             std::string     m_filename  { };        //!< The file name used for in the file stream.

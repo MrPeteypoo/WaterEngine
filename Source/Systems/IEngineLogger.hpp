@@ -20,9 +20,9 @@ namespace water
             virtual ~IEngineLogger() override {}
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Initialise the logger so that its ready for logging. </summary>
             /// <param name="file"> The file to log messages to. </param>

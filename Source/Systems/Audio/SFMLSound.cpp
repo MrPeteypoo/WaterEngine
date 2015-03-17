@@ -12,9 +12,9 @@
 // Engine namespace.
 namespace water
 {
-    ////////////////////
-    /// Constructors ///
-    ////////////////////
+    //////////////////
+    // Constructors //
+    //////////////////
 
     SFMLSound::SFMLSound (SFMLSound&& move)
     {
@@ -37,9 +37,9 @@ namespace water
     }
 
 
-    /////////////////////////////
-    /// Wrapped functionality ///
-    /////////////////////////////
+    ///////////////////////////
+    // Wrapped functionality //
+    ///////////////////////////
 
     void SFMLSound::setVolume (const float volume, const float mixer)
     {

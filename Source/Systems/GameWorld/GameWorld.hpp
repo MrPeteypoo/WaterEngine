@@ -23,9 +23,9 @@ namespace water
     {
         public:
 
-            ///////////////////////////////////
-            /// Constructors and destructor ///
-            ///////////////////////////////////
+            /////////////////////////////////
+            // Constructors and destructor //
+            /////////////////////////////////
 
             GameWorld()                                     = default;
             GameWorld (GameWorld&& move);
@@ -37,9 +37,9 @@ namespace water
             GameWorld& operator= (const GameWorld& copy)    = delete;
 
 
-            /////////////////////////
-            /// System management ///
-            /////////////////////////
+            ///////////////////////
+            // System management //
+            ///////////////////////
 
             /// <summary> Perform a physics update on the active state. </summary>
             void updatePhysics() override final;
@@ -54,9 +54,9 @@ namespace water
             void processQueue() override final;
 
 
-            ///////////////
-            /// Getters ///
-            ///////////////
+            /////////////
+            // Getters //
+            /////////////
 
             /// <summary> Tests if the stack is empty. If so then the engine knows that it can exit. </summary>
             /// <returns> Whether the stack is empty. </returns>
@@ -67,9 +67,9 @@ namespace water
             const std::vector<PhysicsObject*>& getPhysicsObjects() const override final;
 
 
-            ////////////////////////
-            /// State management ///
-            ////////////////////////
+            //////////////////////
+            // State management //
+            //////////////////////
 
             /// <summary> Adds a game state to the world, this allows it to be accessible.</summary>
             /// <param name="id"> The unique identifier of the state. If a state with this ID already exists it will be ignored. </param>
@@ -101,9 +101,9 @@ namespace water
 
         private:
 
-            /////////////////////////
-            /// Internal workings ///
-            /////////////////////////
+            ///////////////////////
+            // Internal workings //
+            ///////////////////////
 
             /// <summary> Pushes a state to the top of the stack. </summary>
             /// <param name="id"> The ID of the state to push. </param>
@@ -124,9 +124,9 @@ namespace water
             void clear();
 
 
-            ///////////////////////////
-            /// Implementation data ///
-            ///////////////////////////
+            /////////////////////////
+            // Implementation data //
+            /////////////////////////
 
             std::unordered_map<int, std::shared_ptr<GameState>>     m_states    { };    //!< A map of game states with a unique ID, this is how states are accessed externally.
             std::stack<std::shared_ptr<GameState>>                  m_stack     { };    //!< The active stack of game states. Only to top-most state is updated every frame.

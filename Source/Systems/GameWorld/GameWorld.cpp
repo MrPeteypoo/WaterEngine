@@ -9,9 +9,9 @@
 // Engine namespace.
 namespace water
 {
-    ///////////////////////////////////
-    /// Constructors and destructor ///
-    ///////////////////////////////////
+    /////////////////////////////////
+    // Constructors and destructor //
+    /////////////////////////////////
 
     GameWorld::GameWorld (GameWorld&& move)
     {
@@ -42,9 +42,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// System management ///
-    /////////////////////////
+    ///////////////////////
+    // System management //
+    ///////////////////////
 
     void GameWorld::updatePhysics()
     {
@@ -91,9 +91,9 @@ namespace water
     }
 
 
-    ///////////////
-    /// Getters ///
-    ///////////////
+    /////////////
+    // Getters //
+    /////////////
 
     const std::vector<PhysicsObject*>& GameWorld::getPhysicsObjects() const
     {
@@ -106,9 +106,9 @@ namespace water
     }
 
 
-    ////////////////////////
-    /// State management ///
-    ////////////////////////
+    //////////////////////
+    // State management //
+    //////////////////////
 
     bool GameWorld::addState (const int id, const std::shared_ptr<GameState>& state)
     {
@@ -194,9 +194,9 @@ namespace water
     }
 
 
-    /////////////////////////
-    /// Internal workings ///
-    /////////////////////////
+    ///////////////////////
+    // Internal workings //
+    ///////////////////////
 
     void GameWorld::push (const int id)
     {

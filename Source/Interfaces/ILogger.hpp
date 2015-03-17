@@ -21,9 +21,9 @@ namespace water
             virtual ~ILogger() {}
 
 
-            ///////////////
-            /// Logging ///
-            ///////////////
+            /////////////
+            // Logging //
+            /////////////
 
             /// <summary> Log an informative message. </summary>
             /// <param name="message"> The text to log. </param>
