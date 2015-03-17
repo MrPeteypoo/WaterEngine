@@ -7,6 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Win64Debug">
+				<Option platforms="Windows;" />
 				<Option output="../../Builds/Water-Win64-d" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="../../Temp/Win64Debug/" />
@@ -16,34 +17,36 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="libsfml-graphics-s-d" />
-					<Add library="libsfml-window-s-d" />
-					<Add library="libsfml-system-s-d" />
-					<Add library="libsfml-audio-s-d" />
-					<Add library="libsfml-main-d" />
+					<Add library="sfml-graphics-s-d" />
+					<Add library="sfml-window-s-d" />
+					<Add library="sfml-system-s-d" />
+					<Add library="sfml-audio-s-d" />
+					<Add library="sfml-main-d" />
 					<Add directory="../../External/Lib/SFML/Win64" />
 				</Linker>
 			</Target>
 			<Target title="Win64Release">
+				<Option platforms="Windows;" />
 				<Option output="../../Builds/Water-Win64" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="../../Temp/Win64Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="libsfml-graphics-s" />
-					<Add library="libsfml-window-s" />
-					<Add library="libsfml-system-s" />
-					<Add library="libsfml-audio-s" />
-					<Add library="libsfml-main" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-system-s" />
+					<Add library="sfml-audio-s" />
+					<Add library="sfml-main" />
 					<Add directory="../../External/Lib/SFML/Win64" />
 				</Linker>
 			</Target>
 			<Target title="Linux64Debug">
+				<Option platforms="Unix;" />
 				<Option output="../../Builds/Water-Linux64-d" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="../../Temp/Linux64Debug/" />
@@ -53,10 +56,10 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="libsfml-graphics-s-d" />
-					<Add library="libsfml-window-s-d" />
-					<Add library="libsfml-system-s-d" />
-					<Add library="libsfml-audio-s-d" />
+					<Add library="sfml-graphics-s-d" />
+					<Add library="sfml-window-s-d" />
+					<Add library="sfml-system-s-d" />
+					<Add library="sfml-audio-s-d" />
 					<Add library="pthread" />
 					<Add library="GL" />
 					<Add library="X11" />
@@ -71,20 +74,21 @@
 				</Linker>
 			</Target>
 			<Target title="Linux64Release">
+				<Option platforms="Unix;" />
 				<Option output="../../Builds/Water-Linux64" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="../../Temp/Linux64Release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-O3" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="libsfml-graphics-s" />
-					<Add library="libsfml-window-s" />
-					<Add library="libsfml-system-s" />
-					<Add library="libsfml-audio-s" />
+					<Add library="sfml-graphics-s" />
+					<Add library="sfml-window-s" />
+					<Add library="sfml-system-s" />
+					<Add library="sfml-audio-s" />
 					<Add library="pthread" />
 					<Add library="GL" />
 					<Add library="X11" />
