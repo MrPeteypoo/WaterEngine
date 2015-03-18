@@ -1,14 +1,7 @@
 #include "WindowSFML.hpp"
 
+
+// Engine namespace.
 namespace water
 {
-    WindowSFML::WindowSFML()
-    {
-        //ctor
-    }
-
-    WindowSFML::~WindowSFML()
-    {
-        //dtor
-    }
 }

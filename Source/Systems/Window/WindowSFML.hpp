@@ -29,14 +29,14 @@ namespace water
             // Constructors and destructor //
             /////////////////////////////////
 
-            WindowSFML();
-            ~WindowSFML() override final;
+            WindowSFML()                                    = default;
+            ~WindowSFML() override final                    = default;
 
-            WindowSFML (WindowSFML&& move);
-            WindowSFML& operator= (WindowSFML&& move);
 
             WindowSFML (const WindowSFML& other)            = delete;
+            WindowSFML (WindowSFML&& move)                  = delete;
             WindowSFML& operator= (const WindowSFML& other) = delete;
+            WindowSFML& operator= (WindowSFML&& move)       = delete;
 
 
             ///////////////////////
@@ -105,7 +105,10 @@ namespace water
             // Implementation data //
             /////////////////////////
 
-            std::unique_ptr<sf::RenderWindow>   m_window;           //!< The window used for displaying the game.
+            /// Allow the SFML renderer to have direct access to the WindowSFML contents.
+            friend class RendererSFML;
+
+            sf::RenderWindow                    m_window    { };    //!< The window used for displaying the game.
             unsigned int                        m_width     { 0 };  //!< The width of the window.
             unsigned int                        m_height    { 0 };  //!< The height of the window.
             Vector2<int>                        m_position  { };    //!< A cache of the window position, updated every frame.
