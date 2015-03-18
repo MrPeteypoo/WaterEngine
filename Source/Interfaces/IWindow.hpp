@@ -44,6 +44,10 @@ namespace water
             /// <returns> The position of the top-left point of the window in pixels. </returns>
             virtual const Vector2<int>& getPosition() const = 0;
 
+            /// <summary> Gets the title of the window. </summary>
+            /// <returns> The text being displayed to the operating system. </returns>
+            virtual const std::string& getTitle() const = 0;
+
             /// <summary> Sets the title of the window, this is displayed to the operating system. </summary>
             /// <param name="title"> The text to display to the OS. </param>
             virtual void setTitle (const std::string& title) = 0;
@@ -59,7 +63,8 @@ namespace water
             /// <param name="width"> The desired width of the window. </param>
             /// <param name="height"> The desired height of the window. </param>
             /// <param name="fullscreen"> Whether fullscreen mode should be used. </param>
-            virtual void resize (const unsigned int width, const unsigned int height, const bool fullscreen) = 0;
+            /// <returns> Whether the window was successfully resized. </returns>
+            virtual bool resize (const unsigned int width, const unsigned int height, const bool fullscreen) = 0;
     };
 }
 
