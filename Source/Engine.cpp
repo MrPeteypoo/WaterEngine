@@ -15,6 +15,7 @@
 #include <Systems/Logging/LoggerSTL.hpp>
 #include <Systems/Physics/Physics.hpp>
 #include <Systems/Time/TimeSTL.hpp>
+#include <Systems/Window/WindowSFML.hpp>
 
 #include <Configuration.hpp>
 
@@ -33,6 +34,7 @@ namespace water
     IPhysics*   Systems::m_physics      = nullptr;
     IRenderer*  Systems::m_renderer     = nullptr;
     ITime*      Systems::m_time         = nullptr;
+    IWindow*    Systems::m_window       = nullptr;
 
 
     /////////////////////////////////
@@ -235,6 +237,7 @@ namespace water
         if (m_physics)      { delete m_physics;     m_physics = nullptr; }
         if (m_renderer)     { delete m_renderer;    m_renderer = nullptr; }
         if (m_time)         { delete m_time;        m_time = nullptr; }
+        if (m_window)       { delete m_window;      m_window = nullptr; }
         if (m_logger)       { delete m_logger;      m_logger = nullptr; }
     }
 
@@ -280,6 +283,7 @@ namespace water
         else { return false; }
 
         m_physics = new Physics();
+        m_window  = new WindowSFML();
 
         // We made it!
         return true;
@@ -301,6 +305,8 @@ namespace water
     void Engine::initialiseSystems (const Configuration& config)
     {
         // We can assume all pointers from here on are valid.
+        m_window->initialise (640, 480, false, "Test");
+
         m_audio->initialise (config.audio.soundLimit, config.audio.bgmMixer, config.audio.sfxMixer);
 
         m_input->initialise();
@@ -318,12 +324,13 @@ namespace water
     void Engine::setSystems()
     {
         // Set each system in the Systems class so that every game object gains access.
-        Systems::setLogger (m_logger);
         Systems::setAudio (m_audio);
+        Systems::setInput (m_input);
+        Systems::setLogger (m_logger);
+        Systems::setGameWorld (m_gameWorld);
+        Systems::setPhysics (m_physics);
         //Systems::setRenderer (m_renderer);
         Systems::setTime (m_time);
-        Systems::setInput (m_input);
-        Systems::setPhysics (m_physics);
-        Systems::setGameWorld (m_gameWorld);
+        Systems::setWindow (m_window);
     }
 }

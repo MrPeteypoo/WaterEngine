@@ -10,6 +10,7 @@
 #include <Interfaces/IPhysics.hpp>
 #include <Interfaces/IRenderer.hpp>
 #include <Interfaces/ITime.hpp>
+#include <Interfaces/IWindow.hpp>
 
 
 // Engine namespace.
@@ -18,7 +19,7 @@ namespace water
     // Forward declarations.
     class Engine;
 
-    /// <summary> 
+    /// <summary>
     /// A static class which can be used to manage the hot-swapping and retrieval of systems. This allows systems
     /// to be changed at run-time without impacting on the workings of the game and other systems. If systems have
     /// not been set then this WILL cause access violation errors.
@@ -34,7 +35,8 @@ namespace water
             static IPhysics&    physics()                               { return *m_physics; }
             static IRenderer&   renderer()                              { return *m_renderer; }
             static ITime&       time()                                  { return *m_time; }
-      
+            static IWindow&     window()                                { return *m_window; }
+
         private:
 
             /// We let the water::Engine class be a friend so that it can set the systems.
@@ -47,6 +49,7 @@ namespace water
             static void         setPhysics (IPhysics* const system)     { m_physics = system; }
             static void         setRenderer (IRenderer* const system)   { m_renderer = system; }
             static void         setTime (ITime* const system)           { m_time = system; }
+            static void         setWindow (IWindow* const system)       { m_window = system; }
 
             static IAudio*      m_audio;        //!< An audio system used for playing and manipulating sounds.
             static IGameWorld*  m_gameWorld;    //!< The game world system, allows manipulation of the game flow.
@@ -55,6 +58,7 @@ namespace water
             static IPhysics*    m_physics;      //!< The physics system used for collision detection by games.
             static IRenderer*   m_renderer;     //!< The renderering system which is used for drawing.
             static ITime*       m_time;         //!< The time system which keeps track of delta time values.
+            static IWindow*     m_window;       //!< The window system used to create the GUI interface of the game.
     };
 }
 

@@ -8,7 +8,7 @@ namespace water
     class Engine;
     class Systems;
     struct Configuration;
-    
+
     class IAudio;
     class IInput;
     class IGameWorld;
@@ -16,6 +16,7 @@ namespace water
     class ILogger;
     class IRenderer;
     class ITime;
+    class IWindow;
 
     class GameState;
 }

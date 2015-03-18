@@ -21,6 +21,7 @@ namespace water
     class IEnginePhysics;
     class IEngineRenderer;
     class IEngineTime;
+    class IEngineWindow;
     class IGameWorld;
 
 
@@ -125,6 +126,7 @@ namespace water
             IEnginePhysics*     m_physics   { nullptr };    //!< The physics system used by the engine.
             IEngineRenderer*    m_renderer  { nullptr };    //!< The renderering system used for drawing onto the screen.
             IEngineTime*        m_time      { nullptr };    //!< The time system used for maintaining the game loop and delta time.
+            IEngineWindow*      m_window    { nullptr };    //!< The window system used to create the GUI interface of the game.
 
             bool                m_ready     { false };      //!< A flag to indicate whether the engine is ready to run or not.
     };
