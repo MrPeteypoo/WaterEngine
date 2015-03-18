@@ -74,6 +74,10 @@ namespace water
             /// <returns> The position of the top-left point of the window in pixels. </returns>
             const Vector2<int>& getPosition() const override final { return m_position; }
 
+            /// <summary> Gets the title of the window. </summary>
+            /// <returns> The text being displayed to the operating system. </returns>
+            const std::string& getTitle() const override final { return m_title; }
+
             /// <summary> Sets the title of the window, this is displayed to the operating system. </summary>
             /// <param name="title"> The text to display to the OS. </param>
             void setTitle (const std::string& title) override final;
@@ -88,7 +92,8 @@ namespace water
             /// <param name="width"> The desired width of the window. </param>
             /// <param name="height"> The desired height of the window. </param>
             /// <param name="fullscreen"> Whether fullscreen mode should be used. </param>
-            void resize (const unsigned int width, const unsigned int height, const bool fullscreen) override final;
+            /// <returns> Whether the window was successfully resized. </returns>
+            bool resize (const unsigned int width, const unsigned int height, const bool fullscreen) override final;
 
         private:
 
@@ -112,6 +117,7 @@ namespace water
             unsigned int                        m_width     { 0 };  //!< The width of the window.
             unsigned int                        m_height    { 0 };  //!< The height of the window.
             Vector2<int>                        m_position  { };    //!< A cache of the window position, updated every frame.
+            std::string                         m_title     = "";   //!< The title of the window, this gets displayed to the OS.
     };
 }
 
