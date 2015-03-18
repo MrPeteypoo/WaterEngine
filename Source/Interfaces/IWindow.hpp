@@ -6,12 +6,14 @@
 #include <string>
 
 
+// Forward declarations.
+using byte = unsigned char;
+template <typename T> struct Vector2;
+
+
 // Engine namespace.
 namespace water
 {
-    // Forward declarations.
-    using byte = unsigned char;
-    template <typename T> struct Vector2;
 
 
     /// <summary>
