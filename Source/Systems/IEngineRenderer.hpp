@@ -20,8 +20,10 @@ namespace water
             virtual ~IEngineRenderer() override {}
 
 
-            #pragma region System management
-    
+            ///////////////////////
+            // System management //
+            ///////////////////////
+
             /// <summary> Initialise all data and prepare for rendering. </summary>
             /// <param name="screenWidth"> The width of the screen resolution. </param>
             /// <param name="screenHeight"> The height of the screen resolution. </param>
@@ -33,9 +35,7 @@ namespace water
             /// <summary> Updates the IRenderer system. </summary>
             /// <returns> Whether the update was successful. </returns>
             virtual bool update() = 0;
-
-            #pragma endregion
-    };   
+    };
 }
 
 #endif
