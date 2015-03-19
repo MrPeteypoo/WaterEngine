@@ -5,6 +5,10 @@
 #include <stdexcept>
 
 
+// Third party headers.
+#include <SFML/Window/Event.hpp>
+
+
 // Engine namespace.
 namespace water
 {
@@ -36,6 +40,23 @@ namespace water
     }
 
 
+    bool WindowSFML::update()
+    {
+        // Ensure the window is cleared.
+        m_window.clear (sf::Color::Black);
+
+        // Start by checking if we should close.
+        return pollEvents();
+    }
+
+
+    void WindowSFML::endFrame()
+    {
+        // Move the buffer to the front.
+        m_window.display();
+    }
+
+
     /////////////////////////
     // Getters and setters //
     /////////////////////////
@@ -44,6 +65,13 @@ namespace water
     {
         // Update the local copy and the windows copy of the title.
         m_window.setTitle (sf::String (m_title = title));
+    }
+
+
+    void WindowSFML::setIcon (const unsigned int width, const unsigned int height, const byte* const data)
+    {
+        // Pass the new icon to SFML.
+        m_window.setIcon (width, height, data);
     }
 
 
@@ -78,6 +106,45 @@ namespace water
 
         // The video mode must be valid, recreate the window with these settings.
         m_window.create (mode, m_title, style);
+
+        // Update the width and height values.
+        const auto dimensions = m_window.getSize();
+
+        m_width  = dimensions.x;
+        m_height = dimensions.y;
+
+        // We're done.
         return true;
+    }
+
+
+    ////////////////////
+    // Implementation //
+    ////////////////////
+
+    bool WindowSFML::pollEvents()
+    {
+        // We need to process the window events to keep the OS happy.
+        bool close = false;
+        sf::Event event;
+
+        while (m_window.pollEvent (event))
+        {
+            switch (event.type)
+            {
+                // Close the window on demand.
+                case sf::Event::Closed:
+                    m_window.close();
+                    close = true;
+                    break;
+
+                // We don't care about any other events.
+                default:
+                    break;
+            }
+        }
+
+        // Determine if we should close.
+        return close;
     }
 }

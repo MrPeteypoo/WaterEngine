@@ -97,18 +97,18 @@ namespace water
 
         private:
 
-            //////////////////////////////////
-            // Implementation functionality //
-            //////////////////////////////////
+            ////////////////////
+            // Implementation //
+            ////////////////////
 
             /// <summary> Processes each operating system event. </summary>
             /// <returns> Whether the application should close or not. </returns>
             bool pollEvents();
 
 
-            /////////////////////////
-            // Implementation data //
-            /////////////////////////
+            ///////////////////
+            // Internal data //
+            ///////////////////
 
             /// Allow the SFML renderer to have direct access to the WindowSFML contents.
             friend class RendererSFML;
