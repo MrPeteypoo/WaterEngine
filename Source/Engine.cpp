@@ -68,6 +68,7 @@ namespace water
             m_physics           = move.m_physics;
             m_renderer          = move.m_renderer;
             m_time              = move.m_time;
+            m_window            = move.m_window;
             m_ready             = move.m_ready;
 
             // Reset the dangling pointers.
@@ -78,6 +79,7 @@ namespace water
             move.m_physics      = nullptr;
             move.m_renderer     = nullptr;
             move.m_time         = nullptr;
+            move.m_window       = nullptr;
             move.m_ready        = false;
 
             // Reset the systems.
@@ -121,8 +123,8 @@ namespace water
             // initialise the rest of the engine. Be careful of systems throwing exceptions during initialsation.
             try
             {
-                initialiseSystems (config);
                 setSystems();
+                initialiseSystems (config);
 
                 // Set the system as ready!
                 return m_ready = true;
@@ -168,17 +170,18 @@ namespace water
 
         try
         {
-            // Reset the time as we're ready to start the game loop.
-            m_time->resetTime();
-
             // Enable the requested GameWorld state.
             m_gameWorld->processQueue();
 
+            // Reset the time as we're ready to start the game loop.
+            m_time->resetTime();
+
             // If the renderer fails we must close.
-            while (!m_gameWorld->isStackEmpty())// && m_renderer->update())
+            while (m_window->update() && !m_gameWorld->isStackEmpty())
             {
                 // Update systems regardless of frame time.
                 m_audio->update();
+                m_renderer->update();
 
                 // Only perform a physics update if the time specifies so.
                 if (m_time->updatePhysics())
@@ -199,6 +202,7 @@ namespace water
 
                 // End frame-sensitive systems.
                 m_gameWorld->processQueue();
+                m_window->endFrame();
                 m_time->endFrame();
             }
         }
@@ -253,6 +257,14 @@ namespace water
 
         else { return false; }
 
+        // Window!
+        if (config.systems.window == "sfml" || config.systems.window == "")
+        {
+            m_window = new WindowSFML();
+        }
+
+        else { return false; }
+
         // Audio!
         if (config.systems.audio == "sfml" || config.systems.audio == "")
         {
@@ -272,7 +284,7 @@ namespace water
         // Graphics!
         if (config.systems.renderer == "sfml" || config.systems.renderer == "")
         {
-            //m_renderer = new RendererSFML();
+            m_renderer = new RendererSFML (m_window);
         }
 
         else { return false; }
@@ -281,14 +293,6 @@ namespace water
         if (config.systems.time == "stl" || config.systems.time == "")
         {
             m_time = new TimeSTL();
-        }
-
-        else { return false; }
-
-        // Window!
-        if (config.systems.window == "sfml" || config.systems.window == "")
-        {
-            m_window = new WindowSFML();
         }
 
         else { return false; }
@@ -322,9 +326,7 @@ namespace water
 
         m_input->initialise();
 
-        /*m_renderer->initialise (config.rendering.screenWidth,   config.rendering.screenHeight,
-                                config.rendering.internalWidth, config.rendering.internalHeight,
-                                (FilterMode) config.rendering.filterMode);*/
+        m_renderer->initialise (config.rendering.internalWidth, config.rendering.internalHeight, config.rendering.smooth);
 
         m_time->initialise (config.time.physicsFPS, config.time.updateFPS, config.time.minFPS);
 

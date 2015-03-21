@@ -62,7 +62,7 @@ namespace water
             // Renderer settings.
             config.rendering.internalWidth  = renderer.attribute ("InternalWidth").as_int();
             config.rendering.internalHeight = renderer.attribute ("InternalHeight").as_int();
-            config.rendering.filterMode     = renderer.attribute ("FilterMode").as_int();
+            config.rendering.smooth         = renderer.attribute ("SmoothTextures").as_bool();
 
             // Time settings.
             config.time.physicsFPS          = time.attribute ("PhysicsFPS").as_uint();

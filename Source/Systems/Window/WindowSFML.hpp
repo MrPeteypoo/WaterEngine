@@ -105,6 +105,10 @@ namespace water
             /// <returns> Whether the application should close or not. </returns>
             bool pollEvents();
 
+            /// <summary> Gets the sf::RenderWindow associated with the window system. </summary>
+            /// <returns> A reference to the render target of the window. </returns>
+            sf::RenderWindow& getWindow() { return m_window; }
+
 
             ///////////////////
             // Internal data //

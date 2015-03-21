@@ -48,9 +48,9 @@ namespace water
         /// <summary> Initialisation settings for rendering systems. </summary>
         struct Rendering final
         {
-            int             internalWidth   { 240 };    //!< The width of the internal resolution.
-            int             internalHeight  { 232 };    //!< The height of the internal resolution.
-            int             filterMode      { 0 };      //!< The desired filtering mode to use during upscaling.
+            unsigned int    internalWidth   { 240 };    //!< The width of the internal resolution.
+            unsigned int    internalHeight  { 232 };    //!< The height of the internal resolution.
+            bool            smooth          { true };   //!< Whether loaded textures should be smoothed or not.
         };
 
         /// <summary> Initialisation settings for time systems. </summary>

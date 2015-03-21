@@ -19,8 +19,8 @@
 				<Linker>
 					<Add library="sfml-graphics-s-d" />
 					<Add library="sfml-window-s-d" />
-					<Add library="sfml-system-s-d" />
 					<Add library="sfml-audio-s-d" />
+					<Add library="sfml-system-s-d" />
 					<Add library="sfml-main-d" />
 					<Add directory="../../External/Lib/SFML/Win64" />
 				</Linker>
@@ -39,8 +39,8 @@
 					<Add option="-s" />
 					<Add library="sfml-graphics-s" />
 					<Add library="sfml-window-s" />
-					<Add library="sfml-system-s" />
 					<Add library="sfml-audio-s" />
+					<Add library="sfml-system-s" />
 					<Add library="sfml-main" />
 					<Add directory="../../External/Lib/SFML/Win64" />
 				</Linker>
@@ -58,8 +58,8 @@
 				<Linker>
 					<Add library="sfml-graphics-s-d" />
 					<Add library="sfml-window-s-d" />
-					<Add library="sfml-system-s-d" />
 					<Add library="sfml-audio-s-d" />
+					<Add library="sfml-system-s-d" />
 					<Add library="pthread" />
 					<Add library="GL" />
 					<Add library="X11" />
@@ -69,6 +69,7 @@
 					<Add library="jpeg" />
 					<Add library="sndfile" />
 					<Add library="openal" />
+					<Add library="rt" />
 					<Add directory="../../External/Lib/SFML/Linux64" />
 					<Add directory="/usr/lib" />
 				</Linker>
@@ -87,8 +88,8 @@
 					<Add option="-s" />
 					<Add library="sfml-graphics-s" />
 					<Add library="sfml-window-s" />
-					<Add library="sfml-system-s" />
 					<Add library="sfml-audio-s" />
+					<Add library="sfml-system-s" />
 					<Add library="pthread" />
 					<Add library="GL" />
 					<Add library="X11" />
@@ -98,6 +99,7 @@
 					<Add library="jpeg" />
 					<Add library="sndfile" />
 					<Add library="openal" />
+					<Add library="rt" />
 					<Add directory="../../External/Lib/SFML/Linux64" />
 				</Linker>
 			</Target>
@@ -160,6 +162,8 @@
 		<Unit filename="../Systems/Physics/Physics.hpp" />
 		<Unit filename="../Systems/Rendering/RendererSFML.cpp" />
 		<Unit filename="../Systems/Rendering/RendererSFML.hpp" />
+		<Unit filename="../Systems/Rendering/SFMLTexture.cpp" />
+		<Unit filename="../Systems/Rendering/SFMLTexture.hpp" />
 		<Unit filename="../Systems/Time/TimeSTL.cpp" />
 		<Unit filename="../Systems/Time/TimeSTL.hpp" />
 		<Unit filename="../Systems/Window/WindowSFML.cpp" />

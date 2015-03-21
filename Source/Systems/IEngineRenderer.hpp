@@ -25,16 +25,13 @@ namespace water
             ///////////////////////
 
             /// <summary> Initialise all data and prepare for rendering. </summary>
-            /// <param name="screenWidth"> The width of the screen resolution. </param>
-            /// <param name="screenHeight"> The height of the screen resolution. </param>
-            /// <param name="internalWidth"> The width of the internal framebuffer. </param>
-            /// <param name="internalHeight"> The height of the internal framebuffer. </param>
-            /// <param name="filter"> The filter to be applied when scaling the internal framebuffer to the screen. </param>
-            virtual void initialise (const int screenWidth, const int screenHeight, const int internalWidth, const int internalHeight, const FilterMode filter) = 0;
+            /// <param name="internalWidth"> The base width sprites were scaled to match. </param>
+            /// <param name="internalHeight"> The base height sprites were scaled to match. </param>
+            /// <param name="smooth"> Whether loaded textures should be smoothed or not. </param>
+            virtual void initialise (const unsigned int internalWidth, const unsigned int internalHeight, const bool smooth) = 0;
 
             /// <summary> Updates the IRenderer system. </summary>
-            /// <returns> Whether the update was successful. </returns>
-            virtual bool update() = 0;
+            virtual void update() = 0;
     };
 }
 
