@@ -24,9 +24,10 @@ namespace water
         {
             std::string     audio           = "sfml";   //!< The audio system to use (sfml).
             std::string     input           = "sfml";   //!< The input system to use (sfml).
-            std::string     logger          = "stl";    //!< The logging system to use (hapi, stl).
+            std::string     logger          = "stl";    //!< The logging system to use (stl).
             std::string     renderer        = "sfml";   //!< The renderer to use (sfml).
             std::string     time            = "stl";    //!< The time system to use (stl).
+            std::string     window          = "sfml";   //!< The window management system to use (sfml).
         };
 
         /// <summary> Initialisation settings for audio systems. </summary>
@@ -47,8 +48,6 @@ namespace water
         /// <summary> Initialisation settings for rendering systems. </summary>
         struct Rendering final
         {
-            int             screenWidth     { 1024 };   //!< The width of the desired screen resolution.
-            int             screenHeight    { 768 };    //!< The height of the desired screen resolution.
             int             internalWidth   { 240 };    //!< The width of the internal resolution.
             int             internalHeight  { 232 };    //!< The height of the internal resolution.
             int             filterMode      { 0 };      //!< The desired filtering mode to use during upscaling.
@@ -60,6 +59,15 @@ namespace water
             unsigned int    physicsFPS      { 60 };     //!< The desired frame rate of the physics system.
             unsigned int    updateFPS       { 0 };      //!< The desired frame rate for the standard update.
             unsigned int    minFPS          { 10 };     //!< The frame rate at which the game will start slowing down instead of increasing the time step.
+        };
+
+        /// <summary> Initialsation settings for window systems. </summary>
+        struct Window final
+        {
+            unsigned int    width           { 800 };    //!< The desired width of the window.
+            unsigned int    height          { 600 };    //!< The desired height of the window.
+            bool            fullscreen      { false };  //!< Whether the window should be fullscreen or not.
+            std::string     title           = "Water";  //!< The desired title that the window should display.
         };
 
 
@@ -78,6 +86,7 @@ namespace water
         Logging     logging     { };    //!< Initialisation settings for logging systems.
         Rendering   rendering   { };    //!< Initialisation settings for rendering systems.
         Time        time        { };    //!< Initialisation settings for time systems.
+        Window      window      { };    //!< Initialisation settings for window systems.
     };
 }
 

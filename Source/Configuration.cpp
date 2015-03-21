@@ -48,6 +48,7 @@ namespace water
             const auto logger               = settings.child ("Logger");
             const auto renderer             = settings.child ("Renderer");
             const auto time                 = settings.child ("Time");
+            const auto window               = settings.child ("Window");
 
             // Audio settings.
             config.audio.soundLimit         = audio.attribute ("SoundLimit").as_uint();
@@ -59,8 +60,6 @@ namespace water
             config.logging.timestamp        = logger.attribute ("Timestamp").as_bool();
 
             // Renderer settings.
-            config.rendering.screenWidth    = renderer.attribute ("ScreenWidth").as_int();
-            config.rendering.screenHeight   = renderer.attribute ("ScreenHeight").as_int();
             config.rendering.internalWidth  = renderer.attribute ("InternalWidth").as_int();
             config.rendering.internalHeight = renderer.attribute ("InternalHeight").as_int();
             config.rendering.filterMode     = renderer.attribute ("FilterMode").as_int();
@@ -69,6 +68,12 @@ namespace water
             config.time.physicsFPS          = time.attribute ("PhysicsFPS").as_uint();
             config.time.updateFPS           = time.attribute ("UpdateFPS").as_uint();
             config.time.minFPS              = time.attribute ("MinFPS").as_uint();
+
+            // Window settings.
+            config.window.width             = window.attribute ("Width").as_uint();
+            config.window.height            = window.attribute ("Height").as_uint();
+            config.window.fullscreen        = window.attribute ("Fullscreen").as_bool();
+            config.window.title             = window.attribute ("Title").as_string();
 
             // Success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             return config;
