@@ -14,6 +14,7 @@
 #include <Systems/Input/InputSFML.hpp>
 #include <Systems/Logging/LoggerSTL.hpp>
 #include <Systems/Physics/Physics.hpp>
+#include <Systems/Rendering/RendererSFML.hpp>
 #include <Systems/Time/TimeSTL.hpp>
 #include <Systems/Window/WindowSFML.hpp>
 
@@ -266,10 +267,12 @@ namespace water
             m_input = new InputSFML();
         }
 
+        else { return false; }
+
         // Graphics!
         if (config.systems.renderer == "sfml" || config.systems.renderer == "")
         {
-            //m_renderer = new RendererHAPI();
+            //m_renderer = new RendererSFML();
         }
 
         else { return false; }
@@ -282,8 +285,16 @@ namespace water
 
         else { return false; }
 
+        // Window!
+        if (config.systems.window == "sfml" || config.systems.window == "")
+        {
+            m_window = new WindowSFML();
+        }
+
+        else { return false; }
+
+        // There's only one physics system.
         m_physics = new Physics();
-        m_window  = new WindowSFML();
 
         // We made it!
         return true;
@@ -305,7 +316,7 @@ namespace water
     void Engine::initialiseSystems (const Configuration& config)
     {
         // We can assume all pointers from here on are valid.
-        m_window->initialise (640, 480, false, "Test");
+        m_window->initialise (config.window.width, config.window.height, config.window.fullscreen, config.window.title);
 
         m_audio->initialise (config.audio.soundLimit, config.audio.bgmMixer, config.audio.sfxMixer);
 
@@ -329,7 +340,7 @@ namespace water
         Systems::setLogger (m_logger);
         Systems::setGameWorld (m_gameWorld);
         Systems::setPhysics (m_physics);
-        //Systems::setRenderer (m_renderer);
+        Systems::setRenderer (m_renderer);
         Systems::setTime (m_time);
         Systems::setWindow (m_window);
     }
