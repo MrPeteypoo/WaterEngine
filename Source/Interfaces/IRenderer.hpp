@@ -45,6 +45,7 @@ namespace water
             /////////////////////
 
             /// <summary> Loads a texture from local storage, ready for rendering. Duplicates won't be loaded or cropped. </summary>
+            /// <param name="fileLocation"> The file location of the texture to be loaded. </param>
             /// <param name="cropRight"> How many pixels, if any, to crop from the right of the texture. </param>
             /// <param name="cropBottom"> How many pixels, if any, to crop from the bottom of the texture. </param>
             /// <returns> Returns the ID for the loaded or duplicate texture. </returns>
@@ -88,12 +89,14 @@ namespace water
             /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
             /// <param name="point"> The top-left point where the texture should render from. </param>
             /// <param name="id"> The ID of the texture to render. </param>
+            /// <param name="blend"> How the image should be blended onto the screen, effects transparency and speed. </param>
             virtual void drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend) = 0;
 
             /// <summary> Requests that a texture be drawn onto the screen at a particular point. </summary>
             /// <param name="point"> The top-left point where the texture should render from. </param>
             /// <param name="id"> The ID of the texture to render. </param>
             /// <param name="frame"> Which frame to render from the texture. If no frames exist the entire texture will be drawn. </param>
+            /// <param name="blend"> How the image should be blended onto the screen, effects transparency and speed. </param>
             virtual void drawToScreen (const Vector2<float>& point, const TextureID id, const Point& frame, const BlendType blend) = 0;
 
             /// <summary> Draws a texture onto another texture, this effect is permanent and cannot be reversed. </summary>

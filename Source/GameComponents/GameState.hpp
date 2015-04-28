@@ -37,7 +37,7 @@ namespace water
             /////////////////////////////////
 
             /// <summary> Call this in child classes to ensure the state reserves space for PhysicsObject's. This increases efficiency when adding. </summary>
-            /// <param name="size"> How many elements are expected to be held by the state. </param>
+            /// <param name="elementCount"> How many elements are expected to be held by the state. </param>
             GameState (const unsigned int elementCount = 100);
 
             GameState (const GameState& copy)               = default;

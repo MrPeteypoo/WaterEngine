@@ -179,7 +179,6 @@ namespace water
             /// <summary> Gets a member from an ActionState at the corresponding ID. </summary>
             /// <param name="id"> The ID of the ActionState to access. </param>
             /// <param name="getMember"> The function to call to retrieve the member. </param>
-            /// <param name="T"> The return type of the function. </param>
             /// <returns> The member or zero. </returns>
             template <typename T, typename U> T getActionMember (const int id, const U& getMember) const;
 

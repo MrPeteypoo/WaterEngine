@@ -117,7 +117,7 @@ namespace water
             void pop();
 
             /// <summary> Swaps the top of the stack with another state. </summary>
-            /// <param name="id"> The name of the state to swap to. </summary>
+            /// <param name="id"> The name of the state to swap to. </param>
             void swap (const int id);
 
             /// <summary> Pops every state on the stack and removes every state from the map. </summary>

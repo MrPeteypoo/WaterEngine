@@ -15,6 +15,8 @@ namespace util
     ///////////////////
 
     /// <summary> Checks if two float values are relatively equal to each other. </summary>
+    /// <param name="lhs"> The first value. </param>
+    /// <param name="rhs"> The second value. </param>
     /// <param name="margin"> The absolute margin of error between the two floats. Must be a positive value. </param>
     inline bool roughlyEquals (const float lhs, const float rhs, const float margin = 0.1f)
     {
@@ -57,6 +59,8 @@ namespace util
 
     /// <summary> Clamps a value between a given minimum and maximum value. Arithmetic types are passed by value. </summary>
     /// <param name="value"> The value to clamp. </param>
+    /// <param name="min"> The minimum value. </param>
+    /// <param name="max"> The maximum value. </param>
     template <typename T> typename std::enable_if<std::is_arithmetic<T>::value, T>::type clamp (const T value, const T min, const T max)
     {
         if (value < min)
@@ -75,6 +79,8 @@ namespace util
 
     /// <summary> Clamps a value between a given minimum and maximum value. Non-arithmetic types are passed by reference. </summary>
     /// <param name="value"> The value to clamp. </param>
+    /// <param name="min"> The minimum value. </param>
+    /// <param name="max"> The maximum value. </param>
     template <typename T> typename std::enable_if<!std::is_arithmetic<T>::value, T>::type clamp (const T& value, const T& min, const T& max)
     {
         if (value < min)
