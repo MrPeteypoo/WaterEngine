@@ -15,8 +15,8 @@ template <typename T = float> struct Vector2 final
     // Implementation data //
     /////////////////////////
 
-    T   x   { (T) 0 },  //!< The x component of the vector.
-        y   { (T) 0 };  //!< The y component of the vector.
+    T   x   { static_cast<T> (0) }, //!< The x component of the vector.
+        y   { static_cast<T> (0) }; //!< The y component of the vector.
 
 
     /////////////////////////////////
@@ -24,7 +24,7 @@ template <typename T = float> struct Vector2 final
     /////////////////////////////////
 
     /// <summary> The default constructor, allows the initial values of each component to be set. </summary>
-    Vector2 (const T newX, const T newY) : x (newX), y (newY) {  };
+    Vector2 (const T newX, const T newY) : x (newX), y (newY) {  }
 
     Vector2()                                   = default;
     Vector2 (const Vector2& copy)               = default;
@@ -41,7 +41,7 @@ template <typename T = float> struct Vector2 final
     ///////////////
 
     /// <summary> Allows the Vector2 to be cast between specialisations. </summary>
-    template <typename U> operator Vector2<U>() const   { return { (U) x, (U) y }; }
+    template <typename U> operator Vector2<U>() const   { return { static_cast<U> (x), static_cast<U> (y) }; }
 
     /// <summary> Checks whether the vector is equal to another. </summary>
     bool operator== (const Vector2& rhs) const;
@@ -170,7 +170,7 @@ template <typename T> Vector2<T>& Vector2<T>::operator= (Vector2&& move)
         x = move.x;
         y = move.y;
 
-        const T zero { (T) 0 };
+        const T zero { static_cast<T> (0) };
 
         move.x = zero;
         move.y = zero;
@@ -358,7 +358,7 @@ template <typename T> T Vector2<T>::squareMagnitude() const
 
 template <typename T> T Vector2<T>::magnitude() const
 {
-    return (T) std::sqrt (squareMagnitude());
+    return static_cast<T> (std::sqrt (squareMagnitude()));
 }
 
 
@@ -389,8 +389,8 @@ template <typename T> Vector2<T> Vector2<T>::lerp (const Vector2<T>& from, const
 {
     // We won't bother clamping the delta value as it could be useful to use "incorrect" deltas.
     // Equation is V0 + delta * (V1 - V0).
-    const Vector2<T> difference {   (T) ((to.x - from.x) * delta),
-                                    (T) ((to.y - from.y) * delta) };
+    const Vector2<T> difference { static_cast<T> (((to.x - from.x) * delta)),
+                                  static_cast<T> (((to.y - from.y) * delta)) };
 
     return from + difference;
 }

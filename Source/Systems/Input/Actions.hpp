@@ -17,13 +17,13 @@ namespace water
         int id  { 0 };  //!< The integer ID of the action, this does not have to be exclusive which means a combination of keys and buttons can work together for the same action.
         Key key;        //!< The key to check for by the input system.
 
-        KeyboardKey (const int id, const Key key) 
-            : id (id), key (key) { }
+        KeyboardKey (const int id_, const Key key_)
+            : id (id_), key (key_) { }
 
         KeyboardKey (const KeyboardKey& copy)               = default;
         KeyboardKey& operator= (const KeyboardKey& copy)    = default;
         ~KeyboardKey()                                      = default;
-        
+
     };
 
 
@@ -36,8 +36,8 @@ namespace water
         unsigned int    controller  { 0 };  //!< The ID of the controller to check.
         unsigned int    button      { 0 };  //!< The ID of the button to check on the desired controller.
 
-        ControllerButton (const int id, const unsigned int controller, const unsigned int button) 
-            : id (id), controller (controller), button (button) { }
+        ControllerButton (const int id_, const unsigned int controller_, const unsigned int button_)
+            : id (id_), controller (controller_), button (button_) { }
 
         ControllerButton (const ControllerButton& copy)             = default;
         ControllerButton& operator= (const ControllerButton& copy)  = default;
@@ -54,8 +54,8 @@ namespace water
         unsigned int    controller  { 0 };  //!< The ID of the controller to check.
         Axis            axis;               //!< The axis to obtain the value of.
 
-        ControllerAxis (const int id, const unsigned int controller, const Axis axis) 
-            : id (id), controller (controller), axis (axis) { }
+        ControllerAxis (const int id_, const unsigned int controller_, const Axis axis_)
+            : id (id_), controller (controller_), axis (axis_) { }
 
         ControllerAxis (const ControllerAxis& copy)             = default;
         ControllerAxis& operator= (const ControllerAxis& copy)  = default;

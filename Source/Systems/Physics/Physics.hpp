@@ -26,7 +26,7 @@ namespace water
 
             Physics (Physics&& move);
             Physics& operator= (Physics&& move);
-            ~Physics() override final { };
+            ~Physics() override final { }
 
 
             ///////////////////////

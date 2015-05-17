@@ -10,10 +10,6 @@
 #include <Systems/IEngineTime.hpp>
 
 
-// Namespaces.
-using namespace std::chrono;
-
-
 // Engine namespace.
 namespace water
 {
@@ -77,7 +73,7 @@ namespace water
             float timeSinceStart() const override final;
 
             /// <summary> Obtains the time scale currently being applied each frame. </summary>
-            float timescale() const override final          { return (float) m_timescale; }
+            float timescale() const override final          { return static_cast<float> (m_timescale); }
 
             /// <summary> This sets the time scale applied to the real world frame times. This will not go below zero. </summary>
             void setTimescale (const real timescale) override final;
@@ -92,19 +88,22 @@ namespace water
             // Implementation data //
             /////////////////////////
 
-            real                                m_targetPhysics     { 0 },  //!< The target physics delta value.
-                                                m_targetUpdate      { 0 },  //!< The target update delta value.
-                                                m_maxDelta          { 0 },  //!< The maximum delta value for both physics and other systems.
-                                                m_timescale         { 1 };  //!< The scale applied to time values, this can create slow motion in the game.
+            using high_resolution_clock = std::chrono::high_resolution_clock;
+            using time_point = high_resolution_clock::time_point;
 
-            real                                m_physicsDelta      { 0 },  //!< The physics delta accumulator.
-                                                m_updateDelta       { 0 };  //!< The update delta accumulator.
-            float                               m_currentDelta      { 0 },  //!< The current delta time value.
-                                                m_physicsStep       { 0 };  //!< The step value for the current point between the previous physics update and the next.
+            real        m_targetPhysics     { 0 },  //!< The target physics delta value.
+                        m_targetUpdate      { 0 },  //!< The target update delta value.
+                        m_maxDelta          { 0 },  //!< The maximum delta value for both physics and other systems.
+                        m_timescale         { 1 };  //!< The scale applied to time values, this can create slow motion in the game.
 
-            high_resolution_clock::time_point   m_startTime         { },    //!< The initial time point since the start of the application.
-                                                m_previousPhysics   { },    //!< The previous physics time point.
-                                                m_previousUpdate    { };    //!< The previous update time point.
+            real        m_physicsDelta      { 0 },  //!< The physics delta accumulator.
+                        m_updateDelta       { 0 };  //!< The update delta accumulator.
+            float       m_currentDelta      { 0 },  //!< The current delta time value.
+                        m_physicsStep       { 0 };  //!< The step value for the current point between the previous physics update and the next.
+
+            time_point  m_startTime         { },    //!< The initial time point since the start of the application.
+                        m_previousPhysics   { },    //!< The previous physics time point.
+                        m_previousUpdate    { };    //!< The previous update time point.
     };
 }
 

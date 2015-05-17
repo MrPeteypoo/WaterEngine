@@ -60,8 +60,8 @@ namespace water
             config.logging.timestamp        = logger.attribute ("Timestamp").as_bool();
 
             // Renderer settings.
-            config.rendering.internalWidth  = renderer.attribute ("InternalWidth").as_int();
-            config.rendering.internalHeight = renderer.attribute ("InternalHeight").as_int();
+            config.rendering.internalWidth  = renderer.attribute ("InternalWidth").as_uint();
+            config.rendering.internalHeight = renderer.attribute ("InternalHeight").as_uint();
             config.rendering.smooth         = renderer.attribute ("SmoothTextures").as_bool();
 
             // Time settings.

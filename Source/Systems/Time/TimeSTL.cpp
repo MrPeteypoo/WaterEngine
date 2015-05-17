@@ -9,6 +9,10 @@
 #include <Utility/Maths.hpp>
 
 
+// Include the chrono namespace since it makes types so huge.
+using namespace std::chrono;
+
+
 // Engine namespace.
 namespace water
 {
