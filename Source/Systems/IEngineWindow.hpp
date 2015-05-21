@@ -32,7 +32,7 @@ namespace water
             virtual void initialise (const unsigned int width, const unsigned int height, const bool fullscreen, const std::string& title) = 0;
 
             /// <summary> Update the system, ensuring all window events are handled and such. </summary>
-            /// <returns> Whether an error occurred, normally this should close the application. </returns>
+            /// <returns> Whether the application should continue running. </returns>
             virtual bool update() = 0;
 
             /// <summary> Perform any necessary end-of-frame actions. </summary>

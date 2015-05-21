@@ -70,7 +70,7 @@ namespace water
             /// <summary> Creates a blank texture with the specified dimensions, allows for the creation of custom textures. </summary>
             /// <param name="dimensions"> The width and height of the blank texture in pixels. </param>
             /// <returns> The ID of the newly created texture. </returns>
-            virtual TextureID createBlankTexture (const Vector2<float>& dimensions) override final;
+            TextureID createBlankTexture (const Vector2<float>& dimensions) override final;
 
             /// <summary> Set the number width and height of a texture in frames. This enables spritesheet functionality. </summary>
             /// <param name="target"> The texture to modify. </param>

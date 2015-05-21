@@ -125,7 +125,7 @@ namespace water
     bool WindowSFML::pollEvents()
     {
         // We need to process the window events to keep the OS happy.
-        bool close = false;
+        bool remainOpen = true;
         sf::Event event;
 
         while (m_window.pollEvent (event))
@@ -135,7 +135,7 @@ namespace water
                 // Close the window on demand.
                 case sf::Event::Closed:
                     m_window.close();
-                    close = true;
+                    remainOpen = false;
                     break;
 
                 // We don't care about any other events.
@@ -145,6 +145,6 @@ namespace water
         }
 
         // Determine if we should close.
-        return close;
+        return remainOpen;
     }
 }

@@ -51,7 +51,7 @@ namespace water
             void initialise (const unsigned int width, const unsigned int height, const bool fullscreen, const std::string& title) override final;
 
             /// <summary> Pool all operating system events. </summary>
-            /// <returns> Whether the application should close or not. </returns>
+            /// <returns> Whether the application should remain open or not. </returns>
             bool update() override final;
 
             /// <summary> Calls the display command to render the screen. </summary>
@@ -102,7 +102,7 @@ namespace water
             ////////////////////
 
             /// <summary> Processes each operating system event. </summary>
-            /// <returns> Whether the application should close or not. </returns>
+            /// <returns> Whether the application should remain open or not. </returns>
             bool pollEvents();
 
             /// <summary> Gets the sf::RenderWindow associated with the window system. </summary>

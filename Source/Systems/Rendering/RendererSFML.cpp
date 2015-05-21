@@ -50,4 +50,80 @@ namespace water
         m_internalHeight = internalHeight;
         m_smooth         = smooth;
     }
+
+
+    /////////////////////
+    // Data management //
+    /////////////////////
+
+    TextureID RendererSFML::loadTexture (const std::string& fileLocation, const int cropRight, const int cropBottom)
+    {
+        return 0;
+    }
+
+
+    TextureID RendererSFML::createBlankTexture (const Vector2<float>& dimensions)
+    {
+        return 0;
+    }
+
+
+    void RendererSFML::setFrameDimensions (const TextureID target, const Point& dimensions)
+    {
+
+    }
+
+
+    void RendererSFML::removeTexture (const TextureID texture)
+    {
+
+    }
+
+
+    void RendererSFML::clearTextureData()
+    {
+
+    }
+
+    //////////////
+    // Viewport //
+    //////////////
+
+    void RendererSFML::setViewport (const Rectangle<float>& viewport)
+    {
+
+    }
+
+
+    void RendererSFML::translateViewportTo (const Vector2<float>& translateTo)
+    {
+
+    }
+
+    ///////////////
+    // Rendering //
+    ///////////////
+
+    void RendererSFML::drawToScreen (const Vector2<float>& point, const TextureID id, const BlendType blend)
+    {
+
+    }
+
+
+    void RendererSFML::drawToScreen (const Vector2<float>& point, const TextureID id, const Point& frame, const BlendType blend)
+    {
+
+    }
+
+
+    void RendererSFML::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const BlendType blend)
+    {
+
+    }
+
+
+    void RendererSFML::drawToTexture (const Vector2<float>& point, const TextureID source, const TextureID target, const Point& frame, const BlendType blend)
+    {
+
+    }
 }
