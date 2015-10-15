@@ -1,4 +1,4 @@
 Water Engine
 ================================
 
-This started as a project for a second year module at university but turned into a playground for me to experiment with 2D engine construction.
+The engine is currently missing a renderer and a window management system. The University project this spawned from required us to use a framework provided by the teacher for rendering so I choose to remove it before uploading my code to GitHub. I may choose to implement one using SFML but I've decided to start a new engine project featuring C++14, a component system and other nice things, check it out!
